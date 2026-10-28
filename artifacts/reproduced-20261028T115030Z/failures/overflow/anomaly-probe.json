@@ -1,0 +1,13 @@
+{
+  "raised": true,
+  "error": "Function 'LogBackward0' returned nan values in its 0th output.",
+  "warnings": [
+    "Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.",
+    "Error detected in LogBackward0. Traceback of forward call that caused the error:\n  File \"/Users/g4i/lab/ai-stuffs/scripts/failure_replay.py\", line 808, in <module>\n    main()\n  File \"/Users/g4i/lab/ai-stuffs/scripts/failure_replay.py\", line 804, in main\n    run_lab(args.out_dir.resolve())\n  File \"/Users/g4i/lab/ai-stuffs/scripts/failure_replay.py\", line 735, in run_lab\n    probe = anomaly_probe(checkpoint, case)\n  File \"/Users/g4i/lab/ai-stuffs/scripts/failure_replay.py\", line 503, in anomaly_probe\n    loss = instrumented_loss(logits, labels, trace,\n  File \"/Users/g4i/lab/ai-stuffs/scripts/failure_replay.py\", line 257, in instrumented_loss\n    log_probabilities = trace.record(\"loss.log_probabilities\", torch.log(probabilities),\n (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/python_anomaly_mode.cpp:127.)"
+  ],
+  "stderr": "",
+  "phase": "pre-update-forward-and-backward",
+  "optimizer_update_executed": false,
+  "next_forward_executed": false,
+  "scope": "separate pre-update backward debugger; does not test label semantics"
+}

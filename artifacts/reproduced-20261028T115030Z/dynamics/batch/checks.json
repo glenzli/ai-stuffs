@@ -1,0 +1,17 @@
+[
+  {
+    "seed": 11,
+    "same_consumed_stream_and_budget": true,
+    "data_stream_sha256": "f93df249053f25d8fdb4c440a80a6527945f8614d488b9c39ccde203e90072e1"
+  },
+  {
+    "seed": 29,
+    "same_consumed_stream_and_budget": true,
+    "data_stream_sha256": "4aacce94cc2403789c398ede0ec8dc4f37ef4dd848bba8fe96eb7617d09b8729"
+  },
+  {
+    "seed": 47,
+    "same_consumed_stream_and_budget": true,
+    "data_stream_sha256": "174c53693c7836d1a4dbf9264414ae6fed229786628f6b31e6b02026d9918866"
+  }
+]

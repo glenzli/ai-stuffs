@@ -1,0 +1,246 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">ARCHITECTURE / INFERENCE ENGINE</p>
+        <h1>自回归推理的两个阶段：<span class="accent-text">prefill 与 decode</span></h1>
+        <p class="lede">
+          prompt 可以并行计算并填满 KV Cache；生成阶段每轮只新增一个 token，却要重读所有历史 K/V。
+          这两阶段的瓶颈、延迟指标和 batch 策略完全不同。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">KV Cache 是什么</p>
+        <p>KV Cache 保存推理中已处理位置的 K/V，按层、head 和序列位置组织。后续 token 可复用这些状态，减少重复计算。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="phase-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="phase-title">prefill 与 decode 怎样计算</h2>
+        </div>
+        <p class="section-note">同一组权重，处理 token 的方式不同：prefill 并行吃整段 prompt，decode 逐个追加。</p>
+      </div>
+
+      <div class="phase-compare">
+        <article>
+          <span class="tag tag-teal">PREFILL</span>
+          <h3>一次并行处理整段 prompt</h3>
+          <p>所有 prompt token 同时经过各层，计算 self-attention；输出最后位置的 logits，同时缓存每一层的 K/V。通常更偏 compute-bound，决定 TTFT 的主体。</p>
+          <code>tokens_compute = prompt_length</code>
+        </article>
+        <div class="phase-arrow" aria-hidden="true">→</div>
+        <article>
+          <span class="tag tag-coral">DECODE</span>
+          <h3>输入上轮 token，预测下一个</h3>
+          <p>首 token 由 prefill 的最后位置 logits 采样。decode 将它作为下一次输入，逐层计算新 Q/K/V、读取历史 KV 并追加本位置的 K/V，再预测后一个 token。小 batch 常受权重与 KV 读取带宽限制。</p>
+          <code>new_tokens = 1 per decode step</code>
+        </article>
+      </div>
+
+      <div class="latency-strip">
+        <div><span>TTFT</span><strong>排队 + prefill + 首个 token</strong></div>
+        <div><span>TPOT / ITL</span><strong>每个后续 token 的 decode 间隔</strong></div>
+        <div><span>总生成时延</span><strong>TTFT + (N−1) × TPOT</strong></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="sim-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="sim-title">走一遍 prefill → decode</h2>
+        </div>
+        <p class="section-note">下面按 forward 步骤展示输入位置数、已生成 token 数和缓存长度。</p>
+      </div>
+
+      <div class="prefill-lab">
+        <div class="prefill-controls">
+          <label class="mem-select">
+            <span>prompt token 数</span>
+            <select data-infer-prompt>
+              <option value="128">128</option>
+              <option value="1024" selected>1024</option>
+              <option value="4096">4096</option>
+            </select>
+          </label>
+          <label class="mem-select">
+            <span>同时运行请求数</span>
+            <select data-infer-batch>
+              <option value="1">1</option>
+              <option value="4" selected>4</option>
+              <option value="8">8</option>
+            </select>
+          </label>
+          <div class="infer-actions">
+            <button class="button button-primary" type="button" data-infer-prefill>执行 prefill</button>
+            <button class="button" type="button" data-infer-one>再生成 1 token</button>
+            <button class="button" type="button" data-infer-ten>再生成 10 tokens</button>
+            <button class="button" type="button" data-infer-reset>重置</button>
+          </div>
+          <p>固定等长 batch、无 EOS 提前停止，最多展示 40 个输出。每次 forward 后立刻采样；因此已生成 G 个 token 时，缓存长度是 P+G−1。真实 serving 还需处理分块 prefill、动态批处理与分页。</p>
+        </div>
+
+        <div class="prefill-visual">
+          <div class="prefill-head">
+            <div>
+              <p class="micro-label">EXECUTION STATE</p>
+              <h3 data-infer-phase>等待 prefill</h3>
+            </div>
+            <div class="prefill-count"><span data-infer-generated>0</span> generated</div>
+          </div>
+          <div class="sequence-blocks" data-infer-sequence aria-label="prompt 与生成 token 位置"></div>
+          <div class="prefill-metrics">
+            <div><span>最近一次 forward 输入 token</span><strong data-infer-compute>0</strong></div>
+            <div><span>每条序列缓存位置</span><strong data-infer-cache-tokens>0</strong></div>
+            <div><span>batch KV 位置</span><strong data-infer-batch-cache>0</strong></div>
+          </div>
+          <div class="prefill-note" data-infer-note>
+            点击“执行 prefill”：prompt 的所有 token 一次并行进入模型，并写入所有层的 KV。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="kv-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="kv-title">KV Cache 占多少显存？</h2>
+        </div>
+        <p class="section-note">标准 MHA 每层保存 K 与 V。GQA/MQA 让多个 query heads 共享 KV heads，缓存按共享后的数量计算。</p>
+      </div>
+
+      <div class="kv-calculator">
+        <div class="kv-controls">
+          <div class="kv-presets">
+            <p class="micro-label">ATTENTION PRESET</p>
+            <div>
+              <button type="button" data-kv-preset="mha" aria-pressed="false">MHA · 32 KV</button>
+              <button type="button" data-kv-preset="gqa" aria-pressed="true">GQA · 8 KV</button>
+              <button type="button" data-kv-preset="mqa" aria-pressed="false">MQA · 1 KV</button>
+            </div>
+          </div>
+          <label class="mem-select"><span>layers L</span><select data-kv-layers><option>16</option><option selected>32</option><option>48</option></select></label>
+          <label class="mem-select"><span>KV heads</span><select data-kv-heads><option value="1">1</option><option value="4">4</option><option value="8" selected>8</option><option value="16">16</option><option value="32">32</option></select></label>
+          <label class="mem-select"><span>head dim</span><select data-kv-dim><option>64</option><option selected>128</option></select></label>
+          <label class="mem-select"><span>batch size</span><select data-kv-batch><option value="1">1</option><option value="4" selected>4</option><option value="16">16</option><option value="64">64</option></select></label>
+          <label class="mem-select"><span>context length</span><select data-kv-seq><option value="1024">1K</option><option value="4096" selected>4K</option><option value="16384">16K</option><option value="32768">32K</option><option value="131072">128K</option></select></label>
+          <label class="mem-select"><span>cache dtype</span><select data-kv-bytes><option value="2" selected>BF16 / FP16 · 2 bytes</option><option value="1">FP8 · 1 byte（近似）</option></select></label>
+        </div>
+
+        <div class="kv-visual">
+          <div class="kv-summary">
+            <div><span>每 token / 每请求</span><strong data-kv-per-token>128 KiB</strong></div>
+            <div><span>单请求当前上下文</span><strong data-kv-request>512 MiB</strong></div>
+            <div><span>batch 总 KV</span><strong data-kv-total>2.0 GiB</strong></div>
+          </div>
+          <div class="kv-formula">
+            <span>公式</span>
+            <code>KV bytes = B × S × L × 2 × H<sub>kv</sub> × d<sub>head</sub> × bytes</code>
+          </div>
+          <div class="kv-growth">
+            <div class="kv-growth-head"><span>KV 随上下文增长（当前 batch）</span><strong data-kv-at-max>2.0 GiB @ 4K</strong></div>
+            <svg viewBox="0 0 500 180" role="img" aria-label="KV Cache 随上下文长度增长" data-kv-chart></svg>
+          </div>
+          <div class="kv-note" data-kv-note>
+            当前 GQA：query heads 可以更多，但 KV 只有 8 组。上下文翻倍，缓存几乎按线性增长；长上下文服务中，KV 可能成为显存的主要占用。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="bottleneck-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="bottleneck-title">Attention 的计算量与数据访问量</h2>
+        </div>
+        <p class="section-note">大 O 记号帮助看增长趋势，但真实延迟还受内存层次、kernel、batch 与序列调度影响。</p>
+      </div>
+
+      <div class="cost-compare">
+        <article>
+          <span>PREFILL</span>
+          <h3>更多是并行矩阵乘</h3>
+          <p>投影与 MLP 是大的矩阵乘，GPU 利用率高；self-attention 的 token 交互项随 S² 增长。长 prompt 是吞吐与 TTFT 的主要压力。</p>
+          <code>attention interaction ≈ O(S² d)</code>
+        </article>
+        <article>
+          <span>DECODE</span>
+          <h3>每步算得少，却要搬很多 KV</h3>
+          <p>单 token 的 Q 很小，历史 K/V 读取量随 S 增长。GPU 可能更多在等内存带宽，而不是算术单元；批处理可提高总吞吐但增加缓存。</p>
+          <code>KV read ≈ O(S · L · Hkv · dhead)</code>
+        </article>
+        <article>
+          <span>WEIGHTS</span>
+          <h3>每步都要过全部层</h3>
+          <p>decode 每生成一个 token 都要遍历 L 层投影、MLP/MoE 与最终 head。权重读取通常占固定大块成本，MoE 可减少每 token 的专家计算但增加路由。</p>
+          <code>layers = L every token</code>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="serving-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="serving-title">真实 serving 系统在做什么</h2>
+        </div>
+        <p class="section-note">这些方法主要改进请求调度、缓存管理和执行效率。</p>
+      </div>
+
+      <div class="serving-grid">
+        <article>
+          <span>CONTINUOUS BATCHING</span>
+          <h3>每轮动态补请求</h3>
+          <p>一个请求结束后立刻释放槽位，不等整批结束。prefill 与 decode 请求可以交错调度，提高 GPU 利用率。</p>
+        </article>
+        <article>
+          <span>PAGED ATTENTION</span>
+          <h3>KV 分页，避免预留巨大连续空间</h3>
+          <p>把每条序列的 KV 切成块，按需分配与回收。减少内存碎片和过度预留，也方便连续批处理与共享 prefix。</p>
+        </article>
+        <article>
+          <span>PREFIX CACHE</span>
+          <h3>相同系统提示或文档前缀复用 KV</h3>
+          <p>还必须匹配实际前缀 token/模态输入及其顺序、模型与 adapter 权重、位置和 attention 配置等缓存键；只比较用户文本不够。命中缓存能省前缀计算，但存储、淘汰与权限隔离仍需设计。</p>
+        </article>
+        <article>
+          <span>CHUNKED PREFILL</span>
+          <h3>把长 prompt 切片调度</h3>
+          <p>避免一个超长 prefill 独占 GPU 很久，让正在 decode 的请求也能获得执行机会，但会增加调度与时间指标复杂度。</p>
+        </article>
+        <article>
+          <span>SPECULATIVE DECODE</span>
+          <h3>小模型猜，大模型验</h3>
+          <p>用 draft 模型提出多个 token，再由目标模型并行验证接受。收益取决于接受率、验证成本和草稿模型的额外计算。</p>
+        </article>
+        <article>
+          <span>KV QUANTIZATION</span>
+          <h3>更少 bytes，更多误差</h3>
+          <p>FP8/INT8 缓存可减少带宽与显存，但可能影响长上下文质量；还要注意 scale、分组与 kernel 支持。</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="modern-page"><div class="reading-links"><a href="position-cache.html#cache-equivalence">缓存前后 logits 是否一致</a><a href="decoding-algorithms.html">下一 token 怎样被选出来</a><a href="attention-kernels.html">分块 Attention 的归一化账本</a></div></div>
+    <div class="modern-page"><section class="section" aria-labelledby="serving-schedule"><div class="section-heading"><span class="section-number">06 / MULTIPLE REQUESTS</span><h2 id="serving-schedule">请求不断到来，计算和缓存怎样分配？</h2></div>
+      <div class="prose"><p>静态波次等待当前一组全部结束，再接纳下一组；连续批处理允许在迭代边界加入新请求。分块 prefill 让长输入分几轮处理，可与 decode 共享调度预算。预算单位与优先级由具体系统定义。</p></div>
+      <div class="experiment"><div class="experiment-head"><h3>三请求与四 token 缓存块</h3><span class="assumption">逻辑 tick · 最多 2 个活动请求</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>物理块总容量</span><select data-ss-capacity><option>3</option><option>4</option><option selected>6</option><option>8</option><option>12</option></select></label><label><span>每 tick 新计算位置预算</span><select data-ss-budget><option>2</option><option>4</option><option selected>8</option><option>16</option></select></label><label><span>单请求 prefill 块上限</span><select data-ss-chunk><option>1</option><option>2</option><option selected>4</option><option>8</option></select></label><label><span>接纳方式</span><select data-ss-mode><option value="continuous">连续接纳</option><option value="wave">静态波次</option></select></label><label class="check-control"><input type="checkbox" data-ss-prefix checked><span>预热并共享一个完整前缀块</span></label><div class="step-actions"><button type="button" class="button" data-ss-prev>上一轮</button><button type="button" class="button button-primary" data-ss-next>下一轮</button><button type="button" class="button" data-ss-reset>重置</button></div></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>轮次</span><strong data-ss-step></strong></div><div><span>已计算位置</span><strong data-ss-computed></strong></div><div><span>已复用位置</span><strong data-ss-reused></strong></div></div><p>峰值已占用块：<strong data-ss-peak></strong>；当前预留容量（含共享块）：<strong data-ss-reserved></strong></p><div class="cache-pages" data-ss-blocks></div><div class="compare-wrap"><table><thead><tr><th>请求</th><th>到达 tick</th><th>状态</th><th>输入已处理</th><th>输出已采样</th><th>活动 KV 位置</th><th>首 token 等待</th><th>完成耗时</th></tr></thead><tbody data-ss-rows></tbody></table></div><ol class="evidence-trace" data-ss-log></ol></div></div><p class="experiment-caption">A:(到达0,输入8,输出4)，B:(1,8,3)，C:(2,4,2)；A/B 共享前4个 token。FIFO 接纳，decode 优先，每请求每轮至多一个 decode；输出长度预先固定。缓存达到 P+G−1，完成后释放私有块。</p></div>
+      <div class="prose"><p>为了避免小容量下出现无可分配块的僵持，面板在接纳时为请求的已知最大长度预留容量额度，但物理块仍随 token 按需分配；预留额度与已占用块分别显示。真实引擎可能采用抢占、交换或重算等策略，本例没有实现这些策略，也没有把 tick 换算为毫秒。</p><p>开启前缀时，预热块占一个物理块，生成它的先前成本不计入本队列。它只在 A/B 活跃时有活动引用，两个请求结束后仍作为可复用缓存保留。这里不继续缓存新产生的私有块，不模拟 LRU 驱逐或多租户哈希。</p></div>
+    </section>
+    <section class="section" aria-labelledby="kv-sharing"><div class="section-heading"><span class="section-number">07 / CACHE OWNERSHIP</span><h2 id="kv-sharing">共享前缀为什么需要引用、版本和回收规则？</h2></div>
+      <div class="concept-pairs"><div><h3>匹配的是完整计算条件</h3><p>同样文本未必同样 token。模型版本、adapter、位置、模态输入和缓存隔离信息都可能影响键；块内容还依赖此前前缀。命中前必须确认上下文计算条件兼容。</p></div><div><h3>释放引用与驱逐是两步</h3><p>请求结束可以减少引用计数。引用为零的块可被保留为缓存，也可被回收覆盖；仍被其他请求使用的块不能直接覆盖。</p></div><div><h3>共享块应保持不可变</h3><p>完整前缀块可供多个请求只读使用。分支继续生成需要私有尾块；如果系统允许共享未满尾块，写入前通常需要复制或其他隔离机制。</p></div><div><h3>缓存省去什么</h3><p>命中的前缀 K/V 可复用，后续 query 仍要读取相关历史状态。Prefix cache 节省的主要是相同前缀的重复 prefill；实际时延还取决于查找、搬运和剩余计算。</p></div></div>
+      <div class="reading-links"><a href="decoding-algorithms.html">生成输出与缓存边界</a><a href="tensor-layout.html">逻辑位置与物理存储</a><a href="engineering-check.html">综合检查：输出比缓存多一位</a></div>
+    </section></div>
+    <section class="section next-lesson">
+      <div>
+        <p class="eyebrow">BACK TO THE SYSTEM</p>
+        <h2>把权重、KV、batch 与训练并行放回同一张资源账本。</h2>
+      </div>
+      <div class="next-actions">
+        <a class="button" href="transformer-anatomy.html">回看权重公式</a>
+        <a class="button button-primary" href="engineering.html">进入训练工程 →</a>
+      </div>
+    </section>

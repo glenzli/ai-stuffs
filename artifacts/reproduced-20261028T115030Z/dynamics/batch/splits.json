@@ -1,0 +1,1255 @@
+{
+  "train": [
+    {
+      "id": "reverse-3-ACA",
+      "group_id": "reversal-3-ACA",
+      "content": [
+        4,
+        6,
+        4
+      ],
+      "target": [
+        4,
+        6,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-ADD",
+      "group_id": "reversal-3-ADD",
+      "content": [
+        4,
+        7,
+        7
+      ],
+      "target": [
+        7,
+        7,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DDA",
+      "group_id": "reversal-3-ADD",
+      "content": [
+        7,
+        7,
+        4
+      ],
+      "target": [
+        4,
+        7,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-ABB",
+      "group_id": "reversal-3-ABB",
+      "content": [
+        4,
+        5,
+        5
+      ],
+      "target": [
+        5,
+        5,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BBA",
+      "group_id": "reversal-3-ABB",
+      "content": [
+        5,
+        5,
+        4
+      ],
+      "target": [
+        4,
+        5,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CDC",
+      "group_id": "reversal-3-CDC",
+      "content": [
+        6,
+        7,
+        6
+      ],
+      "target": [
+        6,
+        7,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-ABA",
+      "group_id": "reversal-3-ABA",
+      "content": [
+        4,
+        5,
+        4
+      ],
+      "target": [
+        4,
+        5,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CCD",
+      "group_id": "reversal-3-CCD",
+      "content": [
+        6,
+        6,
+        7
+      ],
+      "target": [
+        7,
+        6,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DCC",
+      "group_id": "reversal-3-CCD",
+      "content": [
+        7,
+        6,
+        6
+      ],
+      "target": [
+        6,
+        6,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BAC",
+      "group_id": "reversal-3-BAC",
+      "content": [
+        5,
+        4,
+        6
+      ],
+      "target": [
+        6,
+        4,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CAB",
+      "group_id": "reversal-3-BAC",
+      "content": [
+        6,
+        4,
+        5
+      ],
+      "target": [
+        5,
+        4,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-ACC",
+      "group_id": "reversal-3-ACC",
+      "content": [
+        4,
+        6,
+        6
+      ],
+      "target": [
+        6,
+        6,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CCA",
+      "group_id": "reversal-3-ACC",
+      "content": [
+        6,
+        6,
+        4
+      ],
+      "target": [
+        4,
+        6,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-ADA",
+      "group_id": "reversal-3-ADA",
+      "content": [
+        4,
+        7,
+        4
+      ],
+      "target": [
+        4,
+        7,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BBC",
+      "group_id": "reversal-3-BBC",
+      "content": [
+        5,
+        5,
+        6
+      ],
+      "target": [
+        6,
+        5,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CBB",
+      "group_id": "reversal-3-BBC",
+      "content": [
+        6,
+        5,
+        5
+      ],
+      "target": [
+        5,
+        5,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BCC",
+      "group_id": "reversal-3-BCC",
+      "content": [
+        5,
+        6,
+        6
+      ],
+      "target": [
+        6,
+        6,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CCB",
+      "group_id": "reversal-3-BCC",
+      "content": [
+        6,
+        6,
+        5
+      ],
+      "target": [
+        5,
+        6,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CCC",
+      "group_id": "reversal-3-CCC",
+      "content": [
+        6,
+        6,
+        6
+      ],
+      "target": [
+        6,
+        6,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BCB",
+      "group_id": "reversal-3-BCB",
+      "content": [
+        5,
+        6,
+        5
+      ],
+      "target": [
+        5,
+        6,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CAC",
+      "group_id": "reversal-3-CAC",
+      "content": [
+        6,
+        4,
+        6
+      ],
+      "target": [
+        6,
+        4,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-AAD",
+      "group_id": "reversal-3-AAD",
+      "content": [
+        4,
+        4,
+        7
+      ],
+      "target": [
+        7,
+        4,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DAA",
+      "group_id": "reversal-3-AAD",
+      "content": [
+        7,
+        4,
+        4
+      ],
+      "target": [
+        4,
+        4,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BDD",
+      "group_id": "reversal-3-BDD",
+      "content": [
+        5,
+        7,
+        7
+      ],
+      "target": [
+        7,
+        7,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DDB",
+      "group_id": "reversal-3-BDD",
+      "content": [
+        7,
+        7,
+        5
+      ],
+      "target": [
+        5,
+        7,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-ACD",
+      "group_id": "reversal-3-ACD",
+      "content": [
+        4,
+        6,
+        7
+      ],
+      "target": [
+        7,
+        6,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DCA",
+      "group_id": "reversal-3-ACD",
+      "content": [
+        7,
+        6,
+        4
+      ],
+      "target": [
+        4,
+        6,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DCD",
+      "group_id": "reversal-3-DCD",
+      "content": [
+        7,
+        6,
+        7
+      ],
+      "target": [
+        7,
+        6,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CAD",
+      "group_id": "reversal-3-CAD",
+      "content": [
+        6,
+        4,
+        7
+      ],
+      "target": [
+        7,
+        4,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DAC",
+      "group_id": "reversal-3-CAD",
+      "content": [
+        7,
+        4,
+        6
+      ],
+      "target": [
+        6,
+        4,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BDB",
+      "group_id": "reversal-3-BDB",
+      "content": [
+        5,
+        7,
+        5
+      ],
+      "target": [
+        5,
+        7,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CBC",
+      "group_id": "reversal-3-CBC",
+      "content": [
+        6,
+        5,
+        6
+      ],
+      "target": [
+        6,
+        5,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BCD",
+      "group_id": "reversal-3-BCD",
+      "content": [
+        5,
+        6,
+        7
+      ],
+      "target": [
+        7,
+        6,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DCB",
+      "group_id": "reversal-3-BCD",
+      "content": [
+        7,
+        6,
+        5
+      ],
+      "target": [
+        5,
+        6,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-AAB",
+      "group_id": "reversal-3-AAB",
+      "content": [
+        4,
+        4,
+        5
+      ],
+      "target": [
+        5,
+        4,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BAA",
+      "group_id": "reversal-3-AAB",
+      "content": [
+        5,
+        4,
+        4
+      ],
+      "target": [
+        4,
+        4,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BBD",
+      "group_id": "reversal-3-BBD",
+      "content": [
+        5,
+        5,
+        7
+      ],
+      "target": [
+        7,
+        5,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DBB",
+      "group_id": "reversal-3-BBD",
+      "content": [
+        7,
+        5,
+        5
+      ],
+      "target": [
+        5,
+        5,
+        7
+      ],
+      "length": 3
+    }
+  ],
+  "validation": [
+    {
+      "id": "reverse-3-BAD",
+      "group_id": "reversal-3-BAD",
+      "content": [
+        5,
+        4,
+        7
+      ],
+      "target": [
+        7,
+        4,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DAB",
+      "group_id": "reversal-3-BAD",
+      "content": [
+        7,
+        4,
+        5
+      ],
+      "target": [
+        5,
+        4,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-ABC",
+      "group_id": "reversal-3-ABC",
+      "content": [
+        4,
+        5,
+        6
+      ],
+      "target": [
+        6,
+        5,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CBA",
+      "group_id": "reversal-3-ABC",
+      "content": [
+        6,
+        5,
+        4
+      ],
+      "target": [
+        4,
+        5,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BDC",
+      "group_id": "reversal-3-BDC",
+      "content": [
+        5,
+        7,
+        6
+      ],
+      "target": [
+        6,
+        7,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CDB",
+      "group_id": "reversal-3-BDC",
+      "content": [
+        6,
+        7,
+        5
+      ],
+      "target": [
+        5,
+        7,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BBB",
+      "group_id": "reversal-3-BBB",
+      "content": [
+        5,
+        5,
+        5
+      ],
+      "target": [
+        5,
+        5,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-ABD",
+      "group_id": "reversal-3-ABD",
+      "content": [
+        4,
+        5,
+        7
+      ],
+      "target": [
+        7,
+        5,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DBA",
+      "group_id": "reversal-3-ABD",
+      "content": [
+        7,
+        5,
+        4
+      ],
+      "target": [
+        4,
+        5,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-ADC",
+      "group_id": "reversal-3-ADC",
+      "content": [
+        4,
+        7,
+        6
+      ],
+      "target": [
+        6,
+        7,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CDA",
+      "group_id": "reversal-3-ADC",
+      "content": [
+        6,
+        7,
+        4
+      ],
+      "target": [
+        4,
+        7,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-AAA",
+      "group_id": "reversal-3-AAA",
+      "content": [
+        4,
+        4,
+        4
+      ],
+      "target": [
+        4,
+        4,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BAB",
+      "group_id": "reversal-3-BAB",
+      "content": [
+        5,
+        4,
+        5
+      ],
+      "target": [
+        5,
+        4,
+        5
+      ],
+      "length": 3
+    }
+  ],
+  "test": [
+    {
+      "id": "reverse-3-ACB",
+      "group_id": "reversal-3-ACB",
+      "content": [
+        4,
+        6,
+        5
+      ],
+      "target": [
+        5,
+        6,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BCA",
+      "group_id": "reversal-3-ACB",
+      "content": [
+        5,
+        6,
+        4
+      ],
+      "target": [
+        4,
+        6,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CBD",
+      "group_id": "reversal-3-CBD",
+      "content": [
+        6,
+        5,
+        7
+      ],
+      "target": [
+        7,
+        5,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DBC",
+      "group_id": "reversal-3-CBD",
+      "content": [
+        7,
+        5,
+        6
+      ],
+      "target": [
+        6,
+        5,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DAD",
+      "group_id": "reversal-3-DAD",
+      "content": [
+        7,
+        4,
+        7
+      ],
+      "target": [
+        7,
+        4,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-ADB",
+      "group_id": "reversal-3-ADB",
+      "content": [
+        4,
+        7,
+        5
+      ],
+      "target": [
+        5,
+        7,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-BDA",
+      "group_id": "reversal-3-ADB",
+      "content": [
+        5,
+        7,
+        4
+      ],
+      "target": [
+        4,
+        7,
+        5
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-AAC",
+      "group_id": "reversal-3-AAC",
+      "content": [
+        4,
+        4,
+        6
+      ],
+      "target": [
+        6,
+        4,
+        4
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CAA",
+      "group_id": "reversal-3-AAC",
+      "content": [
+        6,
+        4,
+        4
+      ],
+      "target": [
+        4,
+        4,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DBD",
+      "group_id": "reversal-3-DBD",
+      "content": [
+        7,
+        5,
+        7
+      ],
+      "target": [
+        7,
+        5,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-CDD",
+      "group_id": "reversal-3-CDD",
+      "content": [
+        6,
+        7,
+        7
+      ],
+      "target": [
+        7,
+        7,
+        6
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DDC",
+      "group_id": "reversal-3-CDD",
+      "content": [
+        7,
+        7,
+        6
+      ],
+      "target": [
+        6,
+        7,
+        7
+      ],
+      "length": 3
+    },
+    {
+      "id": "reverse-3-DDD",
+      "group_id": "reversal-3-DDD",
+      "content": [
+        7,
+        7,
+        7
+      ],
+      "target": [
+        7,
+        7,
+        7
+      ],
+      "length": 3
+    }
+  ],
+  "length": [
+    {
+      "id": "reverse-5-BABBB",
+      "group_id": "reversal-5-BABBB",
+      "content": [
+        5,
+        4,
+        5,
+        5,
+        5
+      ],
+      "target": [
+        5,
+        5,
+        5,
+        4,
+        5
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-BBBAB",
+      "group_id": "reversal-5-BABBB",
+      "content": [
+        5,
+        5,
+        5,
+        4,
+        5
+      ],
+      "target": [
+        5,
+        4,
+        5,
+        5,
+        5
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-ABBDB",
+      "group_id": "reversal-5-ABBDB",
+      "content": [
+        4,
+        5,
+        5,
+        7,
+        5
+      ],
+      "target": [
+        5,
+        7,
+        5,
+        5,
+        4
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-BDBBA",
+      "group_id": "reversal-5-ABBDB",
+      "content": [
+        5,
+        7,
+        5,
+        5,
+        4
+      ],
+      "target": [
+        4,
+        5,
+        5,
+        7,
+        5
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-DCADD",
+      "group_id": "reversal-5-DCADD",
+      "content": [
+        7,
+        6,
+        4,
+        7,
+        7
+      ],
+      "target": [
+        7,
+        7,
+        4,
+        6,
+        7
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-DDACD",
+      "group_id": "reversal-5-DCADD",
+      "content": [
+        7,
+        7,
+        4,
+        6,
+        7
+      ],
+      "target": [
+        7,
+        6,
+        4,
+        7,
+        7
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-ABDBC",
+      "group_id": "reversal-5-ABDBC",
+      "content": [
+        4,
+        5,
+        7,
+        5,
+        6
+      ],
+      "target": [
+        6,
+        5,
+        7,
+        5,
+        4
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-CBDBA",
+      "group_id": "reversal-5-ABDBC",
+      "content": [
+        6,
+        5,
+        7,
+        5,
+        4
+      ],
+      "target": [
+        4,
+        5,
+        7,
+        5,
+        6
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-BCCDD",
+      "group_id": "reversal-5-BCCDD",
+      "content": [
+        5,
+        6,
+        6,
+        7,
+        7
+      ],
+      "target": [
+        7,
+        7,
+        6,
+        6,
+        5
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-DDCCB",
+      "group_id": "reversal-5-BCCDD",
+      "content": [
+        7,
+        7,
+        6,
+        6,
+        5
+      ],
+      "target": [
+        5,
+        6,
+        6,
+        7,
+        7
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-CACDC",
+      "group_id": "reversal-5-CACDC",
+      "content": [
+        6,
+        4,
+        6,
+        7,
+        6
+      ],
+      "target": [
+        6,
+        7,
+        6,
+        4,
+        6
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-CDCAC",
+      "group_id": "reversal-5-CACDC",
+      "content": [
+        6,
+        7,
+        6,
+        4,
+        6
+      ],
+      "target": [
+        6,
+        4,
+        6,
+        7,
+        6
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-DBABD",
+      "group_id": "reversal-5-DBABD",
+      "content": [
+        7,
+        5,
+        4,
+        5,
+        7
+      ],
+      "target": [
+        7,
+        5,
+        4,
+        5,
+        7
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-CDDAD",
+      "group_id": "reversal-5-CDDAD",
+      "content": [
+        6,
+        7,
+        7,
+        4,
+        7
+      ],
+      "target": [
+        7,
+        4,
+        7,
+        7,
+        6
+      ],
+      "length": 5
+    },
+    {
+      "id": "reverse-5-DADDC",
+      "group_id": "reversal-5-CDDAD",
+      "content": [
+        7,
+        4,
+        7,
+        7,
+        6
+      ],
+      "target": [
+        6,
+        7,
+        7,
+        4,
+        7
+      ],
+      "length": 5
+    }
+  ]
+}

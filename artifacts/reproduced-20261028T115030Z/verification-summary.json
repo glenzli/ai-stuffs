@@ -1,0 +1,95 @@
+{
+  "completed_at": "2026-10-28T12:51:41.383Z",
+  "root": "artifacts/reproduced-20261028T115030Z/",
+  "pages": 61,
+  "formulas": 141,
+  "preservationIssues": [],
+  "numericalAlgorithmsUnchanged": [
+    {
+      "file": "scripts/learning_core.py",
+      "unchanged": true
+    },
+    {
+      "file": "scripts/learning-run.py",
+      "unchanged": true
+    },
+    {
+      "file": "scripts/failure_replay.py",
+      "unchanged": true
+    },
+    {
+      "file": "scripts/training_dynamics.py",
+      "unchanged": true
+    },
+    {
+      "file": "scripts/chunked_ce_reference.py",
+      "unchanged": true
+    },
+    {
+      "file": "src/scripts/features/chunked-cross-entropy.js",
+      "unchanged": true
+    }
+  ],
+  "nodeTests": {
+    "pass": 403,
+    "fail": 0,
+    "skipped": 0
+  },
+  "pythonTests": {
+    "pass": 42,
+    "allTargetsPassed": true
+  },
+  "browserChecks": 15,
+  "browserIssues": [],
+  "httpDownloads": {
+    "checks": 12,
+    "passed": true
+  },
+  "archiveVerification": "All four download archives extracted and SHA256SUMS plus SOURCE-SHA256SUMS checked by the registered Node source tests.",
+  "rawExperimentalFiles": 453,
+  "actualBrowserImport": {
+    "page": "http://127.0.0.1:4173/chunked-cross-entropy.html",
+    "actualFullReportImport": {
+      "provenance": "2026-10-28T11:54:45.369070+00:00 · macOS-27.0.1-arm64-arm-64bit · Python 3.12.13 / PyTorch 2.9.0 / NumPy 2.3.4 · cpu/float64 · 1 线程。来源：artifacts/reproduced-20261028T115030Z/output/report.json；run output。",
+      "status": "已读取 report.json；显示该文件记录的实际实验结果。",
+      "visible": true
+    },
+    "console": [],
+    "downloadHelper": "Timed out; do not count as a successful browser download. All 12 served files verified independently by HTTP byte count and SHA-256."
+  },
+  "changedExistingFiles": [
+    "README.md",
+    "docs/content-structure-2026-10-28.md",
+    "docs/model-engineering-review-2026-10-28.md",
+    "package.json",
+    "scripts/build.mjs",
+    "scripts/test-failure-replay.mjs",
+    "scripts/test-failure-replay.py",
+    "scripts/test-learning-dynamics-ui.mjs",
+    "scripts/test-learning-run.mjs",
+    "scripts/test-reading.mjs",
+    "scripts/test-training-dynamics.mjs",
+    "scripts/test-training-dynamics.py",
+    "src/content/batch-noise.html",
+    "src/content/chunked-cross-entropy.html",
+    "src/content/initialization-width.html",
+    "src/content/learning-run.html",
+    "src/content/training-failures.html",
+    "src/scripts/features/batch-noise-data.js",
+    "src/scripts/features/chunked-cross-entropy-data.js",
+    "src/scripts/features/initialization-width-data.js",
+    "src/scripts/features/learning-run-data.js",
+    "src/scripts/features/training-failures-data.js",
+    "src/styles/shared.css"
+  ],
+  "addedSourceFiles": [
+    "src/experiment-sources.json",
+    "scripts/experiment-sources.mjs",
+    "scripts/package-experiments.mjs",
+    "scripts/test-experiment-sources.mjs",
+    "scripts/test-learning-artifacts.py",
+    "docs/experiment-reproduction-2026-10-28.md"
+  ],
+  "currentManifest": "src/experiment-sources.json",
+  "historicalArtifactsRecovered": false
+}

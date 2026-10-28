@@ -1,0 +1,16 @@
+.modern-page .interference-canvas { width: 100%; max-width: 640px; aspect-ratio: 640 / 440; height: auto; margin: 16px auto 22px; }
+.modern-page .evidence-trace { padding-left: 22px; color: var(--ink-soft); font-size: 14px; }
+.evidence-trace li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.modern-page .matrix-direction-table { min-width: 620px; font-family: var(--mono); font-size: 12px; }
+.modern-page .matrix-direction-table td:first-child { min-width: 60px; }
+.modern-page .research-compact-table { min-width: 0; }
+.modern-page .research-compact-table th, .modern-page .research-compact-table td { padding: 13px 9px; }
+.modern-page .research-compact-table td:first-child { min-width: 0; }
+.research-route-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); border-top: 1px solid var(--line); }
+.research-route-list a { display: block; padding: 20px 16px; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+.research-route-list a:hover { background: var(--surface); }
+.research-route-list strong { display: block; font-size: 17px; margin-bottom: 8px; }
+.research-route-list p { margin: 0; color: var(--ink-soft); font-size: 13px; }
+@media (max-width: 760px) {
+  .research-route-list { grid-template-columns: 1fr; }
+}

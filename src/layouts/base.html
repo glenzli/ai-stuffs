@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{description}}">
+  <title>{{title}}</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  {{mathStyles}}
+  <link rel="stylesheet" href="{{cssPath}}">
+  <script type="module" src="{{jsPath}}"></script>
+</head>
+<body data-page="{{bodyPage}}">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <a class="brand" href="training-engineer-guide.html" aria-label="模型工程 Wiki 首页">
+      <span class="brand-mark" aria-hidden="true">AI</span>
+      <span>模型工程 <small>WIKI</small></span>
+    </a>
+    <nav class="site-nav" aria-label="学习页导航">
+{{navigation}}
+    </nav>
+    <div class="wiki-header-tools">
+      <button class="wiki-icon-button wiki-menu-button" type="button" data-open-library aria-label="打开知识目录" title="知识目录">{{iconPanel}}</button>
+      <button class="wiki-search-button" type="button" data-open-search aria-label="搜索全部专题" title="搜索全部专题">{{iconSearch}}<span>搜索知识库</span></button>
+      <button class="wiki-icon-button theme-toggle" type="button" data-theme-toggle aria-label="切换明暗主题" title="切换明暗主题">{{iconTheme}}<span class="sr-only" data-theme-label>深色</span></button>
+    </div>
+  </header>
+
+  <div class="wiki-workspace">
+    <aside class="wiki-library" aria-label="知识库目录">
+      <div class="wiki-library-title">知识库 <span>{{pageCount}} 篇</span></div>
+      <nav aria-label="全部专题">{{library}}</nav>
+    </aside>
+    <main id="main">
+      <div class="wiki-breadcrumb"><a href="training-engineer-guide.html">模型工程</a><span>/</span><span>{{pageLabel}}</span><a href="#page-evidence" class="wiki-evidence-link">资料与边界</a></div>
+      {{readingContext}}
+      <details class="wiki-toc" data-wiki-toc hidden><summary>本页章节 <span data-toc-count></span></summary><nav aria-label="本页章节" data-toc-links></nav></details>
+{{content}}
+{{learningContinuation}}
+{{evidence}}
+    </main>
+  </div>
+
+  <dialog class="wiki-dialog wiki-library-dialog" data-library-dialog aria-labelledby="library-dialog-title">
+    <div class="wiki-dialog-head"><strong id="library-dialog-title">知识目录</strong><button class="wiki-icon-button" type="button" data-close-dialog aria-label="关闭目录" title="关闭目录">{{iconClose}}</button></div>
+    <nav aria-label="移动端全部专题">{{library}}</nav>
+  </dialog>
+  <dialog class="wiki-dialog wiki-search-dialog" data-search-dialog aria-labelledby="search-dialog-title">
+    <div class="wiki-dialog-head"><strong id="search-dialog-title">搜索知识库</strong><button class="wiki-icon-button" type="button" data-close-dialog aria-label="关闭搜索" title="关闭搜索">{{iconClose}}</button></div>
+    <label class="wiki-search-input">{{iconSearch}}<input type="search" aria-label="搜索概念或专题" placeholder="搜索概念、机制、工程问题…" data-global-search autocomplete="off"></label>
+    <p class="wiki-search-status" data-global-search-count aria-live="polite"></p>
+    <div class="wiki-search-results" data-global-search-results></div>
+  </dialog>
+
+  <footer class="site-footer">
+{{footer}}
+    <a class="wiki-icon-button" href="#main" aria-label="返回正文顶部" title="返回正文顶部">{{iconUp}}</a>
+  </footer>
+</body>
+</html>

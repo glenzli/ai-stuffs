@@ -1,0 +1,544 @@
+/* Training systems deep dive */
+.parallel-deep-lab {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.68fr) minmax(0, 1.32fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.parallel-deep-controls {
+  padding: 22px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.parallel-mode-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  margin-bottom: 18px;
+}
+
+.parallel-mode-buttons button {
+  min-height: 39px;
+  color: var(--ink-soft);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 9px;
+}
+
+.parallel-mode-buttons button[aria-pressed="true"] {
+  color: var(--surface-strong);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.parallel-deep-controls h3 {
+  margin: 7px 0 8px;
+  font-family: var(--serif);
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.parallel-deep-controls > p:not(.micro-label) {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.parallel-facts {
+  display: grid;
+  gap: 0;
+  margin-top: 17px;
+  border-top: 1px solid var(--line);
+}
+
+.parallel-facts > div {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.parallel-facts span {
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.parallel-facts p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.parallel-deep-visual {
+  min-width: 0;
+  padding: 21px;
+  background: var(--surface-strong);
+}
+
+.parallel-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.parallel-legend span {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.parallel-legend i {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+}
+
+.parallel-legend span:nth-child(2) i {
+  background: var(--blue-soft);
+  border-color: var(--blue);
+}
+
+.parallel-legend span:nth-child(3) i {
+  width: 15px;
+  height: 2px;
+  background: var(--coral);
+  border: 0;
+}
+
+.parallel-grid-map {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.par-gpu-card {
+  position: relative;
+  min-height: 105px;
+  padding: 13px;
+  overflow: hidden;
+  background: var(--bg);
+  border-left: 3px solid var(--accent);
+}
+
+.par-gpu-card span,
+.par-gpu-card strong,
+.par-gpu-card p {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.par-gpu-card span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.par-gpu-card strong {
+  margin-top: 7px;
+  font-size: 10px;
+}
+
+.par-gpu-card p {
+  margin: 4px 0 0;
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.par-gpu-card i {
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  width: 70px;
+  height: 70px;
+  background: var(--accent-soft);
+  border-radius: 50%;
+}
+
+.par-gpu-card i.is-local {
+  background: var(--blue-soft);
+}
+
+.parallel-note {
+  margin-top: 14px;
+  padding: 10px;
+  color: var(--ink-soft);
+  background: var(--yellow-soft);
+  border-left: 2px solid var(--yellow);
+  font-size: 9px;
+}
+
+.precision-table-wrap {
+  overflow-x: auto;
+}
+
+.precision-table {
+  min-width: 850px;
+}
+
+.precision-rules {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 18px;
+  background: var(--line);
+}
+
+.precision-rules div {
+  padding: 15px;
+  background: var(--surface);
+}
+
+.precision-rules span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.precision-rules p {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.activation-lab {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1.38fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.activation-controls {
+  padding: 21px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.activation-controls .lab-range {
+  margin-top: 9px;
+  padding-top: 8px;
+}
+
+.activation-visual {
+  min-width: 0;
+  padding: 22px;
+  background: var(--surface-strong);
+}
+
+.activation-primary span,
+.activation-primary strong,
+.activation-primary small {
+  display: block;
+}
+
+.activation-primary span {
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.activation-primary strong {
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 48px;
+  font-weight: 500;
+}
+
+.activation-primary small {
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.activation-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 16px;
+  background: var(--line);
+}
+
+.activation-breakdown div {
+  padding: 10px;
+  background: var(--surface);
+}
+
+.activation-breakdown span {
+  display: block;
+  color: var(--ink-faint);
+  font-size: 7px;
+}
+
+.activation-breakdown strong {
+  display: block;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.activation-compare {
+  margin-top: 14px;
+  padding: 10px;
+  color: var(--ink-soft);
+  background: var(--yellow-soft);
+  border-left: 2px solid var(--yellow);
+  font-size: 9px;
+}
+
+.activation-compare span {
+  color: var(--yellow);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.activation-compare p {
+  margin: 4px 0 0;
+}
+
+.collective-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.collective-grid article {
+  padding: 19px;
+  background: var(--surface);
+  border-top: 2px solid var(--line-strong);
+}
+
+.collective-grid article > span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.collective-grid h3 {
+  margin: 10px 0 6px;
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.collective-grid p {
+  min-height: 85px;
+  margin: 0 0 11px;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.collective-grid code {
+  color: var(--accent);
+  font-size: 8px;
+}
+
+.profile-order {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.profile-order > div {
+  padding: 19px;
+  border-right: 1px solid var(--line);
+}
+
+.profile-order > div:last-child {
+  border-right: 0;
+}
+
+.profile-order span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.profile-order h3 {
+  margin: 9px 0 6px;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.profile-order p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+@media (max-width: 1120px) {
+  .data-pipeline-panel,
+  .eval-lens-panel,
+  .tokenizer-lab,
+  .mixture-lab,
+  .slice-lab,
+  .artifact-browser,
+  .parallel-deep-lab,
+  .activation-lab {
+    grid-template-columns: 1fr;
+  }
+
+  .data-step-checks {
+    grid-row: auto;
+  }
+
+  .tokenizer-controls,
+  .mixture-controls,
+  .slice-controls,
+  .artifact-tree,
+  .parallel-deep-controls,
+  .activation-controls {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tokenizer-principles,
+  .dedup-compare,
+  .metric-formula-grid,
+  .reliability-grid,
+  .contamination-list,
+  .release-gate,
+  .config-field-grid,
+  .collective-grid,
+  .profile-order {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .provenance-flow {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .provenance-flow > div:nth-child(3n) {
+    border-right: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .data-pipeline-tabs {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .data-pipeline-tabs button {
+    min-height: 54px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .data-pipeline-tabs button:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .data-pipeline-panel {
+    gap: 15px;
+    padding: 20px 13px;
+  }
+
+  .data-pipeline-panel h3 {
+    font-size: 23px;
+  }
+
+  .tokenizer-controls,
+  .tokenizer-visual,
+  .mixture-controls,
+  .mixture-output,
+  .slice-controls,
+  .slice-output,
+  .artifact-tree,
+  .artifact-detail,
+  .parallel-deep-controls,
+  .parallel-deep-visual,
+  .activation-controls,
+  .activation-visual {
+    padding: 17px 13px;
+  }
+
+  .tokenizer-tabs button,
+  .mixture-controls label {
+    min-height: 44px;
+  }
+
+  .tokenizer-metrics,
+  .tokenizer-impact,
+  .mixture-row,
+  .slice-readout,
+  .artifact-facts,
+  .activation-breakdown,
+  .parallel-grid-map {
+    grid-template-columns: 1fr;
+  }
+
+  .mixture-row {
+    gap: 4px;
+  }
+
+  .tokenizer-principles,
+  .dedup-compare,
+  .metric-formula-grid,
+  .reliability-grid,
+  .contamination-list,
+  .release-gate,
+  .config-field-grid,
+  .collective-grid,
+  .profile-order,
+  .provenance-flow,
+  .resume-vs-deploy,
+  .precision-rules,
+  .eval-lens-tabs,
+  .parallel-mode-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .eval-lens-tabs button {
+    min-height: 50px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eval-lens-tabs button:last-child {
+    border-bottom: 0;
+  }
+
+  .eval-lens-panel {
+    padding: 20px 13px;
+  }
+
+  .eval-metric-list > div {
+    grid-template-columns: 1fr;
+  }
+
+  .provenance-flow > div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .provenance-flow > div:last-child {
+    border-bottom: 0;
+  }
+
+  .parallel-mode-buttons button {
+    min-height: 44px;
+  }
+
+  .activation-primary strong {
+    font-size: 38px;
+  }
+
+  .profile-order > div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .profile-order > div:last-child {
+    border-bottom: 0;
+  }
+}

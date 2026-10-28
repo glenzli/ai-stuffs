@@ -1,0 +1,18 @@
+.chunked-ce-page .ce-tile-chart { max-width: 620px; }
+.ce-tile-chart text { font-size: 11px; }
+.ce-cell { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1; }
+.ce-cell.ce-current { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+.ce-cell.ce-ignored { opacity: .35; }
+.ce-tile-chart .ce-current + text { fill: var(--accent); }
+.ce-measure-bar { fill: var(--accent); }
+.ce-dense-bar { fill: var(--blue); }
+.chunked-ce-page .ce-report-controls { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; margin: 24px 0; }
+.chunked-ce-page .ce-report-controls label { display: grid; min-width: 0; gap: 8px; font-size: 13px; }
+.chunked-ce-page .ce-provenance { overflow-wrap: anywhere; }
+.chunked-ce-page .decision-code { white-space: pre; }
+.chunked-ce-page .compare-wrap:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.chunked-ce-page .experiment-caption { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .chunked-ce-page .ce-report-controls { grid-template-columns: minmax(0,1fr); }
+  .chunked-ce-page .ce-tile-chart text { font-size: 12px; }
+}

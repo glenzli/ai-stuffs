@@ -1,0 +1,96 @@
+<div class="modern-page chunked-ce-page">
+  <section class="page-intro">
+    <div><p class="eyebrow">OUTPUT PROJECTION / EXACT CROSS ENTROPY</p><h1>分块交叉熵：<span class="accent-text">从输出投影开始省保存量</span></h1><p class="lede">词表分数来自 hidden 与输出权重的乘积。前向扫描词表块得到全局归一化和目标分数，反向重算局部概率，把每个块的贡献传回 hidden、权重和 bias。</p></div>
+    <aside class="intro-aside"><p class="micro-label">本页计算契约</p><p>H 为 5×3，W 为 7×3，可选 bias；标量 loss 按有效监督位置平均。保留全部梯度贡献，使用 binary64 / CPU float64。标签已经与预测位置对齐。</p></aside>
+  </section>
+
+  <section class="section" aria-labelledby="ce-contract">
+    <div class="section-heading"><span class="section-number">01 / SAME OBJECTIVE</span><h2 id="ce-contract">把完整投影与 CE 看作同一个计算</h2></div>
+    <div class="prose"><p>完整路径先生成 N×V 的 logits，再计算交叉熵。本页把位置分成 T 行、词表分成 B 列，每次只生成一个 T×B 的分数块。分块改变中间值的生命周期；每个有效位置的分母仍覆盖整个词表。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}Z_{ij}&amp;=H_iW_j^{\mathsf T}+b_j,\\a_i&amp;=\mathbf{1}[\mathrm{mask}_i]\,\mathbf{1}[y_i\ne\mathrm{ignore}],\quad C=\sum_i a_i,\\L&amp;=\frac{1}{C}\sum_{i:a_i=1}\left(\log\sum_{j=0}^{V-1}e^{Z_{ij}}-Z_{i,y_i}\right),\quad C&gt;0.\end{aligned}</div><figcaption>H∈ℝᴺˣᴰ，W∈ℝⱽˣᴰ，b∈ℝⱽ；没有 bias 时 b=0。mask=True 表示参与监督，ignore 默认 −100。类别权重和 label smoothing 不在本页目标内。</figcaption></figure>
+    <div class="mechanism-flow"><div><span>FORWARD / PROJECT</span><h3>生成当前分数块</h3><p>读取当前 H 行与 W 行，计算 HₜWᵦᵀ，可选加 bias。</p></div><div><span>REDUCE / CAPTURE</span><h3>累计全局统计</h3><p>更新逐行最大值与指数和；目标所属块到达时捕获目标分数。</p></div><div><span>BACKWARD / REPLAY</span><h3>重算局部概率</h3><p>用保存的全词表归一化统计重建 p；对目标类别减 1。</p></div><div><span>ACCUMULATE / RETURN</span><h3>归还三类梯度</h3><p>dH 跨词表块累加；dW 与 db 跨位置块累加。</p></div></div>
+    <p class="decision-note">C=0 时平均 loss 未定义。程序返回可微零哨兵与零梯度，调用者应跳过 optimizer 更新；有 weight decay 或动量时，零梯度本身不能保证参数不变。</p>
+  </section>
+
+  <section class="section" aria-labelledby="ce-forward">
+    <div class="section-heading"><span class="section-number">02 / RUNNING LSE</span><h2 id="ce-forward">每个词表块怎样加入同一个分母？</h2></div>
+    <p>每行维护 m=已访问分数的最大值、s=相对 m 的指数和。初值 m=−∞、s=0；新的更大分数出现时，先缩放已有和。目标 logit 从包含 yᵢ 的块中读取一次，不能把块内目标 ID 当作全局 ID。</p>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}m'_i&amp;=\max\!\left(m_i,\max_{j\in\mathcal B}Z_{ij}\right),\\s'_i&amp;=e^{m_i-m'_i}s_i+\sum_{j\in\mathcal B}e^{Z_{ij}-m'_i},\\\ell_i&amp;=(m_i-Z_{i,y_i})+\log s_i.\end{aligned}</div><figcaption>首块把已有和的缩放因子定义为 0。最后 LSE=m+log s；loss 用 (m−target)+log s 计算，减少大幅共同平移时的相消。</figcaption></figure>
+    <details class="math-derivation"><summary>为什么这个在线统计与完整 LSE 相同？</summary><figure class="math-block"><div class="math-display" data-math>\begin{aligned}s_i&amp;=\sum_{j\in\mathcal A}e^{Z_{ij}-m_i},\\e^{m_i-m'_i}s_i&amp;=\sum_{j\in\mathcal A}e^{Z_{ij}-m'_i},\\e^{m'_i}s'_i&amp;=\sum_{j\in\mathcal A\cup\mathcal B}e^{Z_{ij}}.\end{aligned}</div><figcaption>𝒜 是此前访问的类别，ℬ 是当前不重叠词表块。实数运算下恒等；浮点下分块顺序会产生舍入差，不能承诺逐位相同。</figcaption></figure><p>Python 保存 m 和 log s 两个 N 向量，反向使用 exp((Z−m)−log s)。这种表示与保存 LSE 等价，但避免先把很大的 m 与较小的 log s 相加再相减。目标 logit 只参与前向 loss，不需要保存给反向。</p></details>
+  </section>
+
+  <section class="section" aria-labelledby="ce-lab">
+    <div class="section-heading"><span class="section-number">03 / FOLLOW A TILE</span><h2 id="ce-lab">沿前向与反向块检查一次完整计算</h2></div>
+    <div class="experiment">
+      <div class="experiment-head"><h3>固定 H / W，改变块、监督和上游梯度</h3><span class="assumption">教学实际计算 · binary64 · 无梯度过滤</span></div>
+      <div class="experiment-body">
+        <div class="experiment-controls decision-controls">
+          <label><span>位置块大小 T</span><select data-ce-token><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>8</option></select></label>
+          <label><span>词表块大小 B</span><select data-ce-vocab><option>1</option><option>2</option><option selected>3</option><option>4</option><option>7</option><option>9</option></select></label>
+          <label><span>监督位置</span><select data-ce-mask><option value="all">mask 全真；位置 2 的标签忽略</option><option value="mixed">再屏蔽位置 1</option><option value="empty">mask 全假 · 零有效位置</option><option value="ignore-all">所有标签均为 −100</option></select></label>
+          <label><span>可选输出 bias</span><select data-ce-bias><option value="on">开启</option><option value="off">关闭</option></select></label>
+          <label><span>位置 3 的目标类别</span><select data-ce-target><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option></select></label>
+          <label><span>所有 logits 的共同平移</span><select data-ce-shift><option value="0">0</option><option value="10000">+10,000</option><option value="-10000">−10,000</option><option value="1000000">+1,000,000</option><option value="-1000000">−1,000,000</option></select></label>
+          <label><span>传入 backward 的标量 λ</span><select data-ce-upstream><option value="1">1</option><option value="0.375">0.375</option><option value="-2.25">−2.25</option><option value="3.5">3.5</option><option value="0">0</option></select></label>
+          <label><span>反向实现</span><select data-ce-fault><option value="none">精确：全局归一化与累加</option><option value="local-softmax">故障：每块单独 softmax</option><option value="overwrite-dh">故障：覆盖已有 dH</option></select></label>
+          <div class="step-actions"><button class="button" type="button" data-ce-prev>上一块</button><button class="button button-primary" type="button" data-ce-next>下一块</button><button class="button" type="button" data-ce-reset>回到首块</button></div>
+        </div>
+        <div class="experiment-view" aria-live="polite">
+          <div class="metric-row decision-metrics"><div><span>完整计算 loss：分块 / dense</span><strong data-ce-loss></strong></div><div><span>有效监督位置</span><strong data-ce-count></strong></div><div><span>loss 绝对误差</span><strong data-ce-loss-error></strong></div><div><span>dH 最大绝对误差</span><strong data-ce-dh-error></strong></div><div><span>dW 最大绝对误差</span><strong data-ce-dw-error></strong></div><div><span>db 最大绝对误差</span><strong data-ce-db-error></strong></div></div>
+          <svg class="decision-chart ce-tile-chart" viewBox="0 0 500 250" role="img" aria-label="位置乘词表的索引网格：高亮是当前计算块，圆点是目标类别，浅色行是忽略监督" data-ce-tile></svg>
+          <p class="decision-state">事件 <span data-ce-step></span></p><p class="state-log" data-ce-event></p><p class="decision-note" data-ce-note></p>
+        </div>
+      </div>
+      <p class="experiment-caption">顶部误差使用所有块完成后的结果；事件表使用当前事件。网格与保存的事件快照仅供教学展示，不计入独立 Python 的逻辑保存量或 hooks 测量。T≥N 且 B≥V 时允许一个完整大小的块，此选项用于边界对照。</p>
+    </div>
+    <h3>当前块：前向分数 / 反向概率</h3>
+    <div class="compare-wrap decision-scroll" tabindex="0" role="region" aria-label="当前分块计算数据，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">位置</th><th scope="col">前向 scores / 反向 p</th><th scope="col">running m / dZ</th><th scope="col">running s</th><th scope="col">目标捕获 / 本块 dH</th></tr></thead><tbody data-ce-event-rows></tbody></table></div>
+    <h3>所有位置的最终归一化与概率质量</h3>
+    <div class="compare-wrap" tabindex="0" role="region" aria-label="逐位置目标与最终统计，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">位置</th><th scope="col">H</th><th scope="col">label / mask</th><th scope="col">最终 LSE</th><th scope="col">目标 logit</th><th scope="col">逐位置 CE</th><th scope="col">重建 Σp</th></tr></thead><tbody data-ce-state-rows></tbody></table></div>
+    <details><summary>逐元素梯度：当前累加、最终分块与 dense</summary><div class="compare-wrap decision-scroll" tabindex="0" role="region" aria-label="hidden、权重与 bias 的独立梯度对照，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">求导变量</th><th scope="col">当前事件后</th><th scope="col">最终分块</th><th scope="col">dense 参考</th></tr></thead><tbody data-ce-gradient-rows></tbody></table></div></details>
+    <p class="decision-note" data-ce-logical></p>
+    <details><summary>完整固定输入与监督配置</summary><pre class="decision-code" data-ce-inputs></pre></details>
+  </section>
+
+  <section class="section" aria-labelledby="ce-backward">
+    <div class="section-heading"><span class="section-number">04 / RECONSTRUCT AND SUM</span><h2 id="ce-backward">重建概率后，三类梯度分别累加在哪里？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}p_{ij}&amp;=\exp\!\left((Z_{ij}-m_i)-\log s_i\right),\\G_{ij}&amp;=\frac{\lambda a_i}{C}\left(p_{ij}-\mathbf{1}[j=y_i]\right),\\dH_{\mathcal T}&amp;\mathrel{+}=G_{\mathcal T,\mathcal B}W_{\mathcal B},\\dW_{\mathcal B}&amp;\mathrel{+}=G_{\mathcal T,\mathcal B}^{\mathsf T}H_{\mathcal T},\qquad db_{\mathcal B}\mathrel{+}=\sum_{i\in\mathcal T}G_{i,\mathcal B}.\end{aligned}</div><figcaption>λ=∂J/∂L 是后续标量目标传入的上游梯度；L 的数值不随 λ 改变。块中不包含 yᵢ 时仍要保留所有 pᵢⱼ 的梯度贡献。</figcaption></figure>
+    <div class="concept-pairs"><div><h3>局部归一化故障</h3><p>每个词表块单独 softmax，会让每个块的概率质量都等于 1。全词表 Σp 变为块数量，dH/dW/db 均被改变。正确前向 loss 可以与错误反向同时出现。</p></div><div><h3>dH 被覆盖故障</h3><p>不同词表块都向同一 H 行送回梯度，必须用加法。如果每次写入本块结果，最终只剩最后一个词表块。这个故障保留 dW/db，有助于定位反向累加位置。</p></div></div>
+    <p>Python 的自定义 autograd Function 在前向和反向都显式使用 no_grad。前向只保存 H、W、可选 bias、有效标签与 m/log s；反向把 score 块原地改成概率再改成 dZ，完成当前块后释放。框架不会为每个 tile 建立隐含的反向图。本实现只支持声明的标量平均目标的一阶梯度。</p>
+    <p>本页把 H 与 W 当作独立求导变量，没有接入输入查表的权重绑定。若同一参数同时用于 embedding lookup 与输出投影，最终参数梯度需要把两条路径精确相加；这里只核验输出路径的 dW，不能把它标成共享权重的完整梯度。</p>
+  </section>
+
+  <section class="section" aria-labelledby="ce-memory">
+    <div class="section-heading"><span class="section-number">05 / THREE DIFFERENT ACCOUNTS</span><h2 id="ce-memory">保存引用、逻辑中间量和实际时间怎样一起看？</h2></div>
+    <p>8,192 个预测位置与 131,072 个词表项，单份 FP16 logits 的逻辑大小是 8,192×131,072×2 B=2,147,483,648 B=2 GiB。这是一个张量的算术账本；dtype 转换、输入、参数、梯度和其他层仍需单独计入。</p>
+    <div class="compare-wrap" tabindex="0" role="region" aria-label="三类成本口径对照，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">口径</th><th scope="col">怎样获得</th><th scope="col">解释范围</th></tr></thead><tbody><tr><th scope="row">逻辑元素</th><td>从形状计算 score 块、两个 N 统计向量、H/W/b 与梯度缓冲区；块容量至多 min(T,N)×min(B,V)。</td><td>各类别分别列出。临时行向量和 GEMM 结果也存在，不能把单块容量直接称为总峰值。</td></tr><tr><th scope="row">保存张量引用</th><td>单独一次 saved_tensors_hooks 运行，按仍被反向图引用的唯一底层 storage 计字节，视图别名只计一次。</td><td>包括保存的输入与参数。没有被保存的 tile、梯度缓冲区及其他分配不在此数中；这不是 allocator 峰值、reserved 内存或 RSS。</td></tr><tr><th scope="row">CPU 实际时间</th><td>同一固定输入，3 次预热后 12 次前向＋反向。计时区内不启用 hooks、profiler 或 dispatch 审计。</td><td>包含参数有限性检查、清空 .grad 与 Python 循环。CPU 实现与 GPU kernel 的并行、SRAM、内存带宽不同。</td></tr></tbody></table></div>
+    <p>分块后仍保留 H/W/b 与 dH/dW/db；主要减少需要留到反向的 N×V 中间量。反向重算每个输出分数，增加投影工作；小块也增加循环与矩阵调用开销。下面的图只画已保存运行里的测量，不把块大小公式换算成预测毫秒。</p>
+  </section>
+
+  <section class="section" aria-labelledby="ce-cpu-lab">
+    <div class="section-heading"><span class="section-number">06 / INDEPENDENT CPU EVIDENCE</span><h2 id="ce-cpu-lab">读取独立 PyTorch 实验的误差与测量</h2></div>
+    <p>Node 导出固定 H/W/b、标签和教学结果；独立 Python 使用完整 PyTorch autograd 与自定义 Function 对照。检查覆盖所有位置/词表尾块、mask 与忽略标签、零有效位置、共同大幅分数平移、目标出现在任意词表块，以及正数、负数和零上游梯度。H/W/b 另用完整目标的中央有限差分核验。</p>
+    <pre class="decision-code"><code>node --test scripts/test-chunked-ce.mjs
+.venv-framework/bin/python scripts/test-chunked-ce.py
+node scripts/run-output-lab.mjs --out-dir artifacts/output-lab-my-run</code></pre>
+    <p>每次实验创建新目录并拒绝覆盖已有记录。需要等待其他重计算任务时，可先加 <code>--correctness-only</code>；协调后用 <code>--timing-only</code>、<code>--correctness-report</code> 与 <code>--reference</code> 在另一个新目录采样，源代码和 fixture 哈希必须与已通过的正确性报告一致。具体命令与已保存记录见本专题实施说明。</p>
+    <div class="decision-import"><label><span>读取本机 output-lab 的 report.json（≤5 MiB）</span><input type="file" accept=".json,application/json" data-ce-report-file></label><div class="step-actions"><button class="button" type="button" data-ce-report-default>恢复默认实测快照</button></div><p role="status" data-ce-report-status>默认快照尚未生成；请选择本机成功报告。文件只在本页读取。</p></div>
+    <div data-ce-report-output hidden>
+      {{experimentSources}}
+      <p class="decision-note ce-provenance" data-ce-report-provenance></p><p data-ce-report-checks></p>
+      <div class="ce-report-controls"><label><span>测量形状 N×V×D</span><select data-ce-report-shape></select></label><label><span>图表口径</span><select data-ce-report-metric><option value="time">CPU 前向＋反向中位时间 / ms</option><option value="storage">唯一 storage 保存引用 / KiB</option></select></label></div>
+      <svg class="decision-chart ce-measure-chart" viewBox="0 0 620 218" role="img" aria-label="独立 CPU 保存报告的实测数据图" data-ce-measure-chart></svg>
+      <div class="compare-wrap" tabindex="0" role="region" aria-label="实测时间、保存引用与块容量，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">方案</th><th scope="col">N×V×D</th><th scope="col">T×B</th><th scope="col">中位 ms</th><th scope="col">min…max ms</th><th scope="col">保存引用峰值 B</th><th scope="col">单块 score 元素</th></tr></thead><tbody data-ce-report-rows></tbody></table></div>
+      <details><summary>原始耗时样本、分项账本与逐变量误差</summary><pre class="decision-code" data-ce-report-logical></pre></details>
+      <p class="experiment-note">这些数值是报告声明环境中的 CPU 算术实验，不包含语言模型训练质量、GPU 性能或分配器内存峰值。dense 的参考误差 0 表示它本身是比较基准。</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ce-cce-scope">
+    <div class="section-heading"><span class="section-number">07 / AUTHOR METHOD AND SCOPE</span><h2 id="ce-cce-scope">与 Apple CCE 的机制联系与精确范围</h2></div>
+    <p>Apple 的 <em>Cut Your Losses in Large-Vocabulary Language Models</em> 把目标分数与在线 linear-log-sum-exp 分开计算，并在反向重建局部概率。作者 GPU 实现把小块计算放在 on-chip SRAM；本页 CPU 循环在普通内存里生成 tile，复现的是目标、梯度与生命周期，不复现作者 kernel 的硬件执行或速度。</p>
+    <p>作者 README 区分 <code>cce_kahan_full_c</code> 与 <code>cce_kahan_full_c_full_e (cce_exact)</code>：前者取消 classifier 梯度过滤，后者进一步取消 embedding 梯度过滤。阈值过滤跳过小概率块的梯度贡献，是相对完整实数梯度的近似；论文在指定精度与训练配置下评估它。本页先保留全部贡献，浮点舍入仍由 dense/有限差分对照衡量。</p>
+    <p>2026-10-28 已直接读取原作者仓库 README 的动机、接口、可选 bias 和实现表；读取 Apple 研究页的作者/ICLR 2025 元数据与摘要；读取 arXiv:2411.09009v2（2025-03-10）第 3、4.1–4.3、5.2 节及附录 B/E。原文版本与链接随独立报告记录；本轮数值核验依据新保存的固定输入、源码与计算报告，未补造历史原文抓取快照。作者性能数字保留为论文特定结果，不作为本站实测；本实验未安装 CCE 包或下载模型。</p>
+    <div class="reading-links"><a href="distributed-execution.html#vocab-parallel">词表分片的全局归一化</a><a href="backpropagation.html">输出头的完整反传</a><a href="attention-kernels.html">Attention 在线归一化与重算</a><a href="performance-analysis.html">性能与保存量测量</a><a href="training-deep.html">权重绑定的梯度路径</a></div>
+  </section>
+</div>

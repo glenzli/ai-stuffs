@@ -1,0 +1,31 @@
+.modern-page .chain-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); margin-bottom: 20px; }
+.modern-page .chain-metrics > div:last-child { grid-column: 1 / -1; }
+.modern-page .chain-metrics strong { font-size: 19px; line-height: 1.7; overflow-wrap: anywhere; }
+.modern-page .chain-mask { min-width: 540px; }
+.modern-page .chain-mask td, .modern-page .chain-mask th { padding: 10px 9px; min-width: 0; text-align: center; }
+.chain-allowed { color: var(--accent); background: var(--accent-soft); }
+.chain-blocked { color: var(--ink-faint); }
+.chain-memory { list-style: none; padding: 0; margin: 16px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5px 18px; }
+.chain-memory li { display: grid; grid-template-columns: 22px minmax(0,1fr) 25px; gap: 8px; align-items: center; font: 11px var(--mono); color: var(--ink-faint); padding: 3px; }
+.chain-memory li > div { background: var(--surface); height: 10px; }
+.chain-memory i { display: block; height: 100%; background: var(--blue); }
+.chain-memory .is-current { color: var(--ink); outline: 1px solid var(--accent); }
+.chain-memory .is-current i { background: var(--accent); }
+.chain-code { white-space: pre; overflow-x: auto; padding: 18px; background: var(--code-bg); color: var(--code-ink); font: 12px/1.9 var(--mono); border-radius: 5px; }
+.modern-page .chain-table { min-width: 0; }
+.modern-page .chain-table th, .modern-page .chain-table td { min-width: 0; padding: 12px 9px; }
+.modern-page .chain-table td:first-child { min-width: 0; }
+.modern-page .chain-verification { margin-top: 18px; font-size: 13px; }
+@media (max-width: 1100px) {
+  .modern-page .recipe-controls > .experiment-note,
+  .modern-page .recipe-controls > .step-actions,
+  .modern-page .recipe-controls > .compare-wrap { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .modern-page .recipe-controls { grid-template-columns: minmax(0,1fr); }
+  .modern-page .recipe-controls label > span { min-height: 0; }
+  .modern-page .chain-metrics { grid-template-columns: 1fr; }
+  .modern-page .chain-metrics > div:last-child { grid-column: auto; }
+  .modern-page .chain-metrics strong { font-size: 18px; }
+  .chain-memory { grid-template-columns: 1fr; }
+}

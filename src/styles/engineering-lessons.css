@@ -1,0 +1,38 @@
+.modern-page .ledger-table { min-width: 560px; font-family: var(--mono); font-size: 12px; }
+.modern-page .ledger-table td:first-child { min-width: 70px; }
+.modern-page .metric-word { font-family: var(--sans); font-size: 23px; }
+.modern-page .roofline-chart { display: block; width: 100%; height: auto; aspect-ratio: 620 / 270; margin: 16px 0; }
+.signed-gradient { margin: 20px 0; }
+.signed-gradient > div { display: grid; grid-template-columns: 45px minmax(0,1fr) 65px; gap: 10px; align-items: center; margin: 12px 0; font-size: 12px; }
+.signed-gradient output { font: 12px var(--mono); text-align: right; }
+.signed-axis { position: relative; height: 26px; background: var(--surface); }
+.signed-axis b { position: absolute; left: 50%; width: 1px; height: 26px; background: var(--line-strong); }
+.signed-axis i { position: absolute; height: 12px; top: 7px; }
+.case-picker { min-width: 0; width: min(100%,360px); display: grid; gap: 4px; font-size: 11px; }
+.case-brief { padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.case-brief h3 { margin: 8px 0; font: 600 22px/1.5 var(--sans); }
+.case-brief > p:last-child { max-width: 82ch; font-size: 14px; color: var(--ink-soft); }
+.case-options { min-width: 0; margin: 22px 0 0; padding: 0; border: 0; }
+.case-options legend { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+.case-options label { display: flex; gap: 10px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--line); cursor: pointer; font-size: 13px; }
+.case-options input { flex: 0 0 auto; margin-top: 4px; accent-color: var(--accent); }
+.case-choice-feedback { min-height: 3.8em; padding: 12px 0; font-size: 13px; color: var(--ink-soft); }
+.case-evidence { padding-left: 24px; }
+.case-evidence li { padding: 16px 0; border-top: 1px solid var(--line); }
+.case-evidence li::marker { color: var(--accent); font-family: var(--mono); }
+.case-evidence strong { font-size: 14px; }
+.case-evidence p { font-size: 14px; color: var(--ink-soft); max-width: 85ch; margin: 7px 0 0; }
+.case-conclusion { border-left: 3px solid var(--blue); background: var(--surface); padding: 18px 20px; font-size: 14px; }
+.case-conclusion a { color: var(--accent); }
+.lesson-route-list { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+.lesson-route-list a { text-decoration: none; padding: 20px 18px; border-bottom: 1px solid var(--line); }
+.lesson-route-list a:hover { background: var(--surface); }
+.lesson-route-list span { display: block; font: 11px var(--mono); color: var(--accent); }
+.lesson-route-list strong { display: block; margin: 8px 0; font-size: 17px; }
+.lesson-route-list p { font-size: 13px; color: var(--ink-soft); margin: 0; }
+@media (max-width: 760px) {
+  .lesson-route-list { grid-template-columns: 1fr; }
+  .case-brief h3 { font-size: 19px; }
+  .case-evidence { padding-left: 20px; }
+  .modern-page .metric-word { font-size: 18px; }
+}

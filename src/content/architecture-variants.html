@@ -1,0 +1,196 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">ARCHITECTURE / VARIANTS &amp; CONCLUSIONS</p>
+        <h1>架构变体：<span class="accent-text">逐项比较结构与成本</span></h1>
+        <p class="lede">
+          现代 decoder 可以看成几个可替换零件的组合：Attention / KV 结构、位置编码、归一化、FFN 激活、
+          残差布局和 Dense/MoE。每个选择通常优化一个资源或能力，同时在其他地方付出代价。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">先定判据</p>
+        <p>先选比较口径：同训练 FLOPs、同激活参数，还是同推理延迟；这些约束未必能同时固定。记录未控制的差异，再固定数据与评估协议，才好判断结构收益。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="axes-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="axes-title">一个 block 的五项结构选择</h2>
+        </div>
+        <p class="section-note">比较模型结构时，可以逐项查看下面五类设计及其参数。</p>
+      </div>
+
+      <div class="variant-axes">
+        <div><span>01</span><strong>Sequence mixing</strong><p>full attention、滑窗/稀疏 attention、linear/recurrent、SSM 或混合层。</p><code>token 如何交换信息</code></div>
+        <div><span>02</span><strong>KV 组织</strong><p>MHA、GQA、MQA、MLA；query heads 与 KV heads 的数量关系。</p><code>表达 vs 推理缓存</code></div>
+        <div><span>03</span><strong>位置与稳定化</strong><p>absolute、relative bias、ALiBi、RoPE 及缩放；Pre/Post Norm、RMSNorm、QK-Norm。</p><code>顺序与深度训练</code></div>
+        <div><span>04</span><strong>FFN 容量</strong><p>ReLU/GELU、SwiGLU、Dense MLP、MoE experts、共享专家。</p><code>参数容量 vs 激活计算</code></div>
+        <div><span>05</span><strong>残差布局</strong><p>pre-norm 主干、scale 乘子、并行/串行 residual、QKV 初始化。</p><code>梯度与激活传播</code></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="variants-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="variants-title">各类变体的结构、收益与代价</h2>
+        </div>
+        <p class="section-note">选择一项变体。重点看结构改了什么、改善了哪项指标，以及结论适用于哪些条件。</p>
+      </div>
+
+      <div class="variant-browser">
+        <div class="variant-list" role="group" aria-label="架构变体">
+          <button type="button" data-variant="mha" aria-pressed="true"><span>Attention</span>MHA</button>
+          <button type="button" data-variant="mqa" aria-pressed="false"><span>KV</span>MQA</button>
+          <button type="button" data-variant="gqa" aria-pressed="false"><span>KV</span>GQA</button>
+          <button type="button" data-variant="mla" aria-pressed="false"><span>KV</span>MLA</button>
+          <button type="button" data-variant="window" aria-pressed="false"><span>Pattern</span>Sliding / sparse</button>
+          <button type="button" data-variant="rope" aria-pressed="false"><span>Position</span>RoPE variants</button>
+          <button type="button" data-variant="norm" aria-pressed="false"><span>Norm</span>Pre-RMSNorm</button>
+          <button type="button" data-variant="swiglu" aria-pressed="false"><span>MLP</span>SwiGLU</button>
+          <button type="button" data-variant="moe" aria-pressed="false"><span>Capacity</span>MoE</button>
+          <button type="button" data-variant="hybrid" aria-pressed="false"><span>Mixer</span>SSM / hybrid</button>
+        </div>
+
+        <div class="variant-panel" aria-live="polite">
+          <div>
+            <p class="micro-label" data-variant-kicker>STANDARD ATTENTION</p>
+            <h3 data-variant-title>每个 query head 都有独立 K/V</h3>
+            <p data-variant-copy>
+              最直接的 MHA。每个 query head 拥有自己的 K/V projection；表达灵活，但训练和推理的 KV 状态也最大。
+            </p>
+          </div>
+          <div class="variant-structure">
+            <span>结构变化</span>
+            <code data-variant-structure>Hq = Hkv; cache ∝ Hkv · D</code>
+          </div>
+          <div class="variant-tradeoff">
+            <div><span>获得</span><p data-variant-gain>更强 head 多样性；实现最直接。</p></div>
+            <div><span>代价</span><p data-variant-cost>KV Cache 大，decode 读取带宽高。</p></div>
+            <div><span>评估条件</span><p data-variant-misread>head 数量的收益需要结合每头维度、训练配方和任务结果评估。</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="goals-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="goals-title">按资源和任务约束组合结构</h2>
+        </div>
+        <p class="section-note">选择你当前最想优化的约束，页面给出常见的结构组合与限制。具体收益需要在目标任务和相同预算下测试。</p>
+      </div>
+
+      <div class="goal-selector">
+        <button type="button" data-arch-goal="kv" aria-pressed="true">降低 KV / 推理成本</button>
+        <button type="button" data-arch-goal="capacity" aria-pressed="false">提高总容量</button>
+        <button type="button" data-arch-goal="long" aria-pressed="false">长上下文</button>
+        <button type="button" data-arch-goal="stable" aria-pressed="false">深层训练稳定性</button>
+        <button type="button" data-arch-goal="simple" aria-pressed="false">训练实现简单</button>
+      </div>
+
+      <div class="goal-result">
+        <div>
+          <p class="micro-label" data-goal-kicker>INFERENCE MEMORY</p>
+          <h3 data-goal-title>先减少 KV heads，再考虑缓存精度与压缩</h3>
+          <p data-goal-copy>GQA 是常见折中：多个 query heads 共享 KV heads；MQA 更激进；MLA 则学习压缩潜在缓存。还要配合 paged KV、prefix cache 和 batch 调度。</p>
+        </div>
+        <div class="goal-stack">
+          <span>常见组合</span>
+          <div data-goal-stack></div>
+        </div>
+        <div class="goal-warning">
+          <span>配套条件</span>
+          <p data-goal-warning>KV 与权重占用应分别计算；长上下文吞吐还受 attention 计算和调度影响。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="family-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="family-title">代表性模型的部件对照</h2>
+        </div>
+        <p class="section-note">下表用于对照结构。使用具体模型时，核对对应版本和尺寸的配置及模型卡。</p>
+      </div>
+
+      <div class="variant-family-wrap">
+        <table class="deep-table variant-family-table">
+          <thead>
+            <tr><th>家族</th><th>类型</th><th>位置</th><th>Norm</th><th>FFN</th><th>KV / 容量结构</th><th>关键点</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>BERT</td><td>Encoder</td><td>Learned absolute</td><td>Post-LN</td><td>GELU FFN</td><td>MHA、双向</td><td>用于 masked LM 的双向编码接口</td></tr>
+            <tr><td>T5 / T5 v1.1</td><td>Encoder-decoder</td><td>Relative bias</td><td>无均值中心化的 Norm</td><td>原版 ReLU；v1.1 gated-GELU</td><td>MHA</td><td>版本改变 FFN，不宜合称为同一配置</td></tr>
+            <tr><td>LLaMA 2 7B</td><td>Decoder</td><td>RoPE</td><td>Pre-RMSNorm</td><td>SwiGLU</td><td>MHA</td><td>现代 decoder 配方，KV 较大</td></tr>
+            <tr><td>Mistral 7B</td><td>Decoder</td><td>RoPE</td><td>Pre-RMSNorm</td><td>SwiGLU</td><td>GQA + sliding window</td><td>用有限窗口降低长序列成本</td></tr>
+            <tr><td>Mixtral 8×7B</td><td>MoE Decoder</td><td>RoPE</td><td>Pre-RMSNorm</td><td>SwiGLU experts</td><td>GQA、8 experts / top-2</td><td>总参数约 46.7B，每 token 激活约 12.9B</td></tr>
+            <tr><td>DeepSeek-V2 / V3</td><td>MoE Decoder</td><td>RoPE 相关</td><td>RMSNorm 类</td><td>MoE</td><td>MLA、细粒度 experts</td><td>压缩 KV latent + 共享/路由 expert；以模型卡为准</td></tr>
+            <tr><td>Mamba</td><td>SSM</td><td>状态递推</td><td>架构相关</td><td>门控 MLP</td><td>不用标准 attention KV</td><td>递推状态更新，需评估任务质量与硬件效率</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="conclusions-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="conclusions-title">结构选择的常见影响</h2>
+        </div>
+        <p class="section-note">这些是机制层面的结论；具体幅度仍依赖规模、数据和 kernel。</p>
+      </div>
+
+      <div class="arch-conclusions">
+        <article><span>01</span><h3>Residual + pre-norm 是现代深层的默认底座</h3><p>残差与 pre-norm 影响梯度和表示的传播。RMSNorm 省去了均值中心化，具体质量收益需要在相同训练配方下做替换实验。</p></article>
+        <article><span>02</span><h3>GQA/MQA 是 KV 与表达的折中</h3><p>减少 KV heads 直接压低 decode 带宽与缓存，但共享越激进越依赖训练弥补表达。实际选择看上下文长度、batch 与质量回归线。</p></article>
+        <article><span>03</span><h3>MoE 用显存和通信换每 token 计算</h3><p>总参数增大、激活参数可以较小；所有 experts 仍需驻留/可达，router 不均与 all-to-all 是核心风险。</p></article>
+        <article><span>04</span><h3>长上下文的有效使用范围</h3><p>位置外推、训练长度、attention 模式、数据与评估都决定模型能否在远端 token 上可靠工作。</p></article>
+        <article><span>05</span><h3>FlashAttention 优化注意力的执行方式</h3><p>它通过分块与在线 softmax 降低内存访问，通常仍是同一 attention 数学；评估时分别记录数学目标和执行 kernel。</p></article>
+        <article><span>06</span><h3>质量同时受结构、数据和预算影响</h3><p>宽度、深度、FFN、数据、token 预算、位置和推理成本共同作用。比较时先固定预算，否则结论不可迁移。</p></article>
+      </div>
+    </section>
+
+    <div class="modern-page">
+    <section class="section" aria-labelledby="long-context-training"><div class="section-heading"><span class="section-number">06 / LONG CONTEXT</span><h2 id="long-context-training">长上下文训练需要哪些配合？</h2></div>
+      <div class="mechanism-flow"><div><span>01 / POSITIONS</span><h3>位置机制兼容</h3><p>检查 RoPE 频率、缩放、插值、滑窗/全局层；新长度下的相位关系改变。</p></div><div><span>02 / DATA</span><h3>长程监督有用</h3><p>长文本应包含需要跨段结合的证据，让模型有机会学习远距离依赖。</p></div><div><span>03 / TRAIN</span><h3>预算与稳定性</h3><p>调整长度混合、microbatch、LR、重算和 context parallel；保持全局有效 token 口径。</p></div><div><span>04 / VERIFY</span><h3>长短任务一起测</h3><p>长度、位置、干扰、检索/组合/聚合与短上下文回归，连同成本和延迟报告。</p></div></div>
+      <div class="prose"><p>RoPE 让不同位置的 Q/K 通过旋转表达相对位移。把位置插值进已训练范围，或修改频率尺度，会改变距离与相位关系；这可能帮助扩展，但不能单凭数学变换保证新长度的能力。继续训练的数据、长度课程和原始模型决定是否适应，短距离分辨率也可能受影响。</p><p>长度 L 的全注意力算术量含 L² 项；FlashAttention 减少物化中间矩阵与 HBM 搬运，不消除这个交互数。滑窗缩小局部访问，但跨窗口信息如何传播取决于层结构。context parallel 把同一长序列的计算分给设备，仍需要交换相应状态，共同完成这条序列的前向与反向。</p></div>
+      <div class="compare-wrap"><table><thead><tr><th>评估轴</th><th>测试变化</th><th>能回答什么</th></tr></thead><tbody>
+        <tr><td>长度 × 位置</td><td>固定任务，改变上下文长度、证据放头/中/尾的位置。</td><td>模型在哪些长度和位置可靠，而非只报告最大可输入长度。</td></tr>
+        <tr><td>单条检索</td><td>找一个明确事实或标记，加入相似干扰。</td><td>能否找到局部信息；不能代表跨多证据推理。</td></tr>
+        <tr><td>多跳/组合</td><td>分散多条事实，必须按关系组合才能回答。</td><td>各条远端证据是否共同影响答案。</td></tr>
+        <tr><td>聚合/顺序</td><td>计数、排序、跨段去重、事件先后和矛盾更新。</td><td>长程任务执行与状态维护；单 needle 命中率不足以覆盖。</td></tr>
+        <tr><td>成本与短程回归</td><td>相同任务/推理预算下测显存、TTFT、ITL 与短问题质量。</td><td>扩展是否值得，以及是否牺牲常见场景。</td></tr>
+      </tbody></table></div>
+      <div class="prose"><p>RULER 用多类合成任务揭示“标称上下文”与实际使用能力之间的差距；合成评估也有范围，应再测真实文档、代码仓库或多轮任务。报告可靠长度时应明确通过阈值、任务类型和位置分布，每个可靠长度结论都应对应到这些评估条件。</p></div>
+      <div class="reading-links"><a href="position-cache.html#rotary-position">RoPE 旋转与缓存位置核对</a><a href="data-tokenizer.html#mixture-optimization">长度与数据混合</a><a href="parallel-correctness.html">全局 token 与并行正确性</a><a href="model-evaluation.html#generalization">泛化判据</a></div>
+    </section>
+    </div>
+    <section class="section" aria-labelledby="analysis-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">07</span>
+          <h2 id="analysis-title">看到一篇架构论文，怎样判断它在证明什么？</h2>
+        </div>
+        <p class="section-note">先检查控制变量，再看机制是否解释结果。</p>
+      </div>
+
+      <div class="ablation-checklist">
+        <div><span>同一参数/激活预算？</span><p>MoE 的“更大”可能是总参数，也可能只是训练 compute；要区分。</p></div>
+        <div><span>同一训练 token？</span><p>多训练本身就能提升质量，与结构改良混在一起。</p></div>
+        <div><span>同一数据和 tokenizer？</span><p>词表变化会改变有效序列长度和 bits/byte。</p></div>
+        <div><span>同一推理协议？</span><p>batch、context、precision、decoding 参数不同，延迟与质量不可直接比。</p></div>
+        <div><span>有消融还是只有总表？</span><p>一次换多个部件时，无法归因到具体设计。</p></div>
+        <div><span>机制和指标一致吗？</span><p>声称省 KV，就应报告缓存、带宽和长上下文回归；不能只报训练 loss。</p></div>
+      </div>
+
+      <div class="closing-links">
+        <a class="button button-primary" href="transformer-lab.html">回架构总览</a>
+        <a class="button" href="inference-engine.html">回 KV / prefill</a>
+        <a class="button" href="transformer-anatomy.html">回权重公式</a>
+      </div>
+    </section>

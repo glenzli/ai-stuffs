@@ -1,0 +1,235 @@
+/* Model artifacts */
+.artifact-browser {
+  display: grid;
+  grid-template-columns: minmax(270px, 0.6fr) minmax(0, 1.4fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.artifact-tree {
+  padding: 14px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.artifact-tree button {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  padding: 9px 8px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  text-align: left;
+}
+
+.artifact-tree button:hover {
+  background: var(--bg);
+}
+
+.artifact-tree button[aria-pressed="true"] {
+  background: var(--accent-soft);
+}
+
+.artifact-tree code {
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-size: 9px;
+}
+
+.artifact-tree span {
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.artifact-detail {
+  min-width: 0;
+  padding: 23px;
+  background: var(--surface-strong);
+}
+
+.artifact-detail h3 {
+  margin: 7px 0 9px;
+  font-family: var(--serif);
+  font-size: 27px;
+  font-weight: 500;
+}
+
+.artifact-detail > p:not(.micro-label) {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 11px;
+}
+
+.artifact-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 17px;
+  background: var(--line);
+}
+
+.artifact-facts div {
+  padding: 10px;
+  background: var(--surface);
+}
+
+.artifact-facts span {
+  color: var(--ink-faint);
+  font-size: 7px;
+}
+
+.artifact-facts p {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  font-size: 8px;
+}
+
+.artifact-snippet {
+  margin-top: 16px;
+}
+
+.artifact-snippet pre {
+  max-width: 100%;
+  margin: 0;
+  padding: 13px;
+  overflow-x: auto;
+  color: var(--code-ink);
+  background: var(--code-bg);
+  border-radius: 5px;
+  font-size: 9px;
+  line-height: 1.7;
+}
+
+.config-field-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.config-field-grid > div {
+  min-width: 0;
+  padding: 17px;
+  background: var(--bg);
+}
+
+.config-field-grid code {
+  display: block;
+  color: var(--accent);
+  font-size: 9px;
+}
+
+.config-field-grid strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+}
+
+.config-field-grid p {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.resume-vs-deploy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+}
+
+.resume-vs-deploy article {
+  padding: 21px;
+  background: var(--surface);
+  border-top: 2px solid var(--line-strong);
+}
+
+.resume-vs-deploy article > span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.resume-vs-deploy h3 {
+  margin: 10px 0;
+  font-family: var(--serif);
+  font-size: 23px;
+  font-weight: 500;
+}
+
+.resume-vs-deploy ul {
+  margin: 0;
+  padding-left: 17px;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.resume-vs-deploy li + li {
+  margin-top: 5px;
+}
+
+.provenance-flow {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.provenance-flow > div {
+  min-width: 0;
+  padding: 17px;
+  border-right: 1px solid var(--line);
+}
+
+.provenance-flow > div:last-child {
+  border-right: 0;
+}
+
+.provenance-flow span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.provenance-flow strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 9px;
+}
+
+.provenance-flow p {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  font-size: 8px;
+}
+
+.config-field-grid code,
+.provenance-flow strong { overflow-wrap: anywhere; }
+@media (max-width: 1120px) {
+  .artifact-browser { grid-template-columns: minmax(0, 1fr); }
+  .artifact-tree { border-right: 0; border-bottom: 1px solid var(--line); }
+  .config-field-grid,
+  .provenance-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .artifact-detail { padding: 16px; }
+  .artifact-facts,
+  .resume-vs-deploy { grid-template-columns: minmax(0, 1fr); }
+  .config-field-grid { grid-template-columns: minmax(0, 1fr); }
+  .artifact-tree code { font-size: 12px; }
+  .artifact-tree button { min-height: 44px; }
+  .artifact-detail h3 { font: 600 22px/1.5 var(--sans); }
+  .artifact-detail > p:not(.micro-label),
+  .artifact-facts p,
+  .config-field-grid p,
+  .provenance-flow p,
+  .resume-vs-deploy ul { font-size: 13px; }
+  .artifact-snippet pre { font-size: 11px; }
+}

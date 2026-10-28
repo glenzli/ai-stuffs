@@ -1,0 +1,12 @@
+{
+  "raised": false,
+  "error": null,
+  "warnings": [
+    "Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging."
+  ],
+  "stderr": "",
+  "phase": "pre-update-forward-and-backward",
+  "optimizer_update_executed": false,
+  "next_forward_executed": false,
+  "scope": "separate pre-update backward debugger; does not test label semantics"
+}

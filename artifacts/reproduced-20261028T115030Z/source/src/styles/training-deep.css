@@ -1,0 +1,689 @@
+/* Training deep dive */
+.embedding-row-lab {
+  display: grid;
+  grid-template-columns: minmax(235px, 0.58fr) minmax(0, 1.42fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.row-lab-controls {
+  padding: 23px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.row-case-buttons {
+  display: grid;
+  gap: 3px;
+  margin-top: 13px;
+}
+
+.row-case-buttons button {
+  min-height: 40px;
+  padding: 8px 10px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  border-left: 2px solid var(--line);
+  cursor: pointer;
+  font-size: 11px;
+  text-align: left;
+}
+
+.row-case-buttons button:hover {
+  color: var(--ink);
+  background: var(--bg);
+}
+
+.row-case-buttons button[aria-pressed="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+
+.tie-switch {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.tie-switch strong,
+.tie-switch small {
+  display: block;
+}
+
+.tie-switch strong {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.tie-switch small {
+  margin-top: 2px;
+  color: var(--ink-faint);
+  font-size: 9px;
+}
+
+.tie-switch input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+}
+
+.row-lab-main {
+  min-width: 0;
+  padding: 23px;
+  background: var(--surface-strong);
+}
+
+.row-lab-head {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.row-lab-head h3 {
+  margin: 5px 0 0;
+  font-family: var(--serif);
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.row-lab-head > code {
+  max-width: 42%;
+  padding: 7px 9px;
+  overflow-wrap: anywhere;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 4px;
+  font-size: 9px;
+  text-align: right;
+}
+
+.token-row-table {
+  border-top: 1px solid var(--line-strong);
+}
+
+.token-row {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.9fr) minmax(100px, 0.75fr) minmax(95px, 0.8fr) 70px 70px;
+  gap: 9px;
+  align-items: center;
+  padding: 9px 6px;
+  border-bottom: 1px solid var(--line);
+  font-size: 10px;
+}
+
+.token-row > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.token-row-header {
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.row-state {
+  padding: 3px 5px;
+  color: var(--ink-faint);
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 8px;
+  text-align: center;
+}
+
+.row-state.is-update {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.row-state.is-frozen {
+  color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.row-state.is-zero {
+  color: var(--ink-faint);
+  background: var(--bg);
+}
+
+.row-lab-copy {
+  margin: 15px 0 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.formula-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 22px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.formula-panel > div {
+  min-width: 0;
+  padding: 18px;
+  border-right: 1px solid var(--line);
+}
+
+.formula-panel > div:last-child {
+  border-right: 0;
+}
+
+.formula-panel code {
+  display: block;
+  margin: 6px 0;
+  overflow-wrap: anywhere;
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.formula-panel p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.loss-math-lab {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.62fr) minmax(0, 1.38fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.loss-math-controls {
+  padding: 23px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.objective-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+
+.objective-tabs button {
+  min-height: 40px;
+  color: var(--ink-soft);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.objective-tabs button[aria-selected="true"] {
+  color: var(--surface-strong);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.objective-note {
+  margin-top: 19px;
+  padding: 13px;
+  background: var(--yellow-soft);
+  border-left: 2px solid var(--yellow);
+}
+
+.objective-note span {
+  color: var(--yellow);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.objective-note p {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.loss-math-visual {
+  min-width: 0;
+  padding: 23px;
+  background: var(--surface-strong);
+}
+
+.math-readouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.math-readouts div {
+  min-width: 0;
+  padding: 11px;
+  border-right: 1px solid var(--line);
+}
+
+.math-readouts div:nth-child(even) { border-right: 0; }
+.math-readouts div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+
+.math-readouts div:last-child {
+  border-right: 0;
+}
+
+.math-readouts span {
+  display: block;
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.math-readouts strong {
+  display: block;
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.candidate-chart {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  align-items: end;
+  height: 145px;
+  margin-top: 18px;
+  padding: 8px 10px 0;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.candidate-column {
+  display: grid;
+  grid-template-rows: 18px minmax(0, 1fr);
+  height: 100%;
+  align-items: end;
+}
+
+.candidate-column span {
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 8px;
+  text-align: center;
+}
+
+.candidate-column i {
+  display: block;
+  width: 100%;
+  min-height: 3px;
+  background: var(--blue);
+  opacity: 0.7;
+}
+
+.candidate-column.is-positive i {
+  background: var(--accent);
+  opacity: 1;
+}
+
+.candidate-labels {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding: 5px 10px 0;
+  color: var(--ink-faint);
+  font-size: 8px;
+  text-align: center;
+}
+
+.gradient-readout {
+  display: grid;
+  grid-template-columns: 75px minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+  padding: 9px;
+  background: var(--bg);
+}
+
+.gradient-readout > span {
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.gradient-readout code {
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-size: 9px;
+}
+
+.math-explanation {
+  margin: 11px 0 0;
+  color: var(--ink-soft);
+  font-size: 11px;
+}
+
+.math-principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.math-principles article {
+  padding: 19px;
+  background: var(--surface);
+  border-top: 2px solid var(--line-strong);
+}
+
+.math-principles h3 {
+  margin: 10px 0 6px;
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 500;
+}
+
+.math-principles p {
+  margin: 0 0 11px;
+  color: var(--ink-soft);
+  font-size: 11px;
+}
+
+.math-principles code {
+  color: var(--accent);
+  font-size: 10px;
+}
+
+.derivation-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.derivation-step {
+  min-width: 0;
+  padding: 20px;
+  border-right: 1px solid var(--line);
+}
+
+.derivation-step:last-child {
+  border-right: 0;
+}
+
+.derivation-step > span {
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.derivation-step code {
+  display: block;
+  margin: 9px 0;
+  overflow-wrap: anywhere;
+  color: var(--accent);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.derivation-step p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.tie-board {
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.tie-diagram {
+  display: grid;
+  grid-template-columns: minmax(78px, 0.8fr) auto minmax(70px, 0.65fr) auto minmax(130px, 1.15fr) auto minmax(70px, 0.65fr) auto minmax(82px, 0.85fr);
+  gap: 10px;
+  align-items: center;
+  padding: 24px 15px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tie-diagram > i {
+  color: var(--ink-faint);
+  font-style: normal;
+}
+
+.tie-variable,
+.tie-matrix,
+.tie-block {
+  min-width: 0;
+  padding: 10px;
+  background: var(--surface);
+  border-top: 2px solid var(--line-strong);
+}
+
+.tie-variable span,
+.tie-variable code,
+.tie-matrix strong,
+.tie-matrix span,
+.tie-matrix small,
+.tie-block strong,
+.tie-block span {
+  display: block;
+}
+
+.tie-variable span,
+.tie-matrix span,
+.tie-matrix small,
+.tie-block span {
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.tie-variable code,
+.tie-matrix strong,
+.tie-block strong {
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.tie-matrix.is-teal {
+  border-top-color: var(--accent);
+}
+
+.tie-matrix.is-blue {
+  border-top-color: var(--blue);
+}
+
+.detail-checklist {
+  border-top: 1px solid var(--line-strong);
+}
+
+.detail-checklist details {
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-checklist summary {
+  padding: 16px 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.detail-checklist details p {
+  max-width: 1000px;
+  margin: 0;
+  padding: 0 8px 18px 22px;
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+@media (max-width: 1120px) {
+  .embedding-row-lab,
+  .loss-math-lab {
+    grid-template-columns: 1fr;
+  }
+
+  .row-lab-controls,
+  .loss-math-controls {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .row-case-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .derivation-board {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .derivation-step:nth-child(2) {
+    border-right: 0;
+  }
+
+  .derivation-step:nth-child(-n+2) {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tie-diagram {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .layer-row {
+    grid-template-columns: 100px minmax(0, 1fr);
+  }
+
+  .layer-use {
+    grid-column: 2;
+    padding-top: 10px;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .tie-diagram > i {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .deep-route-list > a {
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 12px;
+    padding: 20px 0;
+  }
+
+  .deep-route-list h3 {
+    font-size: 22px;
+  }
+
+  .deep-route-arrow {
+    display: none;
+  }
+
+  .layer-row {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    padding: 19px 0;
+  }
+
+  .layer-use {
+    grid-column: auto;
+  }
+
+  .layer-row h3 {
+    font-size: 21px;
+  }
+
+  .row-lab-controls,
+  .row-lab-main,
+  .loss-math-controls,
+  .loss-math-visual {
+    padding: 17px 13px;
+  }
+
+  .row-lab-head {
+    display: block;
+  }
+
+  .row-lab-head > code {
+    display: inline-block;
+    max-width: 100%;
+    margin-top: 10px;
+    text-align: left;
+  }
+
+  .token-row {
+    grid-template-columns: minmax(85px, 1.2fr) minmax(70px, 0.9fr) 54px 54px;
+    gap: 6px;
+  }
+
+  .token-row > span:nth-child(3) {
+    display: none;
+  }
+
+  .formula-panel,
+  .math-principles {
+    grid-template-columns: 1fr;
+  }
+
+  .formula-panel > div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .formula-panel > div:last-child {
+    border-bottom: 0;
+  }
+
+  .math-readouts {
+    grid-template-columns: 1fr;
+  }
+
+  .math-readouts div {
+    display: flex;
+    justify-content: space-between;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .math-readouts div:last-child {
+    border-bottom: 0;
+  }
+
+  .math-readouts strong {
+    font-size: 21px;
+  }
+
+  .candidate-chart {
+    height: 120px;
+  }
+
+  .derivation-board {
+    grid-template-columns: 1fr;
+  }
+
+  .derivation-step {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .derivation-step:last-child {
+    border-bottom: 0;
+  }
+
+  .tie-diagram {
+    grid-template-columns: 1fr;
+  }
+
+  .deep-table {
+    min-width: 650px;
+  }
+
+  .tie-board {
+    overflow-x: auto;
+  }
+}

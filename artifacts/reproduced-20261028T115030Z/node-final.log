@@ -1,0 +1,2428 @@
+TAP version 13
+# Subtest: all block weights and input gradients match finite differences for all targets
+ok 1 - all block weights and input gradients match finite differences for all targets
+  ---
+  duration_ms: 19.672958
+  type: 'test'
+  ...
+# Subtest: causal attention excludes future values and unsupervised logits have zero gradient
+ok 2 - causal attention excludes future values and unsupervised logits have zero gradient
+  ---
+  duration_ms: 0.6035
+  type: 'test'
+  ...
+# Subtest: changing a future input leaves earlier hidden output unchanged
+ok 3 - changing a future input leaves earlier hidden output unchanged
+  ---
+  duration_ms: 0.190208
+  type: 'test'
+  ...
+# Subtest: small gradient step lowers the supervised loss
+ok 4 - small gradient step lowers the supervised loss
+  ---
+  duration_ms: 0.188792
+  type: 'test'
+  ...
+# Subtest: parameters are isolated and invalid finite difference selections fail
+ok 5 - parameters are isolated and invalid finite difference selections fail
+  ---
+  duration_ms: 0.218334
+  type: 'test'
+  ...
+# Subtest: all 360 exact fixtures independently match dense loss/dH/dW/db
+ok 6 - all 360 exact fixtures independently match dense loss/dH/dW/db
+  ---
+  duration_ms: 39.779333
+  type: 'test'
+  ...
+# Subtest: all H/W/b coordinates match central differences with negative nonunit upstream
+ok 7 - all H/W/b coordinates match central differences with negative nonunit upstream
+  ---
+  duration_ms: 6.084
+  type: 'test'
+  ...
+# Subtest: mask and ignored rows have zero dH and one global valid-position denominator
+ok 8 - mask and ignored rows have zero dH and one global valid-position denominator
+  ---
+  duration_ms: 0.841417
+  type: 'test'
+  ...
+# Subtest: empty labels/mask/N return explicit zero sentinel without pretending a defined mean
+ok 9 - empty labels/mask/N return explicit zero sentinel without pretending a defined mean
+  ---
+  duration_ms: 0.191459
+  type: 'test'
+  ...
+# Subtest: upstream scales gradients alone, with unit/nonunit/negative/zero cases
+ok 10 - upstream scales gradients alone, with unit/nonunit/negative/zero cases
+  ---
+  duration_ms: 0.490292
+  type: 'test'
+  ...
+# Subtest: large score shifts remain stable and probabilities keep one global mass
+ok 11 - large score shifts remain stable and probabilities keep one global mass
+  ---
+  duration_ms: 0.688875
+  type: 'test'
+  ...
+# Subtest: target captured correctly in every vocab block including final tail
+ok 12 - target captured correctly in every vocab block including final tail
+  ---
+  duration_ms: 13.464166
+  type: 'test'
+  ...
+# Subtest: forward running statistics and tail shapes agree with dense prefixes
+ok 13 - forward running statistics and tail shapes agree with dense prefixes
+  ---
+  duration_ms: 0.3315
+  type: 'test'
+  ...
+# Subtest: UI backward snapshots match final results; snapshots are explicitly excluded
+ok 14 - UI backward snapshots match final results; snapshots are explicitly excluded
+  ---
+  duration_ms: 0.245542
+  type: 'test'
+  ...
+# Subtest: local normalization and overwritten dH produce distinct gradient failures
+ok 15 - local normalization and overwritten dH produce distinct gradient failures
+  ---
+  duration_ms: 0.681167
+  type: 'test'
+  ...
+# Subtest: logical categories distinguish sub-full blocks from full-sized edge choice
+ok 16 - logical categories distinguish sub-full blocks from full-sized edge choice
+  ---
+  duration_ms: 0.198875
+  type: 'test'
+  ...
+# Subtest: reject invalid shapes, finite values, labels, masks and options
+ok 17 - reject invalid shapes, finite values, labels, masks and options
+  ---
+  duration_ms: 0.576292
+  type: 'test'
+  ...
+# Subtest: default snapshot is provenance extracted from an actual saved run
+ok 18 - default snapshot is provenance extracted from an actual saved run
+  ---
+  duration_ms: 18.757417
+  type: 'test'
+  ...
+# Subtest: report validator rejects inconsistent samples, bounds, shapes and storage
+ok 19 - report validator rejects inconsistent samples, bounds, shapes and storage
+  ---
+  duration_ms: 1.431083
+  type: 'test'
+  ...
+# Subtest: report table safely escapes text and filters incomparable shapes
+ok 20 - report table safely escapes text and filters incomparable shapes
+  ---
+  duration_ms: 12.601583
+  type: 'test'
+  ...
+# Subtest: async import race keeps newest file and cancellation discards old pending file
+ok 21 - async import race keeps newest file and cancellation discards old pending file
+  ---
+  duration_ms: 0.521667
+  type: 'test'
+  ...
+# Subtest: bad/oversize/cancelled imports clear results and can recover
+ok 22 - bad/oversize/cancelled imports clear results and can recover
+  ---
+  duration_ms: 0.256875
+  type: 'test'
+  ...
+# Subtest: page TeX/structure/labels/anchors and CSS follow existing conventions
+ok 23 - page TeX/structure/labels/anchors and CSS follow existing conventions
+  ---
+  duration_ms: 74.464542
+  type: 'test'
+  ...
+# Subtest: feature initialization is inert when the page is absent
+ok 24 - feature initialization is inert when the page is absent
+  ---
+  duration_ms: 0.374
+  type: 'test'
+  ...
+# Subtest: rotary norm, inverse and relative dot identity hold for both frequencies
+ok 25 - rotary norm, inverse and relative dot identity hold for both frequencies
+  ---
+  duration_ms: 2.317
+  type: 'test'
+  ...
+# Subtest: full and incremental logits match across prefix, suffix chunk, padding and frequency settings
+ok 26 - full and incremental logits match across prefix, suffix chunk, padding and frequency settings
+  ---
+  duration_ms: 15.025166
+  type: 'test'
+  ...
+# Subtest: wrong positions, double rotation and local masks expose actual numeric differences
+ok 27 - wrong positions, double rotation and local masks expose actual numeric differences
+  ---
+  duration_ms: 1.156833
+  type: 'test'
+  ...
+# Subtest: cache logits agree with an independently assembled dense causal attention calculation
+ok 28 - cache logits agree with an independently assembled dense causal attention calculation
+  ---
+  duration_ms: 0.591167
+  type: 'test'
+  ...
+# Subtest: invalid position/cache contracts are rejected
+ok 29 - invalid position/cache contracts are rejected
+  ---
+  duration_ms: 0.354333
+  type: 'test'
+  ...
+# Subtest: unscale-before-clip preserves the declared clipping threshold
+ok 30 - unscale-before-clip preserves the declared clipping threshold
+  ---
+  duration_ms: 0.526875
+  type: 'test'
+  ...
+# Subtest: changing scale during accumulation weights earlier gradients incorrectly
+ok 31 - changing scale during accumulation weights earlier gradients incorrectly
+  ---
+  duration_ms: 0.10125
+  type: 'test'
+  ...
+# Subtest: overflow skips parameters and schedule while adjusting only the next scale
+ok 32 - overflow skips parameters and schedule while adjusting only the next scale
+  ---
+  duration_ms: 0.279542
+  type: 'test'
+  ...
+# Subtest: scaling rescues tiny FP16 contributions but FP32 parameter updates may still round away
+ok 33 - scaling rescues tiny FP16 contributions but FP32 parameter updates may still round away
+  ---
+  duration_ms: 0.229542
+  type: 'test'
+  ...
+# Subtest: first CPU training step follows the block gradients and AdamW equation
+ok 34 - first CPU training step follows the block gradients and AdamW equation
+  ---
+  duration_ms: 1.49675
+  type: 'test'
+  ...
+# Subtest: training input perturbation still admits independent finite-difference gradients
+ok 35 - training input perturbation still admits independent finite-difference gradients
+  ---
+  duration_ms: 1.01
+  type: 'test'
+  ...
+# Subtest: serialized complete checkpoints exactly reproduce uninterrupted trajectories
+ok 36 - serialized complete checkpoints exactly reproduce uninterrupted trajectories
+  ---
+  duration_ms: 30.468833
+  type: 'test'
+  ...
+# Subtest: omitted state has distinct observable effects after restoration
+ok 37 - omitted state has distinct observable effects after restoration
+  ---
+  duration_ms: 36.615125
+  type: 'test'
+  ...
+# Subtest: checkpoint validation rejects mismatched shape, schema and nonfinite state
+ok 38 - checkpoint validation rejects mismatched shape, schema and nonfinite state
+  ---
+  duration_ms: 0.398666
+  type: 'test'
+  ...
+# Subtest: FSDP execution policies reconstruct the same gradients and optimizer update
+ok 39 - FSDP execution policies reconstruct the same gradients and optimizer update
+  ---
+  duration_ms: 7.113958
+  type: 'test'
+  ...
+# Subtest: FSDP averaged gradients match finite differences of global mean loss
+ok 40 - FSDP averaged gradients match finite differences of global mean loss
+  ---
+  duration_ms: 0.458125
+  type: 'test'
+  ...
+# Subtest: MoE dispatch/combine conserves kept branches and original token identity
+ok 41 - MoE dispatch/combine conserves kept branches and original token identity
+  ---
+  duration_ms: 1.195334
+  type: 'test'
+  ...
+# Subtest: MoE input and expert gradients agree with finite differences including capacity drops
+ok 42 - MoE input and expert gradients agree with finite differences including capacity drops
+  ---
+  duration_ms: 6.978208
+  type: 'test'
+  ...
+# Subtest: speculative mass restores each target distribution including zeros and disjoint support
+ok 43 - speculative mass restores each target distribution including zeros and disjoint support
+  ---
+  duration_ms: 1.134708
+  type: 'test'
+  ...
+# Subtest: sampling exercises accepted and rejected branches without selecting zero-probability tokens
+ok 44 - sampling exercises accepted and rejected branches without selecting zero-probability tokens
+  ---
+  duration_ms: 0.204166
+  type: 'test'
+  ...
+# Subtest: a two-draft round stops at the first rejection or emits an extra target token
+ok 45 - a two-draft round stops at the first rejection or emits an extra target token
+  ---
+  duration_ms: 0.175834
+  type: 'test'
+  ...
+# Subtest: position controls update logits, mask and invalid-row display
+ok 46 - position controls update logits, mask and invalid-row display
+  ---
+  duration_ms: 22.847458
+  type: 'test'
+  ...
+# Subtest: AMP UI reports skipped updates and wrong-order gradients
+ok 47 - AMP UI reports skipped updates and wrong-order gradients
+  ---
+  duration_ms: 6.838
+  type: 'test'
+  ...
+# Subtest: recovery UI changes actual trajectory evidence
+ok 48 - recovery UI changes actual trajectory evidence
+  ---
+  duration_ms: 17.105333
+  type: 'test'
+  ...
+# Subtest: FSDP UI steps through state without showing future peak as current
+ok 49 - FSDP UI steps through state without showing future peak as current
+  ---
+  duration_ms: 7.681709
+  type: 'test'
+  ...
+# Subtest: MoE UI updates capacity counts and output rows
+ok 50 - MoE UI updates capacity counts and output rows
+  ---
+  duration_ms: 4.660333
+  type: 'test'
+  ...
+# Subtest: speculative UI separates mass calculation from a single trial
+ok 51 - speculative UI separates mass calculation from a single trial
+  ---
+  duration_ms: 8.209417
+  type: 'test'
+  ...
+# Subtest: built feature dependency imports resolve to hashed assets
+ok 52 - built feature dependency imports resolve to hashed assets
+  ---
+  duration_ms: 138.644
+  type: 'test'
+  ...
+# Subtest: generated pages preserve local links, anchor targets and labelled headings
+ok 53 - generated pages preserve local links, anchor targets and labelled headings
+  ---
+  duration_ms: 2116.393625
+  type: 'test'
+  ...
+# Subtest: InfoNCE and SGNS raw-score gradients match finite differences
+ok 54 - InfoNCE and SGNS raw-score gradients match finite differences
+  ---
+  duration_ms: 1.515167
+  type: 'test'
+  ...
+# Subtest: temperature can saturate correct predictions and amplify incorrect ones
+ok 55 - temperature can saturate correct predictions and amplify incorrect ones
+  ---
+  duration_ms: 0.12325
+  type: 'test'
+  ...
+# Subtest: DPO derivative is with respect to reference-corrected delta
+ok 56 - DPO derivative is with respect to reference-corrected delta
+  ---
+  duration_ms: 0.182875
+  type: 'test'
+  ...
+# Subtest: sampled output is one position ahead of cached generated input
+ok 57 - sampled output is one position ahead of cached generated input
+  ---
+  duration_ms: 0.482541
+  type: 'test'
+  ...
+# Subtest: clean simulator negatives never include another valid same-class document
+ok 58 - clean simulator negatives never include another valid same-class document
+  ---
+  duration_ms: 0.142833
+  type: 'test'
+  ...
+# Subtest: every page has explicit scope and valid primary-source metadata
+ok 59 - every page has explicit scope and valid primary-source metadata
+  ---
+  duration_ms: 0.578541
+  type: 'test'
+  ...
+# Subtest: candidate coverage does not equal final selection; single candidate ignores selector
+ok 60 - candidate coverage does not equal final selection; single candidate ignores selector
+  ---
+  duration_ms: 0.128166
+  type: 'test'
+  ...
+# Subtest: vision budget scales with area, merge and frames
+ok 61 - vision budget scales with area, merge and frames
+  ---
+  duration_ms: 0.090583
+  type: 'test'
+  ...
+# Subtest: soft labels remain normalized and higher temperature softens fixed logits
+ok 62 - soft labels remain normalized and higher temperature softens fixed logits
+  ---
+  duration_ms: 0.20075
+  type: 'test'
+  ...
+# Subtest: symmetric quantization respects range, reconstructs extrema and handles zero
+ok 63 - symmetric quantization respects range, reconstructs extrema and handles zero
+  ---
+  duration_ms: 0.215458
+  type: 'test'
+  ...
+# Subtest: curation records independent score, duplicate and contamination decisions
+ok 64 - curation records independent score, duplicate and contamination decisions
+  ---
+  duration_ms: 0.133042
+  type: 'test'
+  ...
+# Subtest: knowledge library contains each page exactly once
+ok 65 - knowledge library contains each page exactly once
+  ---
+  duration_ms: 0.131125
+  type: 'test'
+  ...
+# Subtest: optimizer ledger separates task update, historical state and decoupled decay
+ok 66 - optimizer ledger separates task update, historical state and decoupled decay
+  ---
+  duration_ms: 1.399375
+  type: 'test'
+  ...
+# Subtest: global token gradient matches finite differences for every UI count including empty ranks
+ok 67 - global token gradient matches finite differences for every UI count including empty ranks
+  ---
+  duration_ms: 1.047708
+  type: 'test'
+  ...
+# Subtest: GEMM roofline obeys work/traffic units and compute/bandwidth bounds
+ok 68 - GEMM roofline obeys work/traffic units and compute/bandwidth bounds
+  ---
+  duration_ms: 0.366291
+  type: 'test'
+  ...
+# Subtest: diagnostic cases provide distinct evidence and real follow-up topics
+ok 69 - diagnostic cases provide distinct evidence and real follow-up topics
+  ---
+  duration_ms: 0.129041
+  type: 'test'
+  ...
+# Subtest: blocked storage leaves page initialization and theme controls usable
+ok 70 - blocked storage leaves page initialization and theme controls usable
+  ---
+  duration_ms: 2.389875
+  type: 'test'
+  ...
+# Subtest: a failed preference write still changes the visible theme and label
+ok 71 - a failed preference write still changes the visible theme and label
+  ---
+  duration_ms: 2.269458
+  type: 'test'
+  ...
+# Subtest: saved preferences override the OS and subsequent changes persist
+ok 72 - saved preferences override the OS and subsequent changes persist
+  ---
+  duration_ms: 1.039041
+  type: 'test'
+  ...
+# Subtest: 默认采样保留填充读入，并区分两个阶段的丢弃
+ok 73 - 默认采样保留填充读入，并区分两个阶段的丢弃
+  ---
+  duration_ms: 2.028958
+  type: 'test'
+  ...
+# Subtest: 固定教学 LCG32 的 epoch 置换可重复
+ok 74 - 固定教学 LCG32 的 epoch 置换可重复
+  ---
+  duration_ms: 0.827167
+  type: 'test'
+  ...
+# Subtest: 47,616 种采样组合符合独立分配、批处理和读入计数
+ok 75 - 47,616 种采样组合符合独立分配、批处理和读入计数
+  ---
+  duration_ms: 1008.495083
+  type: 'test'
+  ...
+# Subtest: worker 分片覆盖每个索引一次；未分片每个 worker 读取全部索引
+ok 76 - worker 分片覆盖每个索引一次；未分片每个 worker 读取全部索引
+  ---
+  duration_ms: 45.311416
+  type: 'test'
+  ...
+# Subtest: 采样与 worker API 拒绝越界、非整数和非布尔参数
+ok 77 - 采样与 worker API 拒绝越界、非整数和非布尔参数
+  ---
+  duration_ms: 0.828375
+  type: 'test'
+  ...
+# Subtest: BPE 固定 12 轮合并、加权频次和最终切分
+ok 78 - BPE 固定 12 轮合并、加权频次和最终切分
+  ---
+  duration_ms: 2.495416
+  type: 'test'
+  ...
+# Subtest: 每轮 BPE 候选与独立滑窗计数一致，快照保留合并后的完整语料
+ok 79 - 每轮 BPE 候选与独立滑窗计数一致，快照保留合并后的完整语料
+  ---
+  duration_ms: 4.860083
+  type: 'test'
+  ...
+# Subtest: 编码按学得顺序合并所有不重叠位置，保留未见码点和边界
+ok 80 - 编码按学得顺序合并所有不重叠位置，保留未见码点和边界
+  ---
+  duration_ms: 4.532416
+  type: 'test'
+  ...
+# Subtest: BPE API 拒绝无效轮数和合并表
+ok 81 - BPE API 拒绝无效轮数和合并表
+  ---
+  duration_ms: 0.459875
+  type: 'test'
+  ...
+# Subtest: 无 DOM 或页面标记时两个初始化函数安全返回
+ok 82 - 无 DOM 或页面标记时两个初始化函数安全返回
+  ---
+  duration_ms: 2.790667
+  type: 'test'
+  ...
+# Subtest: 采样界面所有控件更新真实四列表格，worker 控件独立固定为 2 x 2
+ok 83 - 采样界面所有控件更新真实四列表格，worker 控件独立固定为 2 x 2
+  ---
+  duration_ms: 10.7615
+  type: 'test'
+  ...
+# Subtest: 采样界面无效输入清空结果，恢复后没有 NaN 或旧表格
+ok 84 - 采样界面无效输入清空结果，恢复后没有 NaN 或旧表格
+  ---
+  duration_ms: 0.889292
+  type: 'test'
+  ...
+# Subtest: BPE 界面显示四列合并快照和三列下一轮候选，并转义边界符
+ok 85 - BPE 界面显示四列合并快照和三列下一轮候选，并转义边界符
+  ---
+  duration_ms: 16.697709
+  type: 'test'
+  ...
+# Subtest: BPE 界面拒绝空值和越界，缺少可选输出仍可初始化
+ok 86 - BPE 界面拒绝空值和越界，缺少可选输出仍可初始化
+  ---
+  duration_ms: 0.65625
+  type: 'test'
+  ...
+# Subtest: 只有主输入而无可选节点时仍可渲染和监听
+ok 87 - 只有主输入而无可选节点时仍可渲染和监听
+  ---
+  duration_ms: 0.391834
+  type: 'test'
+  ...
+# Subtest: context partitions, block tails and all masks preserve full outputs and gradients
+ok 88 - context partitions, block tails and all masks preserve full outputs and gradients
+  ---
+  duration_ms: 13.435333
+  type: 'test'
+  ...
+# Subtest: context independently differentiated losses agree with finite differences
+ok 89 - context independently differentiated losses agree with finite differences
+  ---
+  duration_ms: 31.675916
+  type: 'test'
+  ...
+# Subtest: remote gradient loss keeps forward and dQ but removes a KV contribution
+ok 90 - remote gradient loss keeps forward and dQ but removes a KV contribution
+  ---
+  duration_ms: 0.335084
+  type: 'test'
+  ...
+# Subtest: context faults have declared masking and partition boundaries
+ok 91 - context faults have declared masking and partition boundaries
+  ---
+  duration_ms: 2.06275
+  type: 'test'
+  ...
+# Subtest: context communication accounts sent bytes once and handles no-peer case
+ok 92 - context communication accounts sent bytes once and handles no-peer case
+  ---
+  duration_ms: 0.565875
+  type: 'test'
+  ...
+# Subtest: policy full parameter gradients match finite differences away from clipping boundaries
+ok 93 - policy full parameter gradients match finite differences away from clipping boundaries
+  ---
+  duration_ms: 27.055458
+  type: 'test'
+  ...
+# Subtest: policy gradient includes exact KL and zero advantage still permits KL updates
+ok 94 - policy gradient includes exact KL and zero advantage still permits KL updates
+  ---
+  duration_ms: 0.381375
+  type: 'test'
+  ...
+# Subtest: policy displayed logits, reference distributions and upstream gradients use one calculation
+ok 95 - policy displayed logits, reference distributions and upstream gradients use one calculation
+  ---
+  duration_ms: 0.263
+  type: 'test'
+  ...
+# Subtest: policy prompt and padding are excluded, zero targets skip updates
+ok 96 - policy prompt and padding are excluded, zero targets skip updates
+  ---
+  duration_ms: 1.576042
+  type: 'test'
+  ...
+# Subtest: behavior policy remains fixed over reused rollout updates
+ok 97 - behavior policy remains fixed over reused rollout updates
+  ---
+  duration_ms: 4.497875
+  type: 'test'
+  ...
+# Subtest: policy clipping handles positive and negative advantages with finite gradients
+ok 98 - policy clipping handles positive and negative advantages with finite gradients
+  ---
+  duration_ms: 0.2445
+  type: 'test'
+  ...
+# Subtest: enumerated nine-trajectory policy gradient differentiates the complete expectation
+ok 99 - enumerated nine-trajectory policy gradient differentiates the complete expectation
+  ---
+  duration_ms: 0.359667
+  type: 'test'
+  ...
+# Subtest: integer quantization agrees with restored matmul for every declared scenario
+ok 100 - integer quantization agrees with restored matmul for every declared scenario
+  ---
+  duration_ms: 1.243833
+  type: 'test'
+  ...
+# Subtest: integer quantization separates approximation, zero-point, axis and bias faults
+ok 101 - integer quantization separates approximation, zero-point, axis and bias faults
+  ---
+  duration_ms: 0.937416
+  type: 'test'
+  ...
+# Subtest: rounding, zero tensors and weight-only recovery have explicit ranges
+ok 102 - rounding, zero tensors and weight-only recovery have explicit ranges
+  ---
+  duration_ms: 0.38475
+  type: 'test'
+  ...
+# Subtest: paired bootstrap is deterministic and keeps new and old scores coupled
+ok 103 - paired bootstrap is deterministic and keeps new and old scores coupled
+  ---
+  duration_ms: 8.798208
+  type: 'test'
+  ...
+# Subtest: cluster bootstrap retains unequal cluster sizes and exposes correlated uncertainty
+ok 104 - cluster bootstrap retains unequal cluster sizes and exposes correlated uncertainty
+  ---
+  duration_ms: 10.804458
+  type: 'test'
+  ...
+# Subtest: exact paired sign swapping reproduces tiny enumerable distributions
+ok 105 - exact paired sign swapping reproduces tiny enumerable distributions
+  ---
+  duration_ms: 0.478166
+  type: 'test'
+  ...
+# Subtest: paired input rejects invalid records and separates training seeds
+ok 106 - paired input rejects invalid records and separates training seeds
+  ---
+  duration_ms: 1.775084
+  type: 'test'
+  ...
+# Subtest: checkpoint selection keeps independent test noise separate
+ok 107 - checkpoint selection keeps independent test noise separate
+  ---
+  duration_ms: 35.939667
+  type: 'test'
+  ...
+# Subtest: all IVF lists recover Flat for all filters, queries and encoding versions
+ok 108 - all IVF lists recover Flat for all filters, queries and encoding versions
+  ---
+  duration_ms: 4.156583
+  type: 'test'
+  ...
+# Subtest: IVF candidate budgets and relevance denominators are independent
+ok 109 - IVF candidate budgets and relevance denominators are independent
+  ---
+  duration_ms: 0.174958
+  type: 'test'
+  ...
+# Subtest: same-dimensional stale query encoding can pass ANN recall while failing its contract
+ok 110 - same-dimensional stale query encoding can pass ANN recall while failing its contract
+  ---
+  duration_ms: 0.139208
+  type: 'test'
+  ...
+# Subtest: IVF ties use deterministic IDs and empty ranges have undefined recall
+ok 111 - IVF ties use deterministic IDs and empty ranges have undefined recall
+  ---
+  duration_ms: 8.009166
+  type: 'test'
+  ...
+# Subtest: five new pages expose initialized controls and declared local lab entry
+ok 112 - five new pages expose initialized controls and declared local lab entry
+  ---
+  duration_ms: 59.419833
+  type: 'test'
+  ...
+# Subtest: 固定 token、logits 与返回字段明确且每次独立
+ok 113 - 固定 token、logits 与返回字段明确且每次独立
+  ---
+  duration_ms: 1.451208
+  type: 'test'
+  ...
+# Subtest: 全部温度、top-k、top-p 滑块组合与语法下拉状态保持归一化
+ok 114 - 全部温度、top-k、top-p 滑块组合与语法下拉状态保持归一化
+  ---
+  duration_ms: 1719.803042
+  type: 'test'
+  ...
+# Subtest: 温度缩放保持排序，升温降低最大概率并提高熵
+ok 115 - 温度缩放保持排序，升温降低最大概率并提高熵
+  ---
+  duration_ms: 2.55025
+  type: 'test'
+  ...
+# Subtest: top-k 先重归一化，top-p 在精确等号处停止且取最小累计前缀
+ok 116 - top-k 先重归一化，top-p 在精确等号处停止且取最小累计前缀
+  ---
+  duration_ms: 5.853166
+  type: 'test'
+  ...
+# Subtest: 语法在截断前屏蔽，字符拼接只能保留两个固定合法字符串的前缀
+ok 117 - 语法在截断前屏蔽，字符拼接只能保留两个固定合法字符串的前缀
+  ---
+  duration_ms: 2.974042
+  type: 'test'
+  ...
+# Subtest: 关闭语法时完全忽略前缀，开启时拒绝语言外前缀与非字符串
+ok 118 - 关闭语法时完全忽略前缀，开启时拒绝语言外前缀与非字符串
+  ---
+  duration_ms: 2.017917
+  type: 'test'
+  ...
+# Subtest: 逆累积分布采样使用原 token 顺序、左闭右开边界并排除零概率
+ok 119 - 逆累积分布采样使用原 token 顺序、左闭右开边界并排除零概率
+  ---
+  duration_ms: 1.273917
+  type: 'test'
+  ...
+# Subtest: 结构化采样能完成两个替代字符串，结束前后均通过 JSON.parse
+ok 120 - 结构化采样能完成两个替代字符串，结束前后均通过 JSON.parse
+  ---
+  duration_ms: 0.217292
+  type: 'test'
+  ...
+# Subtest: 解码参数拒绝越界、非有限数、错误类型和隐式转换
+ok 121 - 解码参数拒绝越界、非有限数、错误类型和隐式转换
+  ---
+  duration_ms: 0.442875
+  type: 'test'
+  ...
+# Subtest: 采样拒绝非法位置、无候选、未归一化分布和非法概率
+ok 122 - 采样拒绝非法位置、无候选、未归一化分布和非法概率
+  ---
+  duration_ms: 0.378042
+  type: 'test'
+  ...
+# Subtest: 束宽一为贪心 Ax，束宽二保留 B 并选中有限树最优 Bx
+ok 123 - 束宽一为贪心 Ax，束宽二保留 B 并选中有限树最优 Bx
+  ---
+  duration_ms: 0.437583
+  type: 'test'
+  ...
+# Subtest: 束搜索逐步累计对数概率并做全局截断，等长叶子无需长度归一化
+ok 124 - 束搜索逐步累计对数概率并做全局截断，等长叶子无需长度归一化
+  ---
+  duration_ms: 0.343583
+  type: 'test'
+  ...
+# Subtest: 主控件缺失时安全返回，解码与束搜索可以分别初始化
+ok 125 - 主控件缺失时安全返回，解码与束搜索可以分别初始化
+  ---
+  duration_ms: 0.56775
+  type: 'test'
+  ...
+# Subtest: 只有温度控件时使用默认值且输出可缺失
+ok 126 - 只有温度控件时使用默认值且输出可缺失
+  ---
+  duration_ms: 0.503875
+  type: 'test'
+  ...
+# Subtest: 只有束宽控件时也可渲染四列表格并响应选择
+ok 127 - 只有束宽控件时也可渲染四列表格并响应选择
+  ---
+  duration_ms: 3.882042
+  type: 'test'
+  ...
+# Subtest: 解码六列表格保留字面 token，所有控件更新中文状态且束搜索独立
+ok 128 - 解码六列表格保留字面 token，所有控件更新中文状态且束搜索独立
+  ---
+  duration_ms: 4.583292
+  type: 'test'
+  ...
+# Subtest: 两进程严格采用指定的列分片与行分片，重建全部输出和梯度
+ok 129 - 两进程严格采用指定的列分片与行分片，重建全部输出和梯度
+  ---
+  duration_ms: 1.68175
+  type: 'test'
+  ...
+# Subtest: 独立损失有限差分验证输入、两层权重及每个分片的真实梯度
+ok 130 - 独立损失有限差分验证输入、两层权重及每个分片的真实梯度
+  ---
+  duration_ms: 0.582917
+  type: 'test'
+  ...
+# Subtest: 四种集合通信显式保留输入和正确的输出分布
+ok 131 - 四种集合通信显式保留输入和正确的输出分布
+  ---
+  duration_ms: 0.423833
+  type: 'test'
+  ...
+# Subtest: 六层标量损失及全部梯度通过独立有限差分验证
+ok 132 - 六层标量损失及全部梯度通过独立有限差分验证
+  ---
+  duration_ms: 0.4075
+  type: 'test'
+  ...
+# Subtest: 所有分段大小与全部保留模式具有相同损失和梯度，完整重算恰好增加六次前向
+ok 133 - 所有分段大小与全部保留模式具有相同损失和梯度，完整重算恰好增加六次前向
+  ---
+  duration_ms: 1.140792
+  type: 'test'
+  ...
+# Subtest: 事件账本验证依赖、释放时机、边界复用和唯一逻辑激活峰值
+ok 134 - 事件账本验证依赖、释放时机、边界复用和唯一逻辑激活峰值
+  ---
+  duration_ms: 5.827167
+  type: 'test'
+  ...
+# Subtest: 瞬时分配计入峰值，检查点并不保证降低逻辑激活峰值
+ok 135 - 瞬时分配计入峰值，检查点并不保证降低逻辑激活峰值
+  ---
+  duration_ms: 0.3285
+  type: 'test'
+  ...
+# Subtest: 激活轨迹拒绝无效模式和分段大小
+ok 136 - 激活轨迹拒绝无效模式和分段大小
+  ---
+  duration_ms: 4.091792
+  type: 'test'
+  ...
+# Subtest: 页面标记缺失时初始化函数安全返回
+ok 137 - 页面标记缺失时初始化函数安全返回
+  ---
+  duration_ms: 7.349833
+  type: 'test'
+  ...
+# Subtest: 分布式界面在前向和反向之间更新四列表格与完整结果
+ok 138 - 分布式界面在前向和反向之间更新四列表格与完整结果
+  ---
+  duration_ms: 15.925208
+  type: 'test'
+  ...
+# Subtest: 集合通信选择器渲染三列真实输入和输出
+ok 139 - 集合通信选择器渲染三列真实输入和输出
+  ---
+  duration_ms: 1.0305
+  type: 'test'
+  ...
+# Subtest: 激活界面从零步开始，逐事件更新计数并正确结束和复位
+ok 140 - 激活界面从零步开始，逐事件更新计数并正确结束和复位
+  ---
+  duration_ms: 33.84075
+  type: 'test'
+  ...
+# Subtest: 模式和分段选择均重置进度，所有界面分段达到同一最终损失和梯度
+ok 141 - 模式和分段选择均重置进度，所有界面分段达到同一最终损失和梯度
+  ---
+  duration_ms: 5.07
+  type: 'test'
+  ...
+# Subtest: each check has one correct option and a local exploration route
+ok 142 - each check has one correct option and a local exploration route
+  ---
+  duration_ms: 0.728042
+  type: 'test'
+  ...
+# Subtest: answers match the stated integer accounting
+ok 143 - answers match the stated integer accounting
+  ---
+  duration_ms: 0.104667
+  type: 'test'
+  ...
+# Subtest: invalid question and answer fail explicitly
+ok 144 - invalid question and answer fail explicitly
+  ---
+  duration_ms: 0.162083
+  type: 'test'
+  ...
+# Subtest: all five page snapshots are faithful projections of their pinned complete reports
+ok 145 - all five page snapshots are faithful projections of their pinned complete reports
+  ---
+  duration_ms: 33.0655
+  type: 'test'
+  ...
+# Subtest: modified measurements cannot satisfy the projection contract
+ok 146 - modified measurements cannot satisfy the projection contract
+  ---
+  duration_ms: 1.865958
+  type: 'test'
+  ...
+# Subtest: missing files, changed hashes and wrong page ownership reject the build inputs
+ok 147 - missing files, changed hashes and wrong page ownership reject the build inputs
+  ---
+  duration_ms: 42.822791
+  type: 'test'
+  ...
+# Subtest: raw artifact checksum lists still match every saved file
+ok 148 - raw artifact checksum lists still match every saved file
+  ---
+  duration_ms: 766.956959
+  type: 'test'
+  ...
+# Subtest: download archives unpack into fully checksummed raw runs and run-time source
+ok 149 - download archives unpack into fully checksummed raw runs and run-time source
+  ---
+  duration_ms: 3165.272667
+  type: 'test'
+  ...
+# Subtest: built pages expose byte-identical full reports, source archives and checksums
+ok 150 - built pages expose byte-identical full reports, source archives and checksums
+  ---
+  duration_ms: 118.004417
+  type: 'test'
+  ...
+# Subtest: learning prose is generated from this report's capability results
+ok 151 - learning prose is generated from this report's capability results
+  ---
+  duration_ms: 13.246333
+  type: 'test'
+  ...
+# Subtest: default is a compact projection of the saved 115-check actual report
+ok 152 - default is a compact projection of the saved 115-check actual report
+  ---
+  duration_ms: 34.322
+  type: 'test'
+  ...
+# Subtest: actual overflow, finite LR fault and symbol label rotation retain accurate evidence
+ok 153 - actual overflow, finite LR fault and symbol label rotation retain accurate evidence
+  ---
+  duration_ms: 0.35225
+  type: 'test'
+  ...
+# Subtest: all repaired and normal-control tensor/state proofs match actual report
+ok 154 - all repaired and normal-control tensor/state proofs match actual report
+  ---
+  duration_ms: 0.092667
+  type: 'test'
+  ...
+# Subtest: report reader rejects bad NaN encoding, count/shape, first finding and repair proof
+ok 155 - report reader rejects bad NaN encoding, count/shape, first finding and repair proof
+  ---
+  duration_ms: 27.486875
+  type: 'test'
+  ...
+# Subtest: external names are escaped and chart uses saved finite next-forward losses
+ok 156 - external names are escaped and chart uses saved finite next-forward losses
+  ---
+  duration_ms: 3.638375
+  type: 'test'
+  ...
+# Subtest: actual page controls cover 18 branches, first evidence, phase and default reset
+ok 157 - actual page controls cover 18 branches, first evidence, phase and default reset
+  ---
+  duration_ms: 41.25575
+  type: 'test'
+  ...
+# Subtest: local import handles full report, escaped text, errors, empty state and stale reads
+ok 158 - local import handles full report, escaped text, errors, empty state and stale reads
+  ---
+  duration_ms: 70.715916
+  type: 'test'
+  ...
+# Subtest: owner prose renders all math and names scroll regions without shared build
+ok 159 - owner prose renders all math and names scroll regions without shared build
+  ---
+  duration_ms: 59.387334
+  type: 'test'
+  ...
+# Subtest: default ledger counts processed tokens, causal response labels and scheduled windows
+ok 160 - default ledger counts processed tokens, causal response labels and scheduled windows
+  ---
+  duration_ms: 1.596291
+  type: 'test'
+  ...
+# Subtest: packing whole records changes capacity but preserves token and label accounting
+ok 161 - packing whole records changes capacity but preserves token and label accounting
+  ---
+  duration_ms: 0.144792
+  type: 'test'
+  ...
+# Subtest: right truncation keeps prompt first and never adds BOS outside the record
+ok 162 - right truncation keeps prompt first and never adds BOS outside the record
+  ---
+  duration_ms: 0.225625
+  type: 'test'
+  ...
+# Subtest: prompt-free answers lose their first causal label with or without packing
+ok 163 - prompt-free answers lose their first causal label with or without packing
+  ---
+  duration_ms: 0.114583
+  type: 'test'
+  ...
+# Subtest: single-token records have zero labels even when many records share one packed sequence
+ok 164 - single-token records have zero labels even when many records share one packed sequence
+  ---
+  duration_ms: 0.213042
+  type: 'test'
+  ...
+# Subtest: greedy packing never splits records or carries an unfinished sequence across epochs
+ok 165 - greedy packing never splits records or carries an unfinished sequence across epochs
+  ---
+  duration_ms: 0.1155
+  type: 'test'
+  ...
+# Subtest: each epoch flushes accumulation and accounts all final microstep slots without dropping records
+ok 166 - each epoch flushes accumulation and accounts all final microstep slots without dropping records
+  ---
+  duration_ms: 0.175292
+  type: 'test'
+  ...
+# Subtest: zero records leave all dataset and schedule accounting zero while retaining configured capacities
+ok 167 - zero records leave all dataset and schedule accounting zero while retaining configured capacities
+  ---
+  duration_ms: 0.112167
+  type: 'test'
+  ...
+# Subtest: recipe rejects invalid numeric inputs and enum values with RangeError
+ok 168 - recipe rejects invalid numeric inputs and enum values with RangeError
+  ---
+  duration_ms: 2.568791
+  type: 'test'
+  ...
+# Subtest: unsafe derived counts throw instead of silently rounding or overflowing
+ok 169 - unsafe derived counts throw instead of silently rounding or overflowing
+  ---
+  duration_ms: 0.332125
+  type: 'test'
+  ...
+# Subtest: small exhaustive ledgers match a record-by-record packing and scheduling oracle
+ok 170 - small exhaustive ledgers match a record-by-record packing and scheduling oracle
+  ---
+  duration_ms: 2.195708
+  type: 'test'
+  ...
+# Subtest: LoRA q/v accounting respects asymmetric GQA dimensions
+ok 171 - LoRA q/v accounting respects asymmetric GQA dimensions
+  ---
+  duration_ms: 0.617542
+  type: 'test'
+  ...
+# Subtest: attention and all targets add the stated projections, and parameter count scales linearly with rank
+ok 172 - attention and all targets add the stated projections, and parameter count scales linearly with rank
+  ---
+  duration_ms: 0.243625
+  type: 'test'
+  ...
+# Subtest: LoRA rejects invalid rank, unknown targets and unsafe parameter totals
+ok 173 - LoRA rejects invalid rank, unknown targets and unsafe parameter totals
+  ---
+  duration_ms: 1.886625
+  type: 'test'
+  ...
+# Subtest: initializer safely guards absent DOM or missing page marker and tolerates partial markup
+ok 174 - initializer safely guards absent DOM or missing page marker and tolerates partial markup
+  ---
+  duration_ms: 8.554125
+  type: 'test'
+  ...
+# Subtest: DOM renders plain counts, one-record bars and both ledgers
+ok 175 - DOM renders plain counts, one-record bars and both ledgers
+  ---
+  duration_ms: 0.560417
+  type: 'test'
+  ...
+# Subtest: packing and supervision selects rerender labels without treating packed records as one causal stream
+ok 176 - packing and supervision selects rerender labels without treating packed records as one causal stream
+  ---
+  duration_ms: 0.360958
+  type: 'test'
+  ...
+# Subtest: every numeric recipe input updates its corresponding accounting
+ok 177 - every numeric recipe input updates its corresponding accounting
+  ---
+  duration_ms: 1.649667
+  type: 'test'
+  ...
+# Subtest: zero-label DOM states retain scheduled windows and require optimizer skips
+ok 178 - zero-label DOM states retain scheduled windows and require optimizer skips
+  ---
+  duration_ms: 0.416875
+  type: 'test'
+  ...
+# Subtest: invalid or blank recipe input clears stale accounting and recovers independently of LoRA
+ok 179 - invalid or blank recipe input clears stale accounting and recovers independently of LoRA
+  ---
+  duration_ms: 0.521333
+  type: 'test'
+  ...
+# Subtest: LoRA controls update rank and targets, clear invalid results and recover
+ok 180 - LoRA controls update rank and targets, clear invalid results and recover
+  ---
+  duration_ms: 0.420375
+  type: 'test'
+  ...
+# Subtest: repetition defaults distinguish any success from all successes
+ok 181 - repetition defaults distinguish any success from all successes
+  ---
+  duration_ms: 0.660375
+  type: 'test'
+  ...
+# Subtest: repetition handles certain, impossible, and single-trial outcomes
+ok 182 - repetition handles certain, impossible, and single-trial outcomes
+  ---
+  duration_ms: 0.548166
+  type: 'test'
+  ...
+# Subtest: more repetitions increase coverage and decrease all-trial reliability
+ok 183 - more repetitions increase coverage and decrease all-trial reliability
+  ---
+  duration_ms: 0.159458
+  type: 'test'
+  ...
+# Subtest: repetition rejects invalid probabilities and trial counts
+ok 184 - repetition rejects invalid probabilities and trial counts
+  ---
+  duration_ms: 0.322375
+  type: 'test'
+  ...
+# Subtest: judge ledger defaults account for all four population fractions
+ok 185 - judge ledger defaults account for all four population fractions
+  ---
+  duration_ms: 0.138542
+  type: 'test'
+  ...
+# Subtest: confusion-matrix endpoints conserve the population and true rate
+ok 186 - confusion-matrix endpoints conserve the population and true rate
+  ---
+  duration_ms: 0.168208
+  type: 'test'
+  ...
+# Subtest: perfect and reversed judges expose zero and signed bias
+ok 187 - perfect and reversed judges expose zero and signed bias
+  ---
+  duration_ms: 0.093584
+  type: 'test'
+  ...
+# Subtest: judge validates every probability independently
+ok 188 - judge validates every probability independently
+  ---
+  duration_ms: 0.166166
+  type: 'test'
+  ...
+# Subtest: stream defaults process each chunk as it arrives with the same offline work
+ok 189 - stream defaults process each chunk as it arrives with the same offline work
+  ---
+  duration_ms: 0.210459
+  type: 'test'
+  ...
+# Subtest: a slower shared worker accumulates queue wait rather than parallel service
+ok 190 - a slower shared worker accumulates queue wait rather than parallel service
+  ---
+  duration_ms: 0.17275
+  type: 'test'
+  ...
+# Subtest: schedule boundaries include one chunk, zero work, simultaneous arrivals, and fractional times
+ok 191 - schedule boundaries include one chunk, zero work, simultaneous arrivals, and fractional times
+  ---
+  duration_ms: 0.171
+  type: 'test'
+  ...
+# Subtest: all slider boundaries produce ordered schedules and fair offline comparisons
+ok 192 - all slider boundaries produce ordered schedules and fair offline comparisons
+  ---
+  duration_ms: 0.278917
+  type: 'test'
+  ...
+# Subtest: longer service, later arrivals, and more chunks keep finish times monotonic
+ok 193 - longer service, later arrivals, and more chunks keep finish times monotonic
+  ---
+  duration_ms: 1.116458
+  type: 'test'
+  ...
+# Subtest: schedule rejects invalid counts, negative or nonfinite times, and overflow
+ok 194 - schedule rejects invalid counts, negative or nonfinite times, and overflow
+  ---
+  duration_ms: 1.17425
+  type: 'test'
+  ...
+# Subtest: memory strategies specify static record ids with no generated summaries
+ok 195 - memory strategies specify static record ids with no generated summaries
+  ---
+  duration_ms: 0.2655
+  type: 'test'
+  ...
+# Subtest: full memory retains evidence and constraints while the latest Sat update wins over Fri
+ok 196 - full memory retains evidence and constraints while the latest Sat update wins over Fri
+  ---
+  duration_ms: 0.483125
+  type: 'test'
+  ...
+# Subtest: compact memory loses the source and constraints without recovering them from the goal
+ok 197 - compact memory loses the source and constraints without recovering them from the goal
+  ---
+  duration_ms: 0.188417
+  type: 'test'
+  ...
+# Subtest: structured memory retains source and constraints while omitting the stale date
+ok 198 - structured memory retains source and constraints while omitting the stale date
+  ---
+  duration_ms: 0.146083
+  type: 'test'
+  ...
+# Subtest: verification requests expose availability without claiming live retrieval or restoring lost records
+ok 199 - verification requests expose availability without claiming live retrieval or restoring lost records
+  ---
+  duration_ms: 0.387959
+  type: 'test'
+  ...
+# Subtest: memory rejects unsupported modes and nonboolean verification flags
+ok 200 - memory rejects unsupported modes and nonboolean verification flags
+  ---
+  duration_ms: 0.371333
+  type: 'test'
+  ...
+# Subtest: readout callers cannot change later static records
+ok 201 - readout callers cannot change later static records
+  ---
+  duration_ms: 0.218959
+  type: 'test'
+  ...
+# Subtest: initializers return harmlessly when their page markers are absent
+ok 202 - initializers return harmlessly when their page markers are absent
+  ---
+  duration_ms: 1.406625
+  type: 'test'
+  ...
+# Subtest: evaluation renders percent inputs, signed percentage-point bias, and semantic ledger rows
+ok 203 - evaluation renders percent inputs, signed percentage-point bias, and semantic ledger rows
+  ---
+  duration_ms: 3.145625
+  type: 'test'
+  ...
+# Subtest: memory mode and verification controls render semantic items and simulated grounding
+ok 204 - memory mode and verification controls render semantic items and simulated grounding
+  ---
+  duration_ms: 1.266792
+  type: 'test'
+  ...
+# Subtest: stream controls render queue-aware HTML bars and the offline end time
+ok 205 - stream controls render queue-aware HTML bars and the offline end time
+  ---
+  duration_ms: 1.757375
+  type: 'test'
+  ...
+# Subtest: 四种固定布局保留逻辑顺序、物理地址与原始存储共享
+ok 206 - 四种固定布局保留逻辑顺序、物理地址与原始存储共享
+  ---
+  duration_ms: 1.2765
+  type: 'test'
+  ...
+# Subtest: 非连续切片仍可零复制展平，非零起始偏移不影响连续性
+ok 207 - 非连续切片仍可零复制展平，非零起始偏移不影响连续性
+  ---
+  duration_ms: 0.128417
+  type: 'test'
+  ...
+# Subtest: 每种共享视图写入逻辑首元素时只改变对应原始地址
+ok 208 - 每种共享视图写入逻辑首元素时只改变对应原始地址
+  ---
+  duration_ms: 0.197916
+  type: 'test'
+  ...
+# Subtest: 所有布局的显式复制按逻辑顺序生成独立连续存储，写入不改变原始存储
+ok 209 - 所有布局的显式复制按逻辑顺序生成独立连续存储，写入不改变原始存储
+  ---
+  duration_ms: 0.352209
+  type: 'test'
+  ...
+# Subtest: 布局结果与写入不污染下次调用，模式及布尔选项有明确输入契约
+ok 210 - 布局结果与写入不污染下次调用，模式及布尔选项有明确输入契约
+  ---
+  duration_ms: 0.472375
+  type: 'test'
+  ...
+# Subtest: 全部分片数、目标与偏移重建稳定交叉熵、归一化概率及梯度
+ok 211 - 全部分片数、目标与偏移重建稳定交叉熵、归一化概率及梯度
+  ---
+  duration_ms: 3.7125
+  type: 'test'
+  ...
+# Subtest: 每个目标、每种分片数及全部偏移的六个梯度通过独立有限差分
+ok 212 - 每个目标、每种分片数及全部偏移的六个梯度通过独立有限差分
+  ---
+  duration_ms: 0.974709
+  type: 'test'
+  ...
+# Subtest: 最大值由不同分片提供时使用全局平移，目标等于最大值时归约目标项为零
+ok 213 - 最大值由不同分片提供时使用全局平移，目标等于最大值时归约目标项为零
+  ---
+  duration_ms: 0.15675
+  type: 'test'
+  ...
+# Subtest: 词表并行拒绝无效分片、目标与超范围或非有限偏移
+ok 214 - 词表并行拒绝无效分片、目标与超范围或非有限偏移
+  ---
+  duration_ms: 0.447834
+  type: 'test'
+  ...
+# Subtest: 页面控件缺失时两个初始化函数安全返回
+ok 215 - 页面控件缺失时两个初始化函数安全返回
+  ---
+  duration_ms: 0.675083
+  type: 'test'
+  ...
+# Subtest: 布局界面更新十二个原始存储格、四列表格、矩阵列数和共享写入说明
+ok 216 - 布局界面更新十二个原始存储格、四列表格、矩阵列数和共享写入说明
+  ---
+  duration_ms: 16.306458
+  type: 'test'
+  ...
+# Subtest: 词表界面全部控件更新六列分片表、四列梯度表与目标所属进程
+ok 217 - 词表界面全部控件更新六列分片表、四列梯度表与目标所属进程
+  ---
+  duration_ms: 16.489125
+  type: 'test'
+  ...
+# Subtest: default snapshot comes from the current complete saved report with matching source and checkpoint hashes
+ok 218 - default snapshot comes from the current complete saved report with matching source and checkpoint hashes
+  ---
+  duration_ms: 182.602083
+  type: 'test'
+  ...
+# Subtest: reader keeps failed computation separate from measured learning capability
+ok 219 - reader keeps failed computation separate from measured learning capability
+  ---
+  duration_ms: 67.890875
+  type: 'test'
+  ...
+# Subtest: generation scorer includes EOS, missing/extra slots, PAD errors and incomplete versus cap
+ok 220 - generation scorer includes EOS, missing/extra slots, PAD errors and incomplete versus cap
+  ---
+  duration_ms: 12.079834
+  type: 'test'
+  ...
+# Subtest: invalid ranges, inconsistent metrics, partial reports and mislabeled checks are rejected
+ok 221 - invalid ranges, inconsistent metrics, partial reports and mislabeled checks are rejected
+  ---
+  duration_ms: 237.045958
+  type: 'test'
+  ...
+# Subtest: curves use only saved train/validation points and explicit units
+ok 222 - curves use only saved train/validation points and explicit units
+  ---
+  duration_ms: 0.950791
+  type: 'test'
+  ...
+# Subtest: complete paired export preserves every question, seed and reversal group
+ok 223 - complete paired export preserves every question, seed and reversal group
+  ---
+  duration_ms: 33.745167
+  type: 'test'
+  ...
+# Subtest: prediction pagination and HTML text escaping retain actual results
+ok 224 - prediction pagination and HTML text escaping retain actual results
+  ---
+  duration_ms: 57.726
+  type: 'test'
+  ...
+# Subtest: page initializes, selects seed47 and OOD, and distinguishes compute status from capability
+ok 225 - page initializes, selects seed47 and OOD, and distinguishes compute status from capability
+  ---
+  duration_ms: 51.853542
+  type: 'test'
+  ...
+# Subtest: local import clears failed/stale results and newest file wins the asynchronous race
+ok 226 - local import clears failed/stale results and newest file wins the asynchronous race
+  ---
+  duration_ms: 88.228041
+  type: 'test'
+  ...
+# Subtest: scoped HTML selectors, math, table accessibility and future runner cache standard are present
+ok 227 - scoped HTML selectors, math, table accessibility and future runner cache standard are present
+  ---
+  duration_ms: 14.878375
+  type: 'test'
+  ...
+# Subtest: typesets fractions and subscripts while preserving unrelated source byte-for-byte
+ok 228 - typesets fractions and subscripts while preserving unrelated source byte-for-byte
+  ---
+  duration_ms: 11.37425
+  type: 'test'
+  ...
+# Subtest: renders HTML entities, inline math and hidden variants without breaking attributes
+ok 229 - renders HTML entities, inline math and hidden variants without breaking attributes
+  ---
+  duration_ms: 3.229792
+  type: 'test'
+  ...
+# Subtest: invalid or ambiguous TeX fails with context instead of silently showing broken math
+ok 230 - invalid or ambiguous TeX fails with context instead of silently showing broken math
+  ---
+  duration_ms: 3.497958
+  type: 'test'
+  ...
+# Subtest: every authored formula has HTML and MathML in the generated page
+ok 231 - every authored formula has HTML and MathML in the generated page
+  ---
+  duration_ms: 849.796542
+  type: 'test'
+  ...
+# Subtest: marginal answer example sums paths; score-function gradient does not require reward derivatives
+ok 232 - marginal answer example sums paths; score-function gradient does not require reward derivatives
+  ---
+  duration_ms: 1.102375
+  type: 'test'
+  ...
+# Subtest: distillation derivative includes temperature and the KL direction
+ok 233 - distillation derivative includes temperature and the KL direction
+  ---
+  duration_ms: 1.205375
+  type: 'test'
+  ...
+# Subtest: fixed-compute scaling stationary point satisfies the derivative and local minimum
+ok 234 - fixed-compute scaling stationary point satisfies the derivative and local minimum
+  ---
+  duration_ms: 0.315792
+  type: 'test'
+  ...
+# Subtest: induction B: previous=false, matching=false, copy=false
+ok 235 - induction B: previous=false, matching=false, copy=false
+  ---
+  duration_ms: 1.254375
+  type: 'test'
+  ...
+# Subtest: induction B: previous=false, matching=false, copy=true
+ok 236 - induction B: previous=false, matching=false, copy=true
+  ---
+  duration_ms: 0.108875
+  type: 'test'
+  ...
+# Subtest: induction B: previous=false, matching=true, copy=false
+ok 237 - induction B: previous=false, matching=true, copy=false
+  ---
+  duration_ms: 0.099833
+  type: 'test'
+  ...
+# Subtest: induction B: previous=false, matching=true, copy=true
+ok 238 - induction B: previous=false, matching=true, copy=true
+  ---
+  duration_ms: 0.078083
+  type: 'test'
+  ...
+# Subtest: induction B: previous=true, matching=false, copy=false
+ok 239 - induction B: previous=true, matching=false, copy=false
+  ---
+  duration_ms: 0.081209
+  type: 'test'
+  ...
+# Subtest: induction B: previous=true, matching=false, copy=true
+ok 240 - induction B: previous=true, matching=false, copy=true
+  ---
+  duration_ms: 0.092333
+  type: 'test'
+  ...
+# Subtest: induction B: previous=true, matching=true, copy=false
+ok 241 - induction B: previous=true, matching=true, copy=false
+  ---
+  duration_ms: 0.084458
+  type: 'test'
+  ...
+# Subtest: induction B: previous=true, matching=true, copy=true
+ok 242 - induction B: previous=true, matching=true, copy=true
+  ---
+  duration_ms: 0.07425
+  type: 'test'
+  ...
+# Subtest: induction D: previous=false, matching=false, copy=false
+ok 243 - induction D: previous=false, matching=false, copy=false
+  ---
+  duration_ms: 1.034917
+  type: 'test'
+  ...
+# Subtest: induction D: previous=false, matching=false, copy=true
+ok 244 - induction D: previous=false, matching=false, copy=true
+  ---
+  duration_ms: 0.215125
+  type: 'test'
+  ...
+# Subtest: induction D: previous=false, matching=true, copy=false
+ok 245 - induction D: previous=false, matching=true, copy=false
+  ---
+  duration_ms: 0.08175
+  type: 'test'
+  ...
+# Subtest: induction D: previous=false, matching=true, copy=true
+ok 246 - induction D: previous=false, matching=true, copy=true
+  ---
+  duration_ms: 0.103666
+  type: 'test'
+  ...
+# Subtest: induction D: previous=true, matching=false, copy=false
+ok 247 - induction D: previous=true, matching=false, copy=false
+  ---
+  duration_ms: 0.057625
+  type: 'test'
+  ...
+# Subtest: induction D: previous=true, matching=false, copy=true
+ok 248 - induction D: previous=true, matching=false, copy=true
+  ---
+  duration_ms: 0.087917
+  type: 'test'
+  ...
+# Subtest: induction D: previous=true, matching=true, copy=false
+ok 249 - induction D: previous=true, matching=true, copy=false
+  ---
+  duration_ms: 0.05775
+  type: 'test'
+  ...
+# Subtest: induction D: previous=true, matching=true, copy=true
+ok 250 - induction D: previous=true, matching=true, copy=true
+  ---
+  duration_ms: 0.052916
+  type: 'test'
+  ...
+# Subtest: induction defaults and swapping the historical value preserve the softmax rule
+ok 251 - induction defaults and swapping the historical value preserve the softmax rule
+  ---
+  duration_ms: 0.091792
+  type: 'test'
+  ...
+# Subtest: induction neither mutates options nor shares mutable trace results
+ok 252 - induction neither mutates options nor shares mutable trace results
+  ---
+  duration_ms: 0.074084
+  type: 'test'
+  ...
+# Subtest: induction rejects values outside the fixed token and boolean controls
+ok 253 - induction rejects values outside the fixed token and boolean controls
+  ---
+  duration_ms: 0.58375
+  type: 'test'
+  ...
+# Subtest: environment good graded by reply
+ok 254 - environment good graded by reply
+  ---
+  duration_ms: 0.337708
+  type: 'test'
+  ...
+# Subtest: environment good graded by state
+ok 255 - environment good graded by state
+  ---
+  duration_ms: 0.096875
+  type: 'test'
+  ...
+# Subtest: environment good graded by strict
+ok 256 - environment good graded by strict
+  ---
+  duration_ms: 0.06625
+  type: 'test'
+  ...
+# Subtest: environment claim graded by reply
+ok 257 - environment claim graded by reply
+  ---
+  duration_ms: 0.040333
+  type: 'test'
+  ...
+# Subtest: environment claim graded by state
+ok 258 - environment claim graded by state
+  ---
+  duration_ms: 0.036625
+  type: 'test'
+  ...
+# Subtest: environment claim graded by strict
+ok 259 - environment claim graded by strict
+  ---
+  duration_ms: 0.0515
+  type: 'test'
+  ...
+# Subtest: environment overreserve graded by reply
+ok 260 - environment overreserve graded by reply
+  ---
+  duration_ms: 0.03525
+  type: 'test'
+  ...
+# Subtest: environment overreserve graded by state
+ok 261 - environment overreserve graded by state
+  ---
+  duration_ms: 0.037584
+  type: 'test'
+  ...
+# Subtest: environment overreserve graded by strict
+ok 262 - environment overreserve graded by strict
+  ---
+  duration_ms: 0.054292
+  type: 'test'
+  ...
+# Subtest: environment sideeffect graded by reply
+ok 263 - environment sideeffect graded by reply
+  ---
+  duration_ms: 0.079541
+  type: 'test'
+  ...
+# Subtest: environment sideeffect graded by state
+ok 264 - environment sideeffect graded by state
+  ---
+  duration_ms: 0.079667
+  type: 'test'
+  ...
+# Subtest: environment sideeffect graded by strict
+ok 265 - environment sideeffect graded by strict
+  ---
+  duration_ms: 0.046875
+  type: 'test'
+  ...
+# Subtest: hidden side effects pass a quantity-only grader and fail the strict grader
+ok 266 - hidden side effects pass a quantity-only grader and fail the strict grader
+  ---
+  duration_ms: 0.085125
+  type: 'test'
+  ...
+# Subtest: environment calls reset from a frozen snapshot and isolate all returned mutable data
+ok 267 - environment calls reset from a frozen snapshot and isolate all returned mutable data
+  ---
+  duration_ms: 0.162417
+  type: 'test'
+  ...
+# Subtest: environment rejects unknown scenarios and graders
+ok 268 - environment rejects unknown scenarios and graders
+  ---
+  duration_ms: 0.176791
+  type: 'test'
+  ...
+# Subtest: initializers skip absent guard selectors and tolerate partial markup
+ok 269 - initializers skip absent guard selectors and tolerate partial markup
+  ---
+  duration_ms: 0.935833
+  type: 'test'
+  ...
+# Subtest: ICL hooks render all ablations and keep the copy checkbox separate from its result
+ok 270 - ICL hooks render all ablations and keep the copy checkbox separate from its result
+  ---
+  duration_ms: 1.265625
+  type: 'test'
+  ...
+# Subtest: environment hooks grade every selection and show actual failures even when rewarded
+ok 271 - environment hooks grade every selection and show actual failures even when rewarded
+  ---
+  duration_ms: 1.485708
+  type: 'test'
+  ...
+# Subtest: tiled forward/backward equals dense across block boundaries and mask rules
+ok 272 - tiled forward/backward equals dense across block boundaries and mask rules
+  ---
+  duration_ms: 15.329458
+  type: 'test'
+  ...
+# Subtest: tiled Q/K/V gradients independently match finite differences
+ok 273 - tiled Q/K/V gradients independently match finite differences
+  ---
+  duration_ms: 4.491417
+  type: 'test'
+  ...
+# Subtest: empty query row has explicit zero output/gradient and never reconstructs NaN
+ok 274 - empty query row has explicit zero output/gradient and never reconstructs NaN
+  ---
+  duration_ms: 2.098458
+  type: 'test'
+  ...
+# Subtest: local probability normalization and overwritten KV accumulators have distinct failures
+ok 275 - local probability normalization and overwritten KV accumulators have distinct failures
+  ---
+  duration_ms: 3.161416
+  type: 'test'
+  ...
+# Subtest: logical attention storage separately counts shared tensors, saved statistics and tile capacity
+ok 276 - logical attention storage separately counts shared tensors, saved statistics and tile capacity
+  ---
+  duration_ms: 0.343375
+  type: 'test'
+  ...
+# Subtest: gradient cache replays the same global objective and leaves next-step RNG unchanged
+ok 277 - gradient cache replays the same global objective and leaves next-step RNG unchanged
+  ---
+  duration_ms: 3.858
+  type: 'test'
+  ...
+# Subtest: cached encoder parameter gradients match finite differences of the global loss
+ok 278 - cached encoder parameter gradients match finite differences of the global loss
+  ---
+  duration_ms: 14.688875
+  type: 'test'
+  ...
+# Subtest: fresh dropout during replay changes gradients despite identical cached loss
+ok 279 - fresh dropout during replay changes gradients despite identical cached loss
+  ---
+  duration_ms: 0.468083
+  type: 'test'
+  ...
+# Subtest: deterministic global objective stays equivalent under non-divisible chunk sizes
+ok 280 - deterministic global objective stays equivalent under non-divisible chunk sizes
+  ---
+  duration_ms: 2.251916
+  type: 'test'
+  ...
+# Subtest: global clip respects independent element ownership and thresholds
+ok 281 - global clip respects independent element ownership and thresholds
+  ---
+  duration_ms: 1.840917
+  type: 'test'
+  ...
+# Subtest: local clipping and double-counted replicas fail only when ownership exposes them
+ok 282 - local clipping and double-counted replicas fail only when ownership exposes them
+  ---
+  duration_ms: 0.22175
+  type: 'test'
+  ...
+# Subtest: one-rank overflow triggers coordinated skip and local-only decisions diverge
+ok 283 - one-rank overflow triggers coordinated skip and local-only decisions diverge
+  ---
+  duration_ms: 0.176042
+  type: 'test'
+  ...
+# Subtest: invalid configurations reject unsupported dimensions and modes
+ok 284 - invalid configurations reject unsupported dimensions and modes
+  ---
+  duration_ms: 0.398333
+  type: 'test'
+  ...
+# Subtest: report reader validates measurements and escapes external strings
+ok 285 - report reader validates measurements and escapes external strings
+  ---
+  duration_ms: 13.906917
+  type: 'test'
+  ...
+# Subtest: attention stepper withholds final verification and exposes faulty accumulation
+ok 286 - attention stepper withholds final verification and exposes faulty accumulation
+  ---
+  duration_ms: 34.295
+  type: 'test'
+  ...
+# Subtest: cache stepper separates encoding, global loss and replay completion
+ok 287 - cache stepper separates encoding, global loss and replay completion
+  ---
+  duration_ms: 10.900208
+  type: 'test'
+  ...
+# Subtest: clipping controls expose local norm and divergent skip decisions
+ok 288 - clipping controls expose local norm and divergent skip decisions
+  ---
+  duration_ms: 5.831583
+  type: 'test'
+  ...
+# Subtest: report upload handles success, failure and newer selection without stale overwrite
+ok 289 - report upload handles success, failure and newer selection without stale overwrite
+  ---
+  duration_ms: 6.750083
+  type: 'test'
+  ...
+# Subtest: nearest-even handles half ties, sign and signed zero
+ok 290 - nearest-even handles half ties, sign and signed zero
+  ---
+  duration_ms: 4.652417
+  type: 'test'
+  ...
+# Subtest: fp16 gradual underflow and overflow boundary
+ok 291 - fp16 gradual underflow and overflow boundary
+  ---
+  duration_ms: 0.443666
+  type: 'test'
+  ...
+# Subtest: bf16 matches expected representable spacing
+ok 292 - bf16 matches expected representable spacing
+  ---
+  duration_ms: 0.15325
+  type: 'test'
+  ...
+# Subtest: fp32 agrees with native fround across signs, boundaries, mantissas and exponents
+ok 293 - fp32 agrees with native fround across signs, boundaries, mantissas and exponents
+  ---
+  duration_ms: 0.49725
+  type: 'test'
+  ...
+# Subtest: format conversion is idempotent and finite errors stay within half a quantum
+ok 294 - format conversion is idempotent and finite errors stay within half a quantum
+  ---
+  duration_ms: 0.166417
+  type: 'test'
+  ...
+# Subtest: order determines whether small contribution is lost
+ok 295 - order determines whether small contribution is lost
+  ---
+  duration_ms: 0.1685
+  type: 'test'
+  ...
+# Subtest: stable softmax is shift invariant when direct exponentials fail
+ok 296 - stable softmax is shift invariant when direct exponentials fail
+  ---
+  duration_ms: 0.205458
+  type: 'test'
+  ...
+# Subtest: numeric input contracts reject invalid format or finite readout
+ok 297 - numeric input contracts reject invalid format or finite readout
+  ---
+  duration_ms: 0.313834
+  type: 'test'
+  ...
+# Subtest: all block sizes and offsets match full stable attention
+ok 298 - all block sizes and offsets match full stable attention
+  ---
+  duration_ms: 0.701833
+  type: 'test'
+  ...
+# Subtest: new maxima rescale previous state and reads are nonoverlapping
+ok 299 - new maxima rescale previous state and reads are nonoverlapping
+  ---
+  duration_ms: 0.587333
+  type: 'test'
+  ...
+# Subtest: multi-turn records preserve template, EOS targets and original last-turn identity
+ok 300 - multi-turn records preserve template, EOS targets and original last-turn identity
+  ---
+  duration_ms: 1.80825
+  type: 'test'
+  ...
+# Subtest: independent, padded and packed objectives agree across lengths, supervision and perturbations
+ok 301 - independent, padded and packed objectives agree across lengths, supervision and perturbations
+  ---
+  duration_ms: 44.741
+  type: 'test'
+  ...
+# Subtest: packed full parameter gradients pass independent finite differences
+ok 302 - packed full parameter gradients pass independent finite differences
+  ---
+  duration_ms: 118.642583
+  type: 'test'
+  ...
+# Subtest: fixed-parameter perturbation stays inside an isolated sample and leaks with causal-only masking
+ok 303 - fixed-parameter perturbation stays inside an isolated sample and leaks with causal-only masking
+  ---
+  duration_ms: 3.119417
+  type: 'test'
+  ...
+# Subtest: padding contributes no labels or lookup gradient and never becomes a valid key
+ok 304 - padding contributes no labels or lookup gradient and never becomes a valid key
+  ---
+  duration_ms: 0.575459
+  type: 'test'
+  ...
+# Subtest: duplicate shift preserves logits and label counts while changing targets and gradients
+ok 305 - duplicate shift preserves logits and label counts while changing targets and gradients
+  ---
+  duration_ms: 1.673375
+  type: 'test'
+  ...
+# Subtest: LoRA initialization and first simultaneous SGD update have explicit reference values
+ok 306 - LoRA initialization and first simultaneous SGD update have explicit reference values
+  ---
+  duration_ms: 1.032
+  type: 'test'
+  ...
+# Subtest: LoRA A/B/input gradients pass finite differences for full and quantized fixed bases
+ok 307 - LoRA A/B/input gradients pass finite differences for full and quantized fixed bases
+  ---
+  duration_ms: 0.4205
+  type: 'test'
+  ...
+# Subtest: frozen parameters and detached branches produce different input-gradient semantics
+ok 308 - frozen parameters and detached branches produce different input-gradient semantics
+  ---
+  duration_ms: 0.220333
+  type: 'test'
+  ...
+# Subtest: same-base merge is equivalent, while base quantization and requantization remain separate
+ok 309 - same-base merge is equivalent, while base quantization and requantization remain separate
+  ---
+  duration_ms: 0.828584
+  type: 'test'
+  ...
+# Subtest: global contrastive gradients match finite differences at multiple temperatures
+ok 310 - global contrastive gradients match finite differences at multiple temperatures
+  ---
+  duration_ms: 0.607167
+  type: 'test'
+  ...
+# Subtest: detached remote documents preserve loss while losing cross-query contributions
+ok 311 - detached remote documents preserve loss while losing cross-query contributions
+  ---
+  duration_ms: 0.150792
+  type: 'test'
+  ...
+# Subtest: invalid experiment configurations fail explicitly
+ok 312 - invalid experiment configurations fail explicitly
+  ---
+  duration_ms: 0.375958
+  type: 'test'
+  ...
+# Subtest: packing controls expose leakage, duplicate shifts and no-label state
+ok 313 - packing controls expose leakage, duplicate shifts and no-label state
+  ---
+  duration_ms: 33.170417
+  type: 'test'
+  ...
+# Subtest: LoRA controls update gradient, merge and detached-output states
+ok 314 - LoRA controls update gradient, merge and detached-output states
+  ---
+  duration_ms: 13.928625
+  type: 'test'
+  ...
+# Subtest: contrastive controls preserve forward loss and expose the missing derivative
+ok 315 - contrastive controls preserve forward loss and expose the missing derivative
+  ---
+  duration_ms: 10.332333
+  type: 'test'
+  ...
+# Subtest: 全部 48 种组合独立验证本地顺序、跨阶段依赖、并行提交、计数和无死锁
+ok 316 - 全部 48 种组合独立验证本地顺序、跨阶段依赖、并行提交、计数和无死锁
+  ---
+  duration_ms: 19.85175
+  type: 'test'
+  ...
+# Subtest: 默认 GPipe 的精确事件表包含全部前向屏障和逆序反向
+ok 317 - 默认 GPipe 的精确事件表包含全部前向屏障和逆序反向
+  ---
+  duration_ms: 0.671833
+  type: 'test'
+  ...
+# Subtest: 三阶段四微批次 1F1B 严格保留预热、交替和冷却顺序
+ok 318 - 三阶段四微批次 1F1B 严格保留预热、交替和冷却顺序
+  ---
+  duration_ms: 2.37075
+  type: 'test'
+  ...
+# Subtest: 单微批次与预热覆盖全部微批次的边界不改变算法
+ok 319 - 单微批次与预热覆盖全部微批次的边界不改变算法
+  ---
+  duration_ms: 0.37675
+  type: 'test'
+  ...
+# Subtest: 常见配置中 1F1B 降低每阶段激活峰值且操作总量相同
+ok 320 - 常见配置中 1F1B 降低每阶段激活峰值且操作总量相同
+  ---
+  duration_ms: 0.518583
+  type: 'test'
+  ...
+# Subtest: 非法范围、非整数和未知模式明确拒绝且不静默修正
+ok 321 - 非法范围、非整数和未知模式明确拒绝且不静默修正
+  ---
+  duration_ms: 2.850583
+  type: 'test'
+  ...
+# Subtest: 初始化守卫兼容无页面控件与不完整挂载
+ok 322 - 初始化守卫兼容无页面控件与不完整挂载
+  ---
+  duration_ms: 0.897625
+  type: 'test'
+  ...
+# Subtest: 语义时间表和四列账本随全部控件更新，保留主页面尺寸类名
+ok 323 - 语义时间表和四列账本随全部控件更新，保留主页面尺寸类名
+  ---
+  duration_ms: 17.2765
+  type: 'test'
+  ...
+# Subtest: 已有表格和账本容器保持有效结构且不嵌套表格
+ok 324 - 已有表格和账本容器保持有效结构且不嵌套表格
+  ---
+  duration_ms: 0.869375
+  type: 'test'
+  ...
+# Subtest: 父页面提供账本表体时只填充四列阶段行
+ok 325 - 父页面提供账本表体时只填充四列阶段行
+  ---
+  duration_ms: 1.227291
+  type: 'test'
+  ...
+# Subtest: mixed rewards use the centered population standard deviation
+ok 326 - mixed rewards use the centered population standard deviation
+  ---
+  duration_ms: 1.061917
+  type: 'test'
+  ...
+# Subtest: equal rewards and singleton groups have exactly zero advantages
+ok 327 - equal rewards and singleton groups have exactly zero advantages
+  ---
+  duration_ms: 0.146542
+  type: 'test'
+  ...
+# Subtest: graded advantages are centered with unit population variance
+ok 328 - graded advantages are centered with unit population variance
+  ---
+  duration_ms: 0.174542
+  type: 'test'
+  ...
+# Subtest: normalization handles negative, large and small finite reward scales
+ok 329 - normalization handles negative, large and small finite reward scales
+  ---
+  duration_ms: 0.199333
+  type: 'test'
+  ...
+# Subtest: rewards require a finite nonempty numeric array
+ok 330 - rewards require a finite nonempty numeric array
+  ---
+  duration_ms: 0.20075
+  type: 'test'
+  ...
+# Subtest: the default positive surrogate selects the upper clipping plateau
+ok 331 - the default positive surrogate selects the upper clipping plateau
+  ---
+  duration_ms: 0.131541
+  type: 'test'
+  ...
+# Subtest: clipping depends on advantage sign rather than ratio bounds alone
+ok 332 - clipping depends on advantage sign rather than ratio bounds alone
+  ---
+  duration_ms: 0.142042
+  type: 'test'
+  ...
+# Subtest: zero advantage and exact clipping boundaries do not activate clipping
+ok 333 - zero advantage and exact clipping boundaries do not activate clipping
+  ---
+  duration_ms: 0.099583
+  type: 'test'
+  ...
+# Subtest: valid probability endpoints and custom clip widths obey the minimum
+ok 334 - valid probability endpoints and custom clip widths obey the minimum
+  ---
+  duration_ms: 0.354542
+  type: 'test'
+  ...
+# Subtest: surrogates reject invalid probabilities, advantages and clip widths
+ok 335 - surrogates reject invalid probabilities, advantages and clip widths
+  ---
+  duration_ms: 0.348917
+  type: 'test'
+  ...
+# Subtest: prefix states expose fixed distributions and both natural-log KL directions
+ok 336 - prefix states expose fixed distributions and both natural-log KL directions
+  ---
+  duration_ms: 0.273958
+  type: 'test'
+  ...
+# Subtest: prefix occupancies and training weights sum to one across the slider range
+ok 337 - prefix occupancies and training weights sum to one across the slider range
+  ---
+  duration_ms: 2.027667
+  type: 'test'
+  ...
+# Subtest: occupancy endpoints include only the occupied state's reverse KL
+ok 338 - occupancy endpoints include only the occupied state's reverse KL
+  ---
+  duration_ms: 0.152959
+  type: 'test'
+  ...
+# Subtest: prefix mix requires a finite value in the closed unit interval
+ok 339 - prefix mix requires a finite value in the closed unit interval
+  ---
+  duration_ms: 0.13525
+  type: 'test'
+  ...
+# Subtest: initializers safely skip pages without their guard inputs
+ok 340 - initializers safely skip pages without their guard inputs
+  ---
+  duration_ms: 0.270167
+  type: 'test'
+  ...
+# Subtest: RL hooks render group outcomes and sign-sensitive clipping on input changes
+ok 341 - RL hooks render group outcomes and sign-sensitive clipping on input changes
+  ---
+  duration_ms: 3.270625
+  type: 'test'
+  ...
+# Subtest: distillation hooks display percentage weights, distributions and both KL columns
+ok 342 - distillation hooks display percentage weights, distributions and both KL columns
+  ---
+  duration_ms: 0.679417
+  type: 'test'
+  ...
+# Subtest: topic ownership covers every page once and agrees with header navigation
+ok 343 - topic ownership covers every page once and agrees with header navigation
+  ---
+  duration_ms: 90.074792
+  type: 'test'
+  ...
+# Subtest: built reading routes and all local authored links resolve to pages and anchors
+ok 344 - built reading routes and all local authored links resolve to pages and anchors
+  ---
+  duration_ms: 284.631625
+  type: 'test'
+  ...
+# Subtest: guide starts with learning and problem lookup; advanced collections are optional
+ok 345 - guide starts with learning and problem lookup; advanced collections are optional
+  ---
+  duration_ms: 1.785458
+  type: 'test'
+  ...
+# Subtest: guide and detailed route share six steps with a real learning result in the first four
+ok 346 - guide and detailed route share six steps with a real learning result in the first four
+  ---
+  duration_ms: 2.678417
+  type: 'test'
+  ...
+# Subtest: before/after examples come from the same saved question across every seed and split
+ok 347 - before/after examples come from the same saved question across every seed and split
+  ---
+  duration_ms: 7.390292
+  type: 'test'
+  ...
+# Subtest: partial or conflicting saved pairs never fabricate a before/after comparison
+ok 348 - partial or conflicting saved pairs never fabricate a before/after comparison
+  ---
+  duration_ms: 2.758709
+  type: 'test'
+  ...
+# Subtest: report question identifiers are escaped in the new example
+ok 349 - report question identifiers are escaped in the new example
+  ---
+  duration_ms: 2.633792
+  type: 'test'
+  ...
+# Subtest: report starts with evidence while failure outcomes and all existing controls remain available
+ok 350 - report starts with evidence while failure outcomes and all existing controls remain available
+  ---
+  duration_ms: 5.523583
+  type: 'test'
+  ...
+# Subtest: all teaching configurations complete within reservations and token budget
+ok 351 - all teaching configurations complete within reservations and token budget
+  ---
+  duration_ms: 23.489208
+  type: 'test'
+  ...
+# Subtest: shared prefix is referenced by active compatible requests only
+ok 352 - shared prefix is referenced by active compatible requests only
+  ---
+  duration_ms: 0.5345
+  type: 'test'
+  ...
+# Subtest: completion releases private blocks and next arrivals reuse physical ids
+ok 353 - completion releases private blocks and next arrivals reuse physical ids
+  ---
+  duration_ms: 0.13525
+  type: 'test'
+  ...
+# Subtest: wave mode admits a new group only with an empty active set
+ok 354 - wave mode admits a new group only with an empty active set
+  ---
+  duration_ms: 0.093917
+  type: 'test'
+  ...
+# Subtest: invalid scheduling inputs fail before mutation
+ok 355 - invalid scheduling inputs fail before mutation
+  ---
+  duration_ms: 0.316833
+  type: 'test'
+  ...
+# Subtest: fresh compact snapshots and full saved report validate with exact run source hashes
+ok 356 - fresh compact snapshots and full saved report validate with exact run source hashes
+  ---
+  duration_ms: 76.7455
+  type: 'test'
+  ...
+# Subtest: population and sampling laws match an independent vector enumeration
+ok 357 - population and sampling laws match an independent vector enumeration
+  ---
+  duration_ms: 1.474291
+  type: 'test'
+  ...
+# Subtest: PSD rejection and near-zero means never produce Infinity or a false zero ratio
+ok 358 - PSD rejection and near-zero means never produce Infinity or a false zero ratio
+  ---
+  duration_ms: 0.188334
+  type: 'test'
+  ...
+# Subtest: width selection uses base16 only, held128 is reserved, and parameter group violations are rejected
+ok 359 - width selection uses base16 only, held128 is reserved, and parameter group violations are rejected
+  ---
+  duration_ms: 35.100667
+  type: 'test'
+  ...
+# Subtest: batch requires common token grids across seeds and saved RNG evidence
+ok 360 - batch requires common token grids across seeds and saved RNG evidence
+  ---
+  duration_ms: 9.406541
+  type: 'test'
+  ...
+# Subtest: both pages initialize from defaults and render scope, ledger, Norm, sampling and evaluation changes
+ok 361 - both pages initialize from defaults and render scope, ledger, Norm, sampling and evaluation changes
+  ---
+  duration_ms: 64.351958
+  type: 'test'
+  ...
+# Subtest: local imports on both pages clear errors, escape text, cap files and resolve races by last selection
+ok 362 - local imports on both pages clear errors, escape text, cap files and resolve races by last selection
+  ---
+  duration_ms: 137.546416
+  type: 'test'
+  ...
+# Subtest: scoped HTML math renders and tables, SVGs and controls remain accessible without a site build
+ok 363 - scoped HTML math renders and tables, SVGs and controls remain accessible without a site build
+  ---
+  duration_ms: 27.573
+  type: 'test'
+  ...
+# Subtest: 选择性作答使用固定十条记录与明确字段
+ok 364 - 选择性作答使用固定十条记录与明确字段
+  ---
+  duration_ms: 1.334875
+  type: 'test'
+  ...
+# Subtest: 阈值包含等号且无人作答时风险为 null
+ok 365 - 阈值包含等号且无人作答时风险为 null
+  ---
+  duration_ms: 0.257208
+  type: 'test'
+  ...
+# Subtest: 高分错答仅改变首条真值，不改变分数与接受集合
+ok 366 - 高分错答仅改变首条真值，不改变分数与接受集合
+  ---
+  duration_ms: 0.324959
+  type: 'test'
+  ...
+# Subtest: 校准分箱覆盖全部记录，0.75 归入最后一箱
+ok 367 - 校准分箱覆盖全部记录，0.75 归入最后一箱
+  ---
+  duration_ms: 0.157958
+  type: 'test'
+  ...
+# Subtest: 所有滑块阈值均保持全样本校准统计，覆盖率随阈值不增
+ok 368 - 所有滑块阈值均保持全样本校准统计，覆盖率随阈值不增
+  ---
+  duration_ms: 2.837709
+  type: 'test'
+  ...
+# Subtest: 阈值拒绝越界、非有限数和隐式类型转换
+ok 369 - 阈值拒绝越界、非有限数和隐式类型转换
+  ---
+  duration_ms: 1.767125
+  type: 'test'
+  ...
+# Subtest: 语义概率按六次输出的簇频数归一化
+ok 370 - 语义概率按六次输出的簇频数归一化
+  ---
+  duration_ms: 0.339125
+  type: 'test'
+  ...
+# Subtest: 三种北京释义合为一簇，零熵无法区分全对与全错
+ok 371 - 三种北京释义合为一簇，零熵无法区分全对与全错
+  ---
+  duration_ms: 0.13975
+  type: 'test'
+  ...
+# Subtest: 冲突语义簇频数为三、二、一，熵使用自然对数
+ok 372 - 冲突语义簇频数为三、二、一，熵使用自然对数
+  ---
+  duration_ms: 0.122083
+  type: 'test'
+  ...
+# Subtest: 语义模式拒绝无效值与对象原型属性
+ok 373 - 语义模式拒绝无效值与对象原型属性
+  ---
+  duration_ms: 0.162
+  type: 'test'
+  ...
+# Subtest: 路径证据保留两题三类路径的正概率与相同支持
+ok 374 - 路径证据保留两题三类路径的正概率与相同支持
+  ---
+  duration_ms: 0.3225
+  type: 'test'
+  ...
+# Subtest: 指标按两题等权汇总，条件可靠率是总可靠率除以总正确率
+ok 375 - 指标按两题等权汇总，条件可靠率是总可靠率除以总正确率
+  ---
+  duration_ms: 0.09725
+  type: 'test'
+  ...
+# Subtest: 各题独立采样覆盖随有限 k 不减，k 为一时等于单次正确率
+ok 376 - 各题独立采样覆盖随有限 k 不减，k 为一时等于单次正确率
+  ---
+  duration_ms: 2.509458
+  type: 'test'
+  ...
+# Subtest: 效率分配提高单次均值，却降低较大 k 的平均覆盖
+ok 377 - 效率分配提高单次均值，却降低较大 k 的平均覆盖
+  ---
+  duration_ms: 0.138333
+  type: 'test'
+  ...
+# Subtest: 过程分配保持每题答案正确率与覆盖，提高可靠路径占比
+ok 378 - 过程分配保持每题答案正确率与覆盖，提高可靠路径占比
+  ---
+  duration_ms: 0.116542
+  type: 'test'
+  ...
+# Subtest: 路径模式和采样次数拒绝无效输入
+ok 379 - 路径模式和采样次数拒绝无效输入
+  ---
+  duration_ms: 0.24675
+  type: 'test'
+  ...
+# Subtest: 调用结果可独立修改，不污染后续固定教学数据
+ok 380 - 调用结果可独立修改，不污染后续固定教学数据
+  ---
+  duration_ms: 0.236292
+  type: 'test'
+  ...
+# Subtest: 页面控件缺失时初始化安全返回
+ok 381 - 页面控件缺失时初始化安全返回
+  ---
+  duration_ms: 0.80075
+  type: 'test'
+  ...
+# Subtest: 仅主控件存在时允许其余控件与输出缺失
+ok 382 - 仅主控件存在时允许其余控件与输出缺失
+  ---
+  duration_ms: 0.388875
+  type: 'test'
+  ...
+# Subtest: 不确定性控件渲染指标与四、四、三列表格，并响应滑块与勾选
+ok 383 - 不确定性控件渲染指标与四、四、三列表格，并响应滑块与勾选
+  ---
+  duration_ms: 5.516292
+  type: 'test'
+  ...
+# Subtest: 证据控件渲染五列等权指标并响应模式与采样次数
+ok 384 - 证据控件渲染五列等权指标并响应模式与采样次数
+  ---
+  duration_ms: 0.610125
+  type: 'test'
+  ...
+# Subtest: default quadratics return original gradients, the weighted update, and actual losses
+ok 385 - default quadratics return original gradients, the weighted update, and actual losses
+  ---
+  duration_ms: 1.342333
+  type: 'test'
+  ...
+# Subtest: finite differences recover both initial gradients and first-order loss changes
+ok 386 - finite differences recover both initial gradients and first-order loss changes
+  ---
+  duration_ms: 0.460542
+  type: 'test'
+  ...
+# Subtest: the actual quadratic remainder is exact across modes, weights, angles, and step sizes
+ok 387 - the actual quadratic remainder is exact across modes, weights, angles, and step sizes
+  ---
+  duration_ms: 4.17675
+  type: 'test'
+  ...
+# Subtest: opposite gradients cancel exactly and zero learning rate preserves the origin
+ok 388 - opposite gradients cancel exactly and zero learning rate preserves the origin
+  ---
+  duration_ms: 0.236667
+  type: 'test'
+  ...
+# Subtest: symmetric conflict projection uses both original vectors and their own denominators
+ok 389 - symmetric conflict projection uses both original vectors and their own denominators
+  ---
+  duration_ms: 0.143583
+  type: 'test'
+  ...
+# Subtest: zero and nonconflicting vectors are preserved without mutation or shared arrays
+ok 390 - zero and nonconflicting vectors are preserved without mutation or shared arrays
+  ---
+  duration_ms: 0.143875
+  type: 'test'
+  ...
+# Subtest: projected mode keeps original cosine while removing conflicting first-order changes
+ok 391 - projected mode keeps original cosine while removing conflicting first-order changes
+  ---
+  duration_ms: 0.320708
+  type: 'test'
+  ...
+# Subtest: large learning rates can increase actual loss despite a negative linear prediction
+ok 392 - large learning rates can increase actual loss despite a negative linear prediction
+  ---
+  duration_ms: 0.101583
+  type: 'test'
+  ...
+# Subtest: interference inputs and mode reject invalid values while accepting exact boundaries
+ok 393 - interference inputs and mode reject invalid values while accepting exact boundaries
+  ---
+  duration_ms: 0.753833
+  type: 'test'
+  ...
+# Subtest: known rotations reconstruct the matrix and its singular axes exactly
+ok 394 - known rotations reconstruct the matrix and its singular axes exactly
+  ---
+  duration_ms: 0.514833
+  type: 'test'
+  ...
+# Subtest: the raw polar factor is orthogonal and independent of the positive singular ratio
+ok 395 - the raw polar factor is orthogonal and independent of the positive singular ratio
+  ---
+  duration_ms: 0.210041
+  type: 'test'
+  ...
+# Subtest: all directions have unit Frobenius norm while preserving distinct scales and entry signs
+ok 396 - all directions have unit Frobenius norm while preserving distinct scales and entry signs
+  ---
+  duration_ms: 0.416166
+  type: 'test'
+  ...
+# Subtest: first-step elementwise Adam includes epsilon near a zero entry
+ok 397 - first-step elementwise Adam includes epsilon near a zero entry
+  ---
+  duration_ms: 0.20925
+  type: 'test'
+  ...
+# Subtest: matrix ratios reject invalid values and accept positive boundaries
+ok 398 - matrix ratios reject invalid values and accept positive boundaries
+  ---
+  duration_ms: 0.206916
+  type: 'test'
+  ...
+# Subtest: both initializers return when their page markers are absent
+ok 399 - both initializers return when their page markers are absent
+  ---
+  duration_ms: 0.766459
+  type: 'test'
+  ...
+# Subtest: Chinese continual-learning controls render four loss columns and update both modes
+ok 400 - Chinese continual-learning controls render four loss columns and update both modes
+  ---
+  duration_ms: 4.356083
+  type: 'test'
+  ...
+# Subtest: the continual-learning mode selector is optional and defaults to joint
+ok 401 - the continual-learning mode selector is optional and defaults to joint
+  ---
+  duration_ms: 1.024334
+  type: 'test'
+  ...
+# Subtest: canvas coordinates remain isotropic, draw the update, and read colors again after theme changes
+ok 402 - canvas coordinates remain isotropic, draw the update, and read colors again after theme changes
+  ---
+  duration_ms: 1.992958
+  type: 'test'
+  ...
+# Subtest: Chinese matrix controls render five columns in row-major order and recompute on input
+ok 403 - Chinese matrix controls render five columns in row-major order and recompute on input
+  ---
+  duration_ms: 3.152042
+  type: 'test'
+  ...
+1..403
+# tests 403
+# suites 0
+# pass 403
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4759.545584

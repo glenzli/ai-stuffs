@@ -1,0 +1,102 @@
+{
+  "checks": 12,
+  "passed": true,
+  "rows": [
+    {
+      "id": "learning",
+      "kind": "report",
+      "status": 200,
+      "bytes": 8293228,
+      "sha256": "7e1481b22d02a1c213270e9ec1320ab6419a62c62a9112585dde892b7144e103",
+      "passed": true
+    },
+    {
+      "id": "learning",
+      "kind": "archive",
+      "status": 200,
+      "bytes": 12204856,
+      "sha256": "e5e717e24e97797451edc450ed990854341973d7a41bd7c1580bf59e2cebdf9d",
+      "passed": true
+    },
+    {
+      "id": "learning",
+      "kind": "checksums",
+      "status": 200,
+      "bytes": 4888,
+      "sha256": "8d617eec0b7b3622e2e103cbdd394b8c485f30029e4feb32851338d08d431219",
+      "passed": true
+    },
+    {
+      "id": "failures",
+      "kind": "report",
+      "status": 200,
+      "bytes": 5763474,
+      "sha256": "dac8f0415ec127d4dc675ede37994122c76945d66e1b16a0b8108e38bef2bc1d",
+      "passed": true
+    },
+    {
+      "id": "failures",
+      "kind": "archive",
+      "status": 200,
+      "bytes": 34963849,
+      "sha256": "c30c340a46f3c3791715fbd9b0c05f662b1ab6b2bb034d1eababa1b1ad567b26",
+      "passed": true
+    },
+    {
+      "id": "failures",
+      "kind": "checksums",
+      "status": 200,
+      "bytes": 6384,
+      "sha256": "bc4ec8231158da8b7569cf0d529d4c26330384e899eb9aeecf8df4272f874172",
+      "passed": true
+    },
+    {
+      "id": "dynamics",
+      "kind": "report",
+      "status": 200,
+      "bytes": 19077329,
+      "sha256": "707e08064233f562c1756301351413b9988e6c132a7fbe8a8f5daaafa531474f",
+      "passed": true
+    },
+    {
+      "id": "dynamics",
+      "kind": "archive",
+      "status": 200,
+      "bytes": 71660675,
+      "sha256": "bcef11cb9fb525dcce55e68058d2b6b43205404da59c481e399ebf5d05b9e40b",
+      "passed": true
+    },
+    {
+      "id": "dynamics",
+      "kind": "checksums",
+      "status": 200,
+      "bytes": 35400,
+      "sha256": "3ac2c540681d2f86e3dd12606bdd57037a359b8c6c68f34b6d91dab4fb82bcfa",
+      "passed": true
+    },
+    {
+      "id": "output",
+      "kind": "report",
+      "status": 200,
+      "bytes": 36068,
+      "sha256": "79172cfdaec439ac5ad8751b2932a220f79013371857e4abba852e3167507ced",
+      "passed": true
+    },
+    {
+      "id": "output",
+      "kind": "archive",
+      "status": 200,
+      "bytes": 1390251,
+      "sha256": "981886694d350bb2078659f994b25b64229355d3233b2f6ce7fd895366403d87",
+      "passed": true
+    },
+    {
+      "id": "output",
+      "kind": "checksums",
+      "status": 200,
+      "bytes": 404,
+      "sha256": "518f13f61f216bba4e6eb1d6e742483c54e18f6303ff1a52f2290883cc730805",
+      "passed": true
+    }
+  ]
+}

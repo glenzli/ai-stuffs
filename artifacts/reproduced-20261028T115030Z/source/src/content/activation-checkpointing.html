@@ -1,0 +1,40 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">EXACT MECHANICS / ACTIVATION LIFETIME</p><h1>激活重算：<span class="accent-text">哪些值保存，哪些值重新生成</span></h1><p class="lede">反向需要前向中的部分值。保存它们会占用内存，丢弃后重新前向会增加计算。沿一条六层链追踪创建、保留、重算和释放，再核对最终梯度。</p></div><aside class="intro-aside"><p class="micro-label">与模型 checkpoint 区分</p><p>这里的 checkpoint 是反向重算边界；训练恢复 checkpoint 则保存权重、优化器、数据游标等持久状态。两者解决不同问题。</p></aside></section>
+  <section class="section" aria-labelledby="activation-needs"><div class="section-heading"><span class="section-number">01 / BACKWARD NEEDS</span><h2 id="activation-needs">反向为什么还要用前向结果？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}h_i&amp;=\tanh(w_i h_{i-1}),\quad L=\tfrac12h_6^2,\\G_{w_i}&amp;=G_{h_i}(1-h_i^2)h_{i-1},\\G_{h_{i-1}}&amp;=G_{h_i}(1-h_i^2)w_i.\end{aligned}</div><figcaption>这个标量层的反向需要 hi、hi−1 和 wi。权重一直保留；激活可以从前向保存，也可以在反向到达时重算。</figcaption></figure>
+    <div class="prose"><p>保存全部激活时，反向从最后一层往前，用过的中间值即可释放。分段重算保存边界，先从边界重新执行该段前向，得到内部值，再反传和释放该段。真实自动微分框架保存哪些值取决于算子实现。</p></div>
+  </section>
+  <section class="section" aria-labelledby="activation-timeline"><div class="section-heading"><span class="section-number">02 / LIFETIME LEDGER</span><h2 id="activation-timeline">每个时刻，哪些激活仍然存活？</h2></div>
+    <div class="experiment"><div class="experiment-head"><h3>六层 tanh 链的逻辑激活账本</h3><span class="assumption">不含权重、梯度、临时 workspace 和框架开销</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>保存策略</span><select data-ac-mode><option value="store">保存全部</option><option value="checkpoint">分段保存并重算</option></select></label><label><span>每段层数</span><select data-ac-segment><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="6">6</option></select></label><p class="experiment-note">h0=0.8，w=[0.9,1.1,0.8,1.2,0.7,1.05]。本例重算模式会完整重跑每一段；实际框架可能提前停止不需要的重算。</p><div class="step-actions"><button type="button" class="button button-primary" data-ac-next>下一事件</button><button type="button" class="button" data-ac-reset>重置</button></div></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>事件进度</span><strong data-ac-step></strong></div><div><span>目前峰值（激活个数）</span><strong data-ac-peak></strong></div><div><span>已执行前向层数</span><strong data-ac-forward></strong></div></div><p>Loss：<strong data-ac-loss></strong>；与全部保存的梯度最大差：<strong data-ac-error></strong></p><div class="token-tape" data-ac-live aria-label="当前存活的逻辑激活"></div><div class="compare-wrap exact-event-scroll"><table><thead><tr><th>事件</th><th>阶段</th><th>存活激活</th><th>数量</th><th>已执行前向层数</th></tr></thead><tbody data-ac-events></tbody></table></div><p class="experiment-note" data-ac-note></p></div></div><p class="experiment-caption">账本统计唯一逻辑激活 ID。重算边界与已有相同边界值合并记一个 ID；未计额外物理副本。数值计算和逻辑内存记录分开，不是浏览器或 GPU 实际内存测量。</p></div>
+  </section>
+  <section class="section" aria-labelledby="recompute-correctness"><div class="section-heading"><span class="section-number">03 / EQUIVALENCE</span><h2 id="recompute-correctness">什么时候重算能得到同一条反向路径？</h2></div>
+    <div class="concept-pairs"><div><h3>输入与参数一致</h3><p>重算必须使用对应前向时的输入和权重。若参数、全局状态或分支条件在中间改变，重新得到的激活可能属于另一计算图。</p></div><div><h3>随机操作一致</h3><p>dropout 等操作需保持随机状态约定。框架可以保存并恢复 RNG，但设备迁移、外部随机源和关闭状态保留都需单独检查。</p></div><div><h3>副作用不能无意重复</h3><p>函数中的计数、缓存写入、统计更新或外部操作可能在重算时再次发生。适合 checkpoint 的区域应有可验证的重执行语义。</p></div><div><h3>比较输出、梯度和更新</h3><p>固定同一输入与状态，对照前向 loss、每个参数梯度和一次优化器更新。数值容差依精度、实现和规约顺序确定。</p></div></div>
+    <div class="prose"><p>分段更细会保留更多边界，分段更粗会在重算时同时保留更多内部值，峰值不必随段长单调变化。实际内存优化还要看张量大小、存活区间、工作空间和通信缓冲；省下激活后，能否扩大 microbatch 以及端到端是否变快，需要测量。</p></div>
+    <div class="reading-links"><a href="backpropagation.html">反传需要的中间值</a><a href="model-artifacts.html#checkpoint-title">训练恢复 checkpoint</a><a href="performance-analysis.html#execution-path">重算与关键路径</a></div>
+  </section>
+  <section class="section" aria-labelledby="gradient-cache-lab"><div class="section-heading"><span class="section-number">04 / GRADIENT CACHE</span><h2 id="gradient-cache-lab">放不下全局负例池，怎样分块回传同一个目标？</h2></div>
+    <p>四个 query 和四个 document 经过同一个小编码器：三维输入 → 四维 tanh → dropout → 二维表示。全局损失使用 4×4 点积候选矩阵，正例在对角线，温度为 1。先无图编码并保存表示，再对表示计算全局梯度，最后重算各块编码器。</p>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+h_i&amp;=f_\theta(x_i),\qquad g_i=\frac{\partial\mathcal L}{\partial h_i},\\
+\nabla_\theta\mathcal L&amp;=\sum_i\left(\frac{\partial f_\theta(x_i)}{\partial\theta}\right)^\top g_i.
+\end{aligned}</div><figcaption>第二阶段缓存 gᵢ；第三阶段把 gᵢ 作为固定上游向量，对重算的 fθ(xᵢ) 做向量－雅可比积。参数、输入、分块和随机轨迹必须与第一阶段一致；全部贡献累加完才更新一次。</figcaption></figure>
+    <div class="experiment"><div class="experiment-head"><h3>编码 → 全局表示梯度 → 重算参数梯度</h3><span class="assumption">固定小网络 · 确定的伪随机算法</span></div><div class="experiment-body"><div class="experiment-controls objective-controls">
+      <label><span>每块样本数</span><select data-gc-chunk><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label>
+      <label><span>Dropout 概率</span><select data-gc-dropout><option value="0">0</option><option value="0.25" selected>0.25</option><option value="0.5">0.5</option></select></label>
+      <label><span>重算随机状态</span><select data-gc-fault><option value="none">恢复对应前向状态</option><option value="fresh-rng">错误：继续使用新随机数</option></select></label>
+      <div class="step-actions"><button type="button" class="button" data-gc-prev>上一步</button><button type="button" class="button button-primary" data-gc-next>推进阶段</button><button type="button" class="button" data-gc-reset>重置</button></div>
+    </div><div class="experiment-view" aria-live="polite"><div class="metric-row objective-metrics"><div><span>事件进度</span><strong data-gc-step></strong></div><div><span>全局 loss</span><strong data-gc-loss></strong></div><div><span>最终参数梯度最大差</span><strong data-gc-error></strong></div></div><p class="memory-ledger" data-gc-storage></p><p class="experiment-note" data-gc-work></p><div class="compare-wrap memory-scroll"><table class="memory-wide"><thead><tr><th>事件</th><th>阶段</th><th>样本</th><th>编码前 RNG 状态</th></tr></thead><tbody data-gc-events></tbody></table></div><p class="experiment-note" data-gc-note></p></div></div></div>
+    <details><summary>当前参数梯度与保留计算图的参考</summary><div class="compare-wrap memory-scroll"><table class="memory-wide"><thead><tr><th>矩阵行</th><th>当前累计梯度</th><th>参考梯度</th></tr></thead><tbody data-gc-gradients></tbody></table></div></details>
+    <details><summary>输入、权重和随机数约定</summary><pre class="chain-code"><code>query = [[.2,.5,-.1],[.6,-.3,.4],[-.2,.8,.7],[.3,.1,-.5]]
+document = [[.1,.7,-.2],[.3,-.1,.6],[-.3,.5,.9],[.7,.1,-.4]]
+W1 = [[.3,-.2,.5,.1],[-.4,.6,.2,-.3],[.1,.3,-.5,.4]]
+W2 = [[.5,-.2],[.1,.6],[-.4,.3],[.2,.5]]
+seed = 31
+state = (1664525 * state + 1013904223) modulo 2^32
+u = state / 2^32</code></pre><p>按 query 块、document 块的顺序生成随机数，每块按行读取。u≥dropout 时乘 1/(1−dropout)，否则置零；dropout=0 时不消耗随机数。页面手工算法与框架默认 RNG 不同；独立验证另外运行真实 PyTorch dropout。</p></details>
+  </section>
+  <section class="section" aria-labelledby="gradient-cache-contract"><div class="section-heading"><span class="section-number">05 / REPLAY CONTRACT</span><h2 id="gradient-cache-contract">全局目标保留了，哪些状态仍需固定？</h2></div>
+    <div class="concept-pairs"><div><h3>比较同一前向轨迹</h3><p>参考采用相同分块、样本顺序与随机状态，但保留第一遍计算图。不能直接拿不同 batch 形状下的随机 mask 要求逐值一致。关闭随机性后再检查跨块大小的等价关系。</p></div><div><h3>重算不推进训练状态</h3><p>第一遍编码结束的全局 RNG 应在重算后恢复，防止改变下一步。若模块更新 BatchNorm 统计、缓存或外部状态，还需处理重复副作用；本例没有这些模块。</p></div><div><h3>全局候选矩阵仍有成本</h3><p>表示和表示梯度随样本数线性增长，直接物化的 query–document 分数矩阵随两侧样本数相乘增长。减少编码器计算图不等于消除全局损失的内存。</p></div><div><h3>隐藏量账本只计声明对象</h3><p>本例对每行计 tanh 输出、dropout mask 和乘后隐藏值三份四维张量。输入、权重、反向临时量、物理副本以及界面保存的对照快照另计；真实框架保存量见实测。</p></div></div>
+    <div class="reading-links"><a href="parallel-correctness.html#contrastive-global">为什么累积不能自动扩大负例池</a><a href="attention-kernels.html#tiled-attention-backward">Attention 的概率重建</a><a href="performance-analysis.html#memory-measurement-lab">误差、保存量与耗时报告</a></div>
+  </section>
+</div>

@@ -1,0 +1,3 @@
+# Optional real CPU index experiment; fixed reference, not a latest-version claim.
+faiss-cpu==1.12.0
+numpy==2.3.4

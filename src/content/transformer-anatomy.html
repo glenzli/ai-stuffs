@@ -1,0 +1,261 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">ARCHITECTURE / WEIGHTS</p>
+        <h1>Transformer 权重：<span class="accent-text">层、矩阵与参数量</span></h1>
+        <p class="lede">
+          一个 decoder block 包含 Q/K/V/O 投影、SwiGLU 的 gate/up/down、两层归一化与残差；
+          堆叠 L 次后再加 embedding、final norm 与 LM head。MoE 则把 MLP 扩成 router 与多个专家。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">本页的计数约定</p>
+        <p>忽略 bias、并行分片与 padding，按 BF16 权重和常见无偏置 decoder 计数。真实模型卡若含 bias、QK-Norm、共享专家等，需要加回对应张量。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="block-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="block-title">一层 decoder block 的计算路径</h2>
+        </div>
+        <p class="section-note">x 始终沿 residual stream 前进；Attention 与 MLP 每次都在往这条主干里加一个学习到的增量。</p>
+      </div>
+
+      <div class="anatomy-block">
+        <div class="residual-spine">
+          <span>residual stream</span>
+          <code>x [B,T,d]</code>
+        </div>
+        <div class="anatomy-row">
+          <div class="anatomy-op"><span>1</span><strong>RMSNorm</strong><small>按 d 缩放，不学均值</small></div>
+          <i>→</i>
+          <div class="anatomy-op is-wide"><span>2</span><strong>QKV projections</strong><small>W_Q · W_K · W_V，产生 heads</small></div>
+          <i>→</i>
+          <div class="anatomy-op"><span>3</span><strong>Causal Attention</strong><small>softmax(QKᵀ/√d_h + mask)V</small></div>
+          <i>→</i>
+          <div class="anatomy-op"><span>4</span><strong>W_O</strong><small>合并 heads 回 d 维</small></div>
+          <b>+ x</b>
+        </div>
+        <div class="anatomy-row">
+          <div class="anatomy-op"><span>5</span><strong>RMSNorm</strong><small>进入 MLP 前</small></div>
+          <i>→</i>
+          <div class="anatomy-op is-wide"><span>6</span><strong>MLP / SwiGLU</strong><small>gate ⊙ up，再 down 投影</small></div>
+          <b>+ x</b>
+        </div>
+        <div class="residual-note">
+          <span>残差为什么关键</span>
+          <p>Attention 和 MLP 的输出作为增量加到 residual stream 上。深层网络因此有可传播的梯度短路径，也让每层可以局部改写信息。RMSNorm 的缩放参数也属于权重；残差加法本身没有可训练矩阵。</p>
+        </div>
+      </div>
+      <details class="math-derivation"><summary>把 block 里的 Attention、RMSNorm 和 SwiGLU 写成公式</summary>
+        <p>下面按行向量表示 token，省略 batch 和多头拼接，先看一个 head。Q/K 的宽度为 dₖ；M 是加性注意力 mask，允许位置为 0，禁止位置在理想公式中为 −∞。</p>
+        <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+Q&amp;=XW_Q,\quad K=XW_K,\quad V=XW_V,\\
+A&amp;=\operatorname{softmax}_{\mathrm{row}}\!\left(\frac{QK^\top}{\sqrt{d_k}}+M\right),\\
+O&amp;=AV.
+\end{aligned}</div><figcaption>行 softmax 表示每个 query 在允许的 key 上分配权重。多头结果拼接后还要过 W_O；RoPE 等位置处理作用于各层 Q/K，这里未写入。</figcaption></figure>
+        <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+\operatorname{RMSNorm}(x)
+&amp;=\gamma\odot\frac{x}{\sqrt{\frac1d\sum_{j=1}^{d}x_j^2+\epsilon}},\\
+\operatorname{FFN}(x)
+&amp;=\bigl[\operatorname{SiLU}(xW_{\mathrm{gate}})\odot(xW_{\mathrm{up}})\bigr]W_{\mathrm{down}},\\
+\operatorname{SiLU}(u)&amp;=u\sigma(u).
+\end{aligned}</div><figcaption>γ 是按维度学习的缩放，⊙ 是逐元素乘法。三个 FFN 矩阵分别控制门控、值分支和投影回残差宽度；Norm 和非线性也参与反向传播。</figcaption></figure>
+        <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+H&amp;=X+\operatorname{Attn}(\operatorname{Norm}_1(X)),\\
+X'&amp;=H+\operatorname{FFN}(\operatorname{Norm}_2(H)).
+\end{aligned}</div><figcaption>这里 Attn 包含多头与输出投影，两个 Norm 通常有各自参数。残差加法提供直接路径，但不保证任意深度、初始化与学习率都稳定。</figcaption></figure>
+      </details>
+    </section>
+
+    <section class="section" aria-labelledby="calculator-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="calculator-title">调结构，实时看权重数字</h2>
+        </div>
+        <p class="section-note">先选预设，再改维度。此处激活参数按被选专家加共享部分计数，包含 router 参数；按常见规模口径，embedding 表整体计入；单 token 的查表访问量另行计算。</p>
+      </div>
+
+      <div class="arch-calculator">
+        <div class="arch-controls">
+          <div class="arch-presets">
+            <p class="micro-label">PRESET</p>
+            <div>
+              <button type="button" data-arch-preset="dense13" aria-pressed="true">1.3B dense</button>
+              <button type="button" data-arch-preset="dense7" aria-pressed="false">Mistral 7B</button>
+              <button type="button" data-arch-preset="moe" aria-pressed="false">8× expert MoE</button>
+              <button type="button" data-arch-preset="llama3" aria-pressed="false">Llama 3 8B</button>
+              <button type="button" data-arch-preset="mixtral" aria-pressed="false">Mixtral 8×7B</button>
+            </div>
+          </div>
+          <div class="arch-select-grid">
+            <label><span>hidden d</span><select data-arch-field="d"><option>1024</option><option selected>2048</option><option>3072</option><option>4096</option></select></label>
+            <label><span>layers L</span><select data-arch-field="layers"><option>8</option><option>16</option><option selected>24</option><option>32</option><option>48</option></select></label>
+            <label><span>query heads</span><select data-arch-field="heads"><option>8</option><option selected>16</option><option>32</option></select></label>
+            <label><span>KV heads</span><select data-arch-field="kvHeads"><option value="1">1 · MQA</option><option value="4">4</option><option value="8" selected>8</option><option value="16">16</option><option value="32">32</option></select></label>
+            <label><span>head dim</span><select data-arch-field="headDim"><option>64</option><option selected>128</option></select></label>
+            <label><span>FFN width</span><select data-arch-field="ffn"><option>4096</option><option selected>5632</option><option>11008</option><option>14336</option></select></label>
+            <label><span>vocab V</span><select data-arch-field="vocab"><option>32000</option><option>50000</option><option>128256</option></select></label>
+            <label><span>experts</span><select data-arch-field="experts"><option value="1" selected>1 · dense</option><option value="4">4</option><option value="8">8</option><option value="16">16</option></select></label>
+            <label><span>top-k</span><select data-arch-field="topK"><option value="1" selected>1</option><option value="2">2</option><option value="4">4</option></select></label>
+            <label><span>output head</span><select data-arch-field="tied"><option value="false" selected>untied</option><option value="true">tied to E</option></select></label>
+          </div>
+          <p class="arch-warning">本页要求 Hq 可被 Hkv 整除；KV heads 超过 query heads 时会同步调低。Hkv=Hq 才是 MHA。q_width=Hq×headDim 可以不同于残差宽度 d，只需 Q/O 投影形状配套。</p>
+        </div>
+
+        <div class="arch-results">
+          <div class="arch-summary">
+            <div><span>总参数</span><strong data-arch-total>1.26B</strong><small>所有权重与 experts</small></div>
+            <div><span>每 token 激活</span><strong data-arch-active>1.26B</strong><small>推理计算路径</small></div>
+            <div><span>激活比例</span><strong data-arch-ratio>100%</strong><small>active / total</small></div>
+            <div><span>BF16 权重</span><strong data-arch-memory>2.53 GB</strong><small>不含 KV / activations</small></div>
+          </div>
+          <div class="param-breakdown">
+            <div class="param-row"><span>Embedding</span><i data-arch-bar="embedding"></i><strong data-arch-embedding>65.5M</strong></div>
+            <div class="param-row"><span>Attention × L</span><i data-arch-bar="attention"></i><strong data-arch-attention>302.0M</strong></div>
+            <div class="param-row"><span>MLP / MoE × L</span><i data-arch-bar="mlp"></i><strong data-arch-mlp>830.5M</strong></div>
+            <div class="param-row"><span>Norm</span><i data-arch-bar="norm"></i><strong data-arch-norm>0.1M</strong></div>
+            <div class="param-row"><span>Output head</span><i data-arch-bar="head"></i><strong data-arch-head>65.5M</strong></div>
+          </div>
+          <div class="arch-formula">
+            <span>核心计数</span>
+            <code data-arch-formula>Vd + L[Q+K+V+O + 3d·d_ff + 2d] + d_final + head</code>
+          </div>
+          <p class="arch-caption" data-arch-caption>
+            当前是 untied dense：embedding 与输出头各占一份矩阵。若 tied，输出头复用 E，不再增加 Vd。每个 token 都经过全部 MLP 参数。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="weights-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="weights-title">每层实际有哪些权重张量？</h2>
+        </div>
+        <p class="section-note">下表按照当前配置动态更新。真实框架常把 Q、K、V 合成一个 fused QKV 矩阵，数学上仍是三组投影。</p>
+      </div>
+
+      <div class="weight-table-wrap">
+        <table class="deep-table weight-table">
+          <thead>
+            <tr><th>模块</th><th>典型权重形状</th><th>当前参数量</th><th>作用</th></tr>
+          </thead>
+          <tbody data-weight-table>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="model-config-examples">
+        <div class="model-config-head">
+          <p class="micro-label">PUBLIC STRUCTURE SNAPSHOTS</p>
+          <p>这些是常见公开模型卡/配置里的代表性结构。不同 revision 可能额外包含 bias、GQA、滑动窗口、多模态塔或其他组件。</p>
+        </div>
+        <div class="model-config-table-wrap">
+          <table class="deep-table">
+            <thead><tr><th>模型</th><th>d / L</th><th>Q heads / KV heads</th><th>FFN width</th><th>experts / top-k</th><th>总参数 / 激活</th></tr></thead>
+            <tbody>
+              <tr><td>LLaMA 2 7B</td><td>4096 / 32</td><td>32 / 32 · MHA</td><td>11008</td><td>1 / 1</td><td>约 6.7B / 6.7B</td></tr>
+              <tr><td>Mistral 7B</td><td>4096 / 32</td><td>32 / 8 · GQA</td><td>14336</td><td>1 / 1</td><td>约 7.2B / 7.2B</td></tr>
+              <tr><td>Llama 3 8B</td><td>4096 / 32</td><td>32 / 8 · GQA</td><td>14336</td><td>1 / 1</td><td>约 8.0B / 8.0B</td></tr>
+              <tr><td>Mixtral 8×7B</td><td>4096 / 32</td><td>32 / 8 · GQA</td><td>14336 / expert</td><td>8 / 2</td><td>约 46.7B / 12.9B</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="figure-caption">这些公开配置用于对照结构量级；词表、embedding、bias、视觉编码器与版本差异都会改变最终参数。</p>
+      </div>
+
+      <div class="callout">
+        <p><strong>比较模型规模时：</strong>同样是 32 层，MoE 的总参数可能远大于 dense，但每个 token 只走 top-k 专家；同样参数量，GQA 的 8 个 KV heads 会比 32 heads MHA 的 KV Cache 小很多。比较模型时必须同时看 L、d、FFN、head 结构、embedding 大小和是否 tied。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="moe-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="moe-title">Dense 与 MoE：总容量和单位 token 计算分开</h2>
+        </div>
+        <p class="section-note">点击“重新路由”，看不同 token 被分给哪些 experts。这里只展示机制，不模拟真实训练后 router 的负载。</p>
+      </div>
+
+      <div class="moe-lab">
+        <div class="moe-controls">
+          <p class="micro-label">ROUTING VIEW</p>
+          <div class="moe-config">
+            <div><span>experts</span><strong data-moe-experts>1</strong></div>
+            <div><span>top-k</span><strong data-moe-topk>1</strong></div>
+          </div>
+          <button class="button" type="button" data-moe-route>重新路由</button>
+          <p>每个 token 先得到 E 个 gate 分数，只把 top-k 的专家结果加权相加。router 本身很小，专家的权重却都要驻留内存。</p>
+        </div>
+        <div class="moe-visual">
+          <div class="moe-tokens" data-moe-tokens></div>
+          <div class="moe-network" data-moe-network></div>
+        </div>
+        <div class="moe-facts">
+          <div><span>计算</span><p>每 token 只走 k 个 experts，适合提高“总参数 / 激活参数”比。</p></div>
+          <div><span>显存</span><p>所有 experts 都要可加载或可调用，内存不会只按激活参数计算。</p></div>
+          <div><span>系统</span><p>跨设备路由需要 all-to-all；token 分配不均会造成热点、丢弃或等待。</p></div>
+          <div><span>训练</span><p>需要负载均衡目标、router 稳定性与容量处理；专家是否真的专业化要评估。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="modern-page">
+    <section class="section" aria-labelledby="moe-training"><div class="section-heading"><span class="section-number">05 / LEARNING TO ROUTE</span><h2 id="moe-training">MoE 的路由离散，梯度从哪里来？</h2></div>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+z&amp;=W_{\mathrm{router}}x,\qquad p=\operatorname{softmax}(z),\\
+\mathcal S&amp;=\operatorname{TopK}(p),\\
+y&amp;=\sum_{e\in\mathcal S}w_e\operatorname{Expert}_e(x).
+\end{aligned}</div><figcaption>一次常规反传中通常把已选专家集合 S 视为固定，沿专家输出和门控权重 wₑ 求导；wₑ 采用完整概率还是选中后重归一化，会改变梯度路径。</figcaption></figure>
+      <div class="prose"><p>Top-k 在排名切换处会产生离散变化。常规反传固定本次选中的集合，沿集合内的连续计算求导。已选专家的输出影响 loss，其参数和输入可收到梯度；router 则可能通过门控权重及辅助目标得到梯度。未选专家在当前 token 上没有任务分支梯度，但可能被 batch 中其他 token 选中。</p><p><strong>门控权重如何归一化很关键。</strong>若使用完整 softmax 的 pₑ，选中权重仍受全部 logits 的分母影响；若只对选中的 logits 重新归一化，未选 logits 通常不从这个门控分支获梯度。特别是 top-1 后再归一成常数 1，任务 loss 不会经该常数给 router 学习信号，需其他设计。Switch 的门控保留选中概率，其他 MoE 实现需按各自的门控定义分析梯度路径。</p></div>
+      <div class="compare-wrap"><table><thead><tr><th>问题</th><th>机制/处理</th><th>应查看的证据</th></tr></thead><tbody>
+        <tr><td>少数专家垄断</td><td>辅助均衡 loss、路由 bias 或其他负载控制；用于稳定专家容量和调度，均衡程度由具体目标与系数控制。</td><td>逐层/逐专家 token 占比、router 概率、训练阶段和最忙 rank。</td></tr>
+        <tr><td>专家容量溢出</td><td>常见估算 capacity≈ceil(capacity_factor·tokens·k/experts)。实现可丢弃该专家分支、重路由、padding 或使用 dropless 调度。</td><td>实际接收/丢弃数量、残差绕行语义、峰值和各 expert 的 GEMM 形状。</td></tr>
+        <tr><td>数值不稳定</td><td>router logits 的精度、初始化、logit 正则和梯度处理按配方决定。</td><td>logit/entropy 分布、非有限值、路由变化、aux/task loss 比例。</td></tr>
+        <tr><td>“专家”是否专业化</td><td>路由按语言/领域聚集可能只是相关性；专家序号不天然对应人类定义的技能。</td><td>受控路由/消融后的性能、跨数据的行为和实际任务贡献，用这些结果判断专家的实际贡献。</td></tr>
+      </tbody></table></div>
+      <figure class="math-block"><div class="math-display" data-math>\mathcal L_{\mathrm{balance}}=\alpha E\sum_{e=1}^{E}f_eP_e</div><figcaption>Switch top-1 的一种形式：fₑ 是硬路由比例，Pₑ 是 batch 平均 router 概率，E 是专家数，α 是辅助权重。f 不按离散选择求导，梯度主要经过 P。其他 MoE 配方的辅助目标需分别查看。</figcaption></figure>
+      <div class="prose"><p>总 loss 中的任务项与均衡项可能竞争：过强的均衡压力影响任务学习，过弱可能造成专家饥饿和容量溢出。DeepSeek-V3 等具体配方还采用不同的负载控制组合，需读相应报告。即使 load 很均匀，通信、专家小矩阵与数据布局也可能成为瓶颈。</p></div>
+      <div class="reading-links"><a href="performance-analysis.html#execution-path">通信与关键路径</a><a href="engineering-cases.html#case-board">案例：MoE 更慢</a><a href="parallel-correctness.html#equivalence">分片范数与等价性</a></div>
+    </section>
+    </div>
+    <div class="modern-page"><section class="section" aria-labelledby="moe-dispatch"><div class="section-heading"><span class="section-number">EXECUTION / DISPATCH &amp; COMBINE</span><h2 id="moe-dispatch">Token 怎样到达专家，再回到原位置？</h2><p>Top-2 会让一个 token 产生两条专家分支。执行器按目标设备和专家排列这些分支，计算后根据原 token ID 汇合，再乘门控权重求和。排列索引必须在发送与返回两侧保持一致。</p></div>
+      <div class="prose"><p>四个输入 token 分属两张逻辑卡：R0 持有 T0/T1 与 E0/E1，R1 持有 T2/T3 与 E2/E3。专家均为 2×2 线性层，路由 logits 固定；Top-2 中的两项单独 softmax，得到门控权重。该实验追踪专家输出、参数梯度与输入梯度，不对固定 router 求导。</p></div>
+      <details><summary>固定输入、路由 logits 与专家权重</summary><div class="compare-wrap"><table><thead><tr><th>Token</th><th>输入</th><th>E0 / E1 / E2 / E3 的路由 logits</th></tr></thead><tbody data-md-config-input></tbody></table></div><div class="compare-wrap"><table class="chain-table"><thead><tr><th>专家</th><th>2×2 权重（按行排列）</th></tr></thead><tbody data-md-config-weights></tbody></table></div></details>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}y_t&amp;=\sum_{e\in\mathcal S_t^{\mathrm{keep}}}w_{t,e}(x_tW_e),\\G_{W_e}&amp;=\sum_{t:e\in\mathcal S_t^{\mathrm{keep}}}x_t^\top(w_{t,e}G_{y_t}),\\G_{x_t}&amp;=\sum_{e\in\mathcal S_t^{\mathrm{keep}}}w_{t,e}G_{y_t}W_e^\top.\end{aligned}</div><figcaption>行向量约定。集合 Sᵗᵏᵉᵉᵖ 只含容量内分支；本例没有额外残差旁路。路由和门控固定时，重复 token 的输入梯度沿各分支相加，专家参数梯度跨 token 累加。</figcaption></figure>
+      <div class="experiment"><div class="experiment-head"><h3>四个 token 的发送与合并</h3><span class="assumption">固定 router · 线性专家 · 实际数值</span></div><div class="experiment-body"><div class="experiment-controls recipe-controls"><label><span>路由分布</span><select data-md-pattern><option value="balanced">分散到四个专家</option><option value="skewed">全部集中在 E0/E1</option></select></label><label><span>每专家最多保留分支数</span><select data-md-capacity><option value="0">不丢弃</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></label><p class="experiment-note">容量按原 token 顺序先到先留，丢弃后不重归一化权重。对照参考采用同样的门控和丢弃规则。表中的发送数量包含本地交付；跨 rank 的格子才需要远端交换。</p><div class="compare-wrap"><table class="chain-table"><thead><tr><th>来源</th><th>发 R0</th><th>发 R1</th></tr></thead><tbody data-md-send></tbody></table></div></div><div class="experiment-view" aria-live="polite"><div class="metric-row chain-metrics"><div><span>保留分支 / Top-2 分支</span><strong data-md-kept></strong></div><div><span>E0 / E1 / E2 / E3 接收数</span><strong data-md-load></strong></div><div><span>合并输出与参考最大差</span><strong data-md-error></strong></div></div><div class="compare-wrap"><table><thead><tr><th>原 token</th><th>源 → 目标</th><th>专家</th><th>门控权重</th><th>容量决定</th></tr></thead><tbody data-md-routes></tbody></table></div>
+        <details open><summary>按目标专家排列后，逐条计算</summary><div class="compare-wrap"><table><thead><tr><th>排列后索引</th><th>原 token / 专家</th><th>输入副本</th><th>专家输出</th><th>乘门控后</th></tr></thead><tbody data-md-dispatch></tbody></table></div></details>
+        <details open><summary>逆排列并按原 token 合并</summary><div class="compare-wrap"><table><thead><tr><th>Token</th><th>分派后合并</th><th>直接参考</th><th>各分支输入梯度之和</th></tr></thead><tbody data-md-output></tbody></table></div></details><details><summary>各专家跨 token 累积的参数梯度</summary><div class="compare-wrap"><table class="chain-table"><thead><tr><th>专家</th><th>2×2 参数梯度（按行排列）</th></tr></thead><tbody data-md-gradients></tbody></table></div></details><p class="experiment-note" data-md-note></p>
+      </div></div><p class="experiment-caption">上游梯度固定为 [[0.2,−0.3],[0.1,0.4],[−0.2,0.5],[0.3,0.1]]，对应目标 L=ΣY⊙G。空专家的输出分支和参数梯度均为空/零。测试用有限差分核验专家参数与输入梯度；不模拟 AllToAll 延迟。</p></div>
+      <div class="concept-pairs"><div><h3>逆排列需要保留 token ID</h3><p>按专家聚集后，条目顺序与输入顺序不同。同一个 token 还有多条分支；只把输出数组按当前位置写回，会把结果分给错误 token 或覆盖另一分支。</p></div><div><h3>负载与容量共同决定实际计算</h3><p>切换集中路由后，部分专家没有 token，热门专家可能超过容量。丢弃改变参与求和的分支，正确性参考也应使用同样的丢弃和权重规则。</p></div></div><div class="reading-links"><a href="distributed-execution.html#collective-ledger">AllToAll 的数据排列</a><a href="engineering-cases.html#case-board">MoE 性能诊断</a><a href="parallel-correctness.html">跨卡目标与梯度系数</a></div>
+    </section></div>
+    <section class="section" aria-labelledby="residual-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">06</span>
+          <h2 id="residual-title">残差、Norm 与权重的边界</h2>
+        </div>
+        <p class="section-note">这些最容易在“层数”和“参数数”里被忽略。</p>
+      </div>
+
+      <div class="mechanic-grid">
+        <article><span>残差</span><h3>无权重，但有跨层信息通道</h3><p>x + f(x) 里没有额外的 d×d 矩阵；残差让深层 block 学习增量，并提供梯度短路径。</p></article>
+        <article><span>RMSNorm</span><h3>每个维度一个缩放参数</h3><p>相对 LayerNorm 少了去均值；权重通常是 d 个数。QK-Norm 还会在 head 维度增加小向量。</p></article>
+        <article><span>SwiGLU</span><h3>比 plain MLP 多一组投影</h3><p>gate、up、down 三矩阵。即使 FFN width 降低，参数也可能高于传统 2d·4d 两层 MLP。</p></article>
+        <article><span>Embedding</span><h3>查表行与输出头可能绑定</h3><p>输入表 V×d 与 LM head d×V 可能共享；tied 省参数但让输入/输出统计耦合。</p></article>
+      </div>
+    </section>
+
+    <div class="modern-page"><div class="reading-links"><a href="backpropagation.html">这些矩阵的梯度怎样计算</a><a href="attention-kernels.html">Attention 分块执行</a><a href="distributed-execution.html">把矩阵拆到两张卡</a></div></div>
+    <section class="section next-lesson">
+      <div>
+        <p class="eyebrow">NEXT / SERVE THE MODEL</p>
+        <h2>权重算清了，为什么推理还要 KV Cache、prefill 和 decode？</h2>
+      </div>
+      <a class="button button-primary" href="inference-engine.html">进入推理工程 →</a>
+    </section>

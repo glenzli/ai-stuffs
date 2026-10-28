@@ -1,0 +1,260 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">DEEP 03 / POST-TRAINING OBJECTIVES</p>
+        <h1>后训练目标：<span class="accent-text">监督、参考分布与参数范围</span></h1>
+        <p class="lede">
+          对比学习在改距离，SFT 在改条件 token 分布，DPO 在改相对偏好，RLHF 在奖励与 KL 约束之间优化策略。
+          这一页把公式、数据形状、可训练参数和失败模式对齐。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">阅读训练配方时</p>
+        <p>理解一次微调，需要确认：训练样本是什么，loss 对谁求导，reference 是谁，哪些参数在动。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="objectives-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="objectives-title">四种目标分别使用什么监督</h2>
+        </div>
+        <p class="section-note">每种目标分别列出输入单位、优化的分布，以及 reference 的作用。</p>
+      </div>
+
+      <div class="objective-ledger">
+        <div class="ledger-row">
+          <div><span class="tag tag-teal">表示</span><h3>Contrastive / InfoNCE</h3></div>
+          <div class="math-display" data-math>\mathcal L=-\log\frac{\exp(q^\top d_+/\tau)}{\sum_j\exp(q^\top d_j/\tau)}</div>
+          <p>输入是 query、正文档与候选文档。梯度直接改变编码后向量的距离，目标是让正文档在候选中概率最高。</p>
+          <span>对象：句 / 块几何</span>
+        </div>
+        <div class="ledger-row">
+          <div><span class="tag">行为</span><h3>SFT / response CE</h3></div>
+          <div class="math-display" data-math>\mathcal L=-\sum_{t\in\mathrm{response}}\log\pi_\theta(y_t\mid x,y_{&lt;t})</div>
+          <p>这里选 response-only SFT：输入 prompt 与示范 response，只对回答 token 计损失。全序列 SFT 也是一种目标设置，mask 必须明确。</p>
+          <span>对象：条件 token 分布</span>
+        </div>
+        <div class="ledger-row">
+          <div><span class="tag tag-coral">偏好</span><h3>DPO</h3></div>
+          <div class="math-display" data-math>\mathcal L=-\log\sigma(\beta\Delta)</div>
+          <p>输入是同一 prompt 下的 chosen / rejected。Δ 是策略的 chosen/rejected 对数概率差减去 reference 的同一差值，下文给出完整展开。</p>
+          <span>对象：回答相对排序</span>
+        </div>
+        <div class="ledger-row">
+          <div><span class="tag tag-coral">策略</span><h3>RLHF / policy optimization</h3></div>
+          <div class="math-display" data-math>\max_\theta\;\mathbb E_{y\sim\pi_\theta}[r_\phi(x,y)]-\beta D_{\mathrm{KL}}(\pi_\theta\|\pi_{\mathrm{ref}})</div>
+          <p>先学奖励模型 rφ，再优化策略。奖励负责“往哪边好”，KL 约束负责“别离原模型太远”。</p>
+          <span>对象：采样策略与奖励</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="scope-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="scope-title">可训练参数范围怎样影响适配</h2>
+        </div>
+        <p class="section-note">切换训练范围。浅色块冻结，亮色块可训练；图中按模块概括训练范围，具体层数由模型配置决定。</p>
+      </div>
+
+      <div class="scope-lab">
+        <div class="scope-controls">
+          <p class="micro-label">UPDATED PARAMETERS</p>
+          <div class="scope-buttons" role="group" aria-label="后训练参数范围">
+            <button type="button" data-scope="full" aria-pressed="true">全参数微调</button>
+            <button type="button" data-scope="lora" aria-pressed="false">LoRA / Adapter</button>
+            <button type="button" data-scope="output" aria-pressed="false">只训练投影 / 输出头</button>
+            <button type="button" data-scope="frozen" aria-pressed="false">冻结 backbone</button>
+          </div>
+          <p class="scope-caveat">图中列出常见的可选模块：检索常走 pooling → projection，语言模型通常从逐 token hidden state 直接进入 LM head。mean pooling、EOS readout 自身无参数；可训练模块必须实际连接到 loss 才有梯度。</p>
+        </div>
+        <div class="scope-diagram" data-scope-diagram>
+          <div class="scope-stack">
+            <div class="scope-block" data-scope-block="encoder"><strong>Transformer / Encoder</strong><span>上下文与表示能力</span></div>
+            <div class="scope-block" data-scope-block="pooler"><strong>Pooler / EOS readout</strong><span>token 状态 → 一个点</span></div>
+            <div class="scope-block" data-scope-block="projection"><strong>Projection / Embedding head</strong><span>输出可用于索引的向量</span></div>
+            <div class="scope-block" data-scope-block="head"><strong>Task / LM head</strong><span>SFT 或分类输出</span></div>
+          </div>
+          <div class="scope-result">
+            <p class="micro-label" data-scope-kicker>FULL FINE-TUNE</p>
+            <h3 data-scope-title>所有层都能改变</h3>
+            <p data-scope-copy>可训练自由度最大，优化器状态通常也最多。效果与遗忘风险仍取决于数据、学习率和目标；reference 是否需要由算法决定。</p>
+            <div class="scope-facts">
+              <div><span>表示可能变化</span><strong data-scope-geometry>强</strong></div>
+              <div><span>训练成本</span><strong data-scope-cost>最高</strong></div>
+              <div><span>漂移风险</span><strong data-scope-risk>高</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>为什么“只训练输出头”可能仍然改变 embedding API？</strong> 如果 API 输出的是 Transformer 的状态后接 projection，那么 projection 是接口的一部分。即使 backbone 冻结，投影矩阵改变也会改变最终坐标与排序；如果 API 在投影之前就截断，又是另一回事。必须按实际 forward 路径判断。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="dpo-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="dpo-title">DPO 怎样比较策略与参考模型</h2>
+        </div>
+        <p class="section-note">DPO 关注策略相对 reference 的偏好变化。拖动 β 与策略 margin，看 sigmoid 目标怎样改变。</p>
+      </div>
+
+      <div class="dpo-derivation">
+        <div class="dpo-formulas">
+          <div>
+            <span class="micro-label">01 / IMPLICIT REWARD</span>
+            <div class="math-display" data-math>r_\theta(x,y)=\beta\log\frac{\pi_\theta(y\mid x)}{\pi_{\mathrm{ref}}(y\mid x)}</div>
+            <p>这是去掉 prompt 相关常数后的隐式 reward；该常数在同 prompt 的偏好差中抵消。回答概率是 response token 条件概率的乘积，对数概率是相应的和。</p>
+          </div>
+          <div>
+            <span class="micro-label">02 / PREFERENCE MARGIN</span>
+            <div class="math-display" data-math>m=r_\theta(x,y_w)-r_\theta(x,y_l)</div>
+            <p>用 chosen 与 rejected 的隐式奖励差表示偏好 margin。</p>
+          </div>
+          <div>
+            <span class="micro-label">03 / LOSS</span>
+            <div class="math-display" data-math>\mathcal L_{\mathrm{DPO}}=-\log\sigma(m)</div>
+            <p>pairwise logistic loss。margin 越大、已经满足偏好时，loss 越小。</p>
+          </div>
+        </div>
+
+        <div class="dpo-lab">
+          <div class="dpo-controls">
+            <label class="lab-range">
+              <span>β <strong data-dpo-beta>0.10</strong></span>
+              <input type="range" min="1" max="100" value="10" step="1" data-dpo-beta-input>
+              <small>β 控制相对参考模型的约束强度，也缩放隐式奖励。</small>
+            </label>
+            <label class="lab-range">
+              <span>参考校正差 Δ <strong data-dpo-margin>1.20</strong></span>
+              <input type="range" min="-200" max="300" value="120" step="10" data-dpo-margin-input>
+              <small>这里把“策略 chosen/rejected 对数概率差减去 reference 的同一差值”缩放到教学尺度。</small>
+            </label>
+          </div>
+          <div class="dpo-output">
+            <div><span>隐式 reward margin</span><strong data-dpo-reward>0.120</strong></div>
+            <div><span>DPO loss</span><strong data-dpo-loss>0.635</strong></div>
+            <div><span>∂L/∂Δ = −βσ(−m)</span><strong data-dpo-gradient>-0.047</strong></div>
+          </div>
+          <p data-dpo-explanation>
+            m = βΔ。对 Δ 的梯度是 −βσ(−m)，对 m 的梯度才是 −σ(−m)。局部梯度与训练后的策略偏移是不同问题，需结合 KL 与任务指标判断。
+          </p>
+          <div class="callout compact-callout">
+            <p><strong>标准 DPO 需要固定 reference 概率。</strong>静态数据可预计算 reference log-prob，节省每步参考模型的前向；偏好对直接用于优化策略。reference-free 变体改变了假设，需要分别讨论。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contrast-notes">
+        <article>
+          <span>RLHF</span>
+          <h3>奖励是学出来的</h3>
+          <p>先拟合 reward model，再用策略优化。可以处理采样生成的序列，但会新增奖励投机与稳定性问题。</p>
+        </article>
+        <article>
+          <span>DPO</span>
+          <h3>偏好直接变分类 loss</h3>
+          <p>在 preference pair 上做 pairwise logistic 目标，省掉显式 reward 与 rollout；依赖偏好数据覆盖度。</p>
+        </article>
+        <article>
+          <span>共同点</span>
+          <h3>参考策略约束偏移</h3>
+          <p>reference 和 KL 用来控制策略偏移。调整约束强度时，应同时观察偏好收益、基础能力和输出多样性。</p>
+        </article>
+      </div>
+      <details class="math-derivation"><summary>把参考差 Δ 与梯度完整写出来</summary>
+        <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+\Delta_\theta&amp;=\log\pi_\theta(y_w\mid x)-\log\pi_\theta(y_l\mid x),\\
+\Delta_{\mathrm{ref}}&amp;=\log\pi_{\mathrm{ref}}(y_w\mid x)-\log\pi_{\mathrm{ref}}(y_l\mid x),\\
+\Delta&amp;=\Delta_\theta-\Delta_{\mathrm{ref}},\qquad m=\beta\Delta,\\
+\frac{\partial\mathcal L}{\partial m}&amp;=-\sigma(-m),\\
+\frac{\partial\mathcal L}{\partial\Delta}&amp;=-\beta\sigma(-\beta\Delta).
+\end{aligned}</div><figcaption>β 固定、reference 不求梯度。面板显示的是对 Δ 的导数，因此必须保留负号与 β；参数梯度还要乘 ∇θΔθ。标准 DPO 的回答 log-prob 按回答 token 求和，长度平均属于另一个目标选择。</figcaption></figure>
+      </details>
+    </section>
+
+    <section class="section" aria-labelledby="sft-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="sft-title">SFT 的 token mask 与对话模板</h2>
+        </div>
+        <p class="section-note">哪些 token 计入 loss，会改变 SFT 的监督分布。模板和 mask 应随数据一起检查。</p>
+      </div>
+
+      <div class="sft-details">
+        <details open>
+          <summary>为什么通常只对 response 计算 loss？</summary>
+          <p>response-only 把直接监督集中在 assistant 输出，prompt 标签用 ignore_index；全序列 loss 会额外学习 prompt 的分布，两种设置给 prompt 分布的权重不同。被 mask 的 prompt 仍作为上下文参与回答预测，仍可通过注意力得到梯度。多轮对话还需明确监督所有 assistant 轮次还是仅末轮。</p>
+        </details>
+        <details>
+          <summary>长度归一化会改变什么？</summary>
+          <p>先对每条回答的 token 求平均、再平均样本，会使样本等权；把所有有效 token 的损失求和再除以总 token 数，则长回答权重更大。不同长度 microbatch 需要按有效 token 数加权，才能得到全局 token 平均。</p>
+        </details>
+        <details>
+          <summary>packing 怎样处理样本边界？</summary>
+          <p>先定义目标：独立对话 packing 应隔离跨样本 attention 与标签边界；预训练的连续文档拼接也可能有意允许跨文档上下文。EOS 只标记边界，不会自动阻断 attention；重置 position_ids 也不能替代块对角 attention mask。可在<a href="packing-correctness.html">样本打包计算实验</a>中比较完整 logits 与参数梯度。</p>
+        </details>
+        <details>
+          <summary>为什么 chat template 与 EOS 很重要？</summary>
+          <p>对话角色通过模板中的 token 表达。少一个边界 token、角色字段不一致或 EOS 未训练，都可能让推理时的停止行为与训练分布错位。</p>
+        </details>
+        <details>
+          <summary>LoRA 为什么不一定保住原能力？</summary>
+          <p>LoRA 限制增量矩阵的秩，不保证行为不变。数据分布、学习率、覆盖层数和训练时长仍会让模型漂移；适配后仍需检查原有能力和行为变化。A/B 的局部梯度、冻结和合并计算见<a href="lora-mechanics.html">LoRA 梯度与合并</a>。</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="retrieval-post-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="retrieval-post-title">表示后训练的工程流程</h2>
+        </div>
+        <p class="section-note">检索训练需要一致的 query/doc 构造、难负样本标准和评估任务，让优化目标直接作用于检索排序。</p>
+      </div>
+
+      <div class="retrieval-post-flow">
+        <div><span>01</span><h3>固定答案单元</h3><p>先定义“一个 chunk 能否独立回答”。这决定正样本和编码长度。</p></div>
+        <div><span>02</span><h3>构造 query 分布</h3><p>用真实用户问法、短问法与领域术语，避免训练只认长模板。</p></div>
+        <div><span>03</span><h3>刷新难负样本</h3><p>从当前模型 top-N 里挖掘，再用强模型/规则/人工鉴别 false negatives。</p></div>
+        <div><span>04</span><h3>训练与回归</h3><p>InfoNCE + 适当的对称/非对称目标；按语言、领域和文档长度拆指标。</p></div>
+      </div>
+
+      <div class="callout">
+        <p><strong>为什么难负样本要刷新？</strong>新模型会召回不同的候选。昨天“很难”的负样本今天可能一眼可分，昨天没被召回的假近邻又可能进入 top-N。表示训练与检索系统要一起迭代。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="regression-eval-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">06</span>
+          <h2 id="regression-eval-title">后训练评估：把“变好”拆成可观察量</h2>
+        </div>
+        <p class="section-note">至少同时测目标内、邻近任务和系统性代价，否则非常容易把局部提升当成整体进步。</p>
+      </div>
+
+      <div class="eval-matrix">
+        <div><span>目标内</span><strong>Recall@k / nDCG / MRR</strong><p>候选排序有没有提升；top-k 的 k 要跟实际上下文预算一致。</p></div>
+        <div><span>行为</span><strong>任务准确率 / 偏好胜率</strong><p>回答是否更有用、更遵循格式；要抽样人工复核，避免只相信单一 judge。</p></div>
+        <div><span>泛化</span><strong>跨领域 / 跨语言 / 长尾</strong><p>微调集之外的损失是否可接受；是否能处理没有见过的问法。</p></div>
+        <div><span>稳定性</span><strong>漂移 / 拒答 / 校准</strong><p>输出分布和不确定性是否异常；是否过度拒绝或放大某类偏好。</p></div>
+        <div><span>成本</span><strong>维度 / 延迟 / 内存 / 吞吐</strong><p>收益能否在索引和服务预算内兑现；是否需要双阶段重排。</p></div>
+        <div><span>版本</span><strong>模型 + chunk + normalize</strong><p>端到端版本必须一起记录；其中一个改变，旧索引就可能失效。</p></div>
+      </div>
+    </section>
+
+    <section class="section next-lesson">
+      <div>
+        <p class="eyebrow">BACK TO THE SYSTEM</p>
+        <h2>把训练目标、向量几何和检索吞吐放回一条工程链。</h2>
+      </div>
+      <a class="button button-primary" href="lab.html">回到检索沙盘 →</a>
+    </section>

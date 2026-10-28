@@ -1,0 +1,37 @@
+.modern-page .decision-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-content: start; align-items: start; }
+.modern-page .decision-controls label { min-width: 0; margin: 0; align-content: start; }
+.modern-page .decision-controls select, .modern-page .decision-controls input { min-width: 0; max-width: 100%; }
+.modern-page .decision-controls > .step-actions { grid-column: 1 / -1; }
+.modern-page .decision-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.modern-page .decision-metrics strong { font-size: 19px; overflow-wrap: anywhere; }
+.modern-page .decision-table { min-width: 650px; }
+.modern-page .decision-table td, .modern-page .decision-table th { padding: 11px 10px; }
+.modern-page .decision-table td:first-child { min-width: 0; }
+.modern-page .decision-small { min-width: 0; table-layout: fixed; }
+.modern-page .decision-small td, .modern-page .decision-small th { min-width: 0; padding: 11px 8px; overflow-wrap: anywhere; }
+.modern-page .decision-scroll { max-height: 420px; }
+.modern-page .decision-scroll thead { position: sticky; top: 0; z-index: 1; background: var(--surface); }
+.modern-page .decision-note { padding: 14px 16px; background: var(--accent-soft); border-left: 3px solid var(--accent); font-size: 13px; }
+.modern-page .decision-code { margin: 18px 0; padding: 18px; overflow: auto; max-height: 420px; max-width: 100%; background: var(--surface); border: 1px solid var(--line); font: 12px/1.8 var(--mono); }
+.modern-page .decision-chart { display: block; width: 100%; height: auto; margin: 22px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 5px; }
+.decision-chart text { fill: var(--ink-soft); font: 12px var(--mono); }
+.decision-axis { stroke: var(--line-strong); stroke-width: 1; }
+.decision-zero { stroke: var(--coral); stroke-width: 2; stroke-dasharray: 5 4; }
+.decision-bar { fill: var(--accent); opacity: .8; }
+.ann-point { opacity: .4; }
+.ann-visited { opacity: 1; stroke: var(--ink); stroke-width: 1; }
+.ann-list-0 { fill: var(--blue); }
+.ann-list-1 { fill: var(--accent); }
+.ann-list-2 { fill: var(--coral); }
+.ann-centroid { stroke: var(--ink); stroke-width: 1.5; }
+.ann-query { stroke: var(--ink); stroke-width: 3; }
+.modern-page .decision-import { display: grid; gap: 14px; margin: 22px 0; font-size: 13px; }
+.modern-page .decision-import input { max-width: 100%; }
+.modern-page .decision-state { font: 600 14px/1.9 var(--mono); overflow-wrap: anywhere; }
+@media (min-width: 1101px) {
+  .modern-page .decision-controls { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .modern-page .decision-controls, .modern-page .decision-metrics { grid-template-columns: minmax(0, 1fr); }
+  .modern-page .decision-small { font-size: 12px; }
+}

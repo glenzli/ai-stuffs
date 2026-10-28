@@ -1,0 +1,217 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">DEEP 01 / REPRESENTATION GEOMETRY</p>
+        <h1>句向量背后，<br>是<span class="accent-text">一组 token<br class="mobile-line-break">状态再压缩</span></h1>
+        <p class="lede">
+          这一页把 token embedding、上下文隐藏状态、pooling、normalize 和最终检索接口拆开。
+          沿着这些步骤，可以看清一个句向量如何形成，以及哪些操作会改变它。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">从形状开始</p>
+        <p>token 行 <code>[d]</code> → 上下文状态 <code>[T,d]</code> → 池化向量 <code>[d]</code> → 归一化 <code>[d]</code>。每一步都是接口选择。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="pooling-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="pooling-title">池化怎样聚合 token 状态</h2>
+        </div>
+        <p class="section-note">切换聚合规则。二维图只用来展示方向；真实模型里的 [T,d] 是在 d 个坐标上一起聚合。</p>
+      </div>
+
+      <div class="pooling-lab">
+        <div class="pooling-controls">
+          <p class="micro-label">POOLING RULE</p>
+          <div class="pooling-buttons" role="group" aria-label="句向量池化方式">
+            <button type="button" data-pooling="mean" aria-pressed="true">Mean pooling</button>
+            <button type="button" data-pooling="cls" aria-pressed="false">CLS token</button>
+            <button type="button" data-pooling="max" aria-pressed="false">Coordinate-wise max</button>
+            <button type="button" data-pooling="last" aria-pressed="false">Last token</button>
+            <button type="button" data-pooling="weighted" aria-pressed="false">Weighted mean</button>
+          </div>
+          <div class="pooling-shape">
+            <span>输入</span><code>H [T, d]</code>
+            <span>输出</span><code>v [d]</code>
+            <span>再一步</span><code>v / ||v||₂</code>
+          </div>
+        </div>
+        <div class="pooling-plot">
+          <svg viewBox="0 0 360 260" role="img" aria-label="不同池化规则得到的句向量方向" data-pooling-svg></svg>
+          <div class="pooling-metrics">
+            <div><span>与 query 的 cosine</span><strong data-pooling-score>0.000</strong></div>
+            <div><span>向量范数</span><strong data-pooling-norm>0.000</strong></div>
+          </div>
+        </div>
+        <div class="pooling-copy">
+          <p class="micro-label" data-pooling-kicker>TOKEN AVERAGING</p>
+          <h3 data-pooling-title>把所有 token 状态平均</h3>
+          <p data-pooling-body>
+            每个位置等权。稳定、常见，也容易把虚词、标点和无关 token 一起平均进去；对短句与长句的方差也不同。
+          </p>
+          <div class="pooling-detail">
+            <span>训练要求</span>
+            <p data-pooling-train>训练目标应作用于最终使用的 pooled 向量。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>从 token 状态到句向量：</strong>BERT 的 <code>last_hidden_state</code> 包含逐位置状态，公开 API 的 <code>embedding</code> 通常还经过 pooling、投影和归一化。若只拿最后一层状态随手平均，任务效果取决于模型后续是否在这个接口上训练过。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="anisotropy-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="anisotropy-title">为什么“随便两点 cosine 都很高”？</h2>
+        </div>
+        <p class="section-note">各向异性会让向量挤在相似的锥形区域。切换原始表示与去均值表示，看同一对向量怎样变化。</p>
+      </div>
+
+      <div class="anisotropy-board">
+        <div class="aniso-controls">
+          <div class="pooling-buttons">
+            <button type="button" data-aniso-mode="raw" aria-pressed="true">Raw hidden states</button>
+            <button type="button" data-aniso-mode="center" aria-pressed="false">Mean-centered</button>
+          </div>
+          <div class="aniso-metric">
+            <span>A · B cosine</span>
+            <strong data-aniso-cos>0.000</strong>
+          </div>
+          <div class="aniso-metric">
+            <span>平均方向占比</span>
+            <strong data-aniso-share>0%</strong>
+          </div>
+          <p data-aniso-copy>
+            原始向量共享一个很强的公共方向，即使内容不同，cosine 也可能很高。判断细粒度语义时，还需结合训练目标和任务评估。
+          </p>
+        </div>
+        <div class="aniso-visual">
+          <svg viewBox="0 0 420 300" role="img" aria-label="各向异性表示与去均值表示对比" data-aniso-svg></svg>
+          <div class="aniso-legend"><span><i></i>A</span><span><i></i>B</span><span><i></i>其他样本</span><span><i></i>公共方向</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="matryoshka-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="matryoshka-title">截断维度会改变排序吗？</h2>
+        </div>
+        <p class="section-note">用一个八维教学向量比较完整向量与前缀向量。普通 embedding 截断后的效果需要单独评估。</p>
+      </div>
+
+      <div class="matryoshka-lab">
+        <div class="matryoshka-controls">
+          <p class="micro-label">ACTIVE DIMENSIONS</p>
+          <div class="dimension-buttons">
+            <button type="button" data-dim="2" aria-pressed="false">2</button>
+            <button type="button" data-dim="4" aria-pressed="true">4</button>
+            <button type="button" data-dim="6" aria-pressed="false">6</button>
+            <button type="button" data-dim="8" aria-pressed="false">8</button>
+          </div>
+          <p>当前使用前 <strong data-dim-value>4</strong> 维。下标较小的维度在玩具数据里信息更密集，但真实模型不保证这个性质。</p>
+          <div class="mrl-note">
+            <span>MRL 训练</span>
+            <p>Matryoshka Representation Learning 会在多个前缀长度上共同优化，让前 64、128、256 维都成为可用的重要子表示。</p>
+          </div>
+        </div>
+        <div class="matryoshka-results">
+          <div class="mrl-head">
+            <span>候选</span><span>前缀 cosine</span><span>排序</span>
+          </div>
+          <div data-mrl-list aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="math-principles">
+        <article>
+          <span class="tag">普通截断</span>
+          <h3>直接截断的效果</h3>
+          <p>若模型没有针对前缀训练，删掉尾部维度可能丢掉关键方向。能不能用要按自己的检索集测，并同时记录索引成本。</p>
+          <code>v[:k]</code>
+        </article>
+        <article>
+          <span class="tag tag-teal">MRL</span>
+          <h3>不同前缀一起被优化</h3>
+          <p>训练时联合优化多个前缀维度的目标，使较短前缀也承担任务。前缀是否保留足够信息、完整维度是否受影响，都要用各维度的任务结果验证；不保证每一维按可解释的重要性排序。</p>
+          <code>Σ<sub>k∈K</sub> L(v[:k])</code>
+        </article>
+        <article>
+          <span class="tag">工程收益</span>
+          <h3>先短向量召回，再完整重排</h3>
+          <p>低维前缀可以降低索引内存与距离计算成本；高维向量或 cross-encoder 再精排。收益和损失都要实测。</p>
+          <code>128D recall → full rerank</code>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="interface-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="interface-title">同一个 Embedding 模型，为什么还要“使用协议”？</h2>
+        </div>
+        <p class="section-note">训练时的 prompt、query/doc 角色、最大长度和 normalize 都属于模型接口，应在部署时保持一致。</p>
+      </div>
+
+      <div class="interface-details">
+        <article>
+          <span>01</span>
+          <h3>对称与不对称任务</h3>
+          <p>“两句话是否相似”通常两边同分布；“query 能否检索到 passage”则一边短、一边长，可显式训练非对称编码与指令前缀。</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Instruction prefix</h3>
+          <p>一些检索模型训练时要求给 query 加任务提示。漏掉 prefix 可能在原训练分布外，是否需要 prefix，以模型卡和复现实验为准。</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>最大长度与截断</h3>
+          <p>编码器只能看到某个 token 上限。超长文档需要分块或显式处理截断；标题、小节名和正文是否一起编码也要按答案单元决定。</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>Normalize 的一致性</h3>
+          <p>训练与索引应使用匹配的度量。非零向量重复做 L2 归一化在精确数学上不改变方向；需要检查的是漏归一化、先截断后未重新归一化、或误把去均值/标准化当作 normalize。零向量要另行处理。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="diagnosis-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="diagnosis-title">怎样判断是模型、池化，还是数据单位出了问题？</h2>
+        </div>
+        <p class="section-note">排障时把表示生成和检索系统拆开，优先找“哪一段的假设不一致”。</p>
+      </div>
+
+      <div class="diagnosis-table-wrap">
+        <table class="deep-table">
+          <thead>
+            <tr><th>现象</th><th>先检查</th><th>常见修复</th><th>单独做仍不足的调整</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>所有 cosine 都很高</td><td>normalize、公共均值、是否拿错层</td><td>按模型要求归一化；评估去均值/whitening；检查输出层</td><td>仅凭高余弦认定度量失效</td></tr>
+            <tr><td>相关块排不进 Top-k</td><td>chunk 边界、query/doc 角色、难负样本</td><td>改为语义单元分块；加标题；按任务做对比后训练</td><td>只提高 embedding 维度</td></tr>
+            <tr><td>短 query 噪音大</td><td>prefix、池化、是否使用 query encoder</td><td>按模型卡加 instruction；测试对称/非对称编码器</td><td>直接平均词向量</td></tr>
+            <tr><td>换维度后排序大幅变化</td><td>是否用 MRL 训练、是否重新建索引</td><td>用匹配的维度和归一化方式重建全库索引</td><td>只改查询端而不重建文档</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section next-lesson">
+      <div>
+        <p class="eyebrow">NEXT / GRADIENT ACCOUNTING</p>
+        <h2>池化之后，正负样本怎样影响这些坐标？</h2>
+      </div>
+      <a class="button button-primary" href="training-deep.html">进入损失与梯度解剖 →</a>
+    </section>

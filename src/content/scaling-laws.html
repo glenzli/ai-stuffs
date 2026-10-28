@@ -1,0 +1,198 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">FRONTIER 01 / SCALING LAWS</p>
+        <h1>Scaling Laws：<span class="accent-text">参数、数据与计算预算</span></h1>
+        <p class="lede">
+          参数 N 与训练 token D 争夺同一份 compute。Chinchilla 类结论给出一个重要基准，其适用范围由数据、架构和实验设置决定。
+          预算选择还要考虑唯一数据量、推理流量、上下文长度、MoE 激活参数与目标能力。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">近似训练 compute</p>
+        <p><code>C ≈ 6 · N · D</code>。这是 dense Transformer 前向+反向的常用量级；具体实现、attention、MoE 与序列长度会改变常数与项。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="budget-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="budget-title">固定 compute 下，N 与 D 此消彼长</h2>
+        </div>
+        <p class="section-note">选择 compute 与模型规模，页面按 C≈6ND 计算可训练 token；结果展示可用预算，最终 loss 由训练实验评估。</p>
+      </div>
+
+      <div class="scaling-budget-lab">
+        <div class="scaling-controls">
+          <label class="mem-select">
+            <span>训练 compute C</span>
+            <select data-scaling-compute>
+              <option value="1e21">1 × 10²¹ FLOPs</option>
+              <option value="1e22" selected>1 × 10²² FLOPs</option>
+              <option value="1e23">1 × 10²³ FLOPs</option>
+              <option value="1e24">1 × 10²⁴ FLOPs</option>
+            </select>
+          </label>
+          <label class="lab-range">
+            <span>模型参数 N <strong data-scaling-model-value>7B</strong></span>
+            <input type="range" min="0" max="20" value="13" step="1" data-scaling-model>
+            <small>滑杆按对数尺度映射到约 0.1B–70B。</small>
+          </label>
+          <label class="mem-select">
+            <span>唯一训练 token 储备</span>
+            <select data-scaling-unique>
+              <option value="1e10">10B</option>
+              <option value="1e11">100B</option>
+              <option value="3e11" selected>300B</option>
+              <option value="1e12">1T</option>
+              <option value="2e12">2T</option>
+            </select>
+          </label>
+          <div class="budget-formula">
+            <span>预算分配</span>
+            <code>D = C / (6N)</code>
+          </div>
+        </div>
+
+        <div class="scaling-output">
+          <div class="scaling-readout">
+            <div><span>可训练 token D</span><strong data-scaling-tokens>238B</strong></div>
+            <div><span>D / N</span><strong data-scaling-ratio>34</strong></div>
+            <div><span>相对唯一数据重复</span><strong data-scaling-epochs>0.79×</strong></div>
+          </div>
+          <div class="scaling-verdict">
+            <span>如何读</span>
+            <p data-scaling-verdict>D/N 仅描述当前训练预算的参数与 token 分配。图中的分档是教学参照，最优区间需用训练实验估计。</p>
+          </div>
+          <svg class="scaling-chart" viewBox="0 0 520 260" role="img" aria-label="固定 compute 下模型参数与可训练 token 的等 compute 曲线" data-scaling-chart></svg>
+          <p class="figure-caption">等 compute 曲线上的每个点消耗相同主训练 FLOPs；D/N 描述 token 与参数的数量比例。推理成本、数据质量和最终能力会改变你应选择的点。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="chinchilla-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="chinchilla-title">Chinchilla 结论与它的边界</h2>
+        </div>
+        <p class="section-note">“模型和数据同比增大”来自特定实验设置，应用时需要校准。</p>
+      </div>
+
+      <div class="scaling-cards">
+        <article>
+          <span>经典结论</span>
+          <h3>训练 compute 固定时，过大的模型会缺少训练数据</h3>
+          <p>Chinchilla 系列实验表明，在特定 setup 中，较小模型配合更多 token 可优于参数更大但欠训练的模型；常用“约 20 tokens/param”作为沟通基准。</p>
+        </article>
+        <article>
+          <span>适用边界</span>
+          <h3>数据分布、架构、词表和目标会移动最优点</h3>
+          <p>MoE、长上下文、不同质量的数据、训练后推理量、蒸馏/重复数据和特定任务都会改变“同等预算下什么最好”。</p>
+        </article>
+        <article>
+          <span>推理感知</span>
+          <h3>大使用量会把选择推向更小模型</h3>
+          <p>训练只是一次性（或阶段）成本，推理是持续成本。高 QPS 场景可能宁愿多训练较小模型，以降低每 token 的权重读取、KV 与延迟。</p>
+        </article>
+        <article>
+          <span>质量与重复</span>
+          <h3>D 统计实际处理的训练 token</h3>
+          <p>计算 C ≈ 6ND 时，重复 token 也消耗算力并计入 D。唯一数据量与质量要另记；相同 D 不代表相同有效学习信号，也不保证同一条 loss 拟合曲线适用。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="curve-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="curve-title">Scaling Law 常用哪些变量？</h2>
+        </div>
+        <p class="section-note">简化形式用于描述趋势；预测具体模型前，应先校准系数并验证适用范围。</p>
+      </div>
+
+      <div class="scaling-formula-board">
+        <div>
+          <span>PARAMETRIC LOSS</span>
+          <div class="math-display" data-math>L(N,D)\approx E+\frac{A}{N^\alpha}+\frac{B}{D^\beta}</div>
+          <p>E 是不可约误差的示意，N 项与 D 项分别反映模型容量与数据不足。具体数据、架构、优化器会改变系数与拟合域。</p>
+        </div>
+        <div>
+          <span>COMPUTE</span>
+          <div class="math-display" data-math>C\approx6ND</div>
+          <p>把训练成本与规模联系起来的量级近似。MoE 要用激活参数与通信/专家开销另行校正；长序列增加 attention 项。</p>
+        </div>
+        <div>
+          <span>INFERENCE</span>
+          <div class="math-display" data-math>F_{\mathrm{param}}\approx2Q P_{\mathrm{active}}</div>
+          <p>这估算 Q 个 token 的前向参数计算量；服务价格与时延还取决于其他成本。还要计入 attention、KV、batch、精度、MoE 通信与硬件利用率；训练最优与长期总成本最优可能不同。</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>迁移拟合结果时：</strong>tokenizer、数据混合、MoE 路由和训练配方的变化都可能移动曲线。用目标设置下的小规模实验重新校准系数，并检查外推误差。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="transfer-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="transfer-title">从小规模实验外推，要固定什么？</h2>
+        </div>
+        <p class="section-note">扩大模型时，需要同时验证优化器和数据配方的迁移效果。</p>
+      </div>
+
+      <div class="scaling-check-grid">
+        <div><span>01</span><h3>相同数据配方</h3><p>数据混合、去重、tokenizer、长度分布要一致；否则曲线移动可能来自数据。</p></div>
+        <div><span>02</span><h3>学习率与 batch 可迁移</h3><p>LR、warmup、batch/accumulation 与 μP/transfer 策略需要小规模扫描与验证。</p></div>
+        <div><span>03</span><h3>训练 token 与 epoch 区分</h3><p>D 中包含重复时，不只报告“训练了 1T tokens”，还要报告唯一 token 与实际重复。</p></div>
+        <div><span>04</span><h3>指标与失败集一起缩放</h3><p>平均 loss 平滑不代表目标能力平滑；retrieval、代码、数学、长上下文可能在不同规模翻折。</p></div>
+        <div><span>05</span><h3>推理预算纳入选择</h3><p>同一训练预算下，small dense、large dense、MoE 的总服务成本与延迟完全不同。</p></div>
+        <div><span>06</span><h3>不确定性区间</h3><p>多个规模/seed 给出拟合区间，并用未参与拟合的实验检验外推。</p></div>
+      </div>
+    </section>
+
+    <!-- learning-dynamics contextual links -->
+<p>宽度迁移的具体证据见<a href="initialization-width.html">标准参数化与 μP 的坐标、参数组和保留宽度实验</a>；消费 token 与更新次数的预算对照见<a href="batch-noise.html">Batch 与梯度噪声</a>。</p>
+    <div class="modern-page">
+    <section class="section" aria-labelledby="fit-evidence"><div class="section-heading"><span class="section-number">05 / WHERE LAWS COME FROM</span><h2 id="fit-evidence">Scaling Law 是怎么来的？</h2><p>研究者在受控实验中测量多个规模，再用函数拟合 loss 与参数、数据和计算量的关系。</p></div>
+      <div class="mechanism-flow"><div><span>01 / GRID</span><h3>设计多个规模实验</h3><p>改变 N、D、compute，控制数据配方、tokenizer、训练策略与测量口径。</p></div><div><span>02 / MEASURE</span><h3>记录可比的 loss</h3><p>在固定 held-out 分布上测量；保存训练曲线、预算、异常 run 与优化是否充分。</p></div><div><span>03 / FIT</span><h3>拟合与选型</h3><p>估计幂律系数和误差项，或做 IsoFLOP 实验找同预算下的最优点。</p></div><div><span>04 / VALIDATE</span><h3>保留规模做检验</h3><p>用未参与拟合的较大规模验证预测，报告残差、区间与失效条件。</p></div></div>
+      <div class="prose"><p>Kaplan 等工作研究参数、数据、计算与语言模型 loss 的幂律关系。Chinchilla 后来扩大对训练 token 分配的研究，结合固定模型规模曲线、IsoFLOP 与参数化 loss 拟合，提出在其实验范围内模型和 token 应更均衡扩展。两者实验设置、训练长度与拟合方法不同，比较结论时应保留这些实验条件。</p><p>约 20 tokens/param 的常见沟通基准可从 Chinchilla 的约 70B 参数、1.4T 训练 token 看出量级；其他规模和任务的最优比值需要重新估计。部署流量很大时，更小模型多训练一些可能降低长期成本，目标函数就从训练 FLOPs 最优改成总成本最优。</p></div>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+L-E&amp;\approx A N^{-\alpha},\\
+\log(L-E)&amp;\approx\log A-\alpha\log N.
+\end{aligned}</div><figcaption>仅对这一单项近似成立；误差底 E 也可能未知。直接对 log L 拟合直线，再把斜率当成普适 α，会混淆误差底与规模效应。</figcaption></figure>
+      <details class="math-derivation"><summary>把预算推导展开：为什么模型与数据要一起扩展？</summary>
+        <p>假设经验拟合在当前范围内有效，A、B、α、β 都为正，训练预算采用 C=6ND。固定 C，用 D=C/(6N) 消掉一个变量：</p>
+        <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+L_C(N)&amp;=E+A N^{-\alpha}+B\left(\frac{6N}{C}\right)^\beta,\\
+\frac{\mathrm dL_C}{\mathrm dN}
+&amp;=-\alpha A N^{-\alpha-1}
+ +\beta B\left(\frac6C\right)^\beta N^{\beta-1}.
+\end{aligned}</div><figcaption>增大 N 会降低容量不足项，同时挤占数据预算，抬高数据不足项。模型与数据的预算取舍由这两个边际变化决定。</figcaption></figure>
+        <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+\frac{\mathrm dL_C}{\mathrm dN}=0
+\quad&amp;\Longrightarrow\quad
+N_*^{\alpha+\beta}=\frac{\alpha A}{\beta B}\left(\frac C6\right)^\beta,\\
+N_*&amp;\propto C^{\frac{\beta}{\alpha+\beta}},\\
+D_*&amp;\propto C^{\frac{\alpha}{\alpha+\beta}}.
+\end{aligned}</div><figcaption>当 α≈β，两者随 compute 近似按平方根增长；具体 D/N 比值还依赖 A、B 等拟合系数。这个推导不能凭空给出“20 tokens/param”，也不包含数据耗尽、attention、通信与部署成本。</figcaption></figure>
+      </details>
+      <div class="compare-wrap"><table><thead><tr><th>看到的图</th><th>实际在回答</th><th>需要避免</th></tr></thead><tbody>
+        <tr><td>log-log 近似直线</td><td>在已测范围内某种函数能近似描述趋势。</td><td>有限区间拟合好不证明无限外推，误差底 E 会影响斜率。</td></tr>
+        <tr><td>IsoFLOP 谷底</td><td>同计算预算下，哪个 N/D 组合在目标 loss 上更好。</td><td>学习率日程、欠训练或数据质量改变，也会移动谷底。</td></tr>
+        <tr><td>平滑 loss 曲线</td><td>平均预测误差随规模的趋势。</td><td>不能据此准确预测某项任务何时出现“能力跃迁”。离散评分与阈值也能制造突变外观。</td></tr>
+        <tr><td>推理时扩展曲线</td><td>固定模型上，更多采样/修订/搜索是否带来收益。</td><td>这条曲线受验证器、题目难度和相关错误影响，应与预训练 scaling 分开拟合。</td></tr>
+      </tbody></table></div>
+      <div class="callout"><p><strong>工程上的用法：</strong>把 scaling fit 当预算假设。先在小规模扫描，检查残差与外推误差，再用中间规模确认。数据、架构、上下文、精度或训练目标改变后，要重新校准，并用新实验验证。</p></div>
+      <div class="reading-links"><a href="model-evaluation.html#generalization">怎样验证泛化</a><a href="reasoning-compute.html#reasoning-budget">推理时预算</a><a href="data-tokenizer.html#cleaning-evidence">数据配方的消融证据</a></div>
+    </section></div>
+    <section class="section next-lesson">
+      <div>
+        <p class="eyebrow">NEXT / BEHAVIOR SCALING</p>
+        <h2>规模提供能力底座，但偏好、推理链和工具使用怎样进入策略？</h2>
+      </div>
+      <a class="button button-primary" href="rl-posttraining.html">进入 RL 后训练 →</a>
+    </section>

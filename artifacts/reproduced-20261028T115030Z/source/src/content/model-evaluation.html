@@ -1,0 +1,219 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">ENGINEERING EXTENSION / EVALUATION</p>
+        <h1>模型评估：<span class="accent-text">指标、泛化与发布判断</span></h1>
+        <p class="lede">
+          训练 loss 只说明训练分布上的预测变好。是否可发布，还要看 held-out 指标、切片、生成样例、污染、
+          统计不确定性和服务成本。评估设计本身就是一个工程系统。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">评估的第一原则</p>
+        <p>先定义决策：要决定是否换模型、是否上线、是否接受一次数据混合改动。根据决策选择指标、比较基线和测试样本。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="metric-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="metric-title">按任务选择评估指标</h2>
+        </div>
+        <p class="section-note">切换任务，查看主指标、必须拆的切片、最容易被单一分数掩盖的问题。</p>
+      </div>
+
+      <div class="eval-lens-tabs" role="group" aria-label="任务评估类型">
+        <button type="button" data-eval-lens="pretrain" aria-pressed="true">预训练 / LM</button>
+        <button type="button" data-eval-lens="embedding" aria-pressed="false">Embedding 检索</button>
+        <button type="button" data-eval-lens="sft" aria-pressed="false">SFT / 生成</button>
+        <button type="button" data-eval-lens="preference" aria-pressed="false">偏好 / 安全</button>
+      </div>
+
+      <div class="eval-lens-panel" aria-live="polite">
+        <div>
+          <p class="micro-label" data-eval-kicker>NEXT-TOKEN OBJECTIVE</p>
+          <h3 data-eval-title>用 held-out loss 与下游任务评估模型</h3>
+          <p data-eval-copy>
+            报告 bits/token 或 bits/byte 时要说明 tokenizer；perplexity 在同一 tokenizer/数据切分下可比较，跨 tokenizer 不能直接横向比。
+          </p>
+        </div>
+        <div class="eval-metric-list">
+          <div><span>主指标</span><p data-eval-primary>held-out bits/byte、领域任务、长上下文、多语言</p></div>
+          <div><span>必须切片</span><p data-eval-slices>语言、领域、长度、训练阶段、重复度</p></div>
+          <div><span>隐蔽问题</span><p data-eval-risk>测试集污染、tokenizer 改变、训练数据重复导致的记忆</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="metrics-math-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="metrics-math-title">几个你会实际写进评估脚本的指标</h2>
+        </div>
+        <p class="section-note">每个指标关注不同结果，使用前先确定它衡量的对象与计分规则。</p>
+      </div>
+
+      <div class="metric-formula-grid">
+        <article>
+          <span>CLASSIFICATION</span>
+          <h3>Precision / Recall / F1</h3>
+          <div class="math-display" data-math>\begin{aligned}P&amp;=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FP}},\\R&amp;=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}},\\F_1&amp;=\frac{2PR}{P+R}.\end{aligned}</div>
+          <p>只看 accuracy 会在类别不均衡时失真。明确正类、拒绝类与业务代价。</p>
+        </article>
+        <article>
+          <span>RETRIEVAL</span>
+          <h3>Recall@k / MRR / nDCG</h3>
+          <div class="math-display" data-math>\operatorname{Recall}@k=\frac{|\mathcal R\cap\operatorname{Top}_k|}{|\mathcal R|}</div>
+          <p>R 是标注相关文档集合。Recall 衡量候选覆盖，MRR 看第一个正确结果，nDCG 还能区分排序位置与相关程度。无相关标注、分母为零的 query 需声明评估处理方式。</p>
+        </article>
+        <article>
+          <span>GENERATION</span>
+          <h3>Pass@k / rubric / pairwise</h3>
+          <div class="math-display" data-math>\widehat{\operatorname{pass}@k}=1-\frac{\binom{n-c}{k}}{\binom nk}</div>
+          <p>每题生成 n ≥ k 个候选，c 个通过，按题估计 k 次采样至少一次成功的概率后取平均；n−c &lt; k 时值为 1。固定采样协议、token/工具预算与验证器，增大 k 会增加尝试次数；单次回答质量和从候选中选出正确答案的能力需分别评价。</p>
+        </article>
+        <article>
+          <span>LANGUAGE MODEL</span>
+          <h3>bits/token 与 bits/byte</h3>
+          <div class="math-display" data-math>\operatorname{BPB}=\frac{\operatorname{NLL}}{\ln 2\;\cdot\;N_{\mathrm{bytes}}}</div>
+          <p>NLL 使用自然对数；bits/token 则除以 token 数。BPB 提供共同字节单位，但要固定原文、规范化、上下文窗口与特殊 token 的计分规则。token ID 必须与模型权重匹配，更换 tokenizer 需要相应的模型适配。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="slice-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="slice-title">按语言、长度和领域查看评估结果</h2>
+        </div>
+        <p class="section-note">下面使用人工设定的分数展示不同聚合方式。</p>
+      </div>
+
+      <div class="slice-lab">
+        <div class="slice-controls">
+          <p class="micro-label">SLICES</p>
+          <label><input type="checkbox" data-slice="zh" checked><span>中文短问</span><strong>0.86</strong><small>60% 请求</small></label>
+          <label><input type="checkbox" data-slice="en" checked><span>英文检索</span><strong>0.72</strong><small>20% 请求</small></label>
+          <label><input type="checkbox" data-slice="long" checked><span>长文档</span><strong>0.61</strong><small>15% 请求</small></label>
+          <label><input type="checkbox" data-slice="code" checked><span>代码问题</span><strong>0.54</strong><small>5% 请求</small></label>
+          <p>这里把同一种逐请求成功率分成互斥切片：宏平均等权，请求加权平均按当前选中切片的请求占比重新归一化。该算法不能直接套到 F1、nDCG 等不同含义的指标。</p>
+        </div>
+        <div class="slice-output">
+          <div class="slice-readout">
+            <div><span>宏平均</span><strong data-slice-macro>0.682</strong></div>
+            <div><span>请求加权平均</span><strong data-slice-micro>0.779</strong></div>
+            <div><span>最弱切片</span><strong data-slice-weak>代码问题 · 0.54</strong></div>
+          </div>
+          <div class="slice-bars" data-slice-bars></div>
+          <p>真实产品要看失败代价：5% 的代码请求可能是最关键的人群。重要群体的失败率和失败代价应单独评估。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="reliability-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="reliability-title">怎样判断指标差异是否可靠</h2>
+        </div>
+        <p class="section-note">同一套评估重复跑，结果也会波动；不同模型要尽量做配对比较。</p>
+      </div>
+
+      <div class="reliability-grid">
+        <article><span>SEEDS</span><h3>跑多个 seed</h3><p>数据顺序、初始化和 dropout（若使用）都会变。以均值和波动范围支持模型选择。</p></article>
+        <article><span>CI</span><h3>给差值置信区间</h3><p>逐题成对重采样，观察新旧模型的分数差；同文档、多轮会话等相关样本应按组重采样。单个成功率可用 Wilson 区间；只看两条独立区间是否重叠不足以判断差异。</p></article>
+        <article><span>PAIRED</span><h3>在相同样本上比较</h3><p>新旧模型逐题对比，记录赢、输、平及各自对应的样本。</p></article>
+        <article><span>ABLATION</span><h3>一次只改一个关键变量</h3><p>同时换数据、tokenizer、学习率和池化，无法知道是谁带来了提升或退化。</p></article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="contamination-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="contamination-title">检查训练数据与评测数据的重叠</h2>
+        </div>
+        <p class="section-note">训练集包含验证题、训练数据的固定模板、或 judge 与训练偏好同源，都能让指标失去独立性。</p>
+      </div>
+
+      <div class="contamination-list">
+        <div><span>EXACT</span><strong>原题/原答案哈希重叠</strong><p>至少用规范化后的精确匹配检查。</p></div>
+        <div><span>N-GRAM</span><strong>长片段重叠</strong><p>识别轻微模板改写；阈值要抽样验证。</p></div>
+        <div><span>SEMANTIC</span><strong>语义近邻重叠</strong><p>跨语言/改写污染更隐蔽，但成本更高。</p></div>
+        <div><span>JUDGE</span><strong>评估器与训练偏好同源</strong><p>偏好数据、奖励模型和 judge 需要独立证据，避免闭环自我强化。</p></div>
+      </div>
+
+      <div class="callout">
+        <p><strong>报告时写清楚：</strong>测试集版本、去污染方法、是否按切片去重、是否只在训练后一次性使用。没有这些信息的分数很难复现，也很难信任。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="gate-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">06</span>
+          <h2 id="gate-title">一个可执行的发布门槛</h2>
+        </div>
+        <p class="section-note">把必须满足的质量底线写成发布条件，再比较主指标和资源成本。</p>
+      </div>
+
+      <div class="release-gate">
+        <div><span>01</span><h3>正确性与安全底线</h3><p>硬失败集、拒绝策略、隐私/工具调用风险必须通过。</p></div>
+        <div><span>02</span><h3>目标内提升有区间</h3><p>主指标跨 seed/切片提升，差异有置信区间或成对证据。</p></div>
+        <div><span>03</span><h3>邻近任务未越过回归线</h3><p>语言、长度、领域、检索、生成质量都在允许范围内。</p></div>
+        <div><span>04</span><h3>系统成本可接受</h3><p>延迟、显存、索引更新、部署版本与回滚路径全部验证。</p></div>
+      </div>
+    </section>
+
+    <div class="modern-page">
+    <!-- learning-dynamics contextual links -->
+<p><a href="learning-run.html">小模型学习与泛化实验</a>保留独立组合和长度外推的逐题预测，分别显示 teacher-forced loss、自由生成 token accuracy 与完整序列 exact match。</p>
+    <section class="section" aria-labelledby="generalization"><div class="section-heading"><span class="section-number">07 / GENERALIZATION</span><h2 id="generalization">怎样判断“训练好了”，又怎样判断泛化？</h2><p>这里有三个决策：优化是否有效、是否值得继续投入，以及是否满足使用要求。</p></div>
+      <div class="compare-wrap"><table><thead><tr><th>数据 / 阶段</th><th>用途</th><th>能支持的结论</th><th>评估范围与限制</th></tr></thead><tbody>
+        <tr><td>训练集</td><td>计算梯度、拟合参数。</td><td>目标能否被优化、数据/数值/标签是否明显异常。</td><td>未见输入的表现和样本记忆情况，需要另外设计测试。</td></tr>
+        <tr><td>验证集</td><td>选 checkpoint、超参数、数据混合和停止时机。</td><td>在这个验证分布上的模型选择证据。</td><td>反复选参会间接拟合验证集，不能始终当作独立最终测验。</td></tr>
+        <tr><td>锁定测试集</td><td>方案确定后做独立比较。</td><td>在指定分布、采样协议与样本量下的泛化估计。</td><td>结论限于已测分布；污染扫描仍可能漏掉重叠。</td></tr>
+        <tr><td>分布外/时间切分</td><td>新领域、新模板、后来的事件、未见组合、长尾条件。</td><td>针对这些变化的迁移与鲁棒性。</td><td>逐类报告分布变化，例如新领域、新模板或新时间段。</td></tr>
+        <tr><td>上线与回归</td><td>真实任务、环境状态、成本和用户分布。</td><td>当前使用条件下的可靠性与漂移证据。</td><td>离线分数不自动等于线上成功率。</td></tr>
+      </tbody></table></div>
+      <div class="prose"><p>评估泛化时，要检查训练与测试之间更广泛的关联。近重复、相同模板、同一文档不同段落、同一道题的改写都可能泄漏。根据要验证的能力，按文档、来源、实体、题族、仓库或时间做分组划分，再核对污染与相关样本。</p><p>一个模型可以在训练 loss 继续下降时，验证或目标任务已经停滞。反过来，预训练中不一定等到经典“训练集下降、验证集上升”的过拟合形状才停止：固定预算、边际收益、学习率日程、下游质量和服务成本都会决定终点。</p></div>
+    </section>
+    <section class="section" aria-labelledby="stopping-criteria"><div class="section-heading"><span class="section-number">08 / STOPPING &amp; RELEASE</span><h2 id="stopping-criteria">把“训练好了”改写成可执行的判断</h2></div>
+      <div class="concept-pairs"><div><h3>数值闭环通过</h3><p>有效标签、mask、梯度、参数更新、保存恢复都正确；小样本可拟合。完成这一步后，再做独立任务测试和发布评估。</p></div><div><h3>验证改善有可信收益</h3><p>与基线配对比较主指标与切片，报告样本量和区间。预先决定最小实际收益、允许退化幅度与最大预算，避免拿单次噪声峰值选模型。</p></div><div><h3>继续投入是否划算</h3><p>验证曲线的改善速度、成本/有效 token、目标任务收益、失败集与 LR 阶段一起看。early stopping 的 patience/min_delta 要符合评估噪声和频率，不能照抄常数。</p></div><div><h3>发布门槛满足</h3><p>独立测试、目标任务、长尾回归、输出协议、延迟和恢复路径均满足约定。后训练 reward、CoT 长度和 perplexity 可作为辅助观测，与这些发布条件一起分析。</p></div></div>
+      <details><summary>怎么区分记忆、模式匹配与可迁移能力？</summary><p>没有一次实验能完美分离。可通过同题改数字/条件、未见组合、跨来源测试、时间后移、去掉无关提示和对抗反例寻找证据；同时控制难度变化。把失败样本归因到知识缺失、感知错误、推理、工具、检索与协议，才能选择后续探索方向。</p></details>
+      <details><summary>Loss、能力、泛化为什么可能不同步？</summary><p>平均 token loss 对所有预测位置加权，任务评分常只看最终答案。少量关键 token 的改进、答案阈值、采样策略和测试难度会使任务分数出现不同形状。模型在一项能力上提高也可能伤害另一项；因此要同时看分布指标和目标任务。</p></details>
+      <div class="reading-links"><a href="scaling-laws.html#fit-evidence">规模规律来自什么实验</a><a href="reasoning-compute.html#reasoning-evidence">CoT 的证据边界</a><a href="agents-context.html#agent-evaluation">Agent 任务完成度</a></div>
+    </section></div>
+    <div class="modern-page">
+    <section class="section" aria-labelledby="agent-reliability"><div class="section-heading"><span class="section-number">09 / REPEATED TASKS</span><h2 id="agent-reliability">试很多次能成功，和每次都可靠，分别怎样测？</h2></div>
+      <div class="prose"><p>探索型任务可能允许多次尝试后选一个结果；自动执行任务则常要求每次都遵守约束。记录单次 trial、完整轨迹和最终环境状态，再按决策选择“至少成功一次”或“重复执行全部成功”的指标。多候选还需要选择器，任务重复成功也要检查副作用。</p></div>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}P(\text{至少一次成功})&amp;=1-(1-p)^k,\\P(\text{全部成功})&amp;=p^k.\end{aligned}</div><figcaption>仅在独立、同成功率 p 的重复试验假设下成立。这里的 k 是同一任务的重复次数，不是一个长任务的 k 个步骤；跨题汇总时应先逐题计算再平均。</figcaption></figure>
+      <div class="experiment"><div class="experiment-head"><h3>重复成功率对照</h3><span class="assumption">独立同分布的概率示意</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>单次成功率 <output data-er-p-value></output></span><input type="range" min="0" max="100" value="80" data-er-p></label><label><span>重复次数 <output data-er-k-value></output></span><input type="range" min="1" max="20" value="5" data-er-k></label></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>至少成功一次</span><strong data-er-any></strong></div><div><span>每次都成功</span><strong data-er-all></strong></div></div><p class="experiment-note" data-er-note></p></div></div></div>
+      <div class="prose"><p>真实执行存在共同故障：相同工具不可用、同类题目超出能力、环境状态污染。直接把平均成功率代入独立公式会掩盖题目差异和相关性。应保存逐题多次结果，按题族或环境分组给区间，报告 timeout、基础设施失败与模型失败的分类规则。</p></div>
+      <div class="compare-wrap"><table><thead><tr><th>比较</th><th>固定什么</th><th>变化什么</th><th>报告内容</th></tr></thead><tbody>
+        <tr><td>模型贡献</td><td>任务、运行系统、工具、预算、判分器。</td><td>模型 revision。</td><td>完整任务成功、约束违反、成本、失败切片。</td></tr>
+        <tr><td>运行系统贡献</td><td>模型、任务和判分器。</td><td>规划、重试、上下文压缩、工具接口。</td><td>质量变化和额外 token、工具调用、延迟。</td></tr>
+        <tr><td>交互效应</td><td>同一任务矩阵。</td><td>模型 A/B × 系统 A/B 的四种组合。</td><td>哪些模型收益依赖特定系统；不能直接归因给单个部件。</td></tr>
+      </tbody></table></div>
+      <p class="source-note">工程依据：Anthropic《Demystifying evals for AI agents》（2026-01-09）。环境应隔离、可重置，超时和重试预算与结果一起保存。</p>
+    </section>
+    <section class="section" aria-labelledby="judge-reliability"><div class="section-heading"><span class="section-number">10 / GRADER ERROR</span><h2 id="judge-reliability">判分器给出的通过率，偏差从哪里来？</h2></div>
+      <div class="prose"><p>LLM judge 的评分需要用人工复核或可执行证据校准。规则判分器也可能漏掉等价答案、未覆盖的错误或隐藏副作用。先建立明确 rubric 与复核样本，再分别统计把正确判错、把错误判对的比例。</p></div>
+      <figure class="math-block"><div class="math-display" data-math>q=p\cdot\mathrm{TPR}+(1-p)\cdot(1-\mathrm{TNR})</div><figcaption>p 为真实成功率，TPR 为正确结果被判通过的比例，TNR 为错误结果被判失败的比例。q 是判分器观察到的通过率；真实评估中 p 通常未知，这里把它设为教学参数。</figcaption></figure>
+      <div class="experiment"><div class="experiment-head"><h3>判分器混淆矩阵</h3><span class="assumption">假设总体比例 · 非某个 judge 实测</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>真实成功率 <output data-er-truth-value></output></span><input type="range" min="0" max="100" value="60" data-er-truth></label><label><span>TPR：识别成功 <output data-er-sensitivity-value></output></span><input type="range" min="0" max="100" value="90" data-er-sensitivity></label><label><span>TNR：识别失败 <output data-er-specificity-value></output></span><input type="range" min="0" max="100" value="90" data-er-specificity></label></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>观察通过率</span><strong data-er-observed></strong></div><div><span>相对真实率偏差</span><strong data-er-bias></strong></div></div><div class="compare-wrap"><table class="compact-result-table"><thead><tr><th>结果类别</th><th>总体占比</th></tr></thead><tbody data-er-rows></tbody></table></div></div></div></div>
+      <div class="concept-pairs"><div><h3>对分歧样本做复核</h3><p>按任务、长度、语言与输出风格采样。位置偏差可通过交换 A/B 顺序检查；格式与措辞偏好可用保持内容不变的改写检查。rubric 与 judge 版本一起保存。</p></div><div><h3>公开测试逐渐进入训练循环</h3><p>题目被讨论、改写、合成后，精确匹配也可能查不到关联。保留时间后移、私有题族和环境变化的测试；反复据测试结果调参会消耗其独立性。</p></div><div><h3>把校准误差带入结论</h3><p>judge 的敏感度/特异度可能随新模型风格改变。不能假定新旧模型共享同一误差；除了分数区间，还要检查判分分歧和错误类型。</p></div><div><h3>记录预算与选择过程</h3><p>模型、运行系统、采样参数、工具权限、候选数、最大时间和成本共同定义测试条件。每次挑最好的结果会改变成功率的含义。</p></div></div>
+      <div class="reading-links"><a href="reasoning-compute.html#reasoning-budget">候选覆盖与选择器</a><a href="agents-context.html#agent-evaluation">环境状态验证</a><a href="finetuning-recipe.html#recipe-learning-curve">微调数据学习曲线</a></div>
+    </section></div>
+    <div class="modern-page"><div class="reading-links"><a href="uncertainty-calibration.html">下一步：置信度、校准与回答门槛</a><a href="continual-learning.html#continual-evaluation">新旧任务的阶段评估矩阵</a><a href="training-environments.html#environment-verifier">可执行环境验证器</a></div></div>
+    <div class="modern-page"><div class="reading-links"><a href="engineering-check.html">综合检查：数据、监督与执行是否使用同一口径</a></div></div>
+    <section class="section next-lesson">
+      <div>
+        <p class="eyebrow">NEXT / REPRODUCE IT</p>
+        <h2>模型文件、config、权重分片与恢复状态怎样对应？</h2>
+      </div>
+      <a class="button button-primary" href="model-artifacts.html">进入模型工件与 checkpoint →</a>
+    </section>
+
+<div class="modern-page"><div class="reading-links"><a href="paired-evaluation.html">导入逐题结果，运行配对统计实验</a></div></div>

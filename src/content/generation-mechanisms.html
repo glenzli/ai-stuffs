@@ -1,0 +1,34 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">MODERN AI / GENERATION</p><h1>自回归、扩散与<span class="accent-text">潜在空间</span></h1><p class="lede">Transformer 描述网络怎样计算；自回归和扩散描述怎样定义生成分布与学习目标。相同骨干可以服务不同目标，token 也不一定代表文字。</p></div><aside class="intro-aside"><p class="micro-label">先分四个层次</p><p>表示单位 → 网络结构 → 训练目标 → 采样算法。按这四层查看模型，便于定位每项改进的作用。</p></aside></section>
+  <section class="section" aria-labelledby="ar-factorization"><div class="section-heading"><span class="section-number">01 / AUTOREGRESSION</span><h2 id="ar-factorization">自回归做了什么：把联合分布拆成条件预测</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+p_\theta(x_{1:T})&amp;=\prod_{t=1}^{T}p_\theta(x_t\mid x_{&lt;t}),\\
+\mathcal L_{\mathrm{AR}}&amp;=-\sum_{t=1}^{T}\log p_\theta(x_t\mid x_{&lt;t}).
+\end{aligned}</div><figcaption>xₜ 是第 t 个 token，x&lt;ₜ 是它之前的前缀。连乘给序列概率，负对数把连乘变成可逐位置相加的损失；实际 batch 还要声明 mask 与平均方式。</figcaption></figure>
+    <div class="prose"><p>概率链式分解本身是恒等式。工程选择是用同一模型近似每个条件分布，并以因果 mask 阻止位置偷看将要预测的 token。每个位置的 hidden state 投到词表 logits，softmax 给下一 token 分布。多层网络将可见上下文组织成特征，用于估计这个条件分布。</p><p><strong>训练可以并行，采样通常串行。</strong>训练已知真实序列，用 teacher forcing 一次计算各位置，但因果 mask 仍在。生成时未知后续 token，只能先采样一个，再把它作为下一轮输入。teacher forcing 指训练时使用真实前缀；teacher model 则指提供监督信号的模型。</p><p>训练前缀来自数据，生成前缀包含模型自己的错误，这种分布差异会使偏差累积。自生成轨迹训练、搜索与验证可以用于研究这类偏差，各自效果需要单独评估。KV Cache 复用过去位置的状态，减少重复计算，并不取消这种条件依赖。</p></div>
+  </section>
+  <section class="section" aria-labelledby="generation-state"><div class="section-heading"><span class="section-number">02 / STATE TRANSITIONS</span><h2 id="generation-state">两种生成过程：追加一个位置，或修改一组位置</h2></div>
+    <div class="experiment"><div class="experiment-head"><h3>生成状态对照</h3><div class="segmented" role="group" aria-label="生成机制"><button type="button" data-gen-mode="ar" aria-pressed="true">自回归</button><button type="button" data-gen-mode="diffusion" aria-pressed="false">离散去噪示意</button></div></div><div class="experiment-view"><div class="token-tape" data-gen-tape></div><div class="state-log" aria-live="polite"><strong data-gen-title></strong><span data-gen-copy></span></div><div class="step-actions"><button class="button button-primary" data-gen-next type="button">推进一步</button><button class="button" data-gen-reset type="button">重置</button></div></div><p class="experiment-caption">文本和状态顺序均为预设，用于展示两种生成过程的依赖关系。离散去噪算法的揭示/重遮策略不统一；不能由这里的步数推出速度比。</p></div>
+  </section>
+  <section class="section" aria-labelledby="diffusion-objective"><div class="section-heading"><span class="section-number">03 / DIFFUSION</span><h2 id="diffusion-objective">扩散：训练时制造噪声，生成时逐步恢复</h2></div>
+    <div class="mechanism-flow"><div><span>01 / CLEAN DATA</span><h3>取干净样本 x₀</h3><p>可以是像素，也可以是图像编码器压缩出的 latent；先明确数据空间。</p></div><div><span>02 / CORRUPT</span><h3>抽时间 t 和噪声 ε</h3><p>按已知日程构造 xₜ，模型同时接收 t 与文本等条件 c。</p></div><div><span>03 / PREDICT</span><h3>学习去噪目标</h3><p>预测噪声、干净数据、score 或其他参数化；目标决定损失与采样公式。</p></div><div><span>04 / SAMPLE</span><h3>从噪声开始迭代</h3><p>用学到的预测和求解器逐步更新状态，最后解码成图像或其他输出。</p></div></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+x_t&amp;=\sqrt{\bar\alpha_t}\,x_0+\sqrt{1-\bar\alpha_t}\,\epsilon,\\
+\epsilon&amp;\sim\mathcal N(0,I),\\
+\mathcal L_{\mathrm{simple}}
+&amp;=\mathbb E_{x_0,t,\epsilon}\!\left[\lVert\epsilon-\epsilon_\theta(x_t,t,c)\rVert_2^2\right].
+\end{aligned}</div><figcaption>DDPM 的一种常见参数化：x₀ 是干净样本，ᾱₜ 是累计保留信号的系数，ε 是采样噪声，c 是条件。εθ 学习预测加入样本的噪声。</figcaption></figure>
+    <div class="prose"><p>训练无需每条样本完整跑一次去噪链：可直接随机抽 t 构造带噪输入。采样才要执行多个状态更新；具体步数和日程由采样器决定。上式采用常见的简化噪声预测目标；其他配方可能使用不同权重或参数化。</p><p>DiT 用 Transformer 构建去噪网络：Transformer 提供网络骨干，扩散定义训练目标与采样过程。潜在扩散把去噪放在压缩后的连续表示中，减少计算，但编码器重建能力与压缩也会限制细节。</p></div>
+    <div class="compare-wrap"><table><thead><tr><th>路线</th><th>训练对象</th><th>推理状态</th><th>需要核对</th></tr></thead><tbody>
+      <tr><td>连续扩散</td><td>已知噪声过程上的去噪/score 估计。</td><td>连续 xₜ 按反向过程或求解器更新。</td><td>噪声日程、预测参数化、条件引导、采样步数。</td></tr>
+      <tr><td>Flow Matching</td><td>为噪声到数据的概率路径学习速度场 vθ(x,t)。</td><td>解 ODE 等动力系统，从初始分布输送到目标分布。</td><td>路径、时间参数与求解器；与扩散有联系，但不能直接混用损失公式。</td></tr>
+      <tr><td>离散扩散语言模型</td><td>按遮罩/离散破坏过程恢复 token，例如 masked diffusion。</td><td>多个待恢复位置可并行预测，也可按块推进。</td><td>位置何时确定、是否重遮、训练权重、缓存可否复用；离散破坏过程需与 token 表示匹配。</td></tr>
+      <tr><td>自回归语言模型</td><td>真实前缀上的下一 token 交叉熵。</td><td>确定前缀逐步增长，标准生成可复用 KV。</td><td>停止规则、采样温度、上下文与 KV、长程错误累积。</td></tr>
+    </tbody></table></div>
+    <div class="callout"><p><strong>比较生成速度时：</strong>要比较每步实际工作量、总步数、缓存、长度、batch 和质量目标。扩散若每轮重算整段序列，也有成本；自回归可通过投机解码一次验证多个位置。必须在相同任务和硬件协议下比较。</p></div>
+  </section>
+  <section class="section" aria-labelledby="latent-objectives"><div class="section-heading"><span class="section-number">04 / LATENT REPRESENTATIONS</span><h2 id="latent-objectives">Latent space、JEPA 与 J-space 分别指什么？</h2></div>
+    <div class="concept-pairs"><div><h3>潜在空间：模型的内部表示</h3><p>hidden state、VAE latent、句向量都属于潜在表示。理解一种表示，要看它怎样从输入得到、用什么目标训练，以及后续模块怎样使用它。</p></div><div><h3>JEPA：在表示空间里做预测</h3><p>上下文编码器和 predictor 根据可见区域，预测缺失区域的表示。I-JEPA 将这个目标用于图像；目标分支通常采用 stop-gradient、EMA 等设计，训练还要处理表示坍缩。</p></div><div><h3>J-space：与概念相关的激活模式</h3><p>Anthropic 把研究中识别出的一组内部激活模式称为 J-space。这些模式与特定概念有关。CoT 专题介绍了它们的识别方法、干预实验和研究结论。</p></div><div><h3>潜在推理：让连续状态参与下一步计算</h3><p>模型把中间连续状态反馈到后续步骤，在内部迭代计算。训练目标、状态更新方式和停止策略决定这套过程怎样运行；实验要比较计算成本和新任务上的表现。</p></div></div>
+    <div class="reading-links"><a href="reasoning-compute.html#internal-reasoning">CoT、J-space 与内部表示</a><a href="multimodal.html">多模态输入与输出</a><a href="inference-engine.html">自回归的 KV 账本</a></div>
+  </section>
+</div>

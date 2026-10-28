@@ -1,0 +1,12 @@
+# Keep source bytes and pinned hashes stable across checkout platforms.
+* text=auto eol=lf
+
+# Evidence must retain its exact original bytes, including report JSON and
+# the run-time source copies included in the checksum manifests.
+/artifacts/** -text
+*.pt binary
+*.tar.gz binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.woff2 binary

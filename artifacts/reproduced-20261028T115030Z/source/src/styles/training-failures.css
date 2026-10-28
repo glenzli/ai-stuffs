@@ -1,0 +1,36 @@
+.training-failures-page .tf-provenance { font: 12px/1.8 var(--mono); color: var(--ink-soft); overflow-wrap: anywhere; margin: 0 0 20px; }
+.training-failures-page .tf-metrics strong { font-size: 21px; overflow-wrap: anywhere; }
+.training-failures-page .tf-finding { overflow-wrap: anywhere; }
+.training-failures-page .tf-description, .training-failures-page .tf-verification { font-size: 13px; line-height: 1.85; overflow-wrap: anywhere; }
+.training-failures-page .tf-verification { color: var(--blue); }
+.training-failures-page .tf-event { margin: 22px 0 16px; border-left: 3px solid var(--blue); padding: 14px 16px; background: var(--blue-soft); min-width: 0; }
+.training-failures-page .tf-event h3 { font: 600 14px/1.85 var(--mono); margin: 8px 0; overflow-wrap: anywhere; }
+.training-failures-page .tf-event p { font-size: 12px; margin: 5px 0; overflow-wrap: anywhere; }
+.training-failures-page .tf-event-table { min-width: 710px; }
+.training-failures-page .tf-layer-table { min-width: 590px; }
+.training-failures-page .tf-label-table { min-width: 590px; }
+.training-failures-page .tf-event-table td, .training-failures-page .tf-event-table th,
+.training-failures-page .tf-layer-table td, .training-failures-page .tf-layer-table th,
+.training-failures-page .tf-label-table td, .training-failures-page .tf-label-table th { padding: 11px 10px; }
+.training-failures-page .tf-event-table td:nth-child(2) { max-width: 300px; overflow-wrap: anywhere; font: 12px/1.8 var(--mono); }
+.training-failures-page .tf-event-table td:first-child { min-width: 0; }
+.training-failures-page .tf-current > td { background: var(--blue-soft); }
+.training-failures-page .tf-invalid { color: var(--danger); font-weight: 600; }
+.training-failures-page .tf-divergent { color: var(--coral); font-weight: 600; }
+.training-failures-page .tf-layer-table td:first-child { max-width: 250px; overflow-wrap: anywhere; font: 12px/1.8 var(--mono); }
+.training-failures-page .tf-label-table td:first-child { max-width: 240px; overflow-wrap: anywhere; }
+.training-failures-page .tf-import { margin-bottom: 0; }
+.training-failures-page .tf-import p { font-size: 12px; overflow-wrap: anywhere; min-height: 35px; margin: 0; }
+.training-failures-page .tf-chart { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: var(--surface); margin-top: 20px; }
+.training-failures-page .tf-chart text { fill: var(--ink-soft); font: 12px var(--sans); }
+.training-failures-page .tf-bar-baseline { fill: var(--blue); }
+.training-failures-page .tf-bar-faulty { fill: var(--coral); }
+.training-failures-page .tf-bar-repaired { fill: var(--purple); }
+.training-failures-page .tf-code { white-space: pre; max-width: 100%; }
+.training-failures-page .tf-evidence { font-size: 13px; overflow-wrap: anywhere; }
+.training-failures-page .compare-wrap:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+@media (max-width: 760px) {
+  .training-failures-page .tf-metrics { grid-template-columns: minmax(0, 1fr); }
+  .training-failures-page .tf-metrics strong { font-size: 19px; }
+  .training-failures-page .tf-event { padding: 12px; }
+}

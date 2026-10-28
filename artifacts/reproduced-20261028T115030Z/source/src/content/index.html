@@ -1,0 +1,246 @@
+<section class="home-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">第一步 / 输入、预测与监督</p>
+        <h1>模型怎样学习：<span class="accent-text">从输入走到一次更新</span></h1>
+        <p class="hero-lede">
+          先给定输入和要预测的答案。输入经 tokenizer 得到 <strong>token ID</strong>，模型把它变成向量和预测，
+          再根据监督位置计算损失、更新参数。更新是否有效，还需要看新的输入和实际生成结果。
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="transformer-lab.html">下一步：看模型怎样计算</a>
+          <a class="button" href="deep-dive.html">查看六步路线</a>
+          <a class="text-link" href="learning-run.html">先看实际学习结果 <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+      <div class="hero-model" aria-labelledby="hero-model-title">
+        <div class="model-header">
+          <div>
+            <p class="micro-label">ONE TRANSITION / 一个关键转换</p>
+            <h2 id="hero-model-title">符号先变成 ID，再查成向量</h2>
+          </div>
+          <span class="status-dot">前向传播</span>
+        </div>
+
+        <div class="sentence-strip" aria-label="反转任务的内容符号编码，不含控制符号">
+          <span class="sentence-label">内容符号</span>
+          <span class="token-chip">A</span>
+          <span class="token-chip">B</span>
+          <span class="token-chip">C</span>
+          <span class="token-arrow" aria-hidden="true">→</span>
+          <span class="token-id">[4, 5, 6]</span>
+        </div>
+
+        <div class="lookup-board">
+          <div class="lookup-caption">
+            <span>Embedding 表 E · 查表示意</span>
+            <code>V × d</code>
+          </div>
+          <div class="matrix" aria-label="Embedding 查表示意：从大矩阵中取出 token 对应的一行">
+            <div class="matrix-row is-muted"><span>token 0</span><i>0.02</i><i>-0.11</i><i>0.07</i><i>0.13</i></div>
+            <div class="matrix-row is-active"><span>token 4 · A</span><i>0.34</i><i>-0.28</i><i>0.81</i><i>0.05</i><em>取这一行</em></div>
+            <div class="matrix-row is-muted"><span>token 5 · B</span><i>-0.08</i><i>0.19</i><i>0.03</i><i>-0.22</i></div>
+            <div class="matrix-row is-muted"><span>…</span><i>…</i><i>…</i><i>…</i><i>…</i></div>
+          </div>
+        </div>
+        <p class="figure-caption">这里只展示四个分量，数值为概念示意；实测模型的参数与维度在学习实验中单独说明。</p>
+
+        <div class="model-equation" aria-label="Embedding 查表公式">
+          <span>离散输入</span>
+          <code>x = E[token_id]</code>
+          <span>连续向量</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section home-pipeline" aria-labelledby="pipeline-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">THE FULL LOOP</p>
+          <h2 id="pipeline-title">从一句话到一次参数更新</h2>
+        </div>
+        <p class="section-note">点每一步，看看实际进入计算的对象和形状。</p>
+      </div>
+
+      <div class="pipeline-controls" role="tablist" aria-label="训练流水线步骤">
+        <button type="button" role="tab" aria-selected="true" aria-controls="pipeline-detail" data-pipeline-step="0">
+          <span>01</span> 文本
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="pipeline-detail" data-pipeline-step="1">
+          <span>02</span> Token ID
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="pipeline-detail" data-pipeline-step="2">
+          <span>03</span> 查表 / 混合
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="pipeline-detail" data-pipeline-step="3">
+          <span>04</span> 预测 / 相似度
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="pipeline-detail" data-pipeline-step="4">
+          <span>05</span> 损失
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="pipeline-detail" data-pipeline-step="5">
+          <span>06</span> 反传
+        </button>
+      </div>
+
+      <div class="pipeline-stage" id="pipeline-detail" role="tabpanel" aria-live="polite">
+        <div class="pipeline-index" data-pipeline-index>01</div>
+        <div class="pipeline-copy">
+          <p class="micro-label" data-pipeline-kicker>原始材料</p>
+          <h3 data-pipeline-title>文本先被切成离散符号</h3>
+          <p data-pipeline-body>
+            分词器先按照自己的词表，把文本切成 token；中文可能切成字、子词或多字词，取决于 tokenizer。
+          </p>
+        </div>
+        <div class="pipeline-meta">
+          <div><span>进入模型</span><code data-pipeline-input>字符串 / 字节</code></div>
+          <div><span>关键动作</span><strong data-pipeline-action>tokenize</strong></div>
+          <div><span>下一站</span><strong data-pipeline-next>整数 ID</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="reading-choice"><p><strong>贯穿案例：</strong>给定内容 <code>A B C</code>，希望模型生成 <code>C B A EOS</code>。完整输入还包含 BOS、SEP 等控制符号，<a href="learning-run.html#lr-task">学习实验</a>会说明它们怎样形成监督。本页先把输入、预测、损失和更新连接起来。</p></div>
+
+    <section class="section scale-section" aria-labelledby="scale-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">REPRESENTATION LEVELS</p>
+          <h2 id="scale-title">三种表示：词向量、上下文状态与句向量</h2>
+        </div>
+        <p class="section-note">三种表示对应不同的计算阶段，表示单位和使用方式各有区别。</p>
+      </div>
+
+      <div class="scale-switcher" role="tablist" aria-label="表示尺度">
+        <button type="button" role="tab" aria-selected="true" aria-controls="scale-detail" data-scale="token">
+          <span>01</span><strong>Token 向量</strong><small>一个查表行</small>
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="scale-detail" data-scale="context">
+          <span>02</span><strong>上下文状态</strong><small>每个位置各一个</small>
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="scale-detail" data-scale="sentence">
+          <span>03</span><strong>句 / 段向量</strong><small>压缩成一个点</small>
+        </button>
+      </div>
+
+      <div class="scale-stage" id="scale-detail" role="tabpanel" aria-live="polite">
+        <div class="scale-symbol" aria-hidden="true">
+          <span class="scale-shape" data-scale-shape>1 × d</span>
+          <span class="scale-axis">d</span>
+        </div>
+        <div>
+          <p class="micro-label" data-scale-kicker>静态查表表示</p>
+          <h3 data-scale-title>同一词，查到同一行</h3>
+          <p data-scale-body>
+            Word2Vec、GloVe 和 LLM 的输入 embedding 表都是这样：词表是 V 行，每行是 d 维参数，查表等价于 one-hot 乘矩阵。区别在于 LLM 之后还会经过上下文层，形成随输入语境变化的隐藏状态。
+          </p>
+        </div>
+        <dl class="scale-facts">
+          <div><dt>典型形状</dt><dd data-scale-data>1 × 768</dd></div>
+          <div><dt>语义是否随上下文变</dt><dd data-scale-context>不随句境改变</dd></div>
+          <div><dt>怎么得到句向量</dt><dd data-scale-reduce>还不足以表示整句</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section lesson-map" aria-labelledby="map-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">YOUR ROUTE</p>
+          <h2 id="map-title">按你的问题进入专题</h2>
+        </div>
+        <p class="section-note">主线的下一步是模型前向；已有具体目标时，也可以直接选择对应专题。</p>
+      </div>
+
+      <div class="lesson-list">
+        <a class="lesson-row" href="representation.html">
+          <span class="lesson-number">历史</span>
+          <span class="lesson-title">
+            <strong>表示方法怎么演化？</strong>
+            <small>从 one-hot 到上下文向量，再到面向检索的对比学习</small>
+          </span>
+          <span class="lesson-tag">历史 / 选型</span>
+          <span class="lesson-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="lesson-row" href="training.html">
+          <span class="lesson-number">更新</span>
+          <span class="lesson-title">
+            <strong>梯度怎样计算？</strong>
+            <small>先走下一词预测，再比较其他训练信号、梯度与更新</small>
+          </span>
+          <span class="lesson-tag">机制 / 公式</span>
+          <span class="lesson-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="lesson-row" href="posttraining.html">
+          <span class="lesson-number">适配</span>
+          <span class="lesson-title">
+            <strong>后训练在改什么？</strong>
+            <small>对照表示后训练、SFT、偏好优化与蒸馏的监督目标</small>
+          </span>
+          <span class="lesson-tag">边界 / 目标</span>
+          <span class="lesson-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="lesson-row" href="lab.html">
+          <span class="lesson-number">检索</span>
+          <span class="lesson-title">
+            <strong>为什么分块会改变结果？</strong>
+            <small>用可解释的小向量沙盘看相似度、召回块与重排</small>
+          </span>
+          <span class="lesson-tag">检索 / 工程</span>
+          <span class="lesson-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="lesson-row" href="engineering.html">
+          <span class="lesson-number">系统</span>
+          <span class="lesson-title">
+            <strong>一次真实训练任务怎么跑起来？</strong>
+            <small>数据、batch、显存、并行、通信、优化器、评估与 checkpoint</small>
+          </span>
+          <span class="lesson-tag">系统 / 操作</span>
+          <span class="lesson-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="lesson-row" href="transformer-lab.html">
+          <span class="lesson-number">结构</span>
+          <span class="lesson-title">
+            <strong>Transformer 由哪些模块组成？</strong>
+            <small>结构演化、权重矩阵、残差、MoE、prefill 与 KV Cache</small>
+          </span>
+          <span class="lesson-tag">架构 / 推理</span>
+          <span class="lesson-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="lesson-row" href="frontier.html">
+          <span class="lesson-number">应用</span>
+          <span class="lesson-title">
+            <strong>模型方案的取舍怎么判断？</strong>
+            <small>生成、多模态、推理解题与 Agent 的机制和证据</small>
+          </span>
+          <span class="lesson-tag">能力 / 应用</span>
+          <span class="lesson-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section anchor-section" aria-labelledby="anchor-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">KEEP THESE THREE</p>
+          <h2 id="anchor-title">先带走三个锚点</h2>
+        </div>
+      </div>
+      <div class="anchor-grid">
+        <article>
+          <span class="anchor-index">A</span>
+          <h3>表示进入后续计算</h3>
+          <p>查表向量只是输入的一站。模型还会结合上下文形成隐藏状态，再通过输出头得到预测；下一步沿这些张量看一次前向。</p>
+        </article>
+        <article>
+          <span class="anchor-index">B</span>
+          <h3>目标决定优化信号</h3>
+          <p>语言模型对有效监督位置计算交叉熵，检索模型可以用正负样本构造对比目标。需要先明确目标、分母和参与计算的位置。</p>
+        </article>
+        <article>
+          <span class="anchor-index">C</span>
+          <h3>学习效果需要独立检验</h3>
+          <p>训练 loss 下降以后，还要检查自由生成、独立输入和未见长度。小模型实验会展示拟合成功与长度外推失败同时出现的实际结果。</p>
+        </article>
+      </div>
+    </section>

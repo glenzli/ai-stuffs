@@ -1,0 +1,70 @@
+<div class="modern-page batch-noise-page">
+  <section class="page-intro"><div><p class="eyebrow">BATCH / SEQUENCE GRADIENTS / TOKEN BUDGET</p><h1>Batch 与梯度噪声：<span class="accent-text">从固定参数走到真实训练</span></h1><p class="lede">先固定模型 θ，测量独立完整序列的梯度和总体协方差；再让模型实际更新，比较相同样本流、相同消费 token 和相同评估集下的学习结果。抽样方差和训练效率分别有自己的证据。</p></div><aside class="intro-aside"><p class="micro-label">样本单位是序列</p><p>反转任务每条输入含三种位置上的内容符号，目标为反转内容与 EOS。序列内部四个监督位置先平均，完整序列间再等权平均；相关 token 不作为独立样本。</p></aside></section>
+
+  <section class="section" aria-labelledby="bn-contract">
+    <div class="section-heading"><span class="section-number">01 / FIX THETA AND OBJECTIVE</span><h2 id="bn-contract">固定 θ 后，先定义每条序列的梯度</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}\ell_i(\theta)&amp;=\frac{1}{T_i}\sum_{t\in\mathcal S_i}-\log p_\theta(y_{i,t}\mid x_{i,\le t}),\\g_i&amp;=\nabla_\theta\ell_i(\theta),\qquad \mu=\frac1N\sum_{i=1}^N g_i,\\\Sigma_N&amp;=\frac1N\sum_{i=1}^N(g_i-\mu)(g_i-\mu)^{\mathsf T},\\\operatorname{tr}(\Sigma_N)&amp;=\frac1N\sum_i\lVert g_i-\mu\rVert^2.\end{aligned}</div><figcaption>𝒮ᵢ 是序列 i 的监督位置，Tᵢ=|𝒮ᵢ|，EOS 也受监督。本实验 Tᵢ=4、N=6；协方差明确使用总体分母 N，模型参数、记录和完整梯度矩阵保存在本机。</figcaption></figure>
+    <p>固定参数实验使用共享 decoder 的初始化 θ，width=32、depth=2、heads=4、Pre-LN、dropout=0，CPU float64。每条序列单独 autograd，拼接全部可训练参数；六条的平均梯度还与同一 sequence-mean 目标的整批 autograd 核对。实际矩阵直接计算均值与中心化平方和，避免在均值很小时从两个大数的差恢复噪声。</p>
+    <p>Gram 矩阵 Kᵢⱼ=gᵢᵀgⱼ 保存全部梯度内积，页面用它精确重建有限人口的 batch 范数、与 μ 的方向余弦和平方偏离。导入会检查对称与正半定；浮点相消使平均梯度范数接近零时，噪声比值和方向显示未定义／病态。</p>
+  </section>
+
+  <section class="section" aria-labelledby="bn-sampling">
+    <div class="section-heading"><span class="section-number">02 / WHICH SAMPLING LAW</span><h2 id="bn-sampling">有放回与无放回的方差分别是什么？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}\bar g_B&amp;=\frac1B\sum_{b=1}^B g_{I_b},\qquad \mathbb E[\bar g_B]=\mu,\\\operatorname{Cov}(\bar g_B)_{\rm iid}&amp;=\frac{\Sigma_N}{B},\\\operatorname{Cov}(\bar g_B)_{\rm without}&amp;=\frac{N-B}{B(N-1)}\Sigma_N,\qquad 1\le B\le N,\ N&gt;1.\end{aligned}</div><figcaption>有放回时 Iᵦ 独立且在 N 条序列上均匀。无放回是均匀选择 B 个不同人口项。N=1、B=1 只有唯一梯度，方差为 0；B=N 的无放回方差也为 0。</figcaption></figure>
+    <details class="math-derivation"><summary>有限总体修正、样本分母与相关反例</summary>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}\operatorname{Cov}(\bar g_B)&amp;=\frac1{B^2}\left(B\Sigma_N+\sum_{b\ne c}\operatorname{Cov}(g_{I_b},g_{I_c})\right),\\\operatorname{Cov}(g_{I_b},g_{I_c})_{\rm without}&amp;=-\frac{\Sigma_N}{N-1},\\S_{N-1}&amp;=\frac{N}{N-1}\Sigma_N,\\\operatorname{Cov}(\bar g_B)_{\rm without}&amp;=\frac{1-B/N}{B}S_{N-1}.\end{aligned}</div><figcaption>Sₙ₋₁ 是使用 N−1 分母的样本协方差；用它表达时必须同时调整公式。总体分母为 N 时不能直接把 (1−B/N)/B 乘 Σₙ。</figcaption></figure>
+      <p>整批重复同一个随机序列，各槽位共享梯度，交叉协方差为 Σₙ，batch 方差保持 Σₙ。相关混合以概率 ρ 整批重复，以概率 1−ρ 独立抽样，每个槽位仍然均匀，交叉协方差为 ρΣₙ。</p>
+      <figure class="math-block"><div class="math-display" data-math>\operatorname{Cov}(\bar g_B)_{\rm correlated}=\left(\rho+\frac{1-\rho}{B}\right)\Sigma_N</div><figcaption>本页 ρ=.5 是明确的混合抽样法则，穷举按对应概率加权。它不是由训练结果倒推的相关系数。</figcaption></figure>
+    </details>
+    <p>人口中出现重复记录与一批内重复同一随机记录需要分开：前者若仍独立抽取索引，按新人口的 Σₙ/B 计算；后者产生交叉协方差，不能把多份复制当成多份独立信息。</p>
+  </section>
+
+  <section class="section" aria-labelledby="bn-cpu-lab">
+    <div class="section-heading"><span class="section-number">03 / READ ACTUAL RECORDS</span><h2 id="bn-cpu-lab">保存、重跑和本地导入</h2></div>
+    <pre class="decision-code"><code>.venv-framework/bin/python scripts/test-training-dynamics.py
+node --test scripts/test-training-dynamics.mjs
+node scripts/run-dynamics-lab.mjs --out-dir artifacts/dynamics-lab-my-run --write-page-data</code></pre>
+    <p>实验使用共享 core，固定 PyTorch 2.9.0 / NumPy 2.3.4 CPU 单线程环境。完整 report 包含梯度人口、精确抽样结果、训练曲线、各次更新的样本与 LR、逐题预测及恢复核对；checkpoint 另保存参数、optimizer、RNG、数据流和 cursor。默认快照只提取必要字段和少量预测，不加载完整轨迹。</p>
+    <div class="decision-import"><label><span>读取本机 report.json（1 B…32 MiB）</span><input type="file" accept=".json,application/json" data-bn-file></label><div class="step-actions"><button class="button" type="button" data-bn-default>恢复默认实测快照</button></div><p role="status" data-bn-status>等待实测快照初始化。</p></div>
+    <p class="experiment-note">文件只在本地浏览器读取，结构校验不认证外部数据来源。经过时间含评估、梯度探针和保存，可能受同机任务影响，不作为各 batch 的吞吐比较。已有报告目录拒绝覆盖。</p>
+  </section>
+
+  <div data-bn-output hidden>
+    <p class="decision-note dynamics-provenance" data-bn-provenance></p>
+    <section class="section" aria-labelledby="bn-lab">
+      <div class="section-heading"><span class="section-number">04 / ENUMERATE THE POPULATION</span><h2 id="bn-lab">同一批梯度，穷举不同抽样方式</h2></div>
+      <div class="experiment"><div class="experiment-head"><h3>固定模型 θ 的六条实际序列梯度</h3><span class="assumption">总体分母 N · 精确概率枚举</span></div><div class="experiment-body"><div class="experiment-controls decision-controls">
+        <label><span>梯度人口</span><select data-bn-population></select></label><label><span>完整序列 batch B</span><select data-bn-batch><option>1</option><option selected>2</option><option>3</option><option>4</option><option value="6">6：仅适合无放回／重复</option></select></label>
+        <label><span>抽样法则</span><select data-bn-scheme><option value="with-replacement">有放回：独立均匀索引</option><option value="without-replacement">无放回：均匀选不同索引</option><option value="repeated">整批重复同一随机序列</option><option value="correlated">ρ=.5：iid 与重复各占一半</option></select></label>
+      </div><div class="experiment-view" aria-live="polite"><div class="metric-row decision-metrics"><div><span>平均梯度 ‖μ‖</span><strong data-bn-mean></strong></div><div><span>总体 covariance trace</span><strong data-bn-trace></strong></div><div><span>简单 trace / ‖μ‖²</span><strong data-bn-ratio></strong></div><div><span>穷举 E‖ḡ−μ‖²</span><strong data-bn-variance></strong></div><div><span>该法则的公式预测</span><strong data-bn-formula></strong></div><div><span>穷举与公式绝对误差</span><strong data-bn-noise-error></strong></div></div><svg class="decision-chart dynamics-chart" viewBox="0 0 620 320" role="img" aria-label="固定实测梯度人口的精确batch方差与iid trace除B预测，横轴为完整序列batch大小" data-bn-noise-chart></svg><p class="decision-note" data-bn-noise-note></p></div></div></div>
+      <div class="compare-wrap decision-scroll" tabindex="0" role="region" aria-label="精确枚举的batch索引、概率、梯度范数和方向，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">序列索引</th><th scope="col">抽样概率</th><th scope="col">batch 梯度范数</th><th scope="col">与 μ 的 cosine</th><th scope="col">‖ḡ−μ‖²</th></tr></thead><tbody data-bn-draws></tbody></table></div>
+      <details><summary>六条实际输入与逐序列 loss</summary><div class="compare-wrap" tabindex="0" role="region" aria-label="固定参数实际序列与loss，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">索引</th><th scope="col">记录 ID</th><th scope="col">输入内容</th><th scope="col">sequence CE / nats</th></tr></thead><tbody data-bn-records></tbody></table></div></details>
+      <p>零均值代数反例从保存梯度减去总体均值，保留中心化方差，展示均值相消时比值与方向的边界。它是明确的代数变换，未被标成新的 decoder 目标或训练测量。方向余弦在 μ 或某个 batch 梯度近零时也未定义；方差本身仍可以计算。</p>
+    </section>
+
+    <section class="section" aria-labelledby="bn-training">
+      <div class="section-heading"><span class="section-number">05 / SAME STREAM AND TOKEN BUDGET</span><h2 id="bn-training">让 θ 实际变化，再比较固定消费预算</h2></div>
+      <p>训练使用共享 width32/depth2 的 Pre-LN decoder、Adam、β=(.9,.999)、ε=10⁻⁸、decay=0、dropout=0、不裁剪。三个 seed 分别生成一个预保存的同序列流；各 batch 和 LR 消费该流的同一前缀，验证、测试和长度外推集都相同。反转等价输入按组拆分，训练只含长度 3，长度 5 保留为外推。</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}\eta(t)&amp;=\eta_0\frac{t}{1024},&amp;0\le t&lt;1024,\\\eta(t)&amp;=\eta_0\left[0.1+0.45\left(1+\cos\left(\pi\frac{t-1024}{32768-1024}\right)\right)\right],&amp;1024\le t\le32768.\end{aligned}</div><figcaption>t 是本次实际 batch 完成时累计消费的非 padding input token，不是 update step。三种 batch 使用同一公式，取 LR 的 token 端点更稀疏时，数值轨迹仍会不同。</figcaption></figure>
+      <div class="experiment"><div class="experiment-head"><h3>18 次真实训练：3 seed × 3 batch × 2 LR</h3><span class="assumption">4,096 记录 · 32,768 input token</span></div><div class="experiment-body"><div class="experiment-controls decision-controls">
+        <label><span>基础 LR</span><select data-bn-lr></select></label><label><span>训练 seed</span><select data-bn-seed></select></label><label><span>最终评估集</span><select data-bn-split><option value="train">训练集</option><option value="validation">验证集</option><option value="test" selected>独立测试集</option><option value="length">长度 5 外推集</option></select></label><label><span>实际曲线的 loss 集合</span><select data-bn-curve-split><option value="train">训练 teacher-forced</option><option value="validation" selected>验证 teacher-forced</option></select></label>
+      </div><div class="experiment-view"><p class="decision-note" data-bn-budget></p><svg class="decision-chart dynamics-chart" viewBox="0 0 620 320" role="img" aria-label="实际batch训练的teacher-forced CE曲线，横轴为已消费非padding input token" data-bn-training-chart></svg><p class="experiment-note" data-bn-training-note></p></div></div></div>
+      <div class="compare-wrap" tabindex="0" role="region" aria-label="相同消费token的实际batch学习指标、seed范围与最终噪声，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">序列 batch B</th><th scope="col">更新次数</th><th scope="col">最终 teacher-forced CE</th><th scope="col">seed min…max CE</th><th scope="col">自由 token 正确率</th><th scope="col">完整序列 exact match</th><th scope="col">最终 θ 简单噪声比值</th></tr></thead><tbody data-bn-training-rows></tbody></table></div>
+      <p class="decision-note" data-bn-checks></p><p>teacher-forced loss 使用正确历史目标作为输入；自由生成用模型自己输出的前缀，按内容和 EOS 计分。相同 token 预算允许更新次数不同，也不会自动保证学习充分。当前两种 LR 是预设对照，未为每个 batch 单独寻找最优值；固定 θ 的噪声数值不能给出任意 Adam、scheduler 或裁剪配置的最优 batch。</p>
+    </section>
+
+    <section class="section" aria-labelledby="bn-predictions">
+      <div class="section-heading"><span class="section-number">06 / SEE FREE GENERATION</span><h2 id="bn-predictions">检查当前 run 的自由生成记录</h2></div>
+      <div class="dynamics-controls"><label><span>显示预测的 batch</span><select data-bn-pred-batch></select></label><label><span>显示预测的 seed</span><select data-bn-pred-seed></select></label></div>
+      <div class="compare-wrap decision-scroll" tabindex="0" role="region" aria-label="实际输入、目标和自由生成token，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">记录 ID</th><th scope="col">输入</th><th scope="col">目标含 EOS</th><th scope="col">实际输出含结束token</th><th scope="col">整段结果</th></tr></thead><tbody data-bn-predictions></tbody></table></div><p class="experiment-note" data-bn-prediction-note></p>
+    </section>
+  </div>
+
+  <section class="section" aria-labelledby="bn-sources">
+    <div class="section-heading"><span class="section-number">07 / DIAGNOSTIC AND SCOPE</span><h2 id="bn-sources">简单噪声比值支持哪种判断？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>B_{\rm simple}=\frac{\operatorname{tr}(\Sigma)}{\lVert\mu\rVert^2},\qquad B_{\rm Hessian}=\frac{\operatorname{tr}(H\Sigma)}{\mu^{\mathsf T}H\mu}</div><figcaption>简单比值描述固定 θ 的梯度信噪关系；右侧是论文局部二阶分析中的 Hessian 加权量。此页没有测量 H，也不估计右侧。分母近零、非正曲率和局部近似条件都需要单独判断。</figcaption></figure>
+    <p>McCandlish 等的分析从局部二阶 Taylor 展开和适当步长出发，并明确讨论短视优化、条件数、简单近似、LR 调参、非二次项与泛化边界。附录 A.1 用不同 batch 的梯度范数估计均值平方与 covariance trace；两者的估计各可无偏，取比值却不自动无偏。这里对六条人口直接测量梯度并穷举，不把小人口精确计算冒充部署分布的无偏最优 batch 估计。</p>
+    <p>2026-10-28 已读取该作者论文第 2.2–2.4 节的协方差关系、式 2.8／2.9 与限制，以及附录 A.1 的估计器说明。共享 core 的任务、标签、Norm、自由生成和恢复 API 也已逐行核对。完整作者、标题、URL 与读取范围记录于专题实施说明和 report provenance。</p>
+    <div class="reading-links"><a href="learning-run.html">共享 decoder 训练与泛化</a><a href="initialization-width.html">初始化与宽度参数化</a><a href="parallel-correctness.html">梯度累积与全局分母</a><a href="finetuning-recipe.html">样本流与训练预算</a><a href="paired-evaluation.html">逐题配对评估</a></div>
+  </section>
+</div>

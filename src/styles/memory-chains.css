@@ -1,0 +1,17 @@
+.modern-page .memory-ledger { padding: 14px 16px; border-left: 3px solid var(--accent); background: var(--accent-soft); font-size: 13px; line-height: 1.9; }
+.modern-page .memory-scroll { max-height: 370px; }
+.modern-page .memory-scroll thead { position: sticky; top: 0; z-index: 1; background: var(--surface); }
+.modern-page .memory-wide { min-width: 650px; }
+.modern-page .memory-wide th, .modern-page .memory-wide td { padding: 12px 10px; }
+.modern-page .memory-small { min-width: 440px; }
+.modern-page .memory-small th, .modern-page .memory-small td { min-width: 0; padding: 12px 9px; }
+.modern-page .memory-gradient-table { min-width: 0; table-layout: fixed; }
+.modern-page .memory-gradient-table th, .modern-page .memory-gradient-table td { min-width: 0; overflow-wrap: anywhere; padding: 12px 8px; }
+.modern-page .memory-gradient-table th:first-child { width: 16%; }
+.modern-page .objective-controls > .step-actions { grid-column: 1 / -1; }
+.memory-report-input { display: grid; gap: 12px; margin: 20px 0; font-size: 13px; }
+.memory-report-input input { max-width: 100%; }
+.memory-report-status { color: var(--ink-soft); font-size: 13px; }
+@media (max-width: 760px) {
+  .modern-page .memory-gradient-table { font-size: 12px; }
+}

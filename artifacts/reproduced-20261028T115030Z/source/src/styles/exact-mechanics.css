@@ -1,0 +1,20 @@
+.modern-page .exact-small-table { min-width: 0; }
+.modern-page .exact-small-table td, .modern-page .exact-small-table th { padding: 12px 9px; }
+.modern-page .exact-small-table td:first-child { min-width: 0; }
+.modern-page .exact-token { font: 600 18px/1.7 var(--mono); overflow-wrap: anywhere; }
+.modern-page .exact-event-scroll { max-height: 420px; }
+.modern-page .exact-event-scroll thead { position: sticky; top: 0; z-index: 1; }
+.modern-page .exact-numeric-readouts { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.modern-page .exact-numeric-readouts > div:last-child { grid-column: 1 / -1; }
+.modern-page .exact-numeric-readouts strong { font-size: 20px; }
+.modern-page input[type=number] { min-width: 0; width: 100%; box-sizing: border-box; min-height: 40px; padding: 8px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface-strong); color: var(--ink); font: 13px var(--mono); }
+.modern-page .exact-route-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); border-top: 1px solid var(--line); }
+.exact-route-list a { padding: 20px 16px; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--ink); }
+.exact-route-list a:hover { background: var(--surface); }
+.exact-route-list strong { font-size: 17px; display: block; margin-bottom: 7px; }
+.exact-route-list p { font-size: 13px; margin: 0; color: var(--ink-soft); }
+@media (max-width: 760px) {
+  .modern-page .exact-route-list { grid-template-columns: 1fr; }
+  .modern-page .exact-small-table { font-size: 12px; }
+  .modern-page .exact-small-table td, .modern-page .exact-small-table th { padding: 12px 7px; }
+}

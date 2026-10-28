@@ -1,0 +1,100 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">ARCHITECTURE / WEIGHTS / INFERENCE</p>
+        <h1>Transformer 架构：<span class="accent-text">结构、权重与推理</span></h1>
+        <p class="lede">
+          这里把架构拆成三种视角：它从 2017 年到现代 decoder 改了什么；一层里有哪些权重矩阵与残差路径；
+          推理时 prefill、decode 和 KV Cache 为什么形成完全不同的瓶颈。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">三个分析角度</p>
+        <p>模型结构决定有哪些张量与计算；参数规模决定权重和显存；推理速度还取决于 batch、KV Cache、内存带宽和调度。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="arch-map-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">MODEL MAP</span>
+          <h2 id="arch-map-title">从 token 到 logits 的计算路径</h2>
+        </div>
+        <p class="section-note">现代 decoder-only LLM 的常见骨架；具体模型会改变 Norm、位置编码、Attention 形状和 MLP/MoE。</p>
+      </div>
+
+      <div class="arch-stack-diagram">
+        <div><span>INPUT</span><strong>token IDs</strong><code>[B, T]</code></div>
+        <i aria-hidden="true">→</i>
+        <div><span>WEIGHTS</span><strong>Embedding E</strong><code>V × d</code></div>
+        <i aria-hidden="true">→</i>
+        <div class="is-main"><span>REPEAT × L</span><strong>Decoder Blocks</strong><code>Attention + MLP / MoE</code></div>
+        <i aria-hidden="true">→</i>
+        <div><span>FINAL</span><strong>Final Norm</strong><code>[B, T, d]</code></div>
+        <i aria-hidden="true">→</i>
+        <div><span>HEAD</span><strong>LM Head</strong><code>d × V</code></div>
+        <i aria-hidden="true">→</i>
+        <div><span>OUTPUT</span><strong>logits</strong><code>[B, T, V]</code></div>
+      </div>
+
+      <div class="block-preview">
+        <div class="residual-line">residual stream / 残差主干</div>
+        <div class="block-side">
+          <span>01</span><strong>RMSNorm</strong><small>x 先归一化</small>
+        </div>
+        <div class="block-core">
+          <span>02</span><strong>Attention</strong><small>Q / K / V · heads · causal mask</small>
+        </div>
+        <div class="block-add">+ x</div>
+        <div class="block-side">
+          <span>03</span><strong>RMSNorm</strong><small>进入 MLP 前再归一化</small>
+        </div>
+        <div class="block-core">
+          <span>04</span><strong>MLP / MoE</strong><small>SwiGLU · 或 router + experts</small>
+        </div>
+        <div class="block-add">+ x</div>
+      </div>
+      <p class="figure-caption">这是一个常见的 pre-norm decoder block。真实模型可能加入 QK-Norm、共享专家、滑动窗口、稀疏注意力或额外路由，但 Q/K/V、残差、FFN/MoE 和归一化仍是主要构件。</p>
+    </section>
+
+    <section class="section" aria-labelledby="modules-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">FOUR VIEWS</span>
+          <h2 id="modules-title">按问题进入专题</h2>
+        </div>
+        <p class="section-note">下面分别介绍结构演化、权重形状、推理性能和架构变体。</p>
+      </div>
+
+      <div class="arch-module-grid">
+        <a href="transformer-evolution.html">
+          <span>01 / EVOLUTION</span>
+          <h3>Transformer 一路改了什么？</h3>
+          <p>Post-LN → Pre-LN、GELU → SwiGLU、绝对位置 → RoPE、MHA → GQA/MQA、Dense → MoE。</p>
+          <strong>看设计选择与代价 →</strong>
+        </a>
+        <a href="transformer-anatomy.html">
+          <span>02 / ANATOMY</span>
+          <h3>一层里有哪些权重？</h3>
+          <p>逐层 Q/K/V/O、SwiGLU、残差、Norm；用参数量公式算总权重、每 token 激活参数与 MoE 路由。</p>
+          <strong>打开矩阵与参数计算器 →</strong>
+        </a>
+        <a href="inference-engine.html">
+          <span>03 / INFERENCE</span>
+          <h3>为什么有 prefill、decode 和 KV Cache？</h3>
+          <p>看 prompt 并行计算、逐 token 解码、KV 增长、GQA、Paged Attention 与连续批处理的真实瓶颈。</p>
+          <strong>打开推理过程与 KV 计算器 →</strong>
+        </a>
+        <a href="architecture-variants.html">
+          <span>04 / VARIANTS</span>
+          <h3>各类结构变体有哪些收益与成本？</h3>
+          <p>MHA/MQA/GQA/MLA、滑窗与稀疏、RoPE、Norm、SwiGLU、MoE、SSM 混合，以及结构分析结论。</p>
+          <strong>按设计轴比较与选型 →</strong>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="callout">
+        <p><strong>先固定一个例子：</strong>典型的 d=2048、24 层、16 heads、8 KV heads、head_dim=128、SwiGLU FFN=5632 的模型，总参数约 1.3B。训练显存看完整权重与优化器状态；推理显存还要加 KV Cache；每 token 的激活计算则只走当前路径。后续两页会用同一组公式展开。</p>
+      </div>
+    </section>

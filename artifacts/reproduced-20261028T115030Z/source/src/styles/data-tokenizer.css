@@ -1,0 +1,424 @@
+/* Data and tokenizer */
+.data-pipeline-tabs {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.data-pipeline-tabs button {
+  min-height: 68px;
+  padding: 10px 8px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--line);
+  cursor: pointer;
+  font-size: 9px;
+  text-align: left;
+}
+
+.data-pipeline-tabs button:last-child {
+  border-right: 0;
+}
+
+.data-pipeline-tabs span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.data-pipeline-tabs button[aria-pressed="true"] {
+  color: var(--surface-strong);
+  background: var(--accent);
+}
+
+.data-pipeline-tabs button[aria-pressed="true"] span {
+  color: var(--surface-strong);
+  opacity: 0.7;
+}
+
+.data-pipeline-panel {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) minmax(300px, 0.75fr);
+  gap: 28px;
+  align-items: start;
+  padding: 27px 22px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.data-step-label span,
+.data-step-label strong {
+  display: block;
+}
+
+.data-step-label span {
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 40px;
+  line-height: 1;
+}
+
+.data-step-label strong {
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+.data-pipeline-panel h3 {
+  margin: 0 0 9px;
+  font-family: var(--serif);
+  font-size: 27px;
+  font-weight: 500;
+}
+
+.data-pipeline-panel > div:nth-child(2) > p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.data-step-checks {
+  border-top: 1px solid var(--line);
+}
+
+.data-step-checks > div {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-step-checks span {
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.data-step-checks p {
+  margin: 3px 0 0;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.tokenizer-lab {
+  display: grid;
+  grid-template-columns: minmax(245px, 0.6fr) minmax(0, 1.4fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.tokenizer-controls {
+  padding: 22px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.tokenizer-tabs {
+  display: grid;
+  gap: 3px;
+  margin-top: 11px;
+}
+
+.tokenizer-tabs button {
+  min-height: 38px;
+  padding: 7px 9px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  border-left: 2px solid var(--line);
+  cursor: pointer;
+  font-size: 10px;
+  text-align: left;
+}
+
+.tokenizer-tabs button[aria-pressed="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+
+.tokenizer-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 17px;
+  background: var(--line);
+}
+
+.tokenizer-metrics div {
+  padding: 9px;
+  background: var(--surface-strong);
+}
+
+.tokenizer-metrics span {
+  display: block;
+  color: var(--ink-faint);
+  font-size: 7px;
+}
+
+.tokenizer-metrics strong {
+  display: block;
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.tokenizer-controls > p:last-child {
+  margin: 14px 0 0;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.tokenizer-visual {
+  min-width: 0;
+  padding: 23px;
+  background: var(--surface-strong);
+}
+
+.tokenizer-text {
+  padding: 12px;
+  color: var(--ink);
+  background: var(--bg);
+  font-size: 17px;
+}
+
+.token-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-height: 130px;
+  align-content: flex-start;
+  margin-top: 14px;
+}
+
+.token-chips span {
+  padding: 5px 7px;
+  color: var(--ink);
+  background: var(--accent-soft);
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.tokenizer-impact {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.tokenizer-impact span,
+.tokenizer-impact code {
+  display: block;
+}
+
+.tokenizer-impact span {
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.tokenizer-impact code {
+  margin-top: 3px;
+  overflow-wrap: anywhere;
+  color: var(--accent);
+  font-size: 8px;
+}
+
+.tokenizer-principles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: 21px;
+  background: var(--line);
+}
+
+.tokenizer-principles article {
+  padding: 18px;
+  background: var(--bg);
+}
+
+.tokenizer-principles article > span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.tokenizer-principles h3 {
+  margin: 9px 0 6px;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.tokenizer-principles p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.mixture-lab {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.6fr) minmax(0, 1.4fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.mixture-controls {
+  padding: 22px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.mixture-controls label {
+  display: block;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.mixture-controls span {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.mixture-controls input {
+  width: 100%;
+  margin-top: 5px;
+  accent-color: var(--accent);
+}
+
+.mixture-output {
+  min-width: 0;
+  padding: 22px;
+  background: var(--surface-strong);
+}
+
+.mixture-head {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.mixture-head span {
+  color: var(--ink-faint);
+  font-size: 9px;
+}
+
+.mixture-head strong {
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.mixture-bars {
+  display: grid;
+  gap: 8px;
+  margin-top: 17px;
+}
+
+.mixture-row {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr) 120px;
+  gap: 8px;
+  align-items: center;
+}
+
+.mixture-row > span {
+  font-size: 9px;
+}
+
+.mixture-row > div {
+  height: 8px;
+  background: var(--bg);
+}
+
+.mixture-row i {
+  display: block;
+  height: 8px;
+}
+
+.mixture-row code {
+  color: var(--ink-faint);
+  font-size: 8px;
+  text-align: right;
+}
+
+.mixture-output > p {
+  margin: 15px 0 0;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.dedup-compare {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.dedup-compare article {
+  padding: 19px;
+  background: var(--surface);
+  border-top: 2px solid var(--line-strong);
+}
+
+.dedup-compare span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.dedup-compare h3 {
+  margin: 10px 0 6px;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.dedup-compare p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+@media (max-width: 1120px) {
+  .data-pipeline-panel,
+  .tokenizer-lab,
+  .mixture-lab { grid-template-columns: minmax(0, 1fr); }
+  .data-pipeline-panel > div { min-width: 0; }
+  .tokenizer-controls,
+  .mixture-controls { border-right: 0; border-bottom: 1px solid var(--line); }
+  .tokenizer-principles,
+  .dedup-compare { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .data-pipeline-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .data-pipeline-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .data-pipeline-tabs button { min-height: 52px; padding: 10px; }
+  .data-pipeline-panel,
+  .tokenizer-controls,
+  .tokenizer-visual,
+  .mixture-controls,
+  .mixture-output { padding: 16px; }
+  .tokenizer-principles,
+  .dedup-compare,
+  .tokenizer-impact { grid-template-columns: minmax(0, 1fr); }
+  .mixture-head { flex-wrap: wrap; }
+  .mixture-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .mixture-row > div { grid-column: 1 / -1; grid-row: 2; }
+  .mixture-row code { font-size: 10px; }
+  .mixture-row > span { font-size: 12px; }
+  .data-step-checks p,
+  .tokenizer-controls p,
+  .mixture-output > p { font-size: 13px; }
+  .data-step-checks span { font-size: 11px; }
+}

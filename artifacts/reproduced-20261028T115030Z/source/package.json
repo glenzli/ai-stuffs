@@ -1,0 +1,41 @@
+{
+  "name": "ai-stuffs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "python3 -m http.server 4173 --bind 127.0.0.1 --directory dist",
+    "check": "node scripts/check-source.mjs && node scripts/build.mjs",
+    "test:core": "node --test scripts/test-core.mjs",
+    "test:reading": "node --test scripts/test-reading.mjs",
+    "test:content": "node --test scripts/test-content.mjs",
+    "test:math": "node --test scripts/test-math.mjs",
+    "test:workflows": "node --test scripts/test-finetuning.mjs scripts/test-policy-workflows.mjs scripts/test-frontier-systems.mjs",
+    "test:research": "node --test scripts/test-uncertainty-evidence.mjs scripts/test-update-geometry.mjs scripts/test-mechanism-environments.mjs",
+    "test:exact": "node --test scripts/test-backpropagation.mjs scripts/test-numerical-attention.mjs scripts/test-distributed-lifecycle.mjs scripts/test-decoding.mjs",
+    "test:details": "node --test scripts/test-data-bpe.mjs scripts/test-layout-vocab.mjs scripts/test-pipeline.mjs scripts/test-serving-scheduler.mjs scripts/test-engineering-check.mjs",
+    "test:chains": "node --test scripts/test-computation-chains.mjs",
+    "lab:cpu": "node scripts/run-cpu-lab.mjs",
+    "lab:framework": "node scripts/run-framework-lab.mjs",
+    "test:objectives": "node --test scripts/test-objective-chains.mjs",
+    "test:memory": "node --test scripts/test-memory-chains.mjs",
+    "lab:memory": "node scripts/run-memory-lab.mjs",
+    "test:decisions": "node --test scripts/test-decision-chains.mjs",
+    "lab:decisions": "node scripts/run-decision-lab.mjs",
+    "lab:ann": "node scripts/run-ann-lab.mjs",
+    "test:decision-ui": "node scripts/test-decision-interactions.mjs",
+    "lab:learning": "node scripts/run-learning-lab.mjs",
+    "lab:failures": "node scripts/run-failure-lab.mjs",
+    "lab:dynamics": "node scripts/run-dynamics-lab.mjs",
+    "lab:output": "node scripts/run-output-lab.mjs",
+    "test:learning-ui": "node scripts/test-learning-dynamics-ui.mjs",
+    "test:layout": "node scripts/check-layout.mjs",
+    "test:interactions": "node scripts/test-interactions.mjs",
+    "test:audit": "node scripts/audit-site.mjs",
+    "test:learning": "node --test scripts/test-learning-run.mjs scripts/test-failure-replay.mjs scripts/test-training-dynamics.mjs scripts/test-chunked-ce.mjs && .venv-framework/bin/python scripts/test-learning-core.py && .venv-framework/bin/python scripts/test-failure-replay.py && .venv-framework/bin/python scripts/test-training-dynamics.py && .venv-framework/bin/python scripts/test-chunked-ce.py"
+  },
+  "devDependencies": {
+    "katex": "0.19.1",
+    "parse5": "8.0.1"
+  }
+}

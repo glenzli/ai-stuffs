@@ -1,0 +1,311 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">DEEP 02 / LOSS &amp; BACKPROPAGATION</p>
+        <h1>损失与梯度：<span class="accent-text">从预测误差到参数导数</span></h1>
+        <p class="lede">
+          先看词表交叉熵怎样产生梯度，再追踪监督位置、输入查表和输出投影。
+          InfoNCE、SGNS、温度与难负样本放在对比学习支线中继续展开。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">记号</p>
+        <p><code>B</code> batch，<code>T</code> 序列长度，<code>d</code> embedding 宽度，<code>V</code> 词表大小，<code>C</code> 对比候选数。所有形状默认省略部分 batch 细节。</p>
+      </aside>
+    </section>
+
+<div class="reading-choice"><p><strong>本页先读：</strong>词表交叉熵、有效监督位置和参数梯度。研究检索表示时，再进入 InfoNCE 与 SGNS 的对照。完整整层推导见 <a href="backpropagation.html">反向传播核验</a>。</p></div>
+
+<section class="section" aria-labelledby="tie-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="tie-title">输入 Embedding 与输出词表投影</h2>
+        </div>
+        <p class="section-note">“embedding 表”未必只有一张。输入表负责查行，输出投影负责把 hidden state 映射到词表；两者可以共享，也可以分开。</p>
+      </div>
+
+      <div class="tie-board">
+        <div class="tie-diagram" aria-label="输入 embedding 与输出投影示意">
+          <div class="tie-variable"><span>token ID</span><code>[B,T]</code></div>
+          <i aria-hidden="true">→</i>
+          <div class="tie-matrix is-teal"><strong>E</strong><span>V × d</span><small>输入查表</small></div>
+          <i aria-hidden="true">→</i>
+          <div class="tie-block"><strong>Transformer / Encoder</strong><span>h [B,T,d]</span></div>
+          <i aria-hidden="true">→</i>
+          <div class="tie-matrix is-blue"><strong>W<sub>out</sub></strong><span>V × d</span><small>z = h W_outᵀ</small></div>
+          <i aria-hidden="true">→</i>
+          <div class="tie-variable"><span>logits</span><code>[B,T,V]</code></div>
+        </div>
+
+        <table class="deep-table">
+          <thead>
+            <tr><th>设置</th><th>输入侧梯度</th><th>输出侧梯度</th><th>后果</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>E 与 W 分开</strong></td>
+              <td>lookup 梯度只散射到输入中出现的非屏蔽行</td>
+              <td>完整 softmax 通常给所有候选行梯度，不仅是 label</td>
+              <td>参数更多；输入语义与输出预测可解耦</td>
+            </tr>
+            <tr>
+              <td><strong>权重绑定 W<sub>out</sub> = E</strong></td>
+              <td>scatter 到输入 token 行</td>
+              <td>同一矩阵的各行也得到输出梯度</td>
+              <td>省参数、共享统计，但两类压力互相耦合</td>
+            </tr>
+            <tr>
+              <td><strong>冻结 E</strong></td>
+              <td>把梯度停在查表处</td>
+              <td>若 W 独立仍可学习</td>
+              <td>不能靠更新输入行适配新词，但可降低显存与漂移</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <p>下一词模型在一个有效监督位置预测整个词表的概率。交叉熵使用正确类别的负对数似然；对每个 logit 求导，得到预测概率减去 one-hot 目标。对多个有效位置取平均时，还要包含对应的归一化分母。</p>
+<details class="math-derivation"><summary>展开一步：为什么 softmax + 交叉熵的导数是 p−y？</summary>
+        <p>只看一个有效位置，真实类别为 k，z 是已经进入 softmax 的 logits。将负对数展开后：</p>
+        <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+p_j&amp;=\frac{e^{z_j}}{\sum_m e^{z_m}},\\
+\mathcal L&amp;=-\log p_k=-z_k+\log\sum_m e^{z_m},\\
+\frac{\partial\mathcal L}{\partial z_j}
+&amp;=-\mathbf 1[j=k]+\frac{e^{z_j}}{\sum_m e^{z_m}}\\
+&amp;=p_j-y_j.
+\end{aligned}</div><figcaption>yⱼ 是 one-hot 标签。正确类得到 pₖ−1，其他类得到 pⱼ；梯度下降取反方向更新。若继续对温度缩放前的 s 求导，还要乘 ∂z/∂s=1/τ。</figcaption></figure>
+        <p>这是单位置、无类别权重的形式。有效位置平均会再除全局分母；soft label 在归一化到和为 1 时仍可写为 p−y。得到 logit 梯度后，还需沿网络反传，并通过优化器计算参数更新。</p>
+      </details>
+</section>
+
+<section class="section" aria-labelledby="mask-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="mask-title">Mask、padding 与有效梯度</h2>
+        </div>
+        <p class="section-note">这些设置会改变有效监督位置，以及梯度进入参数的路径。</p>
+      </div>
+
+      <div class="detail-checklist">
+        <details>
+          <summary>屏蔽 padding 会影响哪些计算路径？</summary>
+          <p>attention mask 排除 PAD 键，loss mask 排除 PAD 标签位置，padding_idx 可阻止 lookup 算子累加该行梯度；三者作用不同。ignore_index 不删除有效位置 softmax 中的 PAD 类别，因此绑定输出表仍可能使 PAD 行收到梯度。PAD 与 EOS 共用 ID 时，尤其不能按 ID 把有效 EOS 标签一并屏蔽。</p>
+        </details>
+        <details>
+          <summary>为什么 log-softmax 比先 softmax 再 log 稳定？</summary>
+          <p>直接除指数和容易溢出。稳定实现先减去最大 logit，再用 logsumexp。InfoNCE 也应在 logits 空间做 cross-entropy；把极小或极大的概率手动乘除会破坏数值稳定性。</p>
+        </details>
+        <details>
+          <summary>稀疏 gather 会让 embedding 训练省显存吗？</summary>
+          <p>前向只取少数行，但优化器状态是否省取决于实现。若使用 Adam，整个 E 的矩状态仍可能驻留；分布式训练还要做 all-reduce。有些系统用稀疏梯度或分片 embedding，但会换来通信和采样复杂度。</p>
+        </details>
+        <details>
+          <summary>一个 batch 只有几条样本，为什么 loss 仍能覆盖整个词表？</summary>
+          <p>完整词表 softmax 的分母含 V 个类别，非目标类的 logit 梯度为 p，目标类为 p−1。输入 lookup 只散射到被访问的行；输出投影通常是稠密梯度，绑定时也会加回 E。sampled softmax 和 SGNS 属于另外的计算或目标设置。</p>
+        </details>
+        <details>
+          <summary>为什么 batch 内负样本会随 batch 大小变化？</summary>
+          <p>每个其它样本的正文档可能成为当前 query 的负例。batch 越大，噪声候选越多、负样本越丰富，但显存和通信成本也更高；而 in-batch 样本越多，也越可能混入 false negatives。</p>
+        </details>
+      </div>
+    </section>
+
+<section class="section compact" aria-labelledby="row-update-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="row-update-title">从 hidden 梯度回传到 Embedding 表</h2>
+        </div>
+        <p class="section-note">切场景，观察哪些 token 行拿到了梯度。权重绑定会改变“目标 token 不在输入里”时的结果。</p>
+      </div>
+
+      <div class="embedding-row-lab">
+        <div class="row-lab-controls">
+          <p class="micro-label">SCENARIO</p>
+          <div class="row-case-buttons" role="group" aria-label="Embedding 行更新场景">
+            <button type="button" data-row-case="repeat" aria-pressed="true">同一 token 出现两次</button>
+            <button type="button" data-row-case="target" aria-pressed="false">目标 token 不在输入里</button>
+            <button type="button" data-row-case="padding" aria-pressed="false">padding 位置</button>
+            <button type="button" data-row-case="frozen" aria-pressed="false">冻结 embedding</button>
+          </div>
+          <label class="tie-switch">
+            <span>
+              <strong>tie embedding / output head</strong>
+              <small>让输出词表投影复用输入表 E</small>
+            </span>
+            <input type="checkbox" data-row-tie>
+          </label>
+        </div>
+
+        <div class="row-lab-main" aria-live="polite">
+          <div class="row-lab-head">
+            <div>
+              <p class="micro-label" data-row-kicker>LOCAL GRADIENT SCOPES</p>
+              <h3 data-row-title>两次 gather，梯度累加到同一行</h3>
+            </div>
+            <code data-row-formula>dE[17] = dx[0] + dx[4]</code>
+          </div>
+          <div class="token-row-table">
+            <div class="token-row token-row-header"><span>token</span><span>输入位置</span><span>输出身份</span><span>E 梯度</span><span>W_out 梯度</span></div>
+            <div class="token-row" data-row="17"><span>17 “负”</span><span>t=0, t=4</span><span>非目标候选</span><span class="row-state is-update">查表梯度</span><span class="row-state is-update">输出梯度</span></div>
+            <div class="token-row" data-row="4821"><span>4821 “样本”</span><span>t=1</span><span>非目标候选</span><span class="row-state is-update">查表梯度</span><span class="row-state is-update">输出梯度</span></div>
+            <div class="token-row" data-row="77"><span>77 “向量”</span><span>未输入</span><span>t=2 label</span><span class="row-state">零梯度</span><span class="row-state is-update">输出梯度</span></div>
+            <div class="token-row" data-row="PAD"><span>PAD 0</span><span>masked</span><span>有效位置的候选类</span><span class="row-state">零梯度</span><span class="row-state is-update">输出梯度</span></div>
+          </div>
+          <p class="row-lab-copy" data-row-copy>
+            lookup 分支累加重复 token 的梯度；完整词表 softmax 的输出分支通常覆盖所有候选。下表采用 W_out 为 [V,d] 的存储约定，z = h W_outᵀ。
+          </p>
+        </div>
+      </div>
+
+      <div class="formula-panel">
+        <div>
+          <span class="micro-label">FORWARD / GATHER</span>
+          <div class="math-display" data-math>x_t=E_{\mathrm{id}_t,:}</div>
+          <p>实现上用索引取行；数学上等价于 one-hot 乘矩阵。</p>
+        </div>
+        <div>
+          <span class="micro-label">BACKWARD / SCATTER-ADD</span>
+          <div class="math-display" data-math>\frac{\partial\mathcal L}{\partial E_{k,:}}=\sum_{t:\mathrm{id}_t=k}\frac{\partial\mathcal L}{\partial x_t}</div>
+          <p>同一行在一个 batch 中被访问几次，就累加几次梯度。</p>
+        </div>
+        <div>
+          <span class="micro-label">OPTIMIZER</span>
+          <div class="math-display" data-math>E\leftarrow E-\eta\,\operatorname{update}(\nabla_E\mathcal L)</div>
+          <p>AdamW 等优化器再把原始梯度变成逐步更新量。</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>有梯度、梯度为零、参数不更新是三件事。</strong>这里展示当前 batch 的损失梯度来源，忽略 batch 平均系数与偶然抵消。即使某行当前梯度为零，优化器的历史动量或 AdamW 权重衰减仍可能改变它；冻结参数还要确保它不参与优化器更新。</p>
+      </div>
+    </section>
+
+<div class="reading-choice"><p><strong>对比学习支线：</strong>下面改用 query 与候选构造监督，比较 InfoNCE、SGNS 和负样本梯度；这里的候选数与归一化方式按各节说明。</p></div>
+
+<section class="section" aria-labelledby="loss-math-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="loss-math-title">两个候选分布，两个不同的梯度形状</h2>
+        </div>
+        <p class="section-note">拖动温度与难负样本分数，看正例概率、loss 和正负例分数的导数一起变化。</p>
+      </div>
+
+      <div class="loss-math-lab">
+        <div class="loss-math-controls">
+          <div class="objective-tabs" role="tablist" aria-label="损失类型">
+            <button type="button" role="tab" aria-selected="true" data-loss-mode="infonce">InfoNCE</button>
+            <button type="button" role="tab" aria-selected="false" data-loss-mode="sgns">SGNS</button>
+          </div>
+          <label class="lab-range">
+            <span>温度 τ <strong data-math-tau>0.20</strong></span>
+            <input type="range" min="5" max="100" value="20" step="5" data-math-tau-input>
+            <small>InfoNCE 中会除以 τ；SGNS 不直接使用该参数。</small>
+          </label>
+          <label class="lab-range">
+            <span>难负样本分数 <strong data-math-hard>1.40</strong></span>
+            <input type="range" min="10" max="260" value="140" step="10" data-math-hard-input>
+            <small>原始点积分数：正例 2.00，负 B/C/D 固定为 1.05/0.60/0.20。这里只改变难负 A；点积未归一化，不受 cosine 的 [-1,1] 限制。</small>
+          </label>
+          <div class="objective-note">
+            <span>关键差别</span>
+            <p data-loss-key>InfoNCE 对所有候选分数一起归一化。改变一个负例的分数，也会改变其他候选的概率。</p>
+          </div>
+        </div>
+
+        <div class="loss-math-visual">
+          <div class="math-readouts">
+            <div><span>真实类概率</span><strong data-math-p>0.000</strong></div>
+            <div><span>总 loss</span><strong data-math-loss>0.000</strong></div>
+            <div><span>正例 ∂L/∂s₊</span><strong data-math-grad>0.000</strong></div>
+            <div><span>最大负例 ∂L/∂sⱼ</span><strong data-math-negative-grad>0.000</strong></div>
+          </div>
+          <div class="candidate-chart" data-candidate-chart aria-label="候选类别概率柱状图"></div>
+          <div class="candidate-labels"><span>正样本</span><span>难负 A</span><span>负 B</span><span>负 C</span><span>负 D</span></div>
+          <div class="gradient-readout">
+            <span>当前公式</span>
+            <div data-math-formula>
+              <div class="math-display" data-loss-equation="infonce" data-math>\begin{aligned}z&amp;=s/\tau,\\ \frac{\partial\mathcal L}{\partial z}&amp;=p-y,\\ \frac{\partial\mathcal L}{\partial s}&amp;=\frac{p-y}{\tau}.\end{aligned}</div>
+              <div class="math-display" data-loss-equation="sgns" data-math hidden>\sigma(s)=\frac{1}{1+e^{-s}},\qquad\frac{\partial\mathcal L}{\partial s}=\sigma(s)-y</div>
+            </div>
+          </div>
+          <p class="math-explanation" data-math-explanation>
+            正例当前得分最高。温度降低会让概率更尖锐，但梯度大小还取决于 p−y；把难负例抬到高于正例可观察另一种情况。
+          </p>
+        </div>
+      </div>
+
+      <div class="math-principles">
+        <article>
+          <span class="tag">InfoNCE</span>
+          <h3>候选之间互相竞争</h3>
+          <p>softmax 比较相对得分。只抬高正例就能降低这行 loss；所有候选同时加同一常数则概率不变。共享参数更新会耦合多个候选与样本，所以不能保证每项都按独立分数的方向变化。</p>
+          <div class="math-display" data-math>\sum_jp_j=1</div>
+        </article>
+        <article>
+          <span class="tag">SGNS</span>
+          <h3>每个噪声词独立二分类</h3>
+          <p>真实搭配希望 σ(s)→1，采样负例希望 σ(s)→0。K 个负例各有 logistic 损失，不做候选间 softmax 归一化。</p>
+          <div class="math-display" data-math>\sigma(s)=\frac{1}{1+e^{-s}}</div>
+        </article>
+        <article>
+          <span class="tag">温度 τ</span>
+          <h3>控制概率与梯度的锐度</h3>
+          <p>τ 小会放大分数差，但梯度同时取决于 p−y。正例已明显胜出时梯度可能饱和到零；负例胜出时则可能被 1/τ 放大。</p>
+          <div class="math-display" data-math>z=s/\tau</div>
+        </article>
+      </div>
+    </section>
+
+<section class="section" aria-labelledby="infonce-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="infonce-title">InfoNCE 的梯度，逐项长什么样？</h2>
+        </div>
+        <p class="section-note">对一个 query 行，正样本的概率 p<sub>i</sub> 与负样本概率 p<sub>j</sub> 共同决定反传梯度。</p>
+      </div>
+
+      <div class="derivation-board">
+        <div class="derivation-step">
+          <span>01 / SCORE</span>
+          <div class="math-display" data-math>z_{ij}=\frac{q_i^\top d_j}{\tau}</div>
+          <p>先归一化再点积时，这就是 cosine / τ；内积训练则不一定归一化。</p>
+        </div>
+        <div class="derivation-step">
+          <span>02 / LOSS</span>
+          <div class="math-display" data-math>\mathcal L_i=-\log\frac{e^{z_{ii}}}{\sum_j e^{z_{ij}}}</div>
+          <p>对角候选是正例，其他列是负例或 in-batch negatives。</p>
+        </div>
+        <div class="derivation-step">
+          <span>03 / LOGITS</span>
+          <div class="math-display" data-math>\frac{\partial\mathcal L_i}{\partial z_{ij}}=p_{ij}-y_{ij}</div>
+          <p>这是 softmax + 交叉熵最常用的梯度；y 在正候选位置为 1。</p>
+        </div>
+        <div class="derivation-step">
+          <span>04 / QUERY</span>
+          <div class="math-display" data-math>\nabla_{q_i}\mathcal L_i=\frac1\tau\sum_j(p_{ij}-y_{ij})d_j</div>
+          <p>这是对 q 的导数；梯度下降方向与它相反。更新含朝正文档、远离负文档的分量，最终是各项的向量和。若 q 是归一化后的输出，还要继续穿过归一化算子。</p>
+        </div>
+      </div>
+
+      
+      <div class="callout">
+        <p><strong>难负例与假负例要按任务标注区分。</strong>“主题相关但不能回答”可以是合理难负例；真正满足相关性标准、却因漏标被当成负例的才是假负例。两者的分数导数都为 p<sub>ij</sub>/τ ≥ 0，更新会压低分数，后者因此损伤有效证据。可用多正例目标、重复文档屏蔽与标注复核处理。</p>
+        <p><strong>归一化也在计算图里。</strong>若 q 是单位向量，u 是归一化前的非零输出，继续反传时还要穿过归一化的 Jacobian。</p>
+      </div>
+      <figure class="math-block"><div class="math-display" data-math>q=\frac{u}{\lVert u\rVert_2},\qquad\nabla_u\mathcal L=\frac{I-qq^\top}{\lVert u\rVert_2}\nabla_q\mathcal L</div><figcaption>I−qqᵀ 去掉径向分量，保留沿单位球切面的变化。该式假设 u≠0；工程中的 ε/clamp 会改变极小范数处的导数。</figcaption></figure>
+    </section>
+
+<div class="modern-page"><div class="reading-links"><a href="backpropagation.html">继续：整层 Transformer 反向传播与逐元素核验</a><a href="numerical-computing.html">浮点舍入与稳定 loss</a></div></div>
+
+<p>输出投影的完整梯度与权重共享可继续核对<a href="chunked-cross-entropy.html">分块交叉熵实验</a>：逐块重建概率并累计 hidden 与输出权重的贡献。</p>
+
+<section class="section next-lesson">
+      <div>
+        <p class="eyebrow">选读 / 后训练目标</p>
+        <h2>表示后训练、SFT、DPO 和 RLHF，损失会影响哪些参数？</h2>
+      </div>
+      <a class="button button-primary" href="posttraining-deep.html">查看后训练目标 →</a>
+    </section>

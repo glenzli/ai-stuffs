@@ -1,0 +1,170 @@
+{
+  "schema": "model-engineering-experiments-v1",
+  "generated_at": "2026-10-28T11:57:59.315Z",
+  "source": {
+    "path": "artifacts/reproduced-20261028T115030Z/SOURCE-SHA256SUMS",
+    "bytes": 31420,
+    "sha256": "a75e6f4898923269cdfbc84bc95e91410a81abba49852c28bc124c6ad0be877d"
+  },
+  "experiments": {
+    "learning": {
+      "id": "learning",
+      "title": "小模型学习与泛化",
+      "pages": [
+        "learning-run"
+      ],
+      "schema": "learning-run-v1",
+      "status": "passed",
+      "command": "node scripts/run-learning-lab.mjs --out-dir artifacts/learning-my-run --steps 1200 --seeds 11,29,47 --batch-size 64 --lr 0.003 --threads 1",
+      "runtime": {
+        "python": "3.12.13",
+        "torch": "2.9.0",
+        "numpy": "2.3.4",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "machine": "arm64",
+        "device": "cpu",
+        "dtype": "float32",
+        "threads": 1,
+        "deterministic_algorithms": true,
+        "torch_build": "PyTorch built with:\n  - GCC 4.2\n  - C++ Version: 201703\n  - clang 15.0.0\n  - OpenMP 201811\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: DEFAULT\n  - Build settings: BLAS_INFO=accelerate, BUILD_TYPE=Release, COMMIT_SHA=0fabc3ba44823f257e70ce397d989c8de5e362c1, CXX_COMPILER=/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_PYTORCH_QNNPACK -DAT_BUILD_ARM_VEC256_WITH_SLEEF -DUSE_XNNPACK -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DUSE_COREML_DELEGATE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=braced-scalar-init -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wvla-extension -Wsuggest-override -Wnewline-eof -Winconsistent-missing-override -Winconsistent-missing-destructor-override -Wno-pass-failed -Wno-error=old-style-cast -Wconstant-conversion -Qunused-arguments -faligned-new -fno-math-errno -fno-trapping-math -Werror=format -DUSE_MPS -Wno-missing-braces, LAPACK_INFO=accelerate, TORCH_VERSION=2.9.0, USE_CUDA=OFF, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_EIGEN_FOR_BLAS=ON, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=OFF, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n"
+      },
+      "created_at": "2026-10-28T11:51:58.069342+00:00",
+      "report": {
+        "path": "artifacts/reproduced-20261028T115030Z/learning/report.json",
+        "bytes": 8293228,
+        "sha256": "7e1481b22d02a1c213270e9ec1320ab6419a62c62a9112585dde892b7144e103"
+      },
+      "archive": {
+        "path": "artifacts/reproduced-20261028T115030Z/downloads/learning-sources.tar.gz",
+        "bytes": 12204856,
+        "sha256": "e5e717e24e97797451edc450ed990854341973d7a41bd7c1580bf59e2cebdf9d"
+      },
+      "checksums": {
+        "path": "artifacts/reproduced-20261028T115030Z/learning/SHA256SUMS",
+        "bytes": 4888,
+        "sha256": "8d617eec0b7b3622e2e103cbdd394b8c485f30029e4feb32851338d08d431219"
+      }
+    },
+    "failures": {
+      "id": "failures",
+      "title": "故障与确定性回放",
+      "pages": [
+        "training-failures"
+      ],
+      "schema": "failure-replay-v1",
+      "status": "passed",
+      "command": "node scripts/run-failure-lab.mjs --out-dir artifacts/failure-my-run",
+      "runtime": {
+        "python": "3.12.13",
+        "torch": "2.9.0",
+        "numpy": "2.3.4",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "machine": "arm64",
+        "device": "cpu",
+        "dtype": "float32",
+        "threads": 1,
+        "deterministic_algorithms": true,
+        "torch_build": "PyTorch built with:\n  - GCC 4.2\n  - C++ Version: 201703\n  - clang 15.0.0\n  - OpenMP 201811\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: DEFAULT\n  - Build settings: BLAS_INFO=accelerate, BUILD_TYPE=Release, COMMIT_SHA=0fabc3ba44823f257e70ce397d989c8de5e362c1, CXX_COMPILER=/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_PYTORCH_QNNPACK -DAT_BUILD_ARM_VEC256_WITH_SLEEF -DUSE_XNNPACK -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DUSE_COREML_DELEGATE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=braced-scalar-init -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wvla-extension -Wsuggest-override -Wnewline-eof -Winconsistent-missing-override -Winconsistent-missing-destructor-override -Wno-pass-failed -Wno-error=old-style-cast -Wconstant-conversion -Qunused-arguments -faligned-new -fno-math-errno -fno-trapping-math -Werror=format -DUSE_MPS -Wno-missing-braces, LAPACK_INFO=accelerate, TORCH_VERSION=2.9.0, USE_CUDA=OFF, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_EIGEN_FOR_BLAS=ON, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=OFF, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n"
+      },
+      "created_at": "2026-10-28T11:52:42.846248+00:00",
+      "report": {
+        "path": "artifacts/reproduced-20261028T115030Z/failures/report.json",
+        "bytes": 5763474,
+        "sha256": "dac8f0415ec127d4dc675ede37994122c76945d66e1b16a0b8108e38bef2bc1d"
+      },
+      "archive": {
+        "path": "artifacts/reproduced-20261028T115030Z/downloads/failures-sources.tar.gz",
+        "bytes": 34963849,
+        "sha256": "c30c340a46f3c3791715fbd9b0c05f662b1ab6b2bb034d1eababa1b1ad567b26"
+      },
+      "checksums": {
+        "path": "artifacts/reproduced-20261028T115030Z/failures/SHA256SUMS",
+        "bytes": 6384,
+        "sha256": "bc4ec8231158da8b7569cf0d529d4c26330384e899eb9aeecf8df4272f874172"
+      }
+    },
+    "dynamics": {
+      "id": "dynamics",
+      "title": "初始化、宽度与 Batch",
+      "pages": [
+        "initialization-width",
+        "batch-noise"
+      ],
+      "schema": "training-dynamics-v1",
+      "status": "complete",
+      "command": "node scripts/run-dynamics-lab.mjs --out-dir artifacts/dynamics-my-run --write-page-data",
+      "runtime": {
+        "python": "3.12.13",
+        "torch": "2.9.0",
+        "numpy": "2.3.4",
+        "mup": "1.0.0",
+        "pyyaml": "6.0.3",
+        "device": "cpu",
+        "width_dtype": "float32",
+        "noise_dtype": "float64",
+        "decoder_dtype": "float32",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "machine": "arm64",
+        "threads": 1,
+        "interop_threads": 1,
+        "deterministic_algorithms": true,
+        "no_pretrained_downloads": true
+      },
+      "created_at": "2026-10-28T11:53:30.918417+00:00",
+      "report": {
+        "path": "artifacts/reproduced-20261028T115030Z/dynamics/report.json",
+        "bytes": 19077329,
+        "sha256": "707e08064233f562c1756301351413b9988e6c132a7fbe8a8f5daaafa531474f"
+      },
+      "archive": {
+        "path": "artifacts/reproduced-20261028T115030Z/downloads/dynamics-sources.tar.gz",
+        "bytes": 71660675,
+        "sha256": "bcef11cb9fb525dcce55e68058d2b6b43205404da59c481e399ebf5d05b9e40b"
+      },
+      "checksums": {
+        "path": "artifacts/reproduced-20261028T115030Z/dynamics/SHA256SUMS",
+        "bytes": 35400,
+        "sha256": "3ac2c540681d2f86e3dd12606bdd57037a359b8c6c68f34b6d91dab4fb82bcfa"
+      }
+    },
+    "output": {
+      "id": "output",
+      "title": "分块交叉熵与 CPU 测量",
+      "pages": [
+        "chunked-cross-entropy"
+      ],
+      "schema": "output-lab-v1",
+      "status": "passed",
+      "command": "node scripts/run-output-lab.mjs --out-dir artifacts/output-my-run",
+      "runtime": {
+        "python": "3.12.13",
+        "torch": "2.9.0",
+        "numpy": "2.3.4",
+        "device": "cpu",
+        "dtype": "float64",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "machine": "arm64",
+        "processor": "arm",
+        "threads": 1,
+        "interop_threads": 1,
+        "deterministic_algorithms": true
+      },
+      "created_at": "2026-10-28T11:54:45.369070+00:00",
+      "report": {
+        "path": "artifacts/reproduced-20261028T115030Z/output/report.json",
+        "bytes": 36068,
+        "sha256": "79172cfdaec439ac5ad8751b2932a220f79013371857e4abba852e3167507ced"
+      },
+      "archive": {
+        "path": "artifacts/reproduced-20261028T115030Z/downloads/output-sources.tar.gz",
+        "bytes": 1390251,
+        "sha256": "981886694d350bb2078659f994b25b64229355d3233b2f6ce7fd895366403d87"
+      },
+      "checksums": {
+        "path": "artifacts/reproduced-20261028T115030Z/output/SHA256SUMS",
+        "bytes": 404,
+        "sha256": "518f13f61f216bba4e6eb1d6e742483c54e18f6303ff1a52f2290883cc730805"
+      }
+    }
+  }
+}

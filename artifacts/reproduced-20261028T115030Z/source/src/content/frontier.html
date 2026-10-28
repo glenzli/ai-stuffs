@@ -1,0 +1,64 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">FRONTIER / DECISIONS</p>
+        <h1>模型能力与应用：<span class="accent-text">从具体问题选读</span></h1>
+        <p class="lede">
+          从自回归、扩散与 CoT，到多模态、工具、教师、合成数据和量化。
+          每条路径连接结构、训练信号、运行成本与证据，帮助你判断一种改进实际改变了什么。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">本轮扩展 · 2026-10-26</p>
+        <p>理解机制时看定义与计算图，做选型时看适用条件。具名研究保留年份与一手资料，模型案例按文中标注的公开版本展开。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="frontier-routes-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">P0 / DECISION LAYER</span>
+          <h2 id="frontier-routes-title">从生成机制到可验证的能力</h2>
+        </div>
+        <p class="section-note">先读自回归与扩散，再读 CoT 与训练信号；工程问题沿数据、评估和服务分支继续。</p>
+      </div>
+
+      <div class="frontier-route-grid">
+        <a href="generation-mechanisms.html"><span>01 / GENERATION</span><h3>自回归、扩散、潜在空间分别改变什么？</h3><p>概率分解、teacher forcing、去噪训练、Flow Matching、JEPA 与生成状态。</p></a>
+        <a href="reasoning-compute.html"><span>02 / REASONING</span><h3>CoT、Thinking 与 J-space</h3><p>可见推理、内部表示、CoT 监督、验证器与推理时计算。</p></a>
+        <a href="distillation-data.html"><span>03 / TEACHERS</span><h3>Teacher 怎么教，学生学到什么？</h3><p>软标签、学生轨迹、前缀分布、合成数据与能力保留。</p></a>
+        <a href="multimodal.html"><span>04 / MULTIMODAL</span><h3>图片、音频、视频怎样进入模型？</h3><p>视觉接口、联合训练、Thinker/Talker 与流式队列。</p></a>
+        <a href="agents-context.html"><span>05 / AGENTS</span><h3>从生成回答到完成任务</h3><p>工具轨迹、记忆压缩、约束保留、冲突与状态恢复。</p></a>
+        <a href="efficient-inference.html"><span>06 / EFFICIENCY</span><h3>量化与投机解码</h3><p>数值误差、校准、低位权重与 KV、草稿验收和性能边界。</p></a>
+        <a href="scaling-laws.html">
+          <span>07 / SCALING</span>
+          <h3>参数、数据与推理预算如何分配？</h3>
+          <p>经验规律来自哪些实验，N/D 分配、Chinchilla 比例边界与外推。</p>
+        </a>
+        <a href="rl-posttraining.html">
+          <span>08 / RL POST-TRAINING</span>
+          <h3>奖励怎样通过 PPO、GRPO 等算法更新策略？</h3>
+          <p>组内信号、探索、长度、异步 rollout、策略陈旧度与奖励漏洞。</p>
+        </a>
+        <a href="model-case-studies.html">
+          <span>09 / MODEL CASES</span>
+          <h3>现代模型由哪些结构拼起来？</h3>
+          <p>从标准结构到跨层 KV 复用，按公开版本核对参数、存储与计算路径。</p>
+        </a>
+        <a href="finetuning-recipe.html"><span>10 / FINETUNING</span><h3>“一万条数据微调”实际做了什么？</h3><p>样本、监督位置、packing、更新次数、LoRA 和数据学习曲线。</p></a>
+        <a href="model-evaluation.html#agent-reliability"><span>11 / RELIABILITY</span><h3>完整任务怎样测出可靠性？</h3><p>重复执行、环境状态、运行系统、判分器混淆与偏差。</p></a>
+      </div>
+    </section>
+
+    <div class="modern-page"><section class="section" aria-labelledby="research-questions"><div class="section-heading"><span class="section-number">OPTIONAL / RESEARCH</span><h2 id="research-questions">研究选读：机制假设与实验证据</h2></div><div class="research-route-list">
+      <a href="uncertainty-calibration.html"><strong>自信的回答，怎样检验可靠性？</strong><p>校准、覆盖与错误率、语义熵和稳定错误。</p></a>
+      <a href="continual-learning.html"><strong>新任务为什么会影响旧能力？</strong><p>梯度干扰、有限步长、重放和参数约束。</p></a>
+      <a href="learning-mechanisms.html"><strong>固定权重怎样利用新示例？</strong><p>模式复制电路、特征叠加、SAE 和因果证据。</p></a>
+      <a href="training-environments.html"><strong>环境怎样变成训练数据？</strong><p>任务、可解性、验证器、错误恢复和安全隔离。</p></a>
+      <a href="reasoning-compute.html#rl-capability-evidence"><strong>RL 的能力结论怎样比较？</strong><p>Pass@k、过程正确性、采样预算和研究分歧。</p></a>
+      <a href="optimization-dynamics.html#matrix-optimizers"><strong>Muon 怎样改变矩阵更新？</strong><p>奇异方向、近似正交化、缩放与分布式成本。</p></a>
+    </div></section></div>
+    <section class="section">
+      <div class="callout">
+        <p><strong>训练是否有效，最终回到证据：</strong><a href="model-evaluation.html#generalization">训练、验证、泛化与发布标准</a>；<a href="data-tokenizer.html#cleaning-operations">实际数据清洗流程</a>。比较前先选同 compute、同延迟或同质量等口径，说明没控制的差异。</p>
+      </div>
+    </section>

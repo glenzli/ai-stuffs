@@ -1,0 +1,83 @@
+.modern-page .concept-strip { display: flex; flex-wrap: wrap; gap: 12px 28px; padding: 18px 0; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--ink-soft); }
+.modern-page .concept-strip strong { color: var(--ink); }
+.modern-page .section-heading { display: block; max-width: 920px; }
+.modern-page .section-heading h2 { margin: 5px 0 8px; }
+.modern-page .section-heading p { max-width: 80ch; }
+.modern-page .prose { max-width: 860px; }
+.modern-page .prose p { font-size: 15px; margin: 14px 0; }
+.modern-page .prose a, .modern-page .reading-links a { color: var(--accent); text-underline-offset: 4px; }
+.modern-page .reading-links { display: flex; flex-wrap: wrap; gap: 12px 24px; padding: 20px 0; border-top: 1px solid var(--line); font-size: 13px; }
+.modern-page .compare-wrap { overflow-x: auto; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line); }
+.modern-page table { border-collapse: collapse; width: 100%; min-width: 650px; font-size: 13px; }
+.modern-page th { text-align: left; font-size: 12px; background: var(--surface); }
+.modern-page td, .modern-page th { padding: 16px 14px; vertical-align: top; border-bottom: 1px solid var(--line); line-height: 1.85; }
+.modern-page td:first-child { min-width: 126px; font-weight: 600; }
+.modern-page .mechanism-flow { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.modern-page .mechanism-flow > div { padding: 18px 16px; border-right: 1px solid var(--line); }
+.modern-page .mechanism-flow > div:last-child { border-right: 0; }
+.modern-page .mechanism-flow span { font: 11px var(--mono); color: var(--accent); }
+.modern-page .mechanism-flow h3 { margin: 12px 0 8px; font-size: 16px; }
+.modern-page .mechanism-flow p { margin: 0; font-size: 13px; color: var(--ink-soft); }
+.modern-page .formula-line { display: block; padding: 18px 20px; margin: 18px 0; background: var(--surface); border-left: 3px solid var(--blue); color: var(--ink); font-size: 14px; line-height: 1.9; overflow-wrap: anywhere; }
+.modern-page .concept-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+.modern-page .concept-pairs > div { border-top: 1px solid var(--line); padding: 20px 0; }
+.modern-page .concept-pairs h3 { margin: 0 0 8px; font-size: 17px; }
+.modern-page .concept-pairs p { font-size: 14px; color: var(--ink-soft); margin: 0; }
+.modern-page .experiment { border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: var(--surface-strong); }
+.modern-page .experiment-head { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.modern-page .experiment-head h3 { margin: 0; font-size: 16px; }
+.modern-page .segmented { display: flex; flex-wrap: wrap; gap: 3px; padding: 3px; background: var(--surface); border: 1px solid var(--line); border-radius: 5px; }
+.modern-page .segmented button { border: 0; border-radius: 3px; padding: 8px 13px; background: transparent; color: var(--ink-soft); cursor: pointer; font-size: 12px; }
+.modern-page .segmented button[aria-pressed=true] { background: var(--accent); color: var(--surface-strong); }
+.modern-page .experiment-body { display: grid; grid-template-columns: minmax(210px,.7fr) minmax(0,1.5fr); }
+.modern-page .experiment-controls { padding: 22px; border-right: 1px solid var(--line); background: var(--surface); }
+.modern-page .experiment-controls label { display: grid; gap: 8px; font-size: 12px; margin: 0 0 24px; }
+.modern-page .experiment-controls label > span { display: flex; justify-content: space-between; gap: 10px; }
+.modern-page .experiment-controls output { font-family: var(--mono); color: var(--accent); }
+.modern-page input[type=range] { width: 100%; accent-color: var(--accent); }
+.modern-page select { min-height: 40px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface-strong); color: var(--ink); padding: 6px 8px; font-size: 13px; width: 100%; }
+.modern-page .experiment-view { min-width: 0; padding: 22px; }
+.modern-page .experiment-note { margin: 18px 0 0; color: var(--ink-soft); font-size: 13px; }
+.modern-page .experiment-caption { border-top: 1px solid var(--line); padding: 13px 20px; margin: 0; font-size: 12px; color: var(--ink-faint); }
+.modern-page .metric-row { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin: 0 0 20px; }
+.modern-page .metric-row > div { border-bottom: 1px solid var(--line); padding: 0 0 14px; min-width: 0; }
+.modern-page .metric-row span { display: block; font-size: 11px; color: var(--ink-faint); }
+.modern-page .metric-row strong { display: block; font: 500 26px/1.7 var(--mono); color: var(--accent); }
+.modern-page .horizontal-bars { display: grid; gap: 16px; margin: 20px 0; }
+.modern-page .bar-row { display: grid; grid-template-columns: 100px minmax(0,1fr) 58px; gap: 12px; align-items: center; font-size: 12px; }
+.modern-page .bar-track { height: 12px; background: var(--surface); border-radius: 2px; overflow: hidden; }
+.modern-page .bar-track i { height: 100%; display: block; background: var(--accent); transition: width .2s; }
+.modern-page .bar-row:nth-child(2) i { background: var(--blue); }
+.modern-page .bar-row:nth-child(3) i { background: var(--coral); }
+.modern-page .bar-row output { font: 11px var(--mono); text-align: right; }
+.modern-page .token-tape { display: flex; flex-wrap: wrap; gap: 7px; min-height: 60px; margin: 22px 0; align-content: start; }
+.modern-page .token-tape span { display: grid; place-items: center; min-width: 40px; height: 44px; padding: 0 9px; font: 13px var(--mono); border: 1px solid var(--line); border-radius: 4px; color: var(--ink-faint); background: var(--surface); }
+.modern-page .token-tape .accepted { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.modern-page .token-tape .pending { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.modern-page .token-tape .rejected { border-color: var(--coral); color: var(--coral); background: var(--coral-soft); text-decoration: line-through; }
+.modern-page .token-tape .corrected { border-color: var(--blue); color: var(--blue); }
+.modern-page .step-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+.modern-page .step-actions button { font-size: 12px; }
+.modern-page button:disabled { opacity: .5; cursor: not-allowed; }
+.modern-page .state-log { font-size: 13px; border-left: 2px solid var(--accent); padding: 8px 0 8px 15px; min-height: 70px; }
+.modern-page .state-log strong { display: block; margin-bottom: 5px; }
+.modern-page canvas { width: 100%; max-width: 336px; aspect-ratio: 1; display: block; margin: 0 auto; border: 1px solid var(--line); border-radius: 4px; }
+.modern-page .mini-chart { display: block; width: 100%; aspect-ratio: 2.6; }
+.modern-page details { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.modern-page details summary { font-size: 15px; font-weight: 600; cursor: pointer; }
+.modern-page details p { color: var(--ink-soft); max-width: 85ch; }
+.modern-page .assumption { display: inline-block; color: var(--blue); font: 11px var(--mono); }
+@media (max-width: 1100px) {
+  .modern-page .mechanism-flow { grid-template-columns: 1fr 1fr; }
+  .modern-page .experiment-body { grid-template-columns: 1fr; }
+  .modern-page .experiment-controls { border-right: 0; border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 760px) {
+  .modern-page .concept-pairs, .modern-page .mechanism-flow { grid-template-columns: 1fr; }
+  .modern-page .mechanism-flow > div { border-right: 0; border-bottom: 1px solid var(--line); padding: 16px 0; }
+  .modern-page .experiment-head, .modern-page .experiment-controls, .modern-page .experiment-view { padding: 16px; }
+  .modern-page .metric-row { gap: 10px; }
+  .modern-page .metric-row strong { font-size: 19px; }
+  .modern-page .bar-row { grid-template-columns: 80px minmax(0,1fr) 45px; gap: 6px; }
+  .modern-page .prose p { font-size: 14px; }
+}

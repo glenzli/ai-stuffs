@@ -1,0 +1,69 @@
+<div class="modern-page learning-page">
+<section class="page-intro">
+    <div><p class="eyebrow">ACTUAL CPU TRAINING / SAVED EVIDENCE</p><h1>小模型学习：<span class="accent-text">拟合、生成与未见长度</span></h1><p class="lede">从随机初始化的小型 decoder 开始，训练四符号反转任务。查看实际保存的学习曲线、完整生成和逐题失败，再用同一 checkpoint 核对恢复与缓存。</p></div>
+    <aside class="intro-aside"><p class="micro-label">2026-10-28 · 本地实测</p><p>固定三 seed、每个 1,200 次更新。seed 11/29 的训练与独立测试完整匹配为 100%；seed 47 未达到 95% 训练拟合阈值。全部 seed 的长度外推完整匹配为 0%。</p></aside>
+  </section>
+
+<section class="section" aria-labelledby="lr-report"><div class="section-heading"><span class="section-number">02 / ACTUAL SAVED RUNS</span><h2 id="lr-report">先看同题输出，再看学习曲线与未见输入</h2></div>
+<p>任务是将 A/B/C/D 组成的序列反转，并生成结束符 EOS。浏览器展示已保存的 CPU 实测快照；先比较同一道题训练前后的输出，再分别看总体结果与未见长度。完整监督格式见<a href="#lr-task">任务与监督约定</a>。</p>
+<p class="learning-status" role="status" data-lr-status>正在载入保存的真实快照…</p><div data-lr-output hidden><div class="learning-controls learning-primary-controls">
+        <label for="lr-seed"><span>训练 seed</span><select id="lr-seed" data-lr-seed></select></label>
+        <label for="lr-split"><span>评估拆分</span><select id="lr-split" data-lr-split><option value="train">训练集</option><option value="validation">验证集</option><option value="test" selected>独立测试</option><option value="length">长度外推</option></select></label>
+        
+      </div>
+<div class="learning-example" role="group" aria-label="同一道题训练前后的生成" aria-live="polite" data-lr-preview></div>
+<div class="learning-controls learning-phase-control"><label for="lr-phase"><span>模型或独立基线</span><select id="lr-phase" data-lr-phase><option value="learned">训练后模型</option><option value="initial">初始随机模型</option><option value="identity">复制输入基线</option><option value="constant">训练集最常见符号基线</option><option value="oracle">算法 oracle：显式反转</option></select></label></div>
+<p class="experiment-note" data-lr-selection></p>
+<div class="metric-row learning-metrics"><div><span>Teacher-forced CE · nats/监督 token</span><strong data-lr-ce></strong></div><div><span>自由生成 token accuracy · micro</span><strong data-lr-token></strong></div><div><span>自由生成完整匹配 · 含正确 EOS</span><strong data-lr-em></strong></div></div>
+<p class="experiment-note" data-lr-termination></p>
+<p class="learning-outcome" data-lr-outcome></p>
+<div class="learning-controls">
+        <label for="lr-curve-metric"><span>保存的训练与验证曲线</span><select id="lr-curve-metric" data-lr-curve-metric><option value="teacher_forced_loss">Teacher-forced CE · nats/token</option><option value="free_token_accuracy">自由生成 token accuracy · %</option><option value="exact_match">自由生成 exact match · %</option></select></label>
+        <label for="lr-axis"><span>横轴</span><select id="lr-axis" data-lr-axis><option value="step">优化器更新次数</option><option value="supervised_tokens">累计消费监督 token</option></select></label>
+      </div>
+<svg class="learning-chart" viewBox="0 0 740 300" role="img" aria-label="保存的实际训练与验证曲线" data-lr-chart></svg>
+<p class="experiment-note">圆点均为保存的实测评估，连线仅连接相邻点。曲线只包含训练和验证；测试与外推在固定预算结束后评估。训练墙钟时间包含周期评估，不能作为纯训练吞吐。</p>
+<details><summary>曲线的完整数值与单位</summary><div class="compare-wrap learning-scroll" tabindex="0" role="region" aria-label="实际学习曲线数值"><table class="learning-results"><thead><tr><th>更新</th><th>监督 token</th><th>训练 CE</th><th>验证 CE</th><th>训练自由 token%</th><th>验证自由 token%</th><th>训练 EM%</th><th>验证 EM%</th></tr></thead><tbody data-lr-curve-rows></tbody></table></div></details>
+<details open><summary>逐题完整生成：显示真实 EOS、缺失和额外输出</summary>
+        <div class="learning-pagination"><label for="lr-errors"><input id="lr-errors" type="checkbox" data-lr-errors>只看失败题</label><button type="button" class="button" data-lr-table-prev>上一页</button><button type="button" class="button" data-lr-table-next>下一页</button><p data-lr-page></p></div>
+        <div class="compare-wrap learning-scroll" tabindex="0" role="region" aria-label="自由生成与 teacher-forced 的逐题预测"><table class="learning-results learning-predictions"><thead><tr><th>题目 / 反转等价组</th><th>输入</th><th>正确答案 + EOS</th><th>真实自由生成</th><th>Teacher-forced argmax</th><th>自由 token 计分</th><th>匹配 / 结束 / 内容差额</th></tr></thead><tbody data-lr-rows></tbody></table></div>
+      </details>
+<details><summary>计算精度、原失败记录与同 checkpoint 复核</summary><p class="learning-source" data-lr-cache></p><p>原报告的 float32 固定绝对阈值 2e-5 未通过。诊断后才修订为逐元素 <code>atol + rtol × max(|full|, |cache|)</code>：float32 为 1e-4 + 1e-5 × scale，float64 为 1e-9。这是声明的本机经验接受标准；保留原始 failed 报告，不将它写成训练前预设或通用数值误差界。</p><p>复核没有训练、改权重或重新选择预算。全部保存题目同时检查更高精度、softmax 概率误差、top-1 一致和实际生成；恢复对照另启动新进程，核对模型、AdamW、Python/NumPy/torch RNG、数据顺序和游标、计数以及评估。</p></details>
+<details><summary>模型、预算、累计 token、源码与报告来源</summary><pre class="learning-code" tabindex="0" aria-label="当前实验配置与 provenance" data-lr-model></pre></details>
+<div class="learning-controls"><label for="lr-paired-old"><span>配对旧条件</span><select id="lr-paired-old" data-lr-paired-old><option value="initial">初始模型 → 训练后</option><option value="identity">复制基线 → 训练后</option></select></label><label for="lr-paired-metric"><span>配对逐题分数</span><select id="lr-paired-metric" data-lr-paired-metric><option value="exact_match">完整匹配 · 0/1</option><option value="token_accuracy">自由生成逐题 token accuracy</option></select></label></div>
+<button type="button" class="button" data-lr-paired disabled>导出当前拆分的完整配对 JSON</button>
+<p class="experiment-note" data-lr-paired-note></p><details class="learning-import-details"><summary>所有 seed、计算核验与实验来源</summary><p class="learning-provenance" data-lr-provenance></p>
+<div class="learning-checks"><p data-lr-computation></p><p data-lr-fit></p></div>
+<div class="compare-wrap" tabindex="0" role="region" aria-label="所有训练 seed 的固定预算结果"><table class="learning-results"><thead><tr><th>seed</th><th>训练 CE · nats/token</th><th>训练 EM</th><th>验证 EM</th><th>测试 EM</th><th>长度外推 EM</th><th>描述性拟合阈值</th></tr></thead><tbody data-lr-summary-rows></tbody></table></div></details></div>
+<details class="learning-import-details"><summary>读取完整本地报告或下载当前数据</summary><p>完整 report.json 包含全部题目的初始、训练后和规则基线预测；文件只在本地浏览器处理，上限 16 MiB。</p><div class="learning-import"><label for="lr-file"><span>选择本地学习报告 JSON</span><input id="lr-file" type="file" accept=".json,application/json" data-lr-file></label><button type="button" class="button" data-lr-default>恢复默认真实快照</button><button type="button" class="button" data-lr-download disabled>下载当前报告或快照</button></div></details></section>
+
+<section class="section" aria-labelledby="lr-task">
+    <div class="section-heading"><span class="section-number">01 / TASK CONTRACT</span><h2 id="lr-task">先固定任务、拆分和监督位置</h2></div>
+    <div class="prose"><p>内容符号为 A/B/C/D。输入 <code>A B C</code> 的目标是 <code>C B A EOS</code>；完整训练串为 <code>BOS A B C SEP C B A EOS</code>。SEP 位置的 logits 预测第一个答案 token，提示词与 padding 的 labels 为 −100，仅答案和 EOS 参与交叉熵。</p><p>输入与它的反向等价输入先分到同一个 group，再按长度分层拆分。默认 train/validation/test 为长度 2–5 的 405/130/139 条，长度 6–8 外推为 143 条；exact input 与 group 均不跨集。训练、验证 pilot 只用于固定预算；独立测试和外推不选择配置。</p></div>
+    <div class="learning-token-key" aria-label="固定八符号词表"><code>PAD=0</code><code>BOS=1</code><code>SEP=2</code><code>EOS=3</code><code>A/B/C/D=4/5/6/7</code></div>
+    <figure class="math-block"><div class="math-display" data-math>\mathcal L_{\rm token}=-\frac{1}{N_{\rm supervised}}\sum_{i,t:\,y_{i,t}\ne -100}\log p_\theta(y_{i,t}\mid z_{i,\le t})</div><figcaption>labels 已与当前位置 logits 对齐，不能再次移位。训练目标按有效监督 token 归一化；全无标签的 batch 跳过更新。</figcaption></figure>
+    <p>模型为 2 层、width 64、4 heads、101,120 参数；使用固定正弦位置编码、Pre-LayerNorm、GELU、dropout 0.1 和未绑定输出头。固定位置编码避免引入未训练的绝对位置表，但不保证学到可外推的反转算法。</p>
+  </section>
+
+<section class="section" aria-labelledby="lr-scoring">
+    <div class="section-heading"><span class="section-number">03 / GENERATION AND FAILURE</span><h2 id="lr-scoring">teacher forcing 与真实生成各测量什么？</h2></div>
+    <div class="concept-pairs"><div><h3>条件交叉熵</h3><p>Teacher-forced loss 在正确答案前缀下计算。其 argmax 可辅助定位监督，不能计作自由生成准确率；自由生成只接收输入 prompt 和自己此前输出。</p></div><div><h3>统一结束口径</h3><p>所有模型题目 greedy 生成，首次预测 EOS 或共同上限 <code>max_new_tokens=20</code> 才停止。不会按正确答案长度停止。生成的 PAD/BOS/SEP 保留为真实位置并计为错误，训练 padding 仍排除。</p></div><div><h3>独立基线</h3><p>复制与常量基线利用可观察输入长度输出 EOS；常量符号仅从训练集统计。Oracle 直接实现反转规则，是算法上界。基线没有模型的 teacher-forced loss，不作为学习证据。</p></div><div><h3>固定预算的失败</h3><p>seed 47 训练 EM 为 93.33%，测试为 91.37%；全部 seed 长度外推 EM 为 0%，并提前结束。这些结果在完整报告保留，配置不因测试或外推失败继续调参。</p></div></div>
+    <figure class="math-block"><div class="math-display" data-math>a_i=\frac{\sum_{j=1}^{\min(|\hat y_i|,|y_i|+1)}\mathbf 1[\hat y_{i,j}=(y_i,{\rm EOS})_j]}{\max(|\hat y_i|,|y_i|+1)}</div><figcaption>逐题分母取实际输出与正确答案加 EOS 的较长者，缺失和额外位置都计错。页面 micro 准确率先累加分子/分母；配对导出保留逐题 aᵢ。</figcaption></figure>
+    <p>完整匹配要求内容全部正确且 EOS 恰好结束在正确位置。短且尚未结束的独立轨迹标为 incomplete，实际达到上限才标 cap。该任务的同长度未见输入成功不能代表任意算法泛化，更不能外推到自然语言模型能力。</p>
+  </section>
+
+<section class="section" aria-labelledby="lr-reproduce">
+    <div class="section-heading"><span class="section-number">04 / REPRODUCE AND INSPECT</span><h2 id="lr-reproduce">从本地工件复现并连接下一步证据</h2></div>
+    <pre class="learning-code" tabindex="0" aria-label="独立测试、训练与保存 checkpoint 复核命令"><code>.venv-framework/bin/python scripts/test-learning-core.py
+node --test scripts/test-learning-run.mjs
+
+# 新目录中的完整三 seed 训练，固定参考版本；无需下载模型
+node scripts/run-learning-lab.mjs
+
+# 只复核现有 checkpoint，不重训
+node scripts/run-learning-lab.mjs --revalidate-report artifacts/learning-lab-20261028T034636.240515Z/report.json</code></pre>
+    <p>复用 PyTorch 2.9.0 / NumPy 2.3.4 的 <code>.venv-framework</code>，启动时强制核对版本。每次创建独立目录并拒绝覆盖，保存完整 splits、冻结配置、每步记录 IDs/loss/token 计数、初始/中途/最终 checkpoint、曲线、全部预测、来源和 SHA-256。默认页面取自 <code>artifacts/learning-revalidated-20261028T035637.650035Z/report.json</code>。</p>
+    <p class="learning-source">机制核对实际读取范围：Vaswani 等原论文 v7 的 decoder 因果 mask、缩放点积与正弦位置章节；本机官方 PyTorch 2.9.0 的 SDPA、CE、LayerNorm、AdamW、CPU RNG 与 save/load docstrings；固定 v2.9.0 的 Numerical accuracy 中浮点非结合性与 batch/slice 段落。Xiong 等 ICML 2020 仅核对摘要与出版元数据，不从本实验推导通用 warmup 结论。</p>
+    <div class="reading-links"><a href="training.html">训练回路</a><a href="position-cache.html">位置与缓存</a><a href="model-artifacts.html">保存与恢复工件</a><a href="model-evaluation.html">模型评估</a><a href="paired-evaluation.html">配对评估</a><a href="training-failures.html">同核心的训练故障回放</a><a href="batch-noise.html">样本梯度与 batch</a></div>
+  </section>
+</div>

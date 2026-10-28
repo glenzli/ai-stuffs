@@ -1,0 +1,46 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">MODERN AI / MULTIMODAL</p><h1>多模态：把不同信号接入<span class="accent-text">同一计算图</span></h1><p class="lede">视觉编码器把像素转换成一组特征，连接器把它们映射到语言模型可接收的宽度；音频、视频还增加了时间和对齐问题。</p></div><aside class="intro-aside"><p class="micro-label">结构与目标分开</p><p>看图回答、图文检索、图片生成、语音交互的输入接口、目标函数和采样过程可能完全不同。下面先以视觉语言模型为主线。</p></aside></section>
+  <section class="section" aria-labelledby="vision-path"><div class="section-heading"><span class="section-number">01 / FORWARD PATH</span><h2 id="vision-path">一张图怎样进入语言模型？</h2></div>
+    <div class="mechanism-flow"><div><span>01 / PIXELS</span><h3>解码、缩放、切块</h3><p>图像 [B,3,H,W]。resize、裁剪、颜色空间和归一化由 processor 固定。</p></div><div><span>02 / VISION ENCODER</span><h3>像素变成特征</h3><p>例如 ViT 输出 [B,Nv,dv]。patch 大小和分辨率影响特征位置数。</p></div><div><span>03 / CONNECTOR</span><h3>对齐到语言接口</h3><p>线性/MLP projector 或 resampler 将特征转为 [B,Nv',d]。</p></div><div><span>04 / LANGUAGE MODEL</span><h3>视觉与文本交互</h3><p>可把视觉特征插入输入序列，也可用 cross-attention 接入；再预测文本。</p></div></div>
+    <div class="prose"><p>插入语言序列的是连续视觉向量，不一定是 tokenizer 词表中的离散 ID；图像占位符只负责标记插入位置。投影到同一维度只解决 shape，<strong>语义对齐还需要训练</strong>。模型也可能用固定数量的 query 压缩视觉特征，因此 LLM 接收的视觉 token 数还取决于连接器的处理方式。</p></div>
+  </section>
+  <section class="section" aria-labelledby="vision-budget"><div class="section-heading"><span class="section-number">02 / TOKEN BUDGET</span><h2 id="vision-budget">为什么高清图片和视频会迅速吃掉上下文？</h2></div>
+    <div class="experiment"><div class="experiment-head"><h3>视觉位置与序列预算</h3><span class="assumption">简化 ViT + 均匀合并，不含特殊 token</span></div><div class="experiment-body"><div class="experiment-controls">
+      <label><span>方形输入边长</span><select data-mm-resolution><option value="224">224 px</option><option value="448" selected>448 px</option><option value="896">896 px</option></select></label>
+      <label><span>patch 边长</span><select data-mm-patch><option value="14" selected>14 px</option><option value="16">16 px</option></select></label>
+      <label><span>每帧合并比例</span><select data-mm-merge><option value="1">1 : 1</option><option value="4" selected>4 : 1</option><option value="16">16 : 1</option></select></label>
+      <label><span>帧数 <output data-mm-frames-value></output></span><input type="range" min="1" max="16" value="1" data-mm-frames></label>
+    </div><div class="experiment-view"><div class="metric-row"><div><span>每帧原始 patch</span><strong data-mm-patches></strong></div><div><span>视觉 token 总数</span><strong data-mm-tokens></strong></div><div><span>加 512 文本 token</span><strong data-mm-total></strong></div></div><canvas width="448" height="448" data-mm-canvas role="img" aria-label="示意票据上覆盖视觉 patch 网格，网格密度随配置变化"></canvas><p class="experiment-note" data-mm-note></p></div></div><p class="experiment-caption">图像是人工绘制的输入示意，未运行视觉编码器或 OCR。Nv = ceil(H/p)·ceil(W/p)，Nv' = ceil(Nv/merge)，总视觉位置 = 帧数·Nv'。真实模型可能多裁剪、多尺度或固定 resampler，需查 processor。</p></div>
+    <div class="prose"><p>更多 patch 可能保留小字与细节，也增加视觉编码和语言序列成本。更多帧可能覆盖动作过程，也会重复静态内容。时间分辨率同时取决于帧数和采样间隔；评估视频任务时还应记录帧时间戳、采样间隔和事件是否被漏采。</p></div>
+  </section>
+  <section class="section" aria-labelledby="modality-training"><div class="section-heading"><span class="section-number">03 / TRAINING RECIPE</span><h2 id="modality-training">通常训练什么，什么时候解冻？</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>目标/阶段</th><th>训练信号</th><th>哪些参数可能更新</th><th>主要风险</th></tr></thead><tbody>
+      <tr><td>图文表示对齐</td><td>成对图文的对比学习，或用图像条件生成 caption。</td><td>视觉/文本编码器、投影层；具体取决于配方。</td><td>caption 偏差、图文错配、负例重复；细节问答能力需单独评估。</td></tr>
+      <tr><td>连接器对齐</td><td>图像特征条件下的文本预测。</td><td>常先固定语言/视觉底座，只训练连接器。</td><td>语言先验可能补写图中缺少的细节，需检查回答依据。</td></tr>
+      <tr><td>视觉指令微调</td><td>图像 + 问题 + 回答，常对 assistant 文本计 CE。</td><td>连接器、LLM 的全参/adapter；视觉塔可冻结或部分解冻。</td><td>训练只看见固定题型；OCR、图表、空间关系与多图指代需分别覆盖。</td></tr>
+      <tr><td>生成图像或语音</td><td>离散 codec/token CE、扩散去噪、速度场等。</td><td>模态生成器与条件接口；不一定复用聊天 LM head。</td><td>对齐、重建误差、采样质量与时延；不能只用语言模型 perplexity 判断。</td></tr>
+    </tbody></table></div>
+  </section>
+  <section class="section" aria-labelledby="audio-video"><div class="section-heading"><span class="section-number">04 / TIME AND ALIGNMENT</span><h2 id="audio-video">音频、视频与评估的额外约束</h2></div>
+    <div class="concept-pairs"><div><h3>音频的文字、韵律与环境信息</h3><p>ASR 将声音映射为文字；音频编码器或 codec token 还可保留说话人、韵律与环境信息。转写正确率不足以衡量情绪、轮次切分、流式延迟与语音生成质量。</p></div><div><h3>时间是模型输入的一部分</h3><p>视频帧、音频片段与文字字幕必须有对齐方式。静态拼图能覆盖外观，却可能丢掉先后顺序；打乱帧序、改时间戳是检查时间依赖的对照。</p></div><div><h3>检验回答对图像的依赖</h3><p>图像替换、局部遮挡、同题不同图、只给文本基线、计数与位置扰动可用于检查视觉依赖。分别报告感知错误、推理错误和依赖语言先验的错误。</p></div><div><h3>processor 也是工件</h3><p>保存分辨率、裁剪、归一化、视觉塔 revision、图像占位符规则和多图顺序。相同 LLM 权重配错 processor，输入分布就改变了。</p></div></div>
+    <div class="reading-links"><a href="generation-mechanisms.html#diffusion-objective">扩散和 Flow Matching</a><a href="data-tokenizer.html#cleaning-operations">数据处理与过滤</a><a href="model-artifacts.html">模型工件</a></div>
+  </section>
+  <section class="section" aria-labelledby="native-multimodal"><div class="section-heading"><span class="section-number">05 / JOINT TRAINING</span><h2 id="native-multimodal">原生多模态：哪些模块和数据一起训练？</h2></div>
+    <div class="prose"><p>“原生多模态”需要进一步拆成可核对的配方：哪些模态进入预训练、编码器何时解冻、共享哪些参数、每种输出使用什么目标。一个统一模型仍可包含专用视觉/音频编码器和输出模块。将多个信号映射到同一宽度后，还要通过任务与数据学会跨模态对应。</p></div>
+    <div class="compare-wrap"><table><thead><tr><th>任务</th><th>可见条件</th><th>监督目标</th><th>需要控制</th></tr></thead><tbody>
+      <tr><td>音频理解与转写</td><td>音频特征、文本问题、历史。</td><td>转写或语义回答 token；任务混合明确。</td><td>噪声、口音、非语音声音，是否只学到 ASR。</td></tr>
+      <tr><td>语音生成</td><td>文本、上下文、可选说话人或音频特征。</td><td>codec 离散码、波形重建或其他模态损失。</td><td>内容一致、韵律、时延与流式生成约束。</td></tr>
+      <tr><td>视频与声音联合理解</td><td>带时间戳的帧、音频片段和文本。</td><td>时间定位、事件描述、问答或跨模态预测。</td><td>采样时间对齐、未来信息泄漏、缺失模态与单模态捷径。</td></tr>
+      <tr><td>保留文本能力</td><td>纯文本与多模态任务混合。</td><td>原有语言和指令目标。</td><td>模态占比、有效 token 分母、梯度尺度与原能力回归。</td></tr>
+    </tbody></table></div>
+    <figure class="math-block"><div class="math-display" data-math>\mathcal L_{\mathrm{mix}}=\sum_m\lambda_m\,\mathbb E_{(x,y)\sim\mathcal D_m}\!\left[\mathcal L_m(x,y)\right]</div><figcaption>这是任务混合的通用写法，不是某个模型的完整损失。λ、采样比例、每任务归一化方式一起决定训练权重；音频帧、图像 patch 和文本 token 的数量不能直接视作相同监督量。</figcaption></figure>
+    <div class="prose"><p>Qwen3-Omni（2025）提供了一个公开案例：Thinker 处理多模态理解并生成文本，Talker 结合文本和多模态条件生成语音 codec；小型 MTP 模块预测同一音频帧的残余码本，Code2Wav 逐步还原波形。模块各自的角色、状态和延迟都可拆开检查。</p><p>其训练报告区分编码器对齐、联合训练、长上下文阶段和后训练。阅读时还应看文本与其他模态的消融：去掉声音或打乱帧序是否改变结果，文本能力是否退化，模态不齐全时怎样工作。这里的 Thinker/Talker 是结构名称，具体可见推理行为需另外说明。</p></div>
+    <p class="source-note">案例依据：Qwen3-Omni Technical Report，2025-09-22。这里只采用结构与训练阶段说明，不把报告中的时延移植为通用常数。</p>
+  </section>
+  <section class="section" aria-labelledby="streaming-pipeline"><div class="section-heading"><span class="section-number">06 / STREAMING</span><h2 id="streaming-pipeline">边接收边处理，延迟和积压怎样产生？</h2></div>
+    <div class="prose"><p>流式系统需要因果或受限前瞻的编码器、可增量消费的状态，以及能分块输出的解码器。完整输入尚未结束时可以处理已到达的块，但回答何时可以开始，还取决于轮次判断、语义和任务要求。语音输出的首包延迟与稳定播放速度需要分别测量。</p></div>
+    <div class="experiment"><div class="experiment-head"><h3>分块处理时间线</h3><span class="assumption">单服务队列 · 人工时长</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>输入块到达间隔 <output data-stream-interval-value></output></span><input type="range" min="100" max="500" step="20" value="200" data-stream-interval></label><label><span>每块处理耗时 <output data-stream-service-value></output></span><input type="range" min="50" max="600" step="10" value="180" data-stream-service></label><label><span>输入块数 <output data-stream-chunks-value></output></span><input type="range" min="2" max="10" value="4" data-stream-chunks></label></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>流式首块完成</span><strong data-stream-first></strong></div><div><span>流式全部完成</span><strong data-stream-end></strong></div><div><span>整段接收后全部完成</span><strong data-stream-offline></strong></div></div><div data-stream-timeline role="img" aria-label="各输入块在统一时间轴上的处理区间"></div><p class="experiment-note">最后一块等待时间：<strong data-stream-backlog></strong></p><div class="compare-wrap"><table><thead><tr><th>块</th><th>到达</th><th>开始</th><th>完成</th><th>等待</th></tr></thead><tbody data-stream-rows></tbody></table></div><p class="experiment-note" data-stream-note></p></div></div><p class="experiment-caption">从输入开始计时；块 j 在 j·Δ 到达，完成时间 fⱼ=max(j·Δ,fⱼ₋₁)+c。模型忽略网络、前瞻、批处理、轮次检测和多设备重叠，用于解释队列，不能预测真实模型的端到端延迟。</p></div>
+    <div class="concept-pairs"><div><h3>吞吐必须跟上播放</h3><p>处理每块所需时间若长期超过到达间隔，等待会逐步增长。真实音频还要看每秒音频合成所需时间、抖动与缓冲。首包很快也可能在后续播放中断。</p></div><div><h3>训练也要尊重可见时间</h3><p>若训练允许看完整未来音频，部署却要求立即输出，信息条件就变了。检查块边界、前瞻窗口、位置编码和增量状态，评估打断、恢复、噪声和多人交替。</p></div></div>
+    <div class="reading-links"><a href="model-case-studies.html#frontier-cache-case">多模态与长输入架构案例</a><a href="performance-analysis.html">延迟与性能测量</a><a href="model-evaluation.html#agent-reliability">系统级可靠性</a></div>
+  </section>
+</div>

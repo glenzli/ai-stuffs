@@ -1,0 +1,45 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">MODERN AI / AGENTS</p><h1>工具、Agent 与<span class="accent-text">上下文状态</span></h1><p class="lede">语言模型给出动作，运行时执行动作，环境返回观测，模型再继续。沿着一次调用，可以分别观察模型、工具和运行时如何完成任务。</p></div><aside class="intro-aside"><p class="micro-label">状态在哪里</p><p>权重、上下文、KV、外部文件/数据库是不同状态。多轮对话通常改变后面三者，不会自动对权重做梯度更新。</p></aside></section>
+  <section class="section" aria-labelledby="agent-loop"><div class="section-heading"><span class="section-number">01 / ACT AND OBSERVE</span><h2 id="agent-loop">一次工具调用，谁负责哪一步？</h2></div>
+    <div class="experiment"><div class="experiment-head"><h3>查库存的固定轨迹</h3><span class="assumption">离线状态示意，无外部调用</span></div><div class="experiment-view"><div class="mechanism-flow" data-agent-stages><div><span>01</span><h3>用户目标</h3><p>“查 A17 的库存。”</p></div><div><span>02</span><h3>模型动作</h3><p>inventory.lookup 的参数</p></div><div><span>03</span><h3>运行时执行</h3><p>查询数据库并返回结果</p></div><div><span>04</span><h3>模型回答</h3><p>基于工具观测给结论</p></div></div><div class="state-log" aria-live="polite"><strong data-agent-title></strong><span data-agent-copy></span></div><div class="step-actions"><button class="button button-primary" data-agent-next type="button">推进一步</button><button class="button" data-agent-reset type="button">重置</button></div></div></div>
+    <div class="prose"><p>函数调用常表现为模型生成结构化动作，例如工具名和 JSON 参数。宿主运行时收到动作后，校验参数、权限和超时，再执行数据库查询。工具结果作为新的上下文进入后续生成，模型提出动作后，需要收到环境返回，才能确认执行结果。</p><p>ReAct 等工作研究推理与行动交替；生产系统还需要重试、幂等、事务、停止与预算。这些机制共同决定任务的完成率、失败恢复能力和运行成本。</p></div>
+  </section>
+  <section class="section" aria-labelledby="context-state"><div class="section-heading"><span class="section-number">02 / MEMORY</span><h2 id="context-state">权重、上下文、缓存与外部记忆</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>状态</th><th>怎样形成</th><th>能做什么</th><th>如何失效</th></tr></thead><tbody>
+      <tr><td>模型权重</td><td>训练优化得到。</td><td>学习可迁移的预测策略与表示。</td><td>知识过时、任务错配；普通一次对话不自动更新。</td></tr>
+      <tr><td>上下文 token / 特征</td><td>系统指令、用户输入、检索、工具返回、历史消息。</td><td>为本次生成提供条件与任务状态。</td><td>截断、错误摘要、无关内容竞争；需要测试模型对上下文的实际利用。</td></tr>
+      <tr><td>KV Cache</td><td>已处理前缀在每层的 K/V。</td><td>避免重复计算相同前缀。</td><td>前缀、位置或模型版本变化后，已有缓存可能失效。</td></tr>
+      <tr><td>外部记忆 / RAG</td><td>数据库、文件、向量索引、任务状态。</td><td>持久存储与检索，结果可再注入上下文。</td><td>受索引版本、召回、权限和信息时效影响；内容通过检索进入上下文。</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>上下文管理要决定保留原文、结构化事实还是摘要。压缩能省 token，却会丢失细节并引入新错误。要给关键约束、工具结果和证据保留来源；评估时同时记录压缩率、任务成功率和可恢复性。长窗口、RAG 和微调分别改变可见条件、信息获取与参数策略，选型时按这些作用分别设计，也可以组合使用。</p></div>
+  </section>
+  <section class="section" aria-labelledby="trajectory-training"><div class="section-heading"><span class="section-number">03 / TRAINING</span><h2 id="trajectory-training">模型怎样学会用工具？</h2></div>
+    <div class="concept-pairs"><div><h3>轨迹 SFT</h3><p>样本包含用户目标、assistant 动作、tool 观测和最终回答。通常监督 assistant 动作与回答，不强迫模型生成环境返回；role/template 和边界必须正确。</p></div><div><h3>环境奖励与长程信用</h3><p>RL 可基于任务是否完成、成本与约束给奖励。一次成功可能需要多步动作；稀疏奖励、错误状态、无效调用和长程信用分配都会影响学习。</p></div><div><h3>离线轨迹的局限</h3><p>训练若只包含成功轨迹，模型可能缺少处理错误状态的经验。要收集恢复轨迹、工具失败、空结果与模糊目标，通过完整 rollout 检查这些情况下的恢复能力。</p></div><div><h3>运行时的职责</h3><p>结构化输出校验、权限限制、状态回读、资源预算与停止条件属于系统合同。外部文档是待分析的数据，不应因包含命令语气就升级成系统指令。</p></div></div>
+  </section>
+  <section class="section" aria-labelledby="agent-evaluation"><div class="section-heading"><span class="section-number">04 / EVALUATION</span><h2 id="agent-evaluation">如何确认任务已经完成</h2></div>
+    <div class="prose"><p>分别测动作格式、参数正确性、工具执行成功、目标状态是否达到、失败恢复、成本和延迟。任务是否完成应由环境状态验证，例如查询结果或操作后的状态。多次运行时固定或记录环境快照、随机性、工具版本和预算，比较完整轨迹。</p><p>工具调用的字符串匹配不总是充分：等价的调用序列可能都有效，某些看似合理的动作却会产生错误副作用。评估目标状态、证据引用和异常分支，比只看最终回复更贴近真实可靠性。</p></div>
+    <div class="reading-links"><a href="reasoning-compute.html">推理与预算</a><a href="rl-posttraining.html">RL 信号</a><a href="model-evaluation.html#generalization">泛化证据</a><a href="lab.html">RAG 检索</a></div>
+  </section>
+  <section class="section" aria-labelledby="memory-compression"><div class="section-heading"><span class="section-number">05 / LONG-HORIZON STATE</span><h2 id="memory-compression">压缩上下文时，哪些信息必须留下？</h2></div>
+    <div class="prose"><p>长任务中，信息会不断更新：用户改了日期，工具给出新结果，某项操作尚未执行。摘要需要保留目标、约束、状态、来源和时间关系。删掉重复输出能减少长度；删掉“只给方案、不要预订”则可能改变后续动作的权限。</p></div>
+    <div class="experiment"><div class="experiment-head"><h3>同一段历史的三种保留方式</h3><span class="assumption">人工编写的摘要结果</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>进入下一轮的上下文</span><select data-memory-mode><option value="full">完整记录</option><option value="compact">只留目标与新日期</option><option value="structured">目标、约束、证据与新日期</option></select></label><label class="check-control"><input type="checkbox" data-memory-verify><span>模拟重新读取来源</span></label><p class="experiment-note">任务约束为预算 500、仅提供方案；日期从周五改为周六。这里没有运行摘要模型或调用外部服务。</p></div><div class="experiment-view" aria-live="polite"><ul class="memory-items" data-memory-items></ul><div class="metric-row compact-metrics"><div><span>约束保留</span><strong class="metric-word" data-memory-constraints></strong></div><div><span>当前日期</span><strong class="metric-word" data-memory-date></strong></div><div><span>来源回读</span><strong class="metric-word" data-memory-grounding></strong></div></div><p class="experiment-note" data-memory-note></p></div></div></div>
+    <div class="concept-pairs"><div><h3>写入：保留信息的身份</h3><p>区分用户明确要求、工具观测、模型推断和待验证猜测。保存来源 ID、时间、版本、适用范围与未解决问题，避免摘要把猜测改写为事实。</p></div><div><h3>检索：只取当前有用部分</h3><p>按任务检索后还要查权限、时效与冲突。新用户要求应覆盖旧计划；历史工具结果涉及实时状态时，重新查询确认。</p></div><div><h3>压缩：保留可恢复路径</h3><p>长日志可留下结论、原始工件位置和关键异常，让后续步骤能回读证据。改写前缀后需重新计算受影响的 KV，不能直接接用旧前缀状态。</p></div><div><h3>评估：测试信息丢失的后果</h3><p>设计改日期、撤销授权、插入冲突来源和中断恢复等案例。比较不同压缩比例下的约束遵循、状态恢复、任务质量和成本。</p></div></div>
+    <p class="source-note">流程依据：Anthropic《Effective context engineering for AI agents》（2025-09-29）。这里的保留策略是教学对照，质量需用目标任务单独评估。</p>
+  </section>
+  <section class="section" aria-labelledby="agent-learning-boundaries"><div class="section-heading"><span class="section-number">06 / ADAPTATION</span><h2 id="agent-learning-boundaries">记住这次任务，与持续学习怎样衔接？</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>机制</th><th>变化的状态</th><th>生命周期</th><th>验证重点</th></tr></thead><tbody>
+      <tr><td>上下文适应</td><td>本轮输入条件，含示例和反馈。</td><td>随上下文保留或压缩。</td><td>未见任务的指令遵循与预算；清空后行为是否恢复。</td></tr>
+      <tr><td>外部任务记忆</td><td>文件、数据库、检索索引。</td><td>可跨会话，读取后再影响生成。</td><td>来源、权限、纠错、删除、冲突和检索质量。</td></tr>
+      <tr><td>持续参数训练</td><td>权重或 adapter，加上优化器状态。</td><td>影响未来请求，需版本与回滚。</td><td>新能力收益、灾难性遗忘、污染与隐私；训练数据经过独立治理。</td></tr>
+      <tr><td>测试时参数适应</td><td>显式测试时目标下的参数或特定可学习状态。</td><td>由协议决定何时重置。</td><td>允许使用的信息、目标可靠性、计算成本及测试样本间的状态泄漏。</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>从任务轨迹回收训练数据时，要区分真实成功、用户修正和模型自报成功。成功轨迹、失败恢复与困难反例可以进入后续 SFT 或 RL；先做权限、去重、污染隔离和质量检查。用户在一轮中纠正了模型，只有进入明确的数据与训练流程后，才会成为持久参数更新。</p></div>
+    <div class="reading-links"><a href="finetuning-recipe.html#recipe-data">轨迹怎样进入微调数据</a><a href="distillation-data.html#on-policy-distillation">保留旧能力的教师</a><a href="model-evaluation.html#agent-reliability">重复任务与系统评估</a></div>
+  </section>
+  <section class="section" aria-labelledby="prompt-injection-boundary"><div class="section-heading"><span class="section-number">07 / TRUST BOUNDARIES</span><h2 id="prompt-injection-boundary">工具结果里出现命令，为什么仍需检查授权？</h2></div>
+    <div class="prose"><p>检索页、邮件、仓库文件和工具返回都可能包含命令式文字。间接提示注入试图让模型把这类外部内容当成更高权限的指令。需要保留内容的来源与信任等级，运行时根据用户目标和工具权限验证动作。</p></div>
+    <div class="mechanism-flow"><div><span>01 / LABEL</span><h3>保留来源身份</h3><p>工具与文档内容按数据处理，引用和摘要保留出处，避免提升为系统要求。</p></div><div><span>02 / LIMIT</span><h3>限制可执行能力</h3><p>最小权限、隔离环境、敏感资源限制与显式授权控制副作用。</p></div><div><span>03 / VERIFY</span><h3>执行前核对</h3><p>目标、参数、权限、影响范围、幂等和审批条件由运行时检查。</p></div><div><span>04 / AUDIT</span><h3>回读与回归</h3><p>记录指令来源、动作和最终状态；用含恶意指令的外部数据做安全测试。</p></div></div>
+    <div class="prose"><p>检测器和防御训练可以提供额外保护，文本分隔符也有助于标记来源，但这些机制需结合权限控制和对抗评估。把工具输出摘要写入记忆时，仍要保留“外部声明”的身份，避免在下一轮变成无来源的任务要求。</p></div>
+    <div class="reading-links"><a href="data-tokenizer.html#data-security">训练投毒与评测污染</a><a href="training-environments.html#environment-safety">隔离运行与验证器</a></div>
+  </section>
+</div>

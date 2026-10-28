@@ -1,0 +1,111 @@
+{
+  "checks": 15,
+  "issues": [],
+  "pages": [
+    {
+      "issues": [],
+      "page": "/learning-run.html",
+      "source": "assets/experiments/learning-report.7e1481b22d.json",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "page": "/training-failures.html",
+      "source": "assets/experiments/failures-report.dac8f0415e.json",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "page": "/initialization-width.html",
+      "source": "assets/experiments/dynamics-report.707e080642.json",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "page": "/batch-noise.html",
+      "source": "assets/experiments/dynamics-report.707e080642.json",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "page": "/chunked-cross-entropy.html",
+      "source": "assets/experiments/output-report.79172cfdae.json",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "issues": [],
+      "page": "/learning-run.html",
+      "source": "assets/experiments/learning-report.7e1481b22d.json",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "issues": [],
+      "page": "/training-failures.html",
+      "source": "assets/experiments/failures-report.dac8f0415e.json",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "issues": [],
+      "page": "/initialization-width.html",
+      "source": "assets/experiments/dynamics-report.707e080642.json",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "issues": [],
+      "page": "/batch-noise.html",
+      "source": "assets/experiments/dynamics-report.707e080642.json",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "issues": [],
+      "page": "/chunked-cross-entropy.html",
+      "source": "assets/experiments/output-report.79172cfdae.json",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "issues": [],
+      "page": "/learning-run.html",
+      "source": "assets/experiments/learning-report.7e1481b22d.json",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "page": "/training-failures.html",
+      "source": "assets/experiments/failures-report.dac8f0415e.json",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "page": "/initialization-width.html",
+      "source": "assets/experiments/dynamics-report.707e080642.json",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "page": "/batch-noise.html",
+      "source": "assets/experiments/dynamics-report.707e080642.json",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "issues": [],
+      "page": "/chunked-cross-entropy.html",
+      "source": "assets/experiments/output-report.79172cfdae.json",
+      "theme": "dark",
+      "width": 1440
+    }
+  ]
+}

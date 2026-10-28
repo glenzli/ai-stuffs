@@ -1,0 +1,8 @@
+# Fixed CPU reference environment; no pretrained downloads.
+# Install with --no-deps into .venv-framework to preserve the shared environment.
+# mup metadata also lists plotting/example dependencies; only yaml is imported
+# by the runtime modules used here (shape, init, layer, optim).
+torch==2.9.0
+numpy==2.3.4
+mup==1.0.0
+PyYAML==6.0.3

@@ -1,0 +1,37 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">LORA / FORWARD, BACKWARD &amp; MERGE</p><h1>LoRA 的计算：<span class="accent-text">冻结底座，追踪梯度</span></h1><p class="lede">从一个二维线性层出发，看低秩分支怎样影响输出、A/B 怎样更新、输入还会收到什么梯度，再检查合并权重与量化的结果。</p></div><aside class="intro-aside"><p class="micro-label">实验范围</p><p>Rank=1、缩放 s=1、平方损失、SGD 学习率 0.1。没有 dropout、动量或模型调用；可选对称 INT4 底座用于观察量化误差。</p></aside></section>
+
+  <section class="section" aria-labelledby="lora-gradient-path"><div class="section-heading"><span class="section-number">01 / TWO FORWARD PATHS</span><h2 id="lora-gradient-path">底座与增量共同决定输入梯度</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+h&amp;=Ax,\qquad y=W_0x+sBh,\\
+g&amp;=\nabla_y\mathcal L,\\
+\nabla_B\mathcal L&amp;=sgh^\top,\\
+\nabla_A\mathcal L&amp;=sB^\top gx^\top,\\
+\nabla_x\mathcal L&amp;=W_0^\top g+sA^\top B^\top g.
+\end{aligned}</div><figcaption>W₀ 是计算时使用的冻结底座，A/B 可训练。x 为列向量。冻结 W₀ 表示不为它积累参数梯度；输入 x 仍通过两条路径获得梯度。</figcaption></figure>
+    <p>若 x 来自更早的可训练模块，W₀ᵀg 是该模块梯度的一部分。把 Wx 放进不记录梯度的区域会删掉这条路径；若把整个 LoRA 层输出切断，A/B 的梯度也无法从下游 loss 到达。是否能省去某段反向，需要按上游可训练参数和完整计算图判断。</p>
+    <div class="concept-pairs"><div><h3>A 非零，B 为零</h3><p>初始增量 BA 为零。此时 ∇A=0，∇B 可以非零；B 更新后，A 在后续步骤可以获得梯度。面板中的 A 是固定数值，不模拟框架的随机初始化。</p></div><div><h3>A 和 B 同时为零</h3><p>这时两条参数梯度同时为零。对于本例的普通梯度更新，纯 adapter 分支无法离开这个起点。</p></div></div>
+  </section>
+
+  <section class="section" aria-labelledby="lora-update-lab"><div class="section-heading"><span class="section-number">02 / FOLLOW THE UPDATE</span><h2 id="lora-update-lab">逐步查看 A、B 和输入的梯度</h2><p>固定 W=[[1,0.2],[−0.3,0.7]]，x=[2,−1]ᵀ，目标 y*=[0,1]ᵀ，损失为 ½‖y−y*‖²。每次只更新 A/B，输入和底座保持不变。</p></div>
+    <div class="experiment"><div class="experiment-head"><h3>一个 Rank-1 分支的五步以内更新</h3><span class="assumption">所有读数由当前矩阵计算</span></div><div class="experiment-body"><div class="experiment-controls objective-controls">
+      <label><span>已完成的更新尝试 <output data-lm-steps-value></output></span><input type="range" min="0" max="5" value="0" step="1" data-lm-steps></label>
+      <label><span>初始化</span><select data-lm-init><option value="zero-b">A=[0.5,−0.25]，B=0</option><option value="both-zero">A=0，B=0</option></select></label>
+      <label><span>计算用底座</span><select data-lm-precision><option value="full">原始双精度 W</option><option value="int4">INT4 量化后恢复的 W₀</option></select></label>
+      <label><span>保留的反向路径</span><select data-lm-graph><option value="frozen">冻结 W₀，保留输入梯度</option><option value="detach-base">错误：切断 Wx 分支</option><option value="detach-all">错误：切断整个层输出</option></select></label>
+    </div><div class="experiment-view" aria-live="polite"><div class="metric-row objective-metrics"><div><span>当前 loss</span><strong data-lm-loss></strong></div><div><span>当前输出 y</span><strong data-lm-output></strong></div><div><span>执行的 SGD 更新</span><strong data-lm-updates></strong></div></div><div class="compare-wrap"><table class="objective-lora-table"><thead><tr><th>对象</th><th>当前数值（按行展开）</th><th>当前局部梯度</th></tr></thead><tbody data-lm-gradients></tbody></table></div><p class="experiment-note" data-lm-note></p></div></div></div>
+    <p>默认起点的 ∇B=[2.25,−2.875]ᵀ，∇A=[0,0]，∇x=[2.49,−1.25]ᵀ。只切断 Wx 后，初始输入梯度变为零，但 A/B 的局部梯度不因此消失。这里展示的是输入处的导数，未真的更新一个上游模型。</p>
+  </section>
+
+  <section class="section" aria-labelledby="lora-merge"><div class="section-heading"><span class="section-number">03 / MERGE THE SAME BASE</span><h2 id="lora-merge">合并后应与哪一个前向结果比较？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+W_{\mathrm{merged}}&amp;=W_0+sBA,\\
+W_{\mathrm{merged}}x&amp;=W_0x+sB(Ax),\\
+Q(W_0+sBA)&amp;\ne W_0+sBA\quad\text{通常成立}.
+\end{aligned}</div><figcaption>第一条等价关系固定同一个 W₀、缩放和输入，且没有启用 adapter dropout。Q 表示重新量化后再恢复到计算数值。有限精度与重新量化各自引入误差。</figcaption></figure>
+    <div class="experiment"><div class="experiment-head"><h3>当前参数的合并与误差</h3><span class="assumption">随上方控制同步更新</span></div><div class="experiment-view"><div class="metric-row objective-metrics"><div><span>同底座合并的输出最大差</span><strong data-lm-merge></strong></div><div><span>合并后重新量化的输出差</span><strong data-lm-requantize></strong></div><div><span>当前底座相对原始 W 的输出差</span><strong data-lm-base-error></strong></div></div><div class="compare-wrap"><table class="objective-result-table"><thead><tr><th>矩阵</th><th>第一行</th><th>第二行</th></tr></thead><tbody data-lm-matrices></tbody></table></div><p class="experiment-note" data-lm-quantization></p></div></div>
+    <div class="concept-pairs"><div><h3>量化底座是另一个数值起点</h3><p>低位底座前向使用恢复后的 W₀。本例保留 A/B 的双精度计算，反向也经过 W₀ 到达输入。与原始 W 合并的结果比较，需把底座量化误差单独统计。</p></div><div><h3>这里隔离 QLoRA 的一条机制</h3><p>INT4 使用整张矩阵的 max-abs scale、−7…7 对称刻度、半数远离零舍入。这不是 NF4，也未实现双重量化、分页优化器或低位 kernel，不能据此推断 QLoRA 的质量或显存。</p></div></div>
+    <p>模型交付还需保存底座 revision、adapter 配置、tokenizer 与模板；是否训练 bias、输出头或其他模块要单独记录。真实合并和导出后，继续在目标精度与推理引擎上回归。</p>
+    <div class="reading-links"><a href="finetuning-recipe.html#recipe-lora">Rank 与目标层参数量</a><a href="efficient-inference.html#quantization-basics">量化与校准</a><a href="model-artifacts.html">底座与 adapter 工件</a><a href="backpropagation.html#framework-reference">PyTorch 自动微分与合并对照</a></div>
+  </section>
+</div>

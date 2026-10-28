@@ -1,0 +1,30 @@
+.initialization-width-page .dynamics-controls,
+.batch-noise-page .dynamics-controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin: 22px 0; }
+.initialization-width-page .dynamics-controls label,
+.batch-noise-page .dynamics-controls label,
+.initialization-width-page .dynamics-inline-control { display: grid; min-width: 0; gap: 8px; font-size: 13px; }
+.initialization-width-page .dynamics-inline-control { max-width: 360px; margin: 20px 0; }
+.initialization-width-page .dynamics-provenance,
+.batch-noise-page .dynamics-provenance { overflow-wrap: anywhere; font-size: 12px; }
+.initialization-width-page .dynamics-chart,
+.batch-noise-page .dynamics-chart { max-width: 850px; }
+.initialization-width-page .dynamics-series,
+.batch-noise-page .dynamics-series { stroke: currentColor; fill: currentColor; }
+.initialization-width-page .dynamics-teal,
+.batch-noise-page .dynamics-teal { color: var(--purple); }
+.initialization-width-page .dynamics-blue,
+.batch-noise-page .dynamics-blue { color: var(--blue); }
+.initialization-width-page .dynamics-coral,
+.batch-noise-page .dynamics-coral { color: var(--coral); }
+.initialization-width-page .dynamics-yellow,
+.batch-noise-page .dynamics-yellow { color: var(--yellow); }
+.initialization-width-page .dynamics-legend,
+.batch-noise-page .dynamics-legend { fill: currentColor; font-size: 11px; }
+.initialization-width-page .compare-wrap,
+.batch-noise-page .compare-wrap { max-width: 100%; overscroll-behavior-x: contain; }
+.initialization-width-page .compare-wrap:focus-visible,
+.batch-noise-page .compare-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 760px) {
+  .initialization-width-page .dynamics-controls,
+  .batch-noise-page .dynamics-controls { grid-template-columns: minmax(0, 1fr); }
+}

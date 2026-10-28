@@ -1,0 +1,243 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">01 / REPRESENTATION HISTORY</p>
+        <h1>表示方法的演化：<span class="accent-text">目标怎样塑造向量</span></h1>
+        <p class="lede">
+          从“给词编一个唯一编号”，到“用共现/上下文学习坐标”，再到“直接训练 query 与文档的几何”。
+          训练目标逐渐围绕下游任务定义：<strong>哪些样本应靠近，哪些差异要保留</strong>。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">不同模型中的 Embedding</p>
+        <p>同一个词，在静态词向量、BERT 隐藏状态、检索句子编码器里，得到的是不同训练目标塑造的不同空间。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="timeline-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="timeline-title">表示演化的七个阶段</h2>
+        </div>
+        <p class="section-note">点击一个阶段。重点看训练目标、解决的问题和适用范围。</p>
+      </div>
+
+      <div class="timeline-tabs" role="group" aria-label="表示方法历史阶段">
+        <button type="button" data-era aria-pressed="true" class="is-current"><span>1960s+</span>符号 / one-hot</button>
+        <button type="button" data-era aria-pressed="false"><span>1990</span>LSA</button>
+        <button type="button" data-era aria-pressed="false"><span>2013</span>Word2Vec</button>
+        <button type="button" data-era aria-pressed="false"><span>2014–16</span>GloVe / fastText</button>
+        <button type="button" data-era aria-pressed="false"><span>2018</span>ELMo / BERT</button>
+        <button type="button" data-era aria-pressed="false"><span>2019–21</span>句向量对比学习</button>
+        <button type="button" data-era aria-pressed="false"><span>2022+</span>检索专用与可变维度</button>
+      </div>
+
+      <div class="era-panel" aria-live="polite">
+        <div class="era-year-block">
+          <span data-era-year>1960s–80s</span>
+          <small data-era-label>符号与 one-hot</small>
+          <div class="era-shapes" data-era-shapes>
+            <span>|V| ≈ 10⁴–10⁶</span>
+            <span>稀疏度 ≈ 100%</span>
+            <span>距离≈符号差异</span>
+          </div>
+        </div>
+        <div class="era-main">
+          <p class="micro-label" data-era-kicker>离散符号表示</p>
+          <h3 data-era-title>词是原子符号，词典很大但几乎全零</h3>
+          <p data-era-what>每个词占词表的一个位置。one-hot 可以表示“是哪个词”，却没有内建的相似性；两个不同词的向量点积总是 0。</p>
+          <div class="era-callout">
+            <span>训练目标</span>
+            <p data-era-objective>没有从语境学习表示的目标</p>
+          </div>
+          <div class="era-callout">
+            <span>解决了什么</span>
+            <p data-era-solved>唯一标识、可做规则和统计</p>
+          </div>
+        </div>
+        <div class="era-limit">
+          <span>新的盲点</span>
+          <p data-era-limit>无法泛化到没见过的词，也无法表达近义关系</p>
+          <div class="era-principle">
+            <strong>识别的模式</strong>
+            <p>先从“符号是否相同”转向“统计上是否共同出现”。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="onehot-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="onehot-title">one-hot 到 embedding：<br>高维稀疏变成低维稠密</h2>
+        </div>
+        <p class="section-note">两种写法在实现上可以等价：查表就是取 one-hot 矩阵乘法里唯一非零项对应的行。</p>
+      </div>
+
+      <div class="transform-board">
+        <div class="sparse-figure" aria-label="one-hot 向量示意">
+          <div class="figure-heading">
+            <span class="tag">one-hot</span>
+            <strong>词表 V = 50,000</strong>
+          </div>
+          <div class="onehot-vector" aria-hidden="true">
+            <i></i><i></i><i></i><i class="active"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <p>“负样本”在 50,000 维里只有 1 个 1，99.998% 是 0。它能标识身份，却不能告诉模型“负样本”和“正样本”有关系。</p>
+        </div>
+        <div class="transform-symbol" aria-hidden="true">
+          <span>×</span>
+          <code>E</code>
+          <small>V × d</small>
+        </div>
+        <div class="dense-figure">
+          <div class="figure-heading">
+            <span class="tag tag-teal">gather row</span>
+            <strong>d = 768</strong>
+          </div>
+          <div class="dense-vector" aria-hidden="true">
+            <i style="--v: .34">.34</i><i style="--v: -.28">-.28</i><i style="--v: .81">.81</i><i style="--v: .05">.05</i><i style="--v: -.42">-.42</i><i style="--v: .16">.16</i>
+          </div>
+          <p>每一维都没有固定的“句法/语义”标签。意义存在于整行参数的组合，以及它与其他向量的相对位置。</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>工程实现：</strong>输入是整数 ID，查表用 <code class="inline-code">E[token_id]</code> 或 <code class="inline-code">gather</code>。前向看起来像“查一行”，反向时却会把梯度累加回这一行；同一个 token 在一个 batch 出现多次，梯度也会累加。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="geometry-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="geometry-title">训练目标，画出不同的邻居关系</h2>
+        </div>
+        <p class="section-note">下面是一个二维投影示意，不是模型真实坐标。看同一批点如何因为“相似”的含义不同而改变分组。</p>
+      </div>
+
+      <div class="geometry-board">
+        <div class="geometry-controls" role="tablist" aria-label="训练目标">
+          <button type="button" role="tab" aria-selected="true" data-objective="context">预测邻近词</button>
+          <button type="button" role="tab" aria-selected="false" data-objective="retrieval">query ↔ passage</button>
+          <button type="button" role="tab" aria-selected="false" data-objective="classification">类别可分</button>
+        </div>
+        <div class="geometry-plot-wrap">
+          <svg class="geometry-plot" viewBox="0 0 300 200" role="img" aria-label="不同训练目标下的向量邻居关系示意图" data-objective-svg></svg>
+          <span class="geometry-axis-x">投影维 1 →</span>
+          <span class="geometry-axis-y">投影维 2 ↑</span>
+        </div>
+        <div class="geometry-copy">
+          <p class="micro-label">目标不同，几何不同</p>
+          <h3 data-objective-title>共现关系定义邻居</h3>
+          <p data-objective-copy>“苹果”与“吃”“甜”会被拉近；如果训练目标只关心局部搭配，“苹果公司”的语境信号会更弱。</p>
+          <div class="callout compact-callout">
+            <p>分析向量几何时，先看<strong>正样本如何构造、负样本如何选择</strong>，再结合维度和模型结构判断。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="principles-title">优化 embedding 的八个方面</h2>
+        </div>
+        <p class="section-note">这里的“优化”不只是调超参数，更包括重新定义表示单位、目标和监督数据。</p>
+      </div>
+
+      <ol class="principle-list">
+        <li>
+          <span class="principle-index">01</span>
+          <div><h3>先对齐任务，再谈模型</h3><p>语义相似、可回答、分类可分、跨语言对齐是不同目标。一个模型在 MTEB 高，不代表你的“政策问答检索”一定好。</p></div>
+          <span class="tag">目标函数</span>
+        </li>
+        <li>
+          <span class="principle-index">02</span>
+          <div><h3>定义要保留和要忽略的差异</h3><p>同义改写应靠近；时间、否定、数字、实体名可能必须保留以免误召回。对比训练是在学习“哪些差异不重要”。</p></div>
+          <span class="tag">不变性</span>
+        </li>
+        <li>
+          <span class="principle-index">03</span>
+          <div><h3>负样本的质量与难度</h3><p>随机负样本通常易区分，难负样本促使模型抓细节。“相关但不能回答”是否算负例取决于任务：答案检索与主题检索的标准不同。先排除漏标正例，再增加难度。</p></div>
+          <span class="tag">对比学习</span>
+        </li>
+        <li>
+          <span class="principle-index">04</span>
+          <div><h3>距离度量与训练目标要一致</h3><p>若模型按归一化点积训练，评估时用余弦通常更自然。取出向量后随意再标准化、截断或不标准化，可能改变排序。</p></div>
+          <span class="tag">几何</span>
+        </li>
+        <li>
+          <span class="principle-index">05</span>
+          <div><h3>块边界也是表示的一部分</h3><p>长文档切成 100 字还是 1,000 字，会改变“一个点代表什么”。块太小丢上下文，太大混入无关内容；元数据和标题常需要一起编码。</p></div>
+          <span class="tag">数据单位</span>
+        </li>
+        <li>
+          <span class="principle-index">06</span>
+          <div><h3>维度的容量与成本</h3><p>维度提供表达容量，但需要数据、算力与检索内存。更高维可能更好，也可能只是扩大索引成本和过拟合空间；先用任务实验验证。</p></div>
+          <span class="tag">成本</span>
+        </li>
+        <li>
+          <span class="principle-index">07</span>
+          <div><h3>先召回，再精排</h3><p>bi-encoder 适合预编码海量文档；cross-encoder 更善于细看 query 与候选的交互。工程上通常不要求一个 embedding 完成全部判断。</p></div>
+          <span class="tag">系统设计</span>
+        </li>
+        <li>
+          <span class="principle-index">08</span>
+          <div><h3>评估集必须来自真实分布</h3><p>看 Recall@k、MRR、聚类纯度、分类 F1 和人工相关性的排序；同时监控领域漂移、长尾、语言混杂以及索引更新后的退化。</p></div>
+          <span class="tag">评估</span>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section" aria-labelledby="picker-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="picker-title">按表示单位选择模型</h2>
+        </div>
+        <p class="section-note">先选表示单位。下面列出常见选择，最终以目标任务上的测试结果为准。</p>
+      </div>
+
+      <div class="picker-board">
+        <form class="picker-form" data-picker-form>
+          <label for="embedding-unit">你最关心哪类“一个点”？</label>
+          <select id="embedding-unit" name="embedding-unit">
+            <option value="word">一个词 / 子词</option>
+            <option value="sentence">一句话 / 一段短文本</option>
+            <option value="pair">query 与长文档之间</option>
+            <option value="multimodal">图文跨模态</option>
+          </select>
+          <p class="form-help">这个选择会决定模型、池化和评估方式。</p>
+        </form>
+        <div class="picker-result" aria-live="polite">
+          <p class="micro-label">选择起点</p>
+          <h3 data-picker-title>固定词向量：fastText 或领域词向量</h3>
+          <p data-picker-copy>只有词级相似性、拼写/形态很重要时，子词模型仍有价值。若下游是句级语义，可优先测试句编码器，并与词向量平均的基线比较。</p>
+          <strong data-picker-boundary>适合：词典扩展、词聚类、轻量近邻</strong>
+        </div>
+      </div>
+
+      <div class="decision-flow" aria-label="Embedding 选型流程">
+        <div><span>1</span><strong>表示单位</strong><small>token / 句 / 文档 / 图文</small></div>
+        <b aria-hidden="true">→</b>
+        <div><span>2</span><strong>相似性定义</strong><small>同义 / 可回答 / 同类别</small></div>
+        <b aria-hidden="true">→</b>
+        <div><span>3</span><strong>监督数据</strong><small>正样本 / 难负样本</small></div>
+        <b aria-hidden="true">→</b>
+        <div><span>4</span><strong>任务评估</strong><small>Recall@k / MRR / F1</small></div>
+      </div>
+    </section>
+
+    <section class="section next-lesson">
+      <div>
+        <p class="eyebrow">NEXT / THE MECHANICS</p>
+        <h2>训练输入包含哪些数字，梯度怎样回到对应行？</h2>
+      </div>
+      <div class="next-actions">
+        <a class="button" href="representation-deep.html">深入表示几何</a>
+        <a class="button button-primary" href="training.html">进入训练回路 →</a>
+      </div>
+    </section>

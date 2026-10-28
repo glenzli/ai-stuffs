@@ -1,0 +1,59 @@
+/* KaTeX is rendered during build; no client-side typesetting or CDN. */
+.math-block {
+  min-width: 0;
+  margin: 22px 0;
+  padding: 18px 22px;
+  border-left: 3px solid var(--blue);
+  background: var(--surface);
+}
+.math-display {
+  min-width: 0;
+  max-width: 100%;
+  padding: 5px 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  color: var(--ink);
+  font-size: 17px;
+}
+.math-display .katex-display { margin: .45em 0; text-align: left; }
+.math-display .katex-display > .katex { text-align: left; }
+.math-inline { font-size: 1em; }
+.math-inline .katex { font-size: 1.08em; }
+.math-block figcaption,
+.math-block > p { margin: 12px 0 0; color: var(--ink-soft); font: 13px/1.9 var(--sans); }
+.math-symbols { display: flex; flex-wrap: wrap; gap: 6px 24px; margin: 12px 0 0; }
+.math-symbols > div { display: flex; gap: 9px; align-items: baseline; }
+.math-symbols dt { color: var(--ink); font-style: italic; }
+.math-symbols dd { margin: 0; color: var(--ink-soft); font-size: 13px; }
+.math-derivation { margin: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.math-derivation summary { cursor: pointer; padding: 14px 0; font-weight: 600; font-size: 14px; color: var(--ink); }
+.math-derivation > p { font-size: 14px; line-height: 1.9; max-width: 85ch; }
+.math-derivation .math-block { margin: 12px 0 20px; }
+.formula-panel .math-display,
+.derivation-step .math-display,
+.objective-ledger .math-display { font-size: 15px; }
+.gradient-readout [data-math-formula] { min-width: 0; width: 100%; }
+.gradient-readout .math-display { font-size: 14px; }
+.objective-ledger .math-display { padding: 12px; }
+.formula-panel,
+.derivation-board,
+.dpo-formulas,
+.reward-model-board { min-width: 0; }
+.formula-panel > div,
+.dpo-formulas > div,
+.reward-model-formula { min-width: 0; }
+.math-principles .math-display { font-size: 15px; }
+.metric-formula-grid .math-display { font-size: 14px; }
+.math-display:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.math-layers { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); border-top: 1px solid var(--line); }
+.math-layers > div { padding: 18px 20px 18px 0; }
+.math-layers h3 { font: 600 16px/1.5 var(--sans); margin: 0 0 8px; }
+.math-layers p { font-size: 13px; color: var(--ink-soft); }
+@media (max-width: 760px) {
+  .math-block { padding: 14px 12px; margin: 18px 0; }
+  .math-display { font-size: 15px; }
+  .math-symbols { gap: 5px 16px; }
+  .math-layers { grid-template-columns: 1fr; }
+  .math-layers > div { border-bottom: 1px solid var(--line); }
+  .gradient-readout { grid-template-columns: minmax(0,1fr); }
+}

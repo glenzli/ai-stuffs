@@ -1,0 +1,94 @@
+<div class="modern-page initialization-width-page">
+  <section class="page-intro">
+    <div><p class="eyebrow">INITIALIZATION / RESIDUAL / WIDTH TRANSFER</p><h1>初始化与宽度：<span class="accent-text">把坐标尺度和学习率一起核对</span></h1><p class="lede">初始化决定前向与反向从什么尺度开始，残差与 Norm 决定尺度怎样穿过深度。宽度迁移还要明确输入、隐藏权重、readout 和 optimizer 的规则，再用未参加选择的宽度检验实际训练结果。</p></div>
+    <aside class="intro-aside"><p class="micro-label">两组独立实验</p><p>深度实验复用反转任务的小 decoder，固定宽度 32。宽度实验使用 8→n→n→3 的固定深度 MLP、三个 seed 和作者 mup 1.0.0；每个图点来自保存的 CPU 运行。</p></aside>
+  </section>
+
+  <section class="section" aria-labelledby="iw-contract">
+    <div class="section-heading"><span class="section-number">01 / DECLARE THE SCALE</span><h2 id="iw-contract">前向、反向和参数位移要分别记录</h2></div>
+    <div class="prose"><p>线性层的 fan-in 是每个输出求和的输入坐标数量。在独立、零均值的近似下，输出方差随 fan-in 和权重方差的乘积变化；训练后权重与激活会相关，初始化的独立性计算不能直接代替更新后的测量。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}z_j&amp;=\sum_{i=1}^{d_{\rm in}}W_{ji}x_i+b_j,\\\operatorname{Var}(z_j)&amp;\approx d_{\rm in}\operatorname{Var}(W_{ji})\operatorname{Var}(x_i),\\\operatorname{RMS}(x)&amp;=\sqrt{\frac1m\sum_{k=1}^{m}x_k^2},\qquad \operatorname{coord}_{1}(x)=\frac1m\sum_{k=1}^{m}|x_k|.\end{aligned}</div><figcaption>方差近似要求输入和权重满足相应独立、零均值条件，并略去 bias。本页的 RMS 与 mean-absolute coordinate 是实际 tensor 的逐元素统计，m 是统计元素数。</figcaption></figure>
+    <p>hidden 梯度是标量目标对当前中间张量的导数；参数梯度是对权重的导数，两者形状和单位不同。参数位移与坐标位移另用更新前后的差值测量。深度页记录 sequence-mean CE 的导数，宽度页记录分类 CE；初始化与更新 1／4 次的读数分开展示。</p>
+  </section>
+
+  <section class="section" aria-labelledby="iw-parameterization">
+    <div class="section-heading"><span class="section-number">02 / AUTHOR PARAMETER RULES</span><h2 id="iw-parameterization">μP 用一套输入、隐藏层与 readout 规则</h2></div>
+    <p>本实验以 n₀=16 为基础宽度，m=n/n₀。输入维度 8 和类别数 3 固定；base/delta 模型只提供哪些维度随 n 变化的形状信息，不参与训练。μP 使用作者 <code>set_base_shapes</code>、<code>mup.init.normal_</code>、<code>MuReadout</code> 与 <code>MuAdam</code>；SP 使用实际 fan-in 的正态初始化和普通 Adam。</p>
+    <div class="compare-wrap" tabindex="0" role="region" aria-label="MLP 参数化规则与基础学习率，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">参数</th><th scope="col">SP 初始化方差</th><th scope="col">μP 初始化方差</th><th scope="col">μP 实际 Adam LR</th><th scope="col">前向因子</th></tr></thead><tbody>
+      <tr><th scope="row">input.weight：n×8</th><td>2/8</td><td>2/8；一个无限维</td><td>η</td><td>1</td></tr>
+      <tr><th scope="row">hidden.weight：n×n</th><td>2/n</td><td>2/n；两个无限维</td><td>η/m</td><td>1</td></tr>
+      <tr><th scope="row">readout.weight：3×n</th><td>1/n</td><td>1/n₀；一个无限维</td><td>η</td><td>MuReadout 输入乘 1/m</td></tr>
+      <tr><th scope="row">三个 bias</th><td>全部为 0</td><td>全部为 0</td><td>η</td><td>bias 本身的前向因子为 1</td></tr>
+    </tbody></table></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}h_1&amp;=\operatorname{ReLU}(W_{\rm in}x+b_{\rm in}),\\h_2&amp;=\operatorname{ReLU}(W_{\rm hid}h_1+b_{\rm hid}),\\f_{\mu P}(x)&amp;=W_{\rm out}\frac{h_2}{m}+b_{\rm out},\qquad m=\frac{n}{16}.\end{aligned}</div><figcaption>作者包的 MuReadout 是对输入缩放后再做 linear，bias 不再除 m；output_mult=1。本页的固定基础常数与作者等价参数化兼容，不把通用 1/√n 缩放命名为 μP。</figcaption></figure>
+    <p>作者包首次 <code>set_base_shapes</code> 会把默认 readout 权重与 bias 乘 √m；本脚本随后按上表重新初始化，设置形状先于自定义初始化和 optimizer。恢复已有参数时使用 <code>rescale_params=False</code>，重复转换会改变模型。MuAdam 1.0.0 只对两个无限维的隐藏权重除 m；本实验 decay=0、β=(.9,.999)、ε=10⁻⁸、不裁剪。</p>
+    <p>初始 μP readout 非零且零均值时，输出可能随宽度缩小；作者将它解释为有限宽度暂态。检查重点包括更新后的各层坐标和 readout。基础宽度下两种参数化使用相同初始化、数据流和 optimizer 数值，重合是预期的。</p>
+  </section>
+
+  <section class="section" aria-labelledby="iw-cpu-lab">
+    <div class="section-heading"><span class="section-number">03 / SAVED LOCAL EVIDENCE</span><h2 id="iw-cpu-lab">读取一份实际初始化与宽度报告</h2></div>
+    <p>默认数据是完整报告中的精简字段：已冻结 LR 的坐标、六个参数的账本、逐层尺度和测试结果。完整运行保存在本机工件目录，可导入 <code>report.json</code> 查看相同来源的数据。每次实验建立新目录；已有报告拒绝覆盖。</p>
+    <pre class="decision-code"><code>uv pip install --python .venv-framework/bin/python --no-deps -r scripts/dynamics-requirements.txt
+.venv-framework/bin/python scripts/test-training-dynamics.py
+node --test scripts/test-training-dynamics.mjs
+node scripts/run-dynamics-lab.mjs --out-dir artifacts/dynamics-lab-my-run --write-page-data</code></pre>
+    <div class="decision-import"><label><span>读取本机 report.json（1 B…32 MiB）</span><input type="file" accept=".json,application/json" data-iw-file></label><div class="step-actions"><button class="button" type="button" data-iw-default>恢复默认实测快照</button></div><p role="status" data-iw-status>等待实测快照初始化。</p></div>
+    <p class="experiment-note">固定 CPU 单线程、PyTorch 2.9.0、NumPy 2.3.4、mup 1.0.0。经过时间包含评估、探针与保存，可能受并行任务影响，不作为吞吐对比。文件只在本地浏览器读取；结构校验不认证外部文件真伪。</p>
+  </section>
+
+  <div data-iw-output hidden>
+    <p class="decision-note dynamics-provenance" data-iw-provenance></p>
+    <section class="section" aria-labelledby="iw-lab">
+      <div class="section-heading"><span class="section-number">04 / COORDINATE CHECK</span><h2 id="iw-lab">同一基础 LR 下，坐标随宽度怎样变化？</h2></div>
+      <div class="experiment"><div class="experiment-head"><h3>固定两层隐藏 MLP 的真实坐标</h3><span class="assumption">同 16 条验证输入 · 未拟合曲线</span></div><div class="experiment-body">
+        <div class="experiment-controls decision-controls">
+          <label><span>测量层</span><select data-iw-layer><option value="input_pre">输入投影 pre-activation</option><option value="input_relu">第一层 ReLU</option><option value="hidden_pre">隐藏投影 pre-activation</option><option value="hidden_relu">第二层 ReLU</option><option value="readout_logits" selected>readout logits</option></select></label>
+          <label><span>已完成更新次数</span><select data-iw-step><option value="0">0：初始化</option><option value="1" selected>1</option><option value="4">4</option><option value="80">80</option></select></label>
+          <label><span>逐元素指标</span><select data-iw-metric><option value="mean_abs">平均绝对坐标</option><option value="rms">坐标 RMS</option><option value="displacement_rms">相对初始化的位移 RMS</option></select></label>
+          <label><span>训练 seed</span><select data-iw-seed></select></label>
+        </div><div class="experiment-view"><svg class="decision-chart dynamics-chart" viewBox="0 0 620 320" role="img" aria-label="实测 MLP 坐标随固定深度宽度变化，纵轴为所选逐元素坐标量级" data-iw-chart></svg><p class="decision-note" data-iw-coordinate-note></p></div>
+      </div></div>
+      <div class="compare-wrap" tabindex="0" role="region" aria-label="逐宽度实际坐标、seed 范围与基础 LR，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">参数化 / 宽度</th><th scope="col">坐标均值</th><th scope="col">seed min…max</th><th scope="col">seed 数</th><th scope="col">基础 LR</th></tr></thead><tbody data-iw-coordinates></tbody></table></div>
+    </section>
+
+    <section class="section" aria-labelledby="iw-sweep">
+      <div class="section-heading"><span class="section-number">05 / SELECT BEFORE TRANSFER</span><h2 id="iw-sweep">基础 LR 只由宽度 16 选择</h2></div>
+      <p>合成任务为 8 维高斯输入，标签由固定 8→12→3 ReLU teacher 的 argmax 产生，256 条训练、128 条验证和128 条独立测试。每个候选使用 80 次 batch=32 更新。选择规则是宽度 16 的三个 seed 最终验证 CE 均值最小；宽度 32／64 的扫描只作诊断。宽度 128 在选择冻结后仅运行选定 LR，没有在该宽度搜索候选。</p>
+      <label class="dynamics-inline-control"><span>扫描参数化</span><select data-iw-sweep-param><option value="mup">μP</option><option value="sp">SP</option></select></label>
+      <p class="decision-note" data-iw-selection></p><svg class="decision-chart dynamics-chart" viewBox="0 0 620 320" role="img" aria-label="三个诊断宽度的实测最终验证 CE，横轴为基础学习率的 log10；只使用宽度16选择" data-iw-sweep-chart></svg>
+      <div class="compare-wrap" tabindex="0" role="region" aria-label="学习率网格、诊断宽度和实际验证 loss，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">宽度 / 用途</th><th scope="col">基础 LR</th><th scope="col">三 seed 验证 CE / nats</th><th scope="col">选择状态</th></tr></thead><tbody data-iw-sweep-rows></tbody></table></div>
+      <p>目前网格最佳值在上边界 .03。它是已测候选中的最佳值，最优值可能在网格之外；这项结果不足以确定连续 LR 最优点。坐标检查、有限候选选择与独立测试是三种证据，分别保留。</p>
+    </section>
+
+    <section class="section" aria-labelledby="iw-ledger">
+      <div class="section-heading"><span class="section-number">06 / PER PARAMETER LEDGER</span><h2 id="iw-ledger">检查某次运行的初始化与实际 LR</h2></div>
+      <div class="dynamics-controls"><label><span>参数化</span><select data-iw-ledger-param><option value="mup">μP</option><option value="sp">SP</option></select></label><label><span>宽度</span><select data-iw-ledger-width></select></label><label><span>seed</span><select data-iw-ledger-seed></select></label></div>
+      <div class="compare-wrap" tabindex="0" role="region" aria-label="六个参数的形状、初始化方差和 optimizer group 账本，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">参数</th><th scope="col">形状</th><th scope="col">无限维数</th><th scope="col">目标 / 实测初始方差</th><th scope="col">group / 实际 LR</th><th scope="col">readout 输入因子</th></tr></thead><tbody data-iw-ledger></tbody></table></div><p class="experiment-note" data-iw-ledger-note></p>
+    </section>
+
+    <section class="section" aria-labelledby="iw-depth">
+      <div class="section-heading"><span class="section-number">07 / DEPTH WITH FIXED WIDTH</span><h2 id="iw-depth">深度、Norm 和残差在共享 decoder 中单独比较</h2></div>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}\text{Pre-LN: }&amp;h'=h+\alpha F(\operatorname{LN}(h)),\\\text{Post-LN: }&amp;h'=\operatorname{LN}(h+\alpha F(h)),\\\text{No Norm: }&amp;h'=h+\alpha F(h),\quad \alpha\in\{1,(2L)^{-1/2}\}.\end{aligned}</div><figcaption>每个 decoder block 有 Attention 与 FFN 两个残差子层，上式逐子层应用。Pre-LN 在输出头之前另有最终 LayerNorm。L 是 block 数，width、heads、任务与初始化保持固定。</figcaption></figure>
+      <div class="experiment"><div class="experiment-head"><h3>逐层激活与反向尺度</h3><span class="assumption">同八条训练序列 · 初始化 / 四次更新</span></div><div class="experiment-body"><div class="experiment-controls decision-controls">
+        <label><span>block 深度</span><select data-iw-depth></select></label><label><span>LayerNorm 位置</span><select data-iw-norm><option value="pre">Pre-LN</option><option value="post">Post-LN</option><option value="none">无 Norm</option></select></label>
+        <label><span>每个残差分支 α</span><select data-iw-residual><option value="one">1</option><option value="inverse-sqrt-depth">1/√(2L)</option></select></label><label><span>已完成更新</span><select data-iw-depth-step><option value="0">0：初始化</option><option value="4">4</option></select></label><label><span>训练 seed</span><select data-iw-depth-seed></select></label>
+      </div><div class="experiment-view"><svg class="decision-chart dynamics-chart" viewBox="0 0 620 320" role="img" aria-label="共享 decoder 的逐层实测激活 RMS，embedding、各block、最终Norm和logits分列" data-iw-depth-chart></svg><p class="decision-note" data-iw-depth-note></p></div></div></div>
+      <div class="compare-wrap" tabindex="0" role="region" aria-label="逐层激活 RMS、hidden 梯度和 FFN 权重梯度，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">层</th><th scope="col">激活 RMS</th><th scope="col">seed min…max</th><th scope="col">hidden 梯度 RMS</th><th scope="col">FFN 输出权重梯度 RMS</th></tr></thead><tbody data-iw-depth-rows></tbody></table></div>
+      <p>Norm 为 affine LayerNorm，γ=1、β=0、ε=10⁻⁵；共享 core 权重以 std=.02 的正态分布初始化，bias 为 0，固定正弦位置编码，GELU FFN，未绑定输出权重。四次更新只探测早期轨迹，不足以评估收敛或提出最优残差配方。</p>
+      <p>Xiong 等分析的简化设置使用单头、d×d 矩阵、Q/K 零初始化和高斯输入。这里的多头、因果 mask、固定位置编码与 std=.02 初始化不同，因此本页测量不能直接复述其定理边界，更不能推出所有 Pre-LN 网络、optimizer 和预算都无需 warmup。</p>
+    </section>
+
+    <section class="section" aria-labelledby="iw-transfer">
+      <div class="section-heading"><span class="section-number">08 / HELD WIDTH RESULTS</span><h2 id="iw-transfer">把已冻结 LR 放到保留宽度</h2></div>
+      <div class="compare-wrap" tabindex="0" role="region" aria-label="已冻结学习率在各宽度的独立测试 CE 和分类正确率，可横向滚动"><table class="decision-table"><thead><tr><th scope="col">参数化 / 宽度</th><th scope="col">测试 CE 均值 / nats</th><th scope="col">seed min…max</th><th scope="col">测试分类正确率</th></tr></thead><tbody data-iw-transfer></tbody></table></div>
+      <p>宽度 128 的测试结果在 LR 选择完成后读取；它检验这份固定任务、有限宽度、三个 seed 与 80 次更新配方。作者参数化规则及坐标检查有机制依据，本表是否改善仍由实测决定。MLP 的结果与固定宽度 decoder 的深度探针分开解释，不能从这里推出 Transformer 深度迁移或普遍泛化保证。</p>
+    </section>
+  </div>
+
+  <section class="section" aria-labelledby="iw-sources">
+    <div class="section-heading"><span class="section-number">09 / READ SCOPE AND NEXT EVIDENCE</span><h2 id="iw-sources">资料的核对范围与下一步证据</h2></div>
+    <p>2026-10-28 已读取 Microsoft μP 作者 README 的参数形状、初始化、optimizer、恢复与坐标检查说明；逐行读取安装的 mup 1.0.0 的 layer、optim、shape、init 和 infshape，并核对 tag v1.0.0 的 layer/optim 字节一致。读取 Tensor Programs V 附录 B 的参数分类与表 8／9、D.1 坐标检查和 D.2 初始输出暂态；读取 Xiong 等第 3／4 节的 Norm 架构与初始化分析。完整标题、作者、URL、包和源码 SHA-256 记录于实施说明与本地报告。</p>
+    <p>工程上先排查单位、损失分母、参数组和 readout，再检查训练预算、验证稳定性与保留宽度。LR 网格边界、seed 波动、不同任务与 optimizer 都需要独立证据；此页保留有限实验的结果和范围。</p>
+    <div class="reading-links"><a href="optimization-dynamics.html">优化稳定性总览</a><a href="scaling-laws.html">模型规模与实验选择</a><a href="learning-run.html">共享 decoder 学习任务</a><a href="batch-noise.html">batch 与梯度噪声</a><a href="backpropagation.html">逐层反向传播</a></div>
+  </section>
+</div>

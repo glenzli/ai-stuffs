@@ -1,0 +1,376 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">SYSTEMS / TRAINING ENGINEERING</p>
+        <h1>训练工程：<span class="accent-text">从数据读取到参数更新</span></h1>
+        <p class="lede">
+          从数据 shard 到一次 optimizer step，需要跟踪每步处理的 token 数、显存占用、
+          多卡同步的张量，以及 checkpoint 的评估结果。本页对照预训练、对比学习、SFT 和 DPO 的运行流程。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">先建立操作视角</p>
+        <p>沿着一次参数更新检查：microbatch 从哪来、是什么形状，forward 产生什么 loss，反向时同步哪些张量，更新后保存什么。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="cockpit-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="cockpit-title">一次训练 step 的执行流程</h2>
+        </div>
+        <p class="section-note">先选训练范式，再逐站看 data、GPU 和网络各做什么。各环节列出输入、输出、资源消耗和失败征兆。</p>
+      </div>
+
+      <div class="engineering-mode-tabs" role="tablist" aria-label="训练工程范式">
+        <button type="button" role="tab" aria-selected="true" data-eng-mode="pretrain"><span>预训练</span><small>next-token</small></button>
+        <button type="button" role="tab" aria-selected="false" data-eng-mode="embedding"><span>表示训练</span><small>contrastive</small></button>
+        <button type="button" role="tab" aria-selected="false" data-eng-mode="sft"><span>指令 SFT</span><small>response CE</small></button>
+        <button type="button" role="tab" aria-selected="false" data-eng-mode="dpo"><span>偏好 DPO</span><small>preference pair</small></button>
+      </div>
+
+      <div class="engineering-cockpit">
+        <div class="cockpit-head">
+          <div>
+            <p class="micro-label" data-eng-label>CAUSAL PRETRAINING</p>
+            <h3 data-eng-title>从 token shard 形成可训练的序列</h3>
+          </div>
+          <div class="cockpit-step"><span data-eng-step>01</span> / 08</div>
+        </div>
+        <div class="eng-step-rail" aria-label="训练工程步骤">
+          <button type="button" data-eng-step-index="0" class="is-current">Data</button>
+          <button type="button" data-eng-step-index="1">Batch</button>
+          <button type="button" data-eng-step-index="2">Forward</button>
+          <button type="button" data-eng-step-index="3">Loss</button>
+          <button type="button" data-eng-step-index="4">Backward</button>
+          <button type="button" data-eng-step-index="5">Sync</button>
+          <button type="button" data-eng-step-index="6">Update</button>
+          <button type="button" data-eng-step-index="7">Evidence</button>
+        </div>
+
+        <div class="cockpit-body" aria-live="polite">
+          <div class="cockpit-copy">
+            <p data-eng-body>
+              从经过清洗、去重和 tokenizer 处理的二进制 shard 中读取 token。真实系统会并行预取下一批数据，避免 GPU 等磁盘；数据顺序与 shard 本身都是实验版本的一部分。
+            </p>
+            <div class="eng-shape-flow">
+              <div><span>INPUT</span><code data-eng-input>token shard</code></div>
+              <b aria-hidden="true">→</b>
+              <div><span>ACTION</span><code data-eng-action>shuffle + read</code></div>
+              <b aria-hidden="true">→</b>
+              <div><span>OUTPUT</span><code data-eng-output>token arrays</code></div>
+            </div>
+            <div class="eng-lane">
+              <div><span>数据 / CPU</span><strong data-eng-cpu>解压、索引、预取</strong></div>
+              <div><span>加速器</span><strong data-eng-gpu>此时通常空闲或算上一步</strong></div>
+              <div><span>网络</span><strong data-eng-network>读共享存储 / 节点传输</strong></div>
+            </div>
+          </div>
+          <div class="cockpit-code">
+            <pre><code data-eng-code>for shard in shuffled(train_shards):
+    for batch in read_sequences(shard):
+        train_step(batch)</code></pre>
+            <div class="eng-check">
+              <span>工程检查</span>
+              <p data-eng-check>shard 是否与 tokenizer 版本匹配；dataloader 是否真的没有等 GPU。</p>
+            </div>
+            <div class="eng-risk">
+              <span>典型失败</span>
+              <p data-eng-risk>GPU 利用率周期性掉到零；训练日志里 step time 抖动，但 kernel 本身没有变慢。</p>
+            </div>
+          </div>
+        </div>
+        <div class="cockpit-actions">
+          <button class="button" type="button" data-eng-prev>← 上一站</button>
+          <button class="button button-primary" type="button" data-eng-next>下一站 →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="budget-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="budget-title">一次 optimizer step 处理多少 token？</h2>
+        </div>
+        <p class="section-note">“batch size”常被混着说。这里分开 microbatch、gradient accumulation 和全局 optimizer step。</p>
+      </div>
+
+      <div class="step-budget-lab">
+        <div class="budget-controls">
+          <label class="budget-field">
+            <span>数据并行副本数 DP <strong data-budget-gpus-value>8</strong></span>
+            <input type="range" min="1" max="64" value="8" step="1" data-budget-gpus>
+          </label>
+          <label class="budget-field">
+            <span>每个 DP 副本 microbatch <strong data-budget-micro-value>4</strong></span>
+            <input type="range" min="1" max="32" value="4" step="1" data-budget-micro>
+          </label>
+          <label class="budget-field">
+            <span>序列长度 T <strong data-budget-seq-value>2048</strong></span>
+            <input type="range" min="256" max="8192" value="2048" step="256" data-budget-seq>
+          </label>
+          <label class="budget-field">
+            <span>梯度累积 microsteps <strong data-budget-accum-value>8</strong></span>
+            <input type="range" min="1" max="64" value="8" step="1" data-budget-accum>
+          </label>
+          <p class="budget-formula"><code>输入 tokens / update = DP × B<sub>micro</sub> × T × accum</code></p>
+          <p>这里假设等长、满填充样本。TP/PP/CP 卡协作处理同一份样本，不能把 GPU 总数当 DP 数。有效监督 token 还要扣除 padding 与不计 loss 的位置；对比学习的梯度累积也不会自动扩大每个 microbatch 的负例池。</p>
+        </div>
+
+        <div class="budget-output">
+          <div class="budget-primary">
+            <span>一次参数更新处理</span>
+            <strong data-budget-tokens>524.3K</strong>
+            <small>tokens / optimizer step</small>
+          </div>
+          <div class="budget-breakdown">
+            <div><span>每卡一次 forward</span><strong data-budget-forward>8.2K</strong><small>tokens</small></div>
+            <div><span>全局 microstep</span><strong data-budget-global-micro>65.5K</strong><small>tokens / forward round</small></div>
+            <div><span>样本等价数</span><strong data-budget-samples>256</strong><small>microbatch × DP × accum</small></div>
+          </div>
+          <div class="budget-flow" aria-hidden="true">
+            <div><span>1</span>fwd/back</div><i>×8 accum</i>
+            <div><span>2</span>fwd/back</div><i>…</i>
+            <div><span>8</span>sync + update</div>
+          </div>
+          <p>增加 accumulation 会减少同步与更新频率，让显存能承受更大的有效 batch；吞吐收益取决于计算与通信的比例。每一步仍要做同样多的 forward/backward，只是 optimizer 次数变少。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="memory-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="memory-title">训练显存：权重、梯度与优化器状态</h2>
+        </div>
+        <p class="section-note">这里只算“静态训练状态”，不含 activations 和临时 workspace；它仍然足以看出大模型为何必须分片。</p>
+      </div>
+
+      <div class="memory-lab">
+        <div class="memory-controls">
+          <label class="mem-select">
+            <span>模型参数量</span>
+            <select data-memory-model>
+              <option value="0.125">125M</option>
+              <option value="1.3">1.3B</option>
+              <option value="7" selected>7B</option>
+              <option value="70">70B</option>
+            </select>
+          </label>
+          <label class="mem-select">
+            <span>优化器状态</span>
+            <select data-memory-optimizer>
+              <option value="16" selected>AdamW · FP32 状态</option>
+              <option value="12">SGD + momentum · FP32 状态</option>
+            </select>
+          </label>
+          <label class="mem-select">
+            <span>数据并行 GPU 数</span>
+            <select data-memory-gpus>
+              <option value="1">1</option>
+              <option value="8" selected>8</option>
+              <option value="32">32</option>
+              <option value="64">64</option>
+            </select>
+          </label>
+          <p>假设 BF16 权重/梯度、FP32 master 与优化器状态；不计 activation、通信 buffer、碎片与临时 workspace。</p>
+        </div>
+
+        <div class="memory-visual">
+          <div class="memory-head">
+            <div>
+              <p class="micro-label">STATIC TRAINING STATE</p>
+              <h3 data-memory-summary>7B · AdamW · 8 GPU · DP</h3>
+            </div>
+            <button type="button" data-memory-reset>恢复 DP</button>
+          </div>
+          <div class="memory-readout">
+            <div><span>每卡静态状态</span><strong data-memory-per-gpu>112.0 GB</strong></div>
+            <div><span>集群总静态状态</span><strong data-memory-total>896.0 GB</strong></div>
+            <div><span>相比 DP 降低</span><strong data-memory-saved>0%</strong></div>
+          </div>
+          <div class="memory-stack" data-memory-stack aria-label="每卡静态显存构成"></div>
+          <div class="zero-tabs" role="group" aria-label="状态分片方式">
+            <button type="button" data-zero-stage="dp" aria-pressed="true"><strong>DP</strong><small>全部复制</small></button>
+            <button type="button" data-zero-stage="1" aria-pressed="false"><strong>ZeRO-1</strong><small>优化器分片</small></button>
+            <button type="button" data-zero-stage="2" aria-pressed="false"><strong>ZeRO-2</strong><small>+ 梯度分片</small></button>
+            <button type="button" data-zero-stage="3" aria-pressed="false"><strong>ZeRO-3</strong><small>+ 参数分片</small></button>
+          </div>
+          <p class="memory-footnote" data-memory-note>普通数据并行中，每张卡都保留完整参数、梯度和优化器状态。模型本身放不下一张卡时，不能靠增加 accumulation 解决。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="parallel-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="parallel-title">多卡训练的几种分工方式</h2>
+        </div>
+        <p class="section-note">不同并行方式切的是不同维度；大规模训练通常组合 DP、TP、PP 和序列并行。</p>
+      </div>
+
+      <div class="parallel-grid">
+        <article>
+          <span>DATA PARALLEL</span>
+          <h3>复制模型，切 batch</h3>
+          <p>每卡处理不同样本，反向同步梯度。实现简单、吞吐高，但每卡必须放得下完整训练状态。</p>
+          <code>all-reduce gradients</code>
+        </article>
+        <article>
+          <span>ZeRO / FSDP</span>
+          <h3>切参数、梯度、优化器状态</h3>
+          <p>训练状态分片保存，计算所需的参数在使用前重聚。省显存，代价是更多 all-gather / reduce-scatter。</p>
+          <code>shard → gather → compute → reshard</code>
+        </article>
+        <article>
+          <span>TENSOR PARALLEL</span>
+          <h3>切单层矩阵计算</h3>
+          <p>把 attention / MLP 的权重和计算按维度拆到多卡，层内需要高频通信。适合单卡装不下单层或需要更多 compute 并行。</p>
+          <code>layer-level sharding</code>
+        </article>
+        <article>
+          <span>PIPELINE PARALLEL</span>
+          <h3>切模型层，流水线送 batch</h3>
+          <p>不同 GPU 负责不同层；需要 micro-batch 填充流水线，并处理 bubble、激活缓存和跨阶段通信。</p>
+          <code>stage 1 → stage 2 → …</code>
+        </article>
+      </div>
+
+      <div class="callout">
+        <p><strong>显存、吞吐和收敛是三个指标。</strong>分片可能让你“跑得起来”，但通信会压低吞吐；增大全局 batch 可能提高并行效率，却改变学习率、训练 token 预算与泛化行为。配置选择应同时比较内存、速度和训练效果。</p>
+      </div>
+    </section>
+
+    <div class="modern-page"><section class="section" aria-labelledby="execution-details"><div class="section-heading"><h2 id="execution-details">继续追踪具体的计算与执行</h2></div><div class="exact-route-list"><a href="backpropagation.html"><strong>整层梯度核验</strong><p>前向数值、局部导数和有限差分。</p></a><a href="distributed-execution.html"><strong>每张卡的张量</strong><p>行列分片、局部梯度和集合通信。</p></a><a href="activation-checkpointing.html"><strong>激活何时释放</strong><p>保存与重算的峰值和计算次数。</p></a><a href="numerical-computing.html"><strong>每个数字怎样舍入</strong><p>有限精度、稳定归一化与误差检查。</p></a></div></section></div>
+    <div class="modern-page"><div class="reading-links"><a href="finetuning-recipe.html#sample-delivery">每张卡读到哪些样本</a><a href="distributed-execution.html#vocab-parallel">词表分片的 loss</a><a href="training-systems-deep.html#pipeline-timeline">流水线执行顺序</a><a href="inference-engine.html#serving-schedule">多请求与物理 KV 块</a><a href="engineering-check.html">综合理解检查</a></div></div>
+    <section class="section" aria-labelledby="runbook-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="runbook-title">从代码到可信 checkpoint 的操作顺序</h2>
+        </div>
+        <p class="section-note">从小规模验证开始，再逐步扩大计算量和并行规模。</p>
+      </div>
+
+      <div class="launch-runbook">
+        <div><span>01</span><h3>单 batch 过拟合</h3><p>用极小数据确认 tokenizer、loss、mask、反传与 checkpoint 能闭环；loss 应能明显下降。</p></div>
+        <div><span>02</span><h3>代表性数据小跑</h3><p>测真实长度分布、吞吐和显存峰值。记录 tokens/s、step time、grad norm、dataloader wait。</p></div>
+        <div><span>03</span><h3>扩大并行与 batch</h3><p>逐级增加 GPU/accum；先确认数值等价或可解释差异，再追求吞吐。检查通信和 checkpoint 写入瓶颈。</p></div>
+        <div><span>04</span><h3>定期评估与放行</h3><p>目标指标 + 邻近任务 + 生成样例 + 失败集。只有证据通过，才让新 checkpoint 进入下游或重建索引。</p></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="debug-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">06</span>
+          <h2 id="debug-title">训练事故的排查顺序</h2>
+        </div>
+        <p class="section-note">下面按症状列出观测信号和排查步骤，结合数据、梯度、运行状态与评估结果定位。</p>
+      </div>
+
+      <div class="debug-runbook">
+        <details>
+          <summary>GPU 利用率周期性掉到 0</summary>
+          <p>先看 dataloader wait、共享存储吞吐、worker 数与 shard 大小。常见原因是 CPU tokenization 在训练时才做、每步去读小文件、batch 预处理不同步。把清洗和 tokenization 离线化、预取 shard、固定长度/bucket 往往比换 GPU kernel 更有效。</p>
+        </details>
+        <details>
+          <summary>loss 突然尖峰或变成 NaN</summary>
+          <p>同时看 raw loss、grad_norm、学习率、被跳过的 optimizer step、混合精度溢出。检查数据 shard 是否损坏、长度是否异常、attention mask 是否正确、是否需要 bf16/fp16 loss scaling、梯度裁剪与 warmup。先定位发生在哪个 step 和哪条数据，再谈修模型。</p>
+        </details>
+        <details>
+          <summary>OOM 发生在第 3 个 microbatch</summary>
+          <p>activation 会额外占用显存。看峰值是否随 T、microbatch 或图像/文档长度增长；尝试 activation checkpointing、序列 bucket、减少 microbatch、增加 accumulation，或换 ZeRO/FSDP。先用 profiler 区分参数、activation 和碎片。</p>
+        </details>
+        <details>
+          <summary>单卡 loss 正常，多卡反而变差</summary>
+          <p>比较全局 batch、学习率、warmup、gradient accumulation 与数据分片。检查 all-reduce 是否在正确时机发生、样本是否被重复或漏读、随机种子是否在同一 rank 重复。扩大 batch 往往要重新调学习率和训练预算。</p>
+        </details>
+        <details>
+          <summary>SFT 生成效果差，但 token loss 下降</summary>
+          <p>token CE 衡量“在参考答案前文下预测下一个 token”，不等于端到端生成质量。检查 chat template、EOS、assistant mask、推理 stopping、packing 泄漏和是否对长答案过度加权；加 heldout 生成评测与人工样例。</p>
+        </details>
+        <details>
+          <summary>后训练后检索指标下降</summary>
+          <p>先确认你拿的是同一个 embedding 接口：pooling、projection、normalize、instruction prefix 是否变。再检查 SFT 数据是否改变了表示、后训练目标是否与检索一致、索引是否用新模型重建。查询向量和文档索引应采用兼容的模型与编码协议。</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="artifact-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">07</span>
+          <h2 id="artifact-title">一次实验需要保存哪些“证据”？</h2>
+        </div>
+        <p class="section-note">复现实验需要同时保存随机状态、数据顺序和运行配置。</p>
+      </div>
+
+      <div class="artifact-board">
+        <div><span>DATA</span><strong>tokenizer hash</strong><p>词表、normalization、特殊 token 和模板版本。</p></div>
+        <div><span>DATA</span><strong>shard + order</strong><p>训练数据版本、去重结果、随机顺序与采样权重。</p></div>
+        <div><span>MODEL</span><strong>config + init</strong><p>层数、宽度、位置编码、权重绑定和初始化来源。</p></div>
+        <div><span>RUN</span><strong>optimizer + schedule</strong><p>学习率、warmup、grad clip、batch、accumulation、精度。</p></div>
+        <div><span>SYSTEM</span><strong>parallel + kernels</strong><p>DP/ZeRO/TP/PP、通信后端、flash attention 与编译选项。</p></div>
+        <div><span>EVAL</span><strong>metrics + samples</strong><p>验证集版本、指标、失败样本与人工审阅记录。</p></div>
+        <div><span>SAVE</span><strong>checkpoint bundle</strong><p>模型、优化器、scheduler、RNG、数据游标与恢复验证。</p></div>
+        <div><span>SERVE</span><strong>export + index</strong><p>合并 LoRA、精度转换、归一化方式、索引版本与回滚点。</p></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="engineering-extension-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">08</span>
+          <h2 id="engineering-extension-title">数据、评估、工件与并行专题</h2>
+        </div>
+        <p class="section-note">本页介绍一次训练的流程，下面四页分别展开数据、评估、工件和系统并行。</p>
+      </div>
+
+      <div class="engineering-extension-grid">
+        <a href="data-tokenizer.html">
+          <span>DATA</span>
+          <h3>数据与 Tokenizer</h3>
+          <p>清洗、去重、污染隔离、BPE、utf-8 bytes、数据混合与 shard。</p>
+        </a>
+        <a href="model-evaluation.html">
+          <span>EVALUATION</span>
+          <h3>评估方法论</h3>
+          <p>指标、切片、宏/微平均、污染、置信区间与发布门槛。</p>
+        </a>
+        <a href="model-artifacts.html">
+          <span>ARTIFACTS</span>
+          <h3>Checkpoint 与模型工件</h3>
+          <p>config、tokenizer、safetensors、optimizer、数据游标与恢复。</p>
+        </a>
+        <a href="training-systems-deep.html">
+          <span>SYSTEMS</span>
+          <h3>并行与数值精度</h3>
+          <p>DP/ZeRO/TP/PP/EP/CP、BF16/FP8、activation 与 collective。</p>
+        </a>
+      </div>
+    </section>
+
+    <div class="modern-page"><section class="section" aria-labelledby="engineering-judgment"><div class="section-heading"><span class="section-number">09 / ENGINEERING JUDGMENT</span><h2 id="engineering-judgment">从跑通流程，到解释结果</h2></div><div class="lesson-route-list">
+      <a href="optimization-dynamics.html"><span>01 / OPTIMIZATION</span><strong>优化与稳定性</strong><p>梯度、动量、二阶矩、实际更新与初始化；解释 spike、跳步和恢复。</p></a>
+      <a href="parallel-correctness.html"><span>02 / CORRECTNESS</span><strong>并行训练算对了吗？</strong><p>全局 token 分母、DDP 平均、梯度累积与空标签副本。</p></a>
+      <a href="performance-analysis.html"><span>03 / PERFORMANCE</span><strong>性能瓶颈的定量分析</strong><p>算术强度、带宽、算力、关键路径与 profiler 测量。</p></a>
+      <a href="engineering-cases.html"><span>04 / EVIDENCE</span><strong>逐步诊断工程案例</strong><p>从多卡、数据、MoE 和奖励异常选择下一条证据。</p></a>
+    </div></section></div>
+    <section class="section closing">
+      <p class="eyebrow">MENTAL MODEL TO KEEP</p>
+      <h2>继续查看训练目标、资源与评估</h2>
+      <p>
+        当你看到一个新的训练方法时，可以沿这条链逐项问：样本单位是什么；真实目标在哪里；一次 optimizer update 覆盖多少 token；
+        显存账本怎样分布到 GPU；最终用什么证据判断它比旧系统更好。把这些记录放在一起，才能比较训练方案及其结果。
+      </p>
+      <div class="closing-links">
+        <a class="button" href="simulator.html">亲手运行训练模拟器</a>
+        <a class="button button-primary" href="training-deep.html">回到梯度账本</a>
+        <a class="button" href="posttraining-deep.html">回到后训练目标</a>
+        <a class="button" href="lab.html">回到检索系统</a>
+      </div>
+    </section>

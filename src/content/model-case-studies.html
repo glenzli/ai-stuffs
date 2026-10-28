@@ -1,0 +1,152 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">FRONTIER 03 / MODEL CASES</p>
+        <h1>公开模型案例：<span class="accent-text">结构选择与工程取舍</span></h1>
+        <p class="lede">
+          用几张代表性的卡，把 Encoder/Decoder、MHA/GQA、位置编码、Norm、SwiGLU、MoE、MLA、总参数与激活参数放在一起。
+          通过这些案例练习阅读模型配置，并分析各项选择的代价。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">版本提醒</p>
+        <p>下面采用代表性公开配置/技术报告中的结构量级。不同 revision、尺寸与训练配方会有差异，最终以具体 commit 的 config 和 model card 为准。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="case-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="case-title">七个结构样本</h2>
+        </div>
+        <p class="section-note">选一个模型，重点看它为什么采用这些结构，以及哪种成本被转移到了别处。</p>
+      </div>
+
+      <div class="case-browser">
+        <div class="case-list" role="group" aria-label="模型结构案例">
+          <button type="button" data-case="bert" aria-pressed="true"><span>Encoder</span>BERT-base</button>
+          <button type="button" data-case="llama2" aria-pressed="false"><span>Dense</span>LLaMA 2 7B</button>
+          <button type="button" data-case="llama3" aria-pressed="false"><span>Dense / GQA</span>Llama 3 8B</button>
+          <button type="button" data-case="mistral" aria-pressed="false"><span>Window / GQA</span>Mistral 7B</button>
+          <button type="button" data-case="mixtral" aria-pressed="false"><span>MoE</span>Mixtral 8×7B</button>
+          <button type="button" data-case="deepseek" aria-pressed="false"><span>MLA / MoE</span>DeepSeek-V2/V3</button>
+          <button type="button" data-case="mamba" aria-pressed="false"><span>SSM</span>Mamba</button>
+        </div>
+
+        <div class="case-panel" aria-live="polite">
+          <div class="case-head">
+            <div>
+              <p class="micro-label" data-case-kicker>ENCODER-ONLY / MASKED LM</p>
+              <h3 data-case-title>BERT-base-uncased：双向 encoder + post-LN</h3>
+              <p data-case-summary>用 masked LM 学习双向上下文。它输出每个 token 的上下文状态，采用双向上下文接口。</p>
+            </div>
+            <div class="case-scale"><span>参数</span><strong data-case-params>110M</strong></div>
+          </div>
+
+          <div class="case-specs">
+            <div><span>结构</span><strong data-case-type>Encoder-only</strong></div>
+            <div><span>d / L</span><strong data-case-shape>768 / 12</strong></div>
+            <div><span>heads / KV</span><strong data-case-heads>12 / 12 · MHA</strong></div>
+            <div><span>FFN / vocab</span><strong data-case-ffn>3072 / 30,522</strong></div>
+            <div><span>位置</span><strong data-case-position>Learned absolute</strong></div>
+            <div><span>Norm</span><strong data-case-norm>Post-LN</strong></div>
+            <div><span>激活</span><strong data-case-activation>GELU</strong></div>
+            <div><span>上下文</span><strong data-case-context>512 tokens</strong></div>
+          </div>
+
+          <div class="case-insight">
+            <div><span>为什么值得看</span><p data-case-why>双向 attention 让每个位置同时看左右文本，适合理解与 masked 目标；其可见上下文与 GPT 式因果生成不同。</p></div>
+            <div><span>容易被忽略</span><p data-case-caveat>用于句向量时，需要按任务选择和训练 pooling 或输出头。</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="compare-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="compare-title">案例横向比较</h2>
+        </div>
+        <p class="section-note">把“参数变大”与“单 token 激活变大/不变”分开看。</p>
+      </div>
+
+      <div class="case-compare-wrap">
+        <table class="deep-table case-compare-table">
+          <thead><tr><th>模型</th><th>类型</th><th>Attention / KV</th><th>位置 / Norm</th><th>容量</th><th>主要代价</th></tr></thead>
+          <tbody>
+            <tr><td>BERT-base</td><td>Encoder</td><td>双向 MHA</td><td>Absolute / Post-LN</td><td>Dense 110M</td><td>不能直接因果生成</td></tr>
+            <tr><td>LLaMA 2 7B</td><td>Decoder</td><td>MHA 32 KV</td><td>RoPE / Pre-RMSNorm</td><td>Dense 约 6.7B</td><td>KV 较大</td></tr>
+            <tr><td>Llama 3 8B</td><td>Decoder</td><td>GQA 8 KV</td><td>RoPE / Pre-RMSNorm</td><td>Dense 约 8B</td><td>更大词表与权重</td></tr>
+            <tr><td>Mistral 7B</td><td>Decoder</td><td>GQA 8 KV + window</td><td>RoPE / Pre-RMSNorm</td><td>Dense 约 7.2B</td><td>局部窗口与全局能力权衡</td></tr>
+            <tr><td>Mixtral 8×7B</td><td>MoE Decoder</td><td>GQA 8 KV</td><td>RoPE / Pre-RMSNorm</td><td>总 46.7B / 激活 12.9B</td><td>专家显存、all-to-all</td></tr>
+            <tr><td>DeepSeek-V2/V3</td><td>MoE Decoder</td><td>MLA + 细粒度 MoE</td><td>RoPE 相关 / RMSNorm 类</td><td>V2 约 236B/21B；V3 约 671B/37B</td><td>复杂路由、潜在 KV 重建</td></tr>
+            <tr><td>Mamba</td><td>SSM</td><td>无标准 attention KV</td><td>状态递推</td><td>取决于具体规模</td><td>长程检索与生态差异</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="patterns-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="patterns-title">从案例里能总结出什么</h2>
+        </div>
+        <p class="section-note">这些组合在公开模型中较常见，具体选择仍取决于任务和资源。</p>
+      </div>
+
+      <div class="case-pattern-grid">
+        <article><span>01</span><h3>现代 decoder 常见配方</h3><p>Pre-RMSNorm + RoPE + SwiGLU + causal attention；具体 heads/KV、窗口和 MoE 是进一步的资源选择。</p></article>
+        <article><span>02</span><h3>GQA 主要解决推理缓存</h3><p>LLaMA 2 7B 用 MHA，70B 已用 GQA；Llama 3 8B 也采用 GQA。需按具体尺寸比较 KV heads，各尺寸的采用时间和配置分别记录。</p></article>
+        <article><span>03</span><h3>MoE 让总参数和激活参数脱钩</h3><p>Mixtral 和 DeepSeek 都利用稀疏专家扩容，但都保留完整专家内存与复杂路由成本。</p></article>
+        <article><span>04</span><h3>长上下文需要多项设计协同</h3><p>RoPE、窗口、MLA、KV cache、context parallel 与训练数据必须协同；远端信息的使用能力需要专门测试。</p></article>
+        <article><span>05</span><h3>MLA 是新的 KV 压缩轴</h3><p>MLA 学习压缩的潜在表示，并在 attention 计算中使用相应投影；缓存内容和执行方式需查看具体实现。</p></article>
+        <article><span>06</span><h3>SSM 通过状态递推处理序列</h3><p>Mamba 用状态递推替代标准 attention；可以混合，也可以独立，但质量、硬件和工具生态都要另行验证。</p></article>
+      </div>
+    </section>
+
+    <div class="modern-page">
+    <section class="section" aria-labelledby="frontier-cache-case"><div class="section-heading"><span class="section-number">04 / VERSIONED CASE · 2026-09</span><h2 id="frontier-cache-case">长输入案例：跨层复用、稀疏访问与低位缓存怎样配合？</h2></div>
+      <div class="prose"><p>DeepSeek-V4.1-Flash 的 2026-09-17 技术报告把长任务的输入处理、全局 KV 存储和跨设备搬运作为设计重点。下面按该版本展开结构；数字来自作者报告，未在本站实测。</p></div>
+      <div class="compare-wrap"><table><thead><tr><th>项目</th><th>报告配置 / 定义</th><th>阅读时要区分</th></tr></thead><tbody>
+        <tr><td>层与计算路径</td><td>40 个因果 Transformer 层：20 层 causal encoder + 20 层 decoder。</td><td>decoder 全局 KV 从 encoder 输出构造，多数 prompt token 可绕过完整 decoder 计算；局部 SWA 状态仍需维护或重建。</td></tr>
+        <tr><td>参数</td><td>552B backbone，另有 196B Engram 参数；报告 prefill/decode 每 token 激活量为 8B/16B。</td><td>backbone 与额外条件记忆分别统计；激活量与实际 FLOPs、访存量各自有口径。</td></tr>
+        <tr><td>全局注意力</td><td>CSA2：压缩表示、稀疏索引、跨层 KV 与索引复用。</td><td>表示压缩、访问选择、跨层共享分别作用于不同维度。</td></tr>
+        <tr><td>全局 KV 精度</td><td>训练中使用 FP4 全局 KV；报告长上下文每 token 全局 KV 约 890 bytes。</td><td>这是全局分支的口径，不能直接当作整个请求的全部显存。</td></tr>
+        <tr><td>持久缓存</td><td>SWA Bounded Replay 用有限局部重算近似恢复 SWA 状态。</td><td>少存局部 KV 要支付重算成本，且近似恢复需质量回归；HBM 与主存/SSD 分开记账。</td></tr>
+      </tbody></table></div>
+      <div class="architecture-modes"><div><h3>Full</h3><div class="cache-state"><span>生成 global KV</span><span>重新索引</span><span class="local">本层 Q / SWA</span></div><p>创建全局 KV 和 indexer K，通过索引选取访问位置。</p></div><div><h3>Reindex</h3><div class="cache-state"><span class="reuse">共享 global KV</span><span>重新索引</span><span class="local">本层 Q / SWA</span></div><p>读取前面层的全局 KV，以本层 indexer Q 重新评分，得到新的 Top-K 位置。</p></div><div><h3>Reuse</h3><div class="cache-state"><span class="reuse">共享 global KV</span><span class="reuse">共享 Top-K</span><span class="local">本层 Q / SWA</span></div><p>复用全局 KV 和选择位置，本层仍有自己的查询与局部状态。</p></div></div>
+      <p class="workflow-note">这三种模式在架构中静态安排；共享的是指定状态，不是把每一层的计算结果变成相同内容。</p>
+      <figure class="math-block"><div class="math-display" data-math>M_{\mathrm{KV}}\approx M_{\mathrm{global\ shared}}(S)+\sum_{\ell=1}^{L}M_{\mathrm{local},\ell}(W)+M_{\mathrm{index/meta}}</div><figcaption>分项账本而非该模型的精确计算器。S 为序列长度，W 为局部窗口；压缩比、共享层组、索引存储和精度分别影响各项，workspace 与模型权重另算。</figcaption></figure>
+      <div class="concept-pairs"><div><h3>结构变化会改写成本公式</h3><p>普通 MHA/GQA 中“层数 × 长度 × KV head 数”的账本假设各层独立保存完整历史。跨层共享、压缩全局状态与固定局部窗口需要按存储对象重新推导。</p></div><div><h3>输入与输出成本开始分开设计</h3><p>长任务常重复提交很长的输入，新增输出较短。该案例调整 prefill 与 decode 的路径；比较时还要固定命中缓存比例、输入输出长度、并发和质量目标。</p></div><div><h3>条件记忆是另一类容量</h3><p>Engram 使用稀疏访问的条件记忆模块。它属于模型结构中的参数容量；与 Agent 文件记忆的写入、检索和权限机制需分别理解。</p></div><div><h3>骨干、残差与草稿各有作用</h3><p>报告还采用 Single-Pass mHC 的残差混合实现，以及在骨干预训练后单独训练的 DSpark 草稿模块。草稿验收依赖推理流程；残差混合改变层间信息组合，不能仅用 KV 压缩解释这些部件。</p></div></div>
+      <div class="reading-links"><a href="architecture-variants.html#long-context-training">长上下文训练与评估</a><a href="inference-engine.html">标准 KV 账本</a><a href="efficient-inference.html">量化与草稿验收</a><a href="multimodal.html#native-multimodal">联合多模态训练</a></div>
+    </section></div>
+    <section class="section" aria-labelledby="read-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="read-title">拿到一个新模型，按什么顺序读？</h2>
+        </div>
+        <p class="section-note">按这个顺序可以逐项核对新模型的结构、成本和评估条件。</p>
+      </div>
+
+      <div class="model-reader">
+        <div><span>01</span><strong>Type / objective</strong><p>Encoder、decoder、encoder-decoder？因果生成还是双向理解？</p></div>
+        <div><span>02</span><strong>d / L / heads</strong><p>形状、层数、Q heads、KV heads、head dim、FFN width。</p></div>
+        <div><span>03</span><strong>Norm / activation</strong><p>Pre/Post、LayerNorm/RMSNorm、GELU/SwiGLU。</p></div>
+        <div><span>04</span><strong>Position / context</strong><p>RoPE 频率、相对 bias、窗口、context extension。</p></div>
+        <div><span>05</span><strong>Capacity structure</strong><p>Dense 或 MoE、总参数、每 token 激活与路由。</p></div>
+        <div><span>06</span><strong>Inference / evaluation</strong><p>KV 大小、context、prefill/decode、benchmark 与目标领域。</p></div>
+      </div>
+
+      <div class="callout">
+        <p><strong>从模型卡到任务评估：</strong>模型卡提供结构和训练信息。结合推理预算、评估切片与失败样本，才能判断它在目标场景中的效果。</p>
+      </div>
+
+      <div class="closing-links">
+        <a class="button button-primary" href="frontier.html">回前沿决策</a>
+        <a class="button" href="architecture-variants.html">看结构变体</a>
+        <a class="button" href="transformer-anatomy.html">看权重公式</a>
+      </div>
+    </section>

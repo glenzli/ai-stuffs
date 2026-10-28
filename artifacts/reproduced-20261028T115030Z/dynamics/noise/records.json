@@ -1,0 +1,92 @@
+[
+  {
+    "id": "reverse-3-ACA",
+    "group_id": "reversal-3-ACA",
+    "content": [
+      4,
+      6,
+      4
+    ],
+    "target": [
+      4,
+      6,
+      4
+    ],
+    "length": 3
+  },
+  {
+    "id": "reverse-3-ADD",
+    "group_id": "reversal-3-ADD",
+    "content": [
+      4,
+      7,
+      7
+    ],
+    "target": [
+      7,
+      7,
+      4
+    ],
+    "length": 3
+  },
+  {
+    "id": "reverse-3-ABB",
+    "group_id": "reversal-3-ABB",
+    "content": [
+      4,
+      5,
+      5
+    ],
+    "target": [
+      5,
+      5,
+      4
+    ],
+    "length": 3
+  },
+  {
+    "id": "reverse-3-CDC",
+    "group_id": "reversal-3-CDC",
+    "content": [
+      6,
+      7,
+      6
+    ],
+    "target": [
+      6,
+      7,
+      6
+    ],
+    "length": 3
+  },
+  {
+    "id": "reverse-3-ABA",
+    "group_id": "reversal-3-ABA",
+    "content": [
+      4,
+      5,
+      4
+    ],
+    "target": [
+      4,
+      5,
+      4
+    ],
+    "length": 3
+  },
+  {
+    "id": "reverse-3-CCD",
+    "group_id": "reversal-3-CCD",
+    "content": [
+      6,
+      6,
+      7
+    ],
+    "target": [
+      7,
+      6,
+      6
+    ],
+    "length": 3
+  }
+]

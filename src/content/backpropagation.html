@@ -1,0 +1,43 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">EXACT MECHANICS / BACKPROPAGATION</p><h1>整层反传：<span class="accent-text">从 loss 回到每个矩阵</span></h1><p class="lede">沿一层带 RMSNorm、因果 Attention、残差和 SwiGLU 的小型 Transformer，逐项查看局部导数、分支汇合与权重梯度。每个数字都可以用有限差分复核。</p></div><aside class="intro-aside"><p class="micro-label">本页模型</p><p>2 个位置，hidden=2，单注意力头，FFN=3，词表=3；仅末位置计交叉熵。省略位置编码、bias、dropout、最终 Norm 与多层堆叠。</p></aside></section>
+  <section class="section" aria-labelledby="vjp-rules"><div class="section-heading"><span class="section-number">01 / LOCAL RULES</span><h2 id="vjp-rules">反传需要的是局部规则与上游梯度</h2></div>
+    <div class="prose"><p>令 G 为 loss 对某个算子输出的梯度。反传把 G 与该算子的局部导数组合，得到输入和参数的梯度；这就是向量－雅可比积的作用。实现通常不显式存下整张雅可比矩阵。一个张量有多条使用路径时，各路径贡献相加。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}Y&amp;=XW:\quad\nabla_X L=GW^\top,\\&amp;\hspace{3.4em}\nabla_W L=X^\top G,\\Y&amp;=A+B:\quad\nabla_A L=G,\;\nabla_B L=G,\\Y&amp;=A\odot B:\quad\nabla_A L=G\odot B,\\&amp;\hspace{4.7em}\nabla_B L=G\odot A.\end{aligned}</div><figcaption>使用行向量 batch 约定：X∈ℝⁿˣᵈ、W∈ℝᵈˣᵏ、G∈ℝⁿˣᵏ。广播参数的梯度需要沿被广播轴求和；共享权重也需要汇总所有使用位置。</figcaption></figure>
+    <div class="prose"><p>残差 Y=X+F(X) 给 X 两条路径：恒等分支的 G，以及 F 的反传贡献。它保留了直接通路，但实际梯度仍由分支和后续计算共同决定。冻结参数意味着不更新这部分参数；仍可通过该算子对其他输入求导。</p></div>
+  </section>
+  <section class="section" aria-labelledby="block-backward"><div class="section-heading"><span class="section-number">02 / ONE BLOCK</span><h2 id="block-backward">沿着损失走回输入</h2></div>
+    <div class="mechanism-flow"><div><span>01 / ATTENTION</span><h3>Norm → Q/K/V</h3><p>因果 softmax 后加权 V，经过 O 投影，与原始 X 相加。</p></div><div><span>02 / FFN</span><h3>Norm → SwiGLU</h3><p>gate 与 up 分支逐元素相乘，down 投影后再次残差相加。</p></div><div><span>03 / LOSS</span><h3>Hidden → logits</h3><p>投到三个候选类别，仅第二个位置的目标参与交叉熵。</p></div><div><span>04 / BACKWARD</span><h3>局部求导并汇总</h3><p>每一分支反向传递，在共享输入、残差和参数处相加。</p></div></div>
+    <div class="experiment"><div class="experiment-head"><h3>前向数值与当前反向节点</h3><span class="assumption">固定小矩阵 · JavaScript 双精度</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>末位置目标类别</span><select data-bp-target><option value="0">0</option><option value="1" selected>1</option><option value="2">2</option></select></label><p class="experiment-note">输入 X=[[0.5,−0.2],[0.1,0.7]]。权重固定；这里计算 loss 与梯度，推进按钮只切换观察位置。</p><div class="step-actions"><button type="button" class="button" data-bp-prev>上一节点</button><button type="button" class="button button-primary" data-bp-next>下一节点</button><button type="button" class="button" data-bp-reset>回到 loss</button></div></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>Loss</span><strong data-bp-loss></strong></div><div><span>反向节点</span><strong data-bp-step></strong></div><div><span>张量形状</span><strong data-bp-shape></strong></div></div><h3 data-bp-title></h3><div class="compare-wrap"><table class="exact-small-table"><thead><tr><th>坐标</th><th>前向值</th><th>对该值的梯度</th></tr></thead><tbody data-bp-matrix></tbody></table></div><p class="experiment-note" data-bp-note></p></div></div></div>
+    <details><summary>全部参数和输入梯度的范数</summary><div class="compare-wrap"><table class="exact-small-table"><thead><tr><th>对象</th><th>形状</th><th>梯度 Frobenius 范数</th></tr></thead><tbody data-bp-params></tbody></table></div><p>X 是可微输入，不是本例的权重；若来自 embedding lookup，其梯度继续累加回对应词表行。范数只能概括大小，梯度方向与各元素仍需单独看。</p></details>
+  </section>
+  <section class="section" aria-labelledby="attention-backward"><div class="section-heading"><span class="section-number">03 / ATTENTION VJP</span><h2 id="attention-backward">softmax 与 Q/K/V 怎样分别接收梯度？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}S&amp;=QK^\top/\sqrt d,\\P&amp;=\operatorname{softmax}_{row}(S+M),\quad H=PV,\\G_P&amp;=G_HV^\top,\quad G_V=P^\top G_H,\\(G_S)_{ij}&amp;=P_{ij}\left((G_P)_{ij}-\sum_kP_{ik}(G_P)_{ik}\right),\\G_Q&amp;=G_SK/\sqrt d,\quad G_K=G_S^\top Q/\sqrt d.\end{aligned}</div><figcaption>M 是固定因果 mask。被屏蔽位置 P=0，相应分数梯度为零。本例每行至少有一个可见位置；全被屏蔽的行需要实现额外定义。</figcaption></figure>
+    <div class="prose"><p>虽然前位置的输出 logits 没有 loss，后位置仍可以读取前位置的 K/V，因此前位置输入仍会收到梯度。反过来，改变未来位置不会影响更早位置的前向结果。这两件事分别由 loss 位置与因果可见性决定。</p></div>
+  </section>
+  <section class="section" aria-labelledby="norm-gate-backward"><div class="section-heading"><span class="section-number">04 / NORM &amp; GATE</span><h2 id="norm-gate-backward">归一化与门控的局部导数</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}r&amp;=(d^{-1}\sum_jx_j^2+\epsilon)^{-1/2},\\y&amp;=x\odot\gamma\,r,\quad v=G_y\odot\gamma,\\G_x&amp;=rv-\frac{r^3}{d}x\sum_jv_jx_j,\\G_\gamma&amp;=\sum_{\text{位置}}G_y\odot x\,r.\end{aligned}</div><figcaption>RMSNorm 在每行上归一化，γ 跨位置共享。本例 ε=10⁻⁵。第二项来自 r 对输入的依赖；把 r 当常量会漏掉梯度。</figcaption></figure>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}\operatorname{SiLU}(a)&amp;=a\sigma(a),\\\operatorname{SiLU}'(a)&amp;=\sigma(a)+a\sigma(a)(1-\sigma(a)),\\z&amp;=\operatorname{SiLU}(a)\odot b,\\G_a&amp;=G_z\odot b\odot\operatorname{SiLU}'(a),\\G_b&amp;=G_z\odot\operatorname{SiLU}(a).\end{aligned}</div><figcaption>a、b 分别来自 gate/up 线性层。得到两支梯度后，继续用矩阵乘的局部规则返回共享 Norm 输出。</figcaption></figure>
+  </section>
+  <section class="section" aria-labelledby="gradient-check"><div class="section-heading"><span class="section-number">05 / CHECK</span><h2 id="gradient-check">直接扰动一个参数，验证反传结果</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\frac{\partial L}{\partial\theta_j}\approx\frac{L(\theta_j+h)-L(\theta_j-h)}{2h}</div><figcaption>h=10⁻⁵，其他输入和参数保持不变。有限差分存在截断与浮点误差；步长过大或过小都可能影响比较。</figcaption></figure>
+    <div class="experiment"><div class="experiment-head"><h3>解析梯度与数值梯度</h3></div><div class="experiment-body"><div class="experiment-controls"><label><span>参数或输入</span><select data-bp-parameter><option value="q">Wq</option><option value="k">Wk</option><option value="v">Wv</option><option value="o">Wo</option><option value="gate">Wgate</option><option value="up">Wup</option><option value="down">Wdown</option><option value="out">Wout</option><option value="norm1">Norm1 γ</option><option value="norm2">Norm2 γ</option><option value="X">输入 X</option></select></label><label><span>元素坐标</span><select data-bp-element></select></label></div><div class="experiment-view"><div class="metric-row"><div><span>解析梯度</span><strong data-bp-analytic></strong></div><div><span>有限差分</span><strong data-bp-numeric></strong></div><div><span>绝对误差</span><strong data-bp-error></strong></div></div></div></div></div>
+    <div class="reading-links"><a href="training-deep.html">损失与 Embedding 梯度</a><a href="attention-kernels.html">同一 Attention 的分块执行</a><a href="activation-checkpointing.html">反传需要保存什么</a></div>
+  </section>
+  <!-- learning-dynamics contextual links -->
+<div class="reading-links"><a href="chunked-cross-entropy.html">输出头不保存完整 logits 时，怎样重建 hidden、权重与 bias 的全部梯度</a></div>
+    <section class="section" aria-labelledby="framework-reference"><div class="section-heading"><span class="section-number">06 / INDEPENDENT FRAMEWORK REFERENCE</span><h2 id="framework-reference">用 PyTorch 再实现一次，结果是否对应？</h2></div>
+    <p>项目提供独立 Python 实现，固定 PyTorch 2.9.0、CPU 与 float64。Node 侧导出输入、权重和参考结果；Python 使用张量算子与自动微分重新计算，不读取手写梯度来构造结果。三个新增实验和本页小型 block 使用各自明确的模型配置。</p>
+    <pre class="chain-code"><code>python3.12 -m venv .venv-framework
+.venv-framework/bin/python -m pip install -r scripts/framework-requirements.txt
+npm run lab:framework</code></pre>
+    <div class="compare-wrap"><table><thead><tr><th>对照项</th><th>实际执行与核验</th></tr></thead><tbody>
+      <tr><td>整层小模型</td><td>三个目标类别的前向与全部输入/参数梯度；八步 AdamW 轨迹；第三步保存后由新进程恢复。</td></tr>
+      <tr><td>Packing</td><td>独立序列、真实 padding batch、块隔离 packing 的前向、梯度与一次更新；截断、末轮监督、零标签、跨样本可见与重复 shift。</td></tr>
+      <tr><td>LoRA</td><td>A/B 初始化与梯度、输入梯度、切断分支、SGD、同底座合并以及重新量化误差。</td></tr>
+      <tr><td>对比学习</td><td>全局参考与两个 CPU Gloo 进程；可微 gather、远端 detach、单样本 microbatch，以及 DDP 参数平均后的更新。</td></tr>
+    </tbody></table></div>
+    <p>命令写入新的 <code>artifacts/framework-lab-&lt;timestamp&gt;/</code>，保留配置、参考值、逐项误差、checkpoint 和报告。默认数值比较使用绝对容差 10⁻⁹、相对容差 10⁻⁸；同进程环境的新进程完整恢复要求与 PyTorch 连续基线逐值一致。版本、设备和实际结果以该次报告为准。</p>
+    <p>框架实验不下载预训练模型，不运行 CUDA、NCCL 或模型质量评测。CPU 通信检查确认本实验的梯度与缩放协议；GPU 混合精度、其他 gather backward、真实 tokenizer 和生产 kernel 需要在对应环境继续验证。</p>
+    <div class="reading-links"><a href="packing-correctness.html">样本打包实验</a><a href="lora-mechanics.html">LoRA 计算</a><a href="parallel-correctness.html#contrastive-global">全局负例</a><a href="model-artifacts.html#checkpoint-replay">恢复状态对照</a></div>
+  </section>
+</div>

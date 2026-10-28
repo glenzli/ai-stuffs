@@ -1,0 +1,230 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">ENGINEERING EXTENSION / DATA</p>
+        <h1>数据清洗与 Tokenizer：<span class="accent-text">定义模型看见的世界</span></h1>
+        <p class="lede">
+          tokenizer 的词表和切分规则影响序列长度、embedding 表大小，以及中文、代码和数字的切分粒度；
+          数据清洗与去重决定模型反复看到什么；验证集污染会让训练曲线看起来很好却不可信。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">检查数据的起点</p>
+        <p>先问“这些 token 从哪来、重复多少次、和评估集有没有重叠、tokenizer 版本是否固定”。这些信息有助于定位数据分布和评估方面的问题。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="pipeline-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="pipeline-title">从原始语料到训练 shard</h2>
+        </div>
+        <p class="section-note">每个处理环节都应记录输入输出、统计、版本和拒绝原因，便于复查清洗结果。</p>
+      </div>
+
+      <div class="data-pipeline-tabs" role="group" aria-label="数据工程流水线">
+        <button type="button" data-data-step="0" aria-pressed="true"><span>01</span>采集与规范化</button>
+        <button type="button" data-data-step="1" aria-pressed="false"><span>02</span>质量与安全</button>
+        <button type="button" data-data-step="2" aria-pressed="false"><span>03</span>去重</button>
+        <button type="button" data-data-step="3" aria-pressed="false"><span>04</span>污染隔离</button>
+        <button type="button" data-data-step="4" aria-pressed="false"><span>05</span>混合与采样</button>
+        <button type="button" data-data-step="5" aria-pressed="false"><span>06</span>Tokenize</button>
+        <button type="button" data-data-step="6" aria-pressed="false"><span>07</span>Pack / Shard</button>
+      </div>
+
+      <div class="data-pipeline-panel" aria-live="polite">
+        <div class="data-step-label"><span data-data-step-number>01</span><strong data-data-step-name>规范化</strong></div>
+        <div>
+          <h3 data-data-title>统一可比较的文本形式</h3>
+          <p data-data-body>Unicode 规范化、编码修复、HTML 清理、语言识别与元数据补全。保留原始文本，并记录清洗规则及输出摘要，以便复查不可逆改写。</p>
+        </div>
+        <div class="data-step-checks">
+          <div><span>输入 / 输出</span><p data-data-io>原始文档 → 规范化文档 + 语言/来源元数据</p></div>
+          <div><span>关键指标</span><p data-data-metric>语言分布、截断率、编码错误率、每来源文档/token 数量</p></div>
+          <div><span>典型失败</span><p data-data-risk>全角/半角或代码缩进被误改；语言识别把混合文本误判。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="tokenizer-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="tokenizer-title">Tokenizer 决定序列如何变长</h2>
+        </div>
+        <p class="section-note">切换切分方式。这里用固定示例展示 token 单位与预算影响，真实 tokenizer 由语料训练出的 BPE/Unigram 词表决定。</p>
+      </div>
+
+      <div class="tokenizer-lab">
+        <div class="tokenizer-controls">
+          <p class="micro-label">TOKENIZATION MODE</p>
+          <div class="tokenizer-tabs">
+            <button type="button" data-token-mode="char" aria-pressed="false">按字符</button>
+            <button type="button" data-token-mode="bpe" aria-pressed="true">子词 / BPE 示例</button>
+            <button type="button" data-token-mode="byte" aria-pressed="false">UTF-8 bytes</button>
+          </div>
+          <div class="tokenizer-metrics">
+            <div><span>token 数</span><strong data-tokenizer-count>8</strong></div>
+            <div><span>每字 token 比</span><strong data-tokenizer-ratio>0.57</strong></div>
+            <div><span>同 4K 上下文的有效字数</span><strong data-tokenizer-capacity>7,168</strong></div>
+          </div>
+          <p data-tokenizer-note>子词把常见组合压成一个 token，减少序列长度；但不同 tokenizer 的词表不可直接比较 token 数、loss 或推理速度。</p>
+        </div>
+        <div class="tokenizer-visual">
+          <div class="tokenizer-text">负样本让模型学会区分错误候选。</div>
+          <div class="token-chips" data-tokenizer-chips></div>
+          <div class="tokenizer-impact">
+            <div><span>注意力序列长度</span><code data-tokenizer-seq>S</code></div>
+            <div><span>Embedding 表</span><code data-tokenizer-vocab>V × d</code></div>
+            <div><span>KV Cache</span><code data-tokenizer-kv>∝ S · L · Hkv</code></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tokenizer-principles">
+        <article>
+          <span>BPE</span>
+          <h3>反复合并高频字节/字符对</h3>
+          <p>从较小单位开始，逐步合并成高频子词。常见词更短，新词可由多个子词拼出。</p>
+        </article>
+        <article>
+          <span>UNIGRAM</span>
+          <h3>从一组候选子词中优化概率</h3>
+          <p>优化候选子词及其概率，再求切分；不同语言、语料和词表大小会得到不同的 fertility（每个词或字符平均对应的 token 数，需声明分母）。</p>
+        </article>
+        <article>
+          <span>BYTE FALLBACK</span>
+          <h3>保证任意文本可编码</h3>
+          <p>字节回退避免 OOV，但一个生僻字符可能变成多个 byte token，显著拉长上下文。</p>
+        </article>
+        <article>
+          <span>VOCAB SIZE</span>
+          <h3>序列长度与参数量的折中</h3>
+          <p>词表更大通常让常见文本更短，但 embedding 与输出头变宽，softmax 和权重内存也变大。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="mixture-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="mixture-title">数据混合：按 token 分配预算</h2>
+        </div>
+        <p class="section-note">拖动来源比例。有效训练预算按 token 而不是 GB；同一段中文、代码和英文的 token 密度不同。</p>
+      </div>
+
+      <div class="mixture-lab">
+        <div class="mixture-controls">
+          <label><span>网页</span><input type="range" min="0" max="100" value="40" data-mixture="web"></label>
+          <label><span>代码</span><input type="range" min="0" max="100" value="20" data-mixture="code"></label>
+          <label><span>数学 / 科学</span><input type="range" min="0" max="100" value="15" data-mixture="math"></label>
+          <label><span>多语种</span><input type="range" min="0" max="100" value="15" data-mixture="multi"></label>
+          <label><span>书籍 / 长文</span><input type="range" min="0" max="100" value="10" data-mixture="book"></label>
+        </div>
+        <div class="mixture-output">
+          <div class="mixture-head">
+            <span>混合后训练预算</span>
+            <strong>100B tokens</strong>
+          </div>
+          <div class="mixture-bars" data-mixture-bars></div>
+          <p>实际训练还要决定采样温度、课程顺序、各来源的 repetition cap 与质量分层。来源占比描述训练投入，对应能力的变化还要通过任务评估确认。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="dedup-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="dedup-title">训练集去重与评测集隔离</h2>
+        </div>
+        <p class="section-note">训练内去重改变“看多少遍”；训练/评估去污染保护“指标可信”。两者规则和目标不同。</p>
+      </div>
+
+      <div class="dedup-compare">
+        <article>
+          <span>EXACT DEDUP</span>
+          <h3>哈希完全相同的文档</h3>
+          <p>成本低，能清理站点镜像与重复抓取；无法识别轻微改写的近重复。</p>
+        </article>
+        <article>
+          <span>NEAR DEDUP</span>
+          <h3>MinHash / LSH / n-gram 相似</h3>
+          <p>识别模板页、转载与局部重复。阈值过松会误删相似但不同的事实文本。</p>
+        </article>
+        <article>
+          <span>SEMANTIC DEDUP</span>
+          <h3>向量近邻聚类</h3>
+          <p>更强但更贵，也可能把“同主题但不同答案”聚掉。需抽样验证误删。</p>
+        </article>
+        <article>
+          <span>DECONTAMINATION</span>
+          <h3>训练集 vs 评测集重叠扫描</h3>
+          <p>至少做精确哈希、长 n-gram 与改写近邻；测试集和训练数据要隔离到版本级。</p>
+        </article>
+      </div>
+
+      <div class="callout">
+        <p><strong>同一条训练样本反复出现，等价于隐式加权。</strong>去重会调整数据分布、重复次数和 token 预算。必须记录去重规则与各来源损失。</p>
+      </div>
+    </section>
+
+    <div class="modern-page">
+    <section class="section" aria-labelledby="cleaning-operations"><div class="section-heading"><span class="section-number">05 / CURATION OPERATIONS</span><h2 id="cleaning-operations">现代训练语料的清洗，实际在处理什么？</h2><p>这是一条可审计的生产流水线。规则、模型过滤与人工抽查各有职责，流程需要固定每一步的判断标准与版本。</p></div>
+      <div class="compare-wrap"><table><thead><tr><th>步骤</th><th>实际操作</th><th>应保留的证据</th><th>误伤与边界</th></tr></thead><tbody>
+        <tr><td>采集与来源登记</td><td>记录文档来源、抓取时间、格式、许可/使用条件、内容 hash 与版本；保留原始快照。</td><td>来源清单、数据版本、解析失败率、文档/字节数。</td><td>网页正文、附件、代码和论坛对话需要各自的解析与样本规则。</td></tr>
+        <tr><td>解析与规范化</td><td>HTML 正文抽取，去导航/广告模板；编码修复、Unicode 处理、OCR；保留代码缩进、数学和表格结构。</td><td>原始到清洗文档映射、解析器版本、字符/段落变化。</td><td>不可逆改写可能损伤事实或语法。OCR 错字不应被误认为可信原文。</td></tr>
+        <tr><td>启发式过滤</td><td>检查长度、重复行/字符、异常符号、模板占比、语言概率、垃圾页模式。</td><td>每条规则的拒绝原因与分语言/来源保留率。</td><td>代码和数学天然符号多；少数语言可能被通用语言检测器误杀。</td></tr>
+        <tr><td>模型质量筛选</td><td>分类器、教育价值/相关性评分、困惑度等 proxy；有时用教师标注小集再训练便宜过滤器。</td><td>标注标准、评分器 revision、阈值、抽样人工一致性。</td><td>低 perplexity 可能来自模板或重复；事实正确性需要额外核验。</td></tr>
+        <tr><td>敏感字段处理</td><td>用规则/识别器定位个人信息、凭据、异常内容，按数据用途决定删除、遮蔽或隔离。</td><td>策略版本、命中类型、抽查误报与漏报。</td><td>技术文档示例与真实秘密不同；规则需要语境与权限约束。</td></tr>
+        <tr><td>去重与聚类</td><td>规范化 hash 精确去重；n-gram shingles + MinHash/LSH 找近重复；必要时语义检索再核验。</td><td>重复簇、保留代表、阈值、跨来源/时间重合。</td><td>LSH 用来发现候选，随后需核验内容是否重复；按重复簇拆分可减少 train/test 泄漏。</td></tr>
+        <tr><td>评测隔离</td><td>已知 benchmark 的题目/答案/解题片段匹配、时间/来源隔离、保留污染报告。</td><td>重叠策略、命中样本、评测集版本。</td><td>去污染扫描不能证明没有任何改写或未知测试污染；测试内容也不能拿去指导训练标签。</td></tr>
+        <tr><td>混合、分词与打包</td><td>按 token 和领域设混合权重/重复上限；锁定 tokenizer，按样本边界 pack/shard 并校验。</td><td>唯一/总 token、长度分布、重复次数、manifest、有效 loss token。</td><td>记录清洗后的分布与采样权重，评估其对模型的影响。</td></tr>
+      </tbody></table></div>
+      <div class="prose"><p>处理顺序可按成本和数据特点安排：先做便宜规则可节省昂贵评分，先聚类可避免反复给重复内容打分；多步过滤会相互影响，因此需要保存可回溯的中间统计。分布式数据任务通常按 shard 做确定性转换与校验，失败重跑也要保证同一文档不会重复进入预算。</p></div>
+    </section>
+    <section class="section" aria-labelledby="curation-lab"><div class="section-heading"><span class="section-number">06 / INSPECT THE FILTER</span><h2 id="curation-lab">提高阈值后，哪些数据会被保留？</h2></div>
+      <div class="experiment"><div class="experiment-head"><h3>样本筛选账本</h3><span class="assumption">人工设定的质量特征</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>质量分阈值 <output data-curation-threshold-value></output></span><input type="range" min="0" max="100" step="5" value="50" data-curation-threshold></label><label><span>按重复簇去重 <input type="checkbox" data-curation-dedup checked></span></label><label><span>隔离已知评测重叠 <input type="checkbox" data-curation-holdout checked></span></label><p class="experiment-note">顺序：阈值 → 评测隔离 → 重复簇保留首条。所有分数与标记均可在表中查看。</p></div><div class="experiment-view"><div class="metric-row"><div><span>保留样本</span><strong data-curation-kept></strong></div><div><span>保留来源类型</span><strong data-curation-sources></strong></div><div><span>已知重叠泄漏</span><strong data-curation-leaks></strong></div></div><div class="compare-wrap"><table><thead><tr><th>样本 / 来源</th><th>质量分</th><th>重复簇 / 重叠</th><th>处理结果</th></tr></thead><tbody data-curation-rows></tbody></table></div><p class="experiment-note" data-curation-note></p></div></div></div>
+    </section>
+    <section class="section" aria-labelledby="cleaning-evidence"><div class="section-heading"><span class="section-number">07 / MEASURE THE RECIPE</span><h2 id="cleaning-evidence">怎么判断这次清洗真的有用？</h2></div><div class="prose"><p>先抽样检查误删/漏删，再比较配方的训练结果。在同 token 或同 compute 预算下，保留原配方基线，逐项加入过滤器并评估 held-out loss、领域任务和长尾切片。每次改变规则都会改变训练分布，不能仅凭平均质量分升高下结论。</p><p>同时看被删掉的少数语言、代码、长文本和困难样本。过滤器的高分数据如果高度同质，模型可能更擅长常见格式却失去覆盖。FineWeb 这类公开工作值得学的是数据处理与消融证据的组织方式，具体阈值应按自己的数据分布校准。</p></div><div class="reading-links"><a href="distillation-data.html#synthetic-evidence">合成数据与 Teacher 筛选</a><a href="model-evaluation.html#generalization">泛化证据</a><a href="model-artifacts.html">数据版本与训练工件</a></div></section>
+    <section class="section" aria-labelledby="mixture-optimization"><div class="section-heading"><span class="section-number">08 / OPTIMIZE THE MIXTURE</span><h2 id="mixture-optimization">留下的数据，各自学多少才合适？</h2></div>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+\sum_iw_i&amp;=1,\qquad w_i\ge0,\\
+D_i&amp;\approx w_iD,\\
+\mathrm{repeat}_i&amp;\approx\frac{D_i}{U_i}\quad(U_i&gt;0).
+\end{aligned}</div><figcaption>wᵢ 是来源的 token 采样权重，D 是总预算，Uᵢ 是该来源唯一 token 储备。假设同一 tokenizer、稳定权重和按 token 采样；文档等概率不一定得到同样的 token 配比。</figcaption></figure>
+      <div class="prose"><p>例如预算 100B token，代码占 20%，代码唯一储备 5B，则期望处理 20B 代码 token，平均相当于四遍。提高代码占比也可能只是多重复同一小部分样本，相应能力收益要单独评估。长度、质量、去重与来源子群的覆盖要同时记录。</p><p>手工混合通常从业务和覆盖约束起步：保留语言/领域底线、设重复上限、按质量分层，再用小规模训练比较配方。课程学习还会改变顺序；先易后难、阶段性长上下文或末期高质量数据的收益都需验证，可通过固定预算的训练消融检验。</p></div>
+      <div class="concept-pairs"><div><h3>先分析高 loss 的来源</h3><p>来源可能本身难预测、噪声多或 tokenizer 不利。要区分可学习的欠拟合、不可约难度和数据错误；盲目追逐高 loss 可能把预算浪费在噪声。</p></div><div><h3>DoReMi 提供一种实验路线</h3><p>用小 reference 与 proxy model，基于相对 reference 的 excess loss 做域重加权，再把得到的 token 混合权重用于较大模型。权重来自代理训练中的域损失，迁移到目标规模后还需验证业务表现。</p></div><div><h3>Proxy 的预测要再确认</h3><p>小模型可能缺少大模型已具备的能力，最优权重也会随 token 预算改变。用中间规模、同 tokenizer 与相近优化条件复核，确认配方是否仍有收益。</p></div><div><h3>避免把验证集训练进去</h3><p>混合权重本身是超参数。反复据某个验证集选配方会间接适应它；需要保留独立测试、跨来源切片与污染证据。</p></div></div>
+      <div class="compare-wrap"><table><thead><tr><th>比较配方时固定什么</th><th>另外记录什么</th><th>防止什么误归因</th></tr></thead><tbody>
+        <tr><td>训练 token 或 FLOPs 预算</td><td>有效监督 token、唯一量与重复次数。</td><td>数据过滤导致量变了，却把多训练/少训练当质量变化。</td></tr>
+        <tr><td>模型与合理调参协议</td><td>初始化、LR/schedule、batch、precision、随机种子。</td><td>配方收益实际上来自优化配置变化。</td></tr>
+        <tr><td>评估协议与切片</td><td>主任务、长尾、语言、长度、恢复/停止行为。</td><td>平均值变好但某个关键群体退化。</td></tr>
+      </tbody></table></div>
+      <div class="reading-links"><a href="engineering-cases.html#case-board">案例：质量分更高但覆盖退化</a><a href="optimization-dynamics.html#initialization">超参数与规模迁移</a><a href="architecture-variants.html#long-context-training">长上下文训练</a></div>
+    </section>
+    </div>
+    <div class="modern-page"><section class="section" aria-labelledby="data-security"><div class="section-heading"><span class="section-number">09 / DATA INTEGRITY</span><h2 id="data-security">投毒、评测污染与错误数据分别怎样进入系统？</h2></div>
+      <div class="compare-wrap"><table><thead><tr><th>问题</th><th>进入位置</th><th>可能影响</th><th>检查方向</th></tr></thead><tbody>
+        <tr><td>错误或低质标注</td><td>训练样本与偏好标签。</td><td>学到错误事实、行为或比较标准。</td><td>标注规范、抽样复核、来源切片、分歧处理。</td></tr>
+        <tr><td>训练数据投毒</td><td>有意设计的恶意训练样本。</td><td>使参数学到攻击者期望的行为或触发模式。</td><td>来源与版本追溯、异常簇检查、行为对照和训练后回归。</td></tr>
+        <tr><td>评测污染</td><td>评测题目、答案、参考解或相关变体进入训练/选参。</td><td>评估独立性下降，泛化估计失真。</td><td>来源/题族/时间隔离、去重、隐藏测试与公开基准外验证。</td></tr>
+        <tr><td>间接提示注入</td><td>推理时检索文档或工具结果中的恶意指令。</td><td>让本次运行偏离授权目标。</td><td>指令与数据分离、最小权限、动作校验和审计。</td></tr>
+      </tbody></table></div>
+      <div class="prose"><p>Anthropic、英国 AISI 与 Alan Turing Institute 的 2025 年研究，在 600M–13B 模型和特定低风险后门目标下观察到少量恶意文档的影响。这说明平均质量或数据占比不足以排除局部异常；结果不能直接推广到任意前沿规模、攻击行为或防御设置。</p><p>治理需要数据清单、来源权限、处理版本和可回溯样本。发现异常时定位受影响数据与 checkpoint，检查正常行为和目标异常，再决定重训或修复范围。来源可信、过滤分高、去重完成分别提供部分证据，仍需组合行为测试。</p></div>
+      <div class="reading-links"><a href="agents-context.html#prompt-injection-boundary">推理时指令边界</a><a href="training-environments.html#environment-safety">训练环境隔离</a><a href="model-evaluation.html#contamination-title">评估独立性</a></div>
+    </section></div>
+    <div class="modern-page"><section class="section" aria-labelledby="bpe-learning"><div class="section-heading"><span class="section-number">10 / BPE OPERATIONS</span><h2 id="bpe-learning">训练合并规则，和用规则编码新词</h2></div>
+      <div class="prose"><p>本例按字符和词尾符号初始化四个词，用出现频数加权统计相邻对，每轮选择频数最高的一对，在词内从左到右合并。训练得到有顺序的 merge 列表；编码新词时应用这些已有规则，不根据新词重新训练。</p></div>
+      <div class="experiment"><div class="experiment-head"><h3>小语料的 BPE 合并过程</h3><span class="assumption">字符级教学 BPE · 无跨词合并</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>合并轮数 <output data-bpe-steps-value></output></span><input type="range" min="0" max="10" value="4" data-bpe-steps></label><label><span>编码词</span><select data-bpe-word><option>low</option><option>lower</option><option selected>lowest</option><option>newer</option><option>widest</option></select></label><p class="experiment-note">训练频数：low×5、lower×2、newest×6、widest×3。词尾 &lt;/w&gt; 是独立边界符号；频数相同按固定字符串顺序决定。</p></div><div class="experiment-view" aria-live="polite"><p>语料当前使用的符号数：<strong data-bpe-vocab></strong>；累计词表大小：<strong data-bpe-learned></strong></p><p>新词编码：<strong data-bpe-encoded></strong></p><p>拼接还原：<strong data-bpe-decoded></strong></p><div class="compare-wrap"><table><thead><tr><th>轮次</th><th>合并对</th><th>加权次数</th><th>合并后的训练词</th></tr></thead><tbody data-bpe-rounds></tbody></table></div><p class="experiment-note" data-bpe-note></p></div></div></div>
+      <details><summary>下一轮的候选相邻对</summary><div class="compare-wrap"><table class="exact-small-table"><thead><tr><th>相邻对</th><th>加权频数</th><th>下一轮选择</th></tr></thead><tbody data-bpe-pairs></tbody></table></div></details>
+      <div class="concept-pairs"><div><h3>计数与替换分别定义</h3><p>同一词中可有重叠相邻对，统计时按出现位置计数，替换时需要约定不重叠合并。已有 merge 的优先级决定推理切分。</p></div><div><h3>词边界与空格会改变规则</h3><p>预分词、大小写和 Unicode 规范化决定哪些符号相邻。字节级 BPE、SentencePiece 与本例的字符词尾约定不同。</p></div><div><h3>未知字符如何处理</h3><p>本例保留未知字符以展示路径；生产 tokenizer 可能使用 UNK、byte fallback 或完整字节表，必须按模型配置处理。</p></div><div><h3>往返还原也有条件</h3><p>本例剥离词尾标记后拼接，可还原输入词。若前处理改变大小写、空格或规范形式，解码未必恢复原始字节。</p></div></div>
+      <div class="reading-links"><a href="finetuning-recipe.html#recipe-record">模板与 token 标签</a><a href="tensor-layout.html">ID 进入张量后的布局</a><a href="decoding-algorithms.html#constrained-decoding">Token 边界与语法约束</a></div>
+    </section></div>
+    <section class="section next-lesson">
+      <div>
+        <p class="eyebrow">NEXT / KNOW IT WORKS</p>
+        <h2>数据准备好之后，怎样评估训练收益和泛化？</h2>
+      </div>
+      <a class="button button-primary" href="model-evaluation.html">进入评估方法论 →</a>
+    </section>

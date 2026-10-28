@@ -1,0 +1,213 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">FRONTIER 02 / RL POST-TRAINING</p>
+        <h1>RL 后训练：<span class="accent-text">采样、评分与策略更新</span></h1>
+        <p class="lede">
+          偏好模型、可验证 verifier、rubric 或 AI judge 给出奖励；rollout 产生回答；算法把奖励变成相对优势，
+          再通过 policy gradient / clipped objective 更新策略。reference、KL 与评估决定它会不会跑偏。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">奖励、算法与参考策略</p>
+        <p>奖励从哪里来、算法如何利用奖励、参考策略如何约束偏离。DPO、PPO 和 GRPO 在数据来源、计算流程和更新目标上各有区别。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="reward-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="reward-title">奖励从哪里来，决定你优化什么</h2>
+        </div>
+        <p class="section-note">切换奖励来源，看监督信号、所需的模型、常见收益与失效方式。</p>
+      </div>
+
+      <div class="reward-source-tabs" role="group" aria-label="奖励来源">
+        <button type="button" data-reward-source="preference" aria-pressed="true">人类偏好</button>
+        <button type="button" data-reward-source="verifier" aria-pressed="false">可验证 verifier</button>
+        <button type="button" data-reward-source="rubric" aria-pressed="false">Rubric / judge</button>
+        <button type="button" data-reward-source="process" aria-pressed="false">过程奖励</button>
+      </div>
+
+      <div class="reward-source-panel" aria-live="polite">
+        <div>
+          <p class="micro-label" data-reward-kicker>PREFERENCE PAIR</p>
+          <h3 data-reward-title>同一 prompt 下比较 chosen 与 rejected</h3>
+          <p data-reward-copy>人工或 AI 给出相对偏好。可以用 Bradley-Terry 训练 reward model，也可以直接做 DPO；偏好数据覆盖有限，评分者一致性会直接进入模型。</p>
+        </div>
+        <div class="reward-source-facts">
+          <div><span>数据</span><p data-reward-data>(prompt, chosen, rejected) 成对记录</p></div>
+          <div><span>典型算法</span><p data-reward-algos>RLHF + reward model / DPO</p></div>
+          <div><span>失效方式</span><p data-reward-risk>偏好偏差、长度偏置、judge 与训练同源、对开放式任务覆盖不足</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="loop-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="loop-title">一次 RL 后训练循环</h2>
+        </div>
+        <p class="section-note">PPO/GRPO 通常从近期策略采样回答再更新；标准离线 DPO 的优化阶段读取已有偏好对。在线 DPO 也可采样新回答，所以是否 rollout 要看完整流程。</p>
+      </div>
+
+      <div class="rl-loop">
+        <div><span>01</span><h3>抽 prompt</h3><p>从目标任务分布采样，可以来自静态题库。on-policy 指回答由近期策略产生，不要求 prompt 动态生成。</p></div>
+        <div><span>02</span><h3>Rollout</h3><p>当前 policy 生成一个或多个回答，记录 token log-prob。</p></div>
+        <div><span>03</span><h3>Score</h3><p>reward model、规则 verifier、rubric judge 或过程奖励给出分数。</p></div>
+        <div><span>04</span><h3>Advantage</h3><p>把绝对分数变成相对组内/价值基线更好的优势。</p></div>
+        <div><span>05</span><h3>Policy update</h3><p>提高高优势回答概率，加入 ratio clipping 与 KL 约束。</p></div>
+        <div><span>06</span><h3>Evaluate + refresh</h3><p>防 reward hacking、检查能力回归、更新数据/judge，再进入下一轮。</p></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="algorithms-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="algorithms-title">PPO、GRPO、DPO：优化对象不同</h2>
+        </div>
+        <p class="section-note">公式都简化成核心项；真实实现要处理 token mask、长度、ratio、reference、value/clipping 与分布式训练。</p>
+      </div>
+
+      <div class="rl-algorithm-grid">
+        <article>
+          <span>PPO / RLHF</span>
+          <h3>奖励 + 价值基线 + 裁剪策略更新</h3>
+          <div class="math-display" data-math>\begin{gathered}
+\max_\theta J_{\mathrm{clip}}-\beta D_{\mathrm{KL}},\\
+J_{\mathrm{clip}}=\mathbb E\!\left[\min\!\left(\rho_t A_t,\operatorname{clip}(\rho_t,1-\epsilon,1+\epsilon)A_t\right)\right].
+\end{gathered}</div>
+          <p>ρₜ = πθ(aₜ|sₜ) / πold(aₜ|sₜ) 表示新旧策略的动作概率比。常用 value baseline / GAE 估优势；PPO 本身不要求学习 reward model，也能用规则奖励。此处省略 value loss 与熵项。</p>
+          <strong>数据：prompt + reward；对象：采样策略</strong>
+        </article>
+        <article>
+          <span>GRPO</span>
+          <h3>同 prompt 多回答，组内相对优势</h3>
+          <div class="math-display" data-math>A_i=\frac{r_i-\operatorname{mean}(r_{\mathrm{group}})}{\operatorname{std}(r_{\mathrm{group}})+\epsilon}</div>
+          <p>这是 outcome-reward 的组内标准化形式，ε 防止除零。组内全对或全错时，相对奖励优势为零；KL 等项仍可能有梯度。多回答 rollout 仍是计算成本的一部分。</p>
+          <strong>数据：同一 prompt 的 group；对象：策略</strong>
+        </article>
+        <article>
+          <span>DPO</span>
+          <h3>离线偏好对，直接做相对概率目标</h3>
+          <div class="math-display" data-math>\mathcal L_{\mathrm{DPO}}=-\log\sigma\!\left(\beta[\Delta\log\pi_\theta-\Delta\log\pi_{\mathrm{ref}}]\right)</div>
+          <p>标准离线 DPO 优化不需新 rollout 或显式 reward model，但需固定 reference log-prob；可预计算。在线采样和 reference-free 变体要另看其目标定义。</p>
+          <strong>数据：pair；对象：回答相对排序</strong>
+        </article>
+        <article>
+          <span>RLVR</span>
+          <h3>用可验证结果替代偏好评分</h3>
+          <code>r = verifier(answer, tests / proof / checker)</code>
+          <p>数学答案、代码测试、约束满足等能自动判定；信号更硬，但 verifier 覆盖、奖励漏洞和任务可验证性会成为瓶颈。</p>
+          <strong>数据：可执行任务；对象：可验证能力</strong>
+        </article>
+      </div>
+
+      <details class="math-derivation"><summary>把中间一步补上：奖励不可微，策略梯度为什么仍然存在？</summary>
+        <p>先固定问题 x，假设 R(y) 是不直接依赖 θ 的外部奖励。生成结果 y 是离散序列，不能把采样得到的 token ID 当连续变量反传；但序列的概率 πθ(y|x) 对参数可微：</p>
+        <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+J(\theta)&amp;=\mathbb E_{y\sim\pi_\theta(\cdot\mid x)}[R(y)]\\
+&amp;=\sum_y\pi_\theta(y\mid x)R(y),\\
+\nabla_\theta J
+&amp;=\sum_yR(y)\nabla_\theta\pi_\theta(y\mid x)\\
+&amp;=\mathbb E_{y\sim\pi_\theta}\!\left[R(y)\nabla_\theta\log\pi_\theta(y\mid x)\right].
+\end{aligned}</div><figcaption>关键恒等式是 ∇π=π∇logπ。期望的估计依赖采样；这里没有对测试用例、答案判定或离散 token 的内容求导。</figcaption></figure>
+        <figure class="math-block"><div class="math-display" data-math>\log\pi_\theta(y\mid x)=\sum_{t=1}^{|y|}\log\pi_\theta(y_t\mid x,y_{&lt;t})</div><figcaption>把完整回答概率拆成 token 条件概率，就能把奖励信号关联到模型采样出的动作序列。长度和 credit assignment 仍由具体目标、优势估计及归一化决定。</figcaption></figure>
+        <p>用只依赖 x、不依赖当前动作 y 的 baseline b(x) 替代奖励里的常数部分，可降低估计方差：E[b(x)∇logπθ(y|x)]=0。其他组内归一化的偏差需要另行分析；奖励若直接依赖 θ，还需计入相应导数。PPO 再通过 old-policy 概率比和裁剪处理多次使用采样数据的问题；KL、value loss 等项要按真实目标另加。</p>
+      </details>
+
+      <div class="callout">
+        <p><strong>GRPO 与 RLVR 的分工：</strong>GRPO 用组内相对优势更新策略，RLVR 用可验证结果提供奖励。两者可以组合使用。</p>
+        <p><strong>两个策略各有用途。</strong>old policy 是本批回答的采样策略，用在重要性概率比中；reference 是 KL 的锚点，通常固定。多次更新同批 rollout 后二者不能混用。实现中 KL 可写进奖励或单独作 loss 项，不能未经检查重复惩罚。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="reward-model-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="reward-model-title">Reward Model 在学什么？</h2>
+        </div>
+        <p class="section-note">Bradley-Terry 把“A 比 B 好”转成可训练的二分类目标。</p>
+      </div>
+
+      <div class="reward-model-board">
+        <div class="reward-model-formula">
+          <span>Bradley–Terry model</span>
+          <div class="math-display" data-math>P(y_w\succ y_l\mid x)=\sigma\!\left(r_\phi(x,y_w)-r_\phi(x,y_l)\right)</div>
+          <div class="math-display" data-math>\mathcal L_{\mathrm{RM}}=-\log\sigma(r_w-r_l)</div>
+          <p>成对目标只约束同 prompt 的分数差。对该 prompt 的所有回答加同一个常数，偏好概率不变；所以即使在训练分布内，跨 prompt 的绝对 reward 也不能天然比较，需另做校准或基线处理。</p>
+        </div>
+        <div class="reward-model-risks">
+          <div><span>偏差</span><p>长度、格式、自信语气、引用样式可能比正确性更容易被评分模型学习。</p></div>
+          <div><span>分布外</span><p>policy 更新后会访问训练偏好未覆盖的新回答，reward model 可能给出外推错误。</p></div>
+          <div><span>Goodhart</span><p>策略可能利用评分规则的漏洞，获得高奖励但未完成预期任务。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="hacking-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="hacking-title">Reward hacking：高奖励可能来自哪些漏洞</h2>
+        </div>
+        <p class="section-note">下面列出奖励设计中的常见漏洞、表现和检查方法。</p>
+      </div>
+
+      <div class="reward-hacking-table-wrap">
+        <table class="deep-table reward-hacking-table">
+          <thead><tr><th>奖励</th><th>可能被利用的点</th><th>表面现象</th><th>防线</th></tr></thead>
+          <tbody>
+            <tr><td>偏好 judge</td><td>更长、更自信、更讨好</td><td>win rate 升，事实性/简洁度降</td><td>长度分层、人工抽检、held-out judge</td></tr>
+            <tr><td>测试 verifier</td><td>硬编码、猜测试、格式漏洞</td><td>pass@k 升，泛化或可维护性降</td><td>隐藏测试、变体测试、代码审查</td></tr>
+            <tr><td>格式化规则</td><td>只满足格式而回避任务</td><td>格式遵循满分，内容不变好</td><td>内容/格式分开评分，硬失败集</td></tr>
+            <tr><td>reference KL</td><td>过度贴近 reference 而不学新能力</td><td>稳定但几乎不提升</td><td>调 β、按能力切片评估</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="modern-page">
+    <section class="section" aria-labelledby="rl-dynamics"><div class="section-heading"><span class="section-number">06 / LEARNING SIGNAL</span><h2 id="rl-dynamics">同一题全答对或全答错，还能学到什么？</h2></div>
+      <div class="prose"><p>组内相对优势用同题多个回答的差异作为学习信号。如果这一组奖励完全相同，中心化后的优势为零，这组 outcome reward 对应的策略项就没有区分信号。全对与全错的原因不同，下一轮题目难度与采样应分别分析；其他组、KL、熵项或过程奖励仍可能产生梯度。</p></div>
+      <figure class="math-block"><div class="math-display" data-math>\hat A_i=\begin{cases}(r_i-\bar r)/\sigma_r,&amp;\sigma_r&gt;0,\\0,&amp;\sigma_r=0.\end{cases}</div><figcaption>本例采用总体标准差 σᵣ，非零时直接相除，全相等时设优势为零。工程实现常额外使用 ε 稳定分母。奖励标准化是具体算法选择；是否除标准差、按 token 还是序列平均，都会改变不同题目和长度的权重。</figcaption></figure>
+      <div class="experiment"><div class="experiment-head"><h3>四个回答的优势账本</h3><span class="assumption">固定奖励 · 不运行模型</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>组内奖励</span><select data-rl-group><option value="mixed">两对两错</option><option value="allpass">全部正确</option><option value="allfail">全部错误</option><option value="graded">分级过程评分</option></select></label></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>平均奖励</span><strong data-rld-mean></strong></div><div><span>标准差</span><strong data-rld-std></strong></div><div><span>组内区分信号</span><strong class="metric-word" data-rld-signal></strong></div></div><div class="compare-wrap"><table><thead><tr><th>回答</th><th>奖励</th><th>优势</th></tr></thead><tbody data-rld-rows></tbody></table></div><p class="experiment-note" data-rld-note></p></div></div></div>
+      <div class="concept-pairs"><div><h3>动态采样的作用</h3><p>DAPO 的配方保留有奖励差异的 prompt 组，继续采样以补足有效组。它提高了有效组比例，也改变了训练题目分布，并增加 rollout 成本。记录被过滤的题型与难度，防止训练只覆盖少数边界题。</p></div><div><h3>探索为什么会减少</h3><p>高概率路径被反复强化后，采样可能越来越相似。需要同时观察条件 token 熵、答案/策略多样性和任务成功率；更高熵也可能来自无意义随机输出。温度、熵正则、裁剪和采样分布分别作用于不同环节。</p></div><div><h3>长度与截断</h3><p>对序列先平均再平均样本，与全体 token 平均赋予长答案不同权重。若超长输出被截断后统一判错，还会把“没来得及完成”和“推理错误”混在一起。DAPO 专门讨论了 token 级目标和超长奖励处理。</p></div><div><h3>稀疏奖励与长程信用</h3><p>整条轨迹的结果奖励可关联到各个动作，但不直接指出哪一步造成成功。过程评分、价值基线、恢复轨迹和环境检查可提供更细信号；新增评分器也需要校准与防漏洞。</p></div></div>
+      <p class="source-note">机制案例：DAPO（2025），具体消融、裁剪上下界与长度处理见页尾论文；这里没有复现其整套算法。</p>
+    </section>
+    <section class="section" aria-labelledby="rl-staleness"><div class="section-heading"><span class="section-number">07 / POLICY VERSIONS</span><h2 id="rl-staleness">回答生成时，训练器已经更新了怎么办？</h2></div>
+      <div class="mechanism-flow"><div><span>01 / ROLLOUT</span><h3>记录行为策略</h3><p>版本 v17 生成回答，保存所采动作的 log-prob、mask、结束原因和奖励。</p></div><div><span>02 / QUEUE</span><h3>等待与评分</h3><p>其他 worker 可继续生成。进入训练队列时模型可能已是 v20。</p></div><div><span>03 / UPDATE</span><h3>核对分布偏移</h3><p>用当前策略重算所采动作概率，检查概率比、版本差和有效样本数。</p></div><div><span>04 / REFRESH</span><h3>更新生成权重</h3><p>平衡 rollout 与训练速率，限定数据陈旧程度，过旧数据按协议处理。</p></div></div>
+      <div class="prose"><p>同步流程要等待一批长短不同的回答完成；异步系统让生成和训练重叠，代价是样本来自不同版本的策略。AReaL（2025，2026 年修订）使用陈旧度控制与对应 PPO 变体。版本号相差几步只是调度指标，还需要检查概率分布变化；采样温度、top-p、停止规则及推理引擎的 log-prob 口径也要匹配。</p></div>
+      <div class="experiment"><div class="experiment-head"><h3>一个已采动作的概率比</h3><span class="assumption">PPO 单项 · ε=0.2</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>行为策略动作概率 <output data-rld-old-value></output></span><input type="range" min="1" max="99" value="20" data-rld-old></label><label><span>当前策略动作概率 <output data-rld-current-value></output></span><input type="range" min="1" max="99" value="40" data-rld-current></label><label><span>该动作优势</span><select data-rld-sign><option value="1">+1</option><option value="-1">−1</option></select></label></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>概率比 ρ</span><strong data-rld-ratio></strong></div><div><span>裁剪目标项（最大化）</span><strong data-rld-objective></strong></div></div><p class="experiment-note" data-rld-clip-note></p></div></div><p class="experiment-caption">计算 min(ρA, clip(ρ,0.8,1.2)A)。正负优势的平台方向不同。这里不模拟轨迹的状态分布校正，也不估算全模型 KL。</p></div>
+      <div class="prose"><p>裁剪限制某个 surrogate 项继续奖励过大的概率变化，并没有强制所有动作概率都留在区间内。参数共享、其他样本和其他损失仍会改变它。异步校正也无法让任意陈旧数据都等价于新策略采样。</p></div>
+      <div class="reading-links"><a href="distillation-data.html#on-policy-distillation">学生 rollout 与教师信号</a><a href="agents-context.html#memory-compression">长轨迹的上下文管理</a><a href="performance-analysis.html#execution-path">等待、吞吐与关键路径</a></div>
+    </section></div>
+    <section class="section" aria-labelledby="evidence-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">08</span>
+          <h2 id="evidence-title">怎样评估 RL 后训练的收益？</h2>
+        </div>
+        <p class="section-note">将训练 reward 与独立评估、能力回归和服务成本一起比较。</p>
+      </div>
+
+      <div class="rl-eval-grid">
+        <div><span>目标内</span><p>held-out verifier / 人类偏好 / rubric，且与训练 reward 来源独立。</p></div>
+        <div><span>能力</span><p>知识、代码、数学、长上下文、工具调用、格式遵循与语言能力回归。</p></div>
+        <div><span>行为</span><p>错误输出是否减少？拒答、长度、多样性、校准与安全是否在预期范围内？</p></div>
+        <div><span>计算</span><p>rollout 数、KL、response 长度、训练稳定性和服务成本是否可接受。</p></div>
+        <div><span>污染</span><p>verifier/judge 与训练数据是否共享答案、模式或同一评分者？</p></div>
+        <div><span>持续</span><p>多轮训练后是否出现 reward overoptimization、模式坍缩或格式单一。</p></div>
+      </div>
+
+      <div class="closing-links">
+        <a class="button button-primary" href="frontier.html">回前沿决策</a>
+        <a class="button" href="posttraining-deep.html">再看 DPO / SFT 公式</a>
+        <a class="button" href="model-evaluation.html">查看评估门禁</a>
+      </div>
+    </section>
+
+<div class="modern-page"><div class="reading-links"><a href="rl-update.html">实际计算 RL 参数梯度与连续更新</a></div></div>

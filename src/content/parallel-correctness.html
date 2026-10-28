@@ -1,0 +1,87 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">TRAINING ENGINEERING / CORRECTNESS</p><h1>并行正确性：<span class="accent-text">每一步的平均与归一化</span></h1><p class="lede">同一组样本从单卡搬到多卡，目标函数不应因切分方式悄悄改变。先定义全局分母，再追踪每个 microbatch、数据并行副本和框架规约的系数。</p></div><aside class="intro-aside"><p class="micro-label">本页约定</p><p>P 表示数据并行副本数；示例是无类别权重、无 label smoothing 的逐有效 token 平均。TP/PP 卡协作处理同一份数据。</p></aside></section>
+  <section class="section" aria-labelledby="global-objective"><div class="section-heading"><span class="section-number">01 / DEFINE THE DENOMINATOR</span><h2 id="global-objective">先写出一次 optimizer update 的目标</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+S_{rk}&amp;=\sum_{t\in\mathcal M_{rk}}\ell_{rkt},\qquad n_{rk}=|\mathcal M_{rk}|,\\
+N&amp;=\sum_r\sum_k n_{rk},\\
+\mathcal L_{\mathrm{global}}&amp;=\frac{\sum_r\sum_k S_{rk}}{N},\qquad N&gt;0.
+\end{aligned}</div><figcaption>r 是数据并行副本，k 是累积 microstep，Mᵣₖ 是有效监督位置集合。分子是 loss 总和，分母是同一更新窗口的全局有效 token 数。</figcaption></figure>
+    <div class="prose"><p>r 是 DP 副本，k 是累积 microstep。N 必须覆盖这一次更新的全部有效标签。padding、被 mask 的 prompt、截断后不存在的标签不计入 N；SFT response-only 的分母也不是输入长度。若目标是“每条序列等权”，应另写序列平均目标，并按该目标计算样本权重。</p><p>标准 DDP 梯度规约通常对副本求平均。若每个副本回传自己的 local mean，最终得到的是<strong>副本等权平均</strong>；只有各副本有效 token 数相等，才等于全局 token 平均。各 microbatch 的均值再等权平均，同样需要相应计数相等。</p></div>
+  </section>
+  <section class="section" aria-labelledby="reduction-lab"><div class="section-heading"><span class="section-number">02 / CHECK THE UPDATE</span><h2 id="reduction-lab">两份样本，错误平均甚至能把方向反过来</h2><p>把两种切分放进同一可微目标。θ=0，A 的每 token loss 为 ½(θ−2)²，B 为 ½(θ+1)²，所以梯度分别是 −2 与 +1。</p></div>
+    <div class="experiment"><div class="experiment-head"><h3>两副本梯度账本</h3><span class="assumption">单参数二次损失 · 无 optimizer 历史状态</span></div><div class="experiment-body"><div class="experiment-controls">
+      <label><span>副本 A 的有效 token <output data-reduce-a-value></output></span><input type="range" min="0" max="16" value="2" data-reduce-a></label>
+      <label><span>副本 B 的有效 token <output data-reduce-b-value></output></span><input type="range" min="0" max="16" value="8" data-reduce-b></label>
+      <label><span>采用的更新方式</span><select data-reduce-mode><option value="weighted">按全局有效 token 加权</option><option value="mean">错误：local mean 再等权平均</option><option value="double">错误：正确平均后再除 DP 数</option></select></label>
+    </div><div class="experiment-view"><div class="metric-row"><div><span>正确全局梯度</span><strong data-reduce-target></strong></div><div><span>当前实现梯度</span><strong data-reduce-actual></strong></div><div><span>SGD 后 θ（η=0.1）</span><strong data-reduce-theta></strong></div></div><div class="compare-wrap"><table class="ledger-table"><thead><tr><th>副本</th><th>有效数量 n</th><th>每 token 梯度</th><th>梯度和</th><th>正确全局权重</th></tr></thead><tbody data-reduce-rows></tbody></table></div><div class="signed-gradient" aria-label="正确梯度与当前实现梯度的正负方向" data-reduce-visual></div><p class="experiment-note" data-reduce-note></p></div></div><p class="experiment-caption">默认 A=2、B=8：正确梯度 (2×−2+8×1)/10=+0.4，错误副本平均 (−2+1)/2=−0.5。空副本的 local mean 未定义；此时错误方案显示不可用，不把空均值默认为零。N=0 时无有效训练目标，所有副本应协调跳过。</p></div>
+  </section>
+  <section class="section" aria-labelledby="ddp-scaling"><div class="section-heading"><span class="section-number">03 / MATCH FRAMEWORK SEMANTICS</span><h2 id="ddp-scaling">DDP 已经除以 P，局部 loss 该怎样缩放？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+\widetilde{\mathcal L}_{rk}&amp;=\frac{P}{N}S_{rk},\\
+&amp;=\frac{Pn_{rk}}{N}\,\overline\ell_{rk}\quad(n_{rk}&gt;0),\\
+\frac1P\sum_r\sum_k\nabla_\theta\widetilde{\mathcal L}_{rk}
+&amp;=\frac1N\sum_r\sum_k\nabla_\theta S_{rk}.
+\end{aligned}</div><figcaption>P 是 DDP 副本数，局部回传的目标带 P/N 系数，DDP 再除 P，恰好还原全局目标。ℓ̄ᵣₖ=Sᵣₖ/nᵣₖ 仅在非空 microbatch 上定义。</figcaption></figure>
+    <div class="prose"><p>分母 N 在这次更新内统一，且只是数据计数，不对它求参数梯度。可以预先统计整个累积窗口，或按等价方式在累积完后归一化梯度，但必须处理 mixed precision 和通信顺序。全局 N 已覆盖累积窗口，再除 accumulation_steps 会重复缩放。若损失另有类别权重、样本权重或其他 reduction，分母可能是权重和而非 token 数，必须重新写目标。</p><p>若通信原语只求和、不做平均，则局部系数是 1/N；若框架或 trainer 已按 token 数归一化，不应再手动叠加。使用 FSDP、ZeRO 或自定义 communication hook 时，应核对其规约方式与本页推导的系数。</p></div>
+    <div class="mechanism-flow"><div><span>01 / COUNT</span><h3>确定有效窗口</h3><p>DP 副本内各 microbatch 的有效数量，汇总全局 N；定义零标签处理。</p></div><div><span>02 / BACKWARD</span><h3>累计同一目标梯度</h3><p>按正确系数反传；no_sync 场景需覆盖相应 forward/backward，最后同步。</p></div><div><span>03 / NORMALIZE</span><h3>检查尺度与范数</h3><p>完成归约、unscale 和约定的归一化后，检查 finite 与正确的 global norm，再裁剪。</p></div><div><span>04 / UPDATE</span><h3>更新一次</h3><p>optimizer/scheduler/计数按约定推进，清空梯度，保存可恢复状态。</p></div></div>
+    <div class="callout"><p><strong>正则项需要单独确定权重。</strong>若完整目标是 Ltoken+λR(θ)，复制到每副本的 λR 在副本平均后保留一次即可；每个 microstep 都重复加整项会改变强度。AdamW 的解耦衰减则发生在 optimizer update，而非每条 token 的 loss 中。</p></div>
+  </section>
+  <section class="section" aria-labelledby="equivalence"><div class="section-heading"><span class="section-number">04 / EQUIVALENCE LIMITS</span><h2 id="equivalence">梯度累积什么时候等价于大 batch？</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>条件</th><th>等价需要什么</th><th>常见破坏因素</th></tr></thead><tbody>
+      <tr><td>同一加法目标</td><td>所有样本 loss 可按约定权重相加，参数在累积窗口中保持不变。</td><td>microstep 内先 optimizer.step、不同分母、重复正则项。</td></tr>
+      <tr><td>同一前向语义</td><td>样本间的计算关系不因切分变化。</td><td>BatchNorm 统计、in-batch negatives、跨样本 attention；累积不自动扩大负例池。</td></tr>
+      <tr><td>同一非线性处理</td><td>在全局归一化后的梯度上做相同裁剪与 optimizer。</td><td>先逐 microbatch clip，再求和；clip(sum g) 通常不等于 sum clip(g)。</td></tr>
+      <tr><td>同一数值和随机轨迹</td><td>在容差下比较；明确 dropout RNG、precision、规约顺序。</td><td>浮点非结合性、kernel 差异、随机数分配；数学等价不意味着逐 bit 一致。</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>对比学习跨卡 all-gather 时，还要检查远端文档表示是否保留梯度，以及每张卡计算哪些 query 的 loss。简单 detach 远端特征可能改变梯度目标；反传支持与补偿策略必须和完整目标一起看。</p><p>分片状态下的 global norm 也有所有权问题：只把本地 shard 范数当全局会低估，重复计算副本又会高估。使用知道参数分片布局的范数/裁剪接口，确保每个独立参数贡献只计一次。</p></div>
+  </section>
+  <section class="section" aria-labelledby="contrastive-global"><div class="section-heading"><span class="section-number">05 / GLOBAL NEGATIVES</span><h2 id="contrastive-global">跨卡负例一样，梯度就一定一样吗？</h2><p>固定 q=[1,2]、d=[1,−1]，每个 rank 拥有一对正样本。使用单向点积相似度与温度 τ，不做向量归一化。每个 query 以自己的 document 为正例，另一份为负例。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+p_{ij}&amp;=\frac{\exp(q_i d_j/\tau)}{\sum_k\exp(q_i d_k/\tau)},\\
+\mathcal L&amp;=-\frac12\sum_{i=0}^{1}\log p_{ii},\\
+\frac{\partial\mathcal L}{\partial d_j}&amp;=\frac{1}{2\tau}\sum_i(p_{ij}-\mathbf 1[i=j])q_i.
+\end{aligned}</div><figcaption>同一个 dⱼ 在两个 query 的候选集中出现，所以它的梯度需要汇总两行贡献。表格中的表示梯度已经包含全局平均系数 ½。</figcaption></figure>
+    <div class="experiment"><div class="experiment-head"><h3>前向概率与文档梯度贡献</h3><span class="assumption">两个逻辑 rank · 同一组表示</span></div><div class="experiment-body"><div class="experiment-controls objective-controls">
+      <label><span>候选与反向路径</span><select data-cd-mode><option value="global">全局候选，保留远端梯度</option><option value="detached">全局候选，远端 detach</option><option value="micro">两个单样本 microbatch</option></select></label>
+      <label><span>温度 τ</span><select data-cd-temperature><option value="0.5">0.5</option><option value="1" selected>1</option><option value="2">2</option></select></label>
+    </div><div class="experiment-view" aria-live="polite"><div class="metric-row objective-metrics"><div><span>当前全局平均 loss</span><strong data-cd-loss></strong></div><div><span>完整目标参考 loss</span><strong data-cd-reference></strong></div><div><span>文档梯度最大差</span><strong data-cd-error></strong></div></div>
+      <div class="compare-wrap"><table class="objective-result-table"><thead><tr><th>Query</th><th>d0=1：logit / 概率</th><th>d1=−1：logit / 概率</th></tr></thead><tbody data-cd-scores></tbody></table></div>
+      <div class="compare-wrap"><table class="objective-result-table"><thead><tr><th>文档表示</th><th>来自 query 0</th><th>来自 query 1</th><th>实际保留的梯度</th><th>完整目标梯度</th></tr></thead><tbody data-cd-gradients></tbody></table></div><p class="experiment-note" data-cd-note></p>
+    </div></div></div>
+    <p>τ=1 时，保留和切断远端梯度的两种方案都有 loss≈2.072539；d0 的梯度分别为 +0.922412 和 −0.059601。这个差异发生在明确的“每卡只计算本地 query、远端表示无梯度、没有补偿”的实现中。若每卡重复计算完整目标或采用其他 gather backward，必须重新核对系数与拥有关系。</p>
+  </section>
+  <section class="section" aria-labelledby="contrastive-parameter-reduction"><div class="section-heading"><span class="section-number">06 / FROM REPRESENTATIONS TO PARAMETERS</span><h2 id="contrastive-parameter-reduction">表示梯度汇合之后，DDP 还平均什么？</h2></div>
+    <p>再加两个共享标量参数：qᵢ=wq·aᵢ，dᵢ=wd·bᵢ，在 wq=wd=1 处计算。每卡回传未除以 2 的本地 query loss；可微 gather 的反向按 document 拥有者求和。得到本卡源输入对共享参数的贡献后，DDP 再平均两卡参数梯度。</p>
+    <div class="compare-wrap"><table class="objective-result-table"><thead><tr><th>拥有者</th><th>本地 query loss</th><th>DDP 前的 wq 梯度</th><th>DDP 前的 wd 梯度</th></tr></thead><tbody data-cd-ranks></tbody></table></div><p class="objective-observation" data-cd-parameters></p>
+    <div class="concept-pairs"><div><h3>表示汇合与参数平均各有作用</h3><p>先把不同 query 对同一远端 document 的导数送回拥有者，再由各 rank 反传到共享编码器参数。最后的 DDP 平均定义了这里的两样本平均目标，不能再额外除一次 2。</p></div><div><h3>累积不改变已经计算的候选集合</h3><p>每次只放一对样本时，本例没有负例，loss 和梯度都是零。跨 microbatch 保留全局候选需要额外设计；梯度缓存类方法分开表示计算、全局损失与编码器重算，还需匹配随机状态。</p></div></div>
+    <p>独立框架实验会启动两个 CPU Gloo 进程，分别运行可微 gather、远端 detach 与单样本候选三种方案，并比较 DDP 后的参数梯度和一次 SGD 更新。页面本身只执行可检查的逻辑计算，不在浏览器创建进程或预测通信时延。</p>
+    <div class="reading-links"><a href="training-deep.html">InfoNCE 的局部导数</a><a href="distributed-execution.html">集合通信输入与输出</a><a href="backpropagation.html#framework-reference">运行双进程对照</a></div>
+  </section>
+  <!-- learning-dynamics contextual links -->
+<div class="reading-links"><a href="batch-noise.html">保持同一逐序列目标，核算 batch 抽样噪声与消费 token 预算</a></div>
+    <section class="section" aria-labelledby="parallel-validation"><div class="section-heading"><span class="section-number">07 / VALIDATION</span><h2 id="parallel-validation">怎样证明并行改动没有悄悄改目标？</h2></div>
+    <div class="prose"><p>固定初始权重、完整样本集合、mask 与 loss 定义，用单卡作为参考。分别比较聚合 loss、选定层梯度、全局 norm、一次更新后的参数差。先去掉随机性并提高精度隔离公式问题，再恢复目标精度/随机机制检查容差和训练趋势。</p><p>覆盖不同长度、空标签副本、尾 batch、重复 token、非整除切分与累积窗口。分布式 sampler 为整除而复制样本也会改变一次 epoch 的统计；实际消费样本与 token 才是证据。即使各卡 loss 相同，也应继续比较聚合梯度和更新后的参数。</p></div>
+    <div class="reading-links"><a href="optimization-dynamics.html">更新与稳定性</a><a href="training-systems-deep.html">分片与 collective</a><a href="engineering-cases.html#case-board">案例：多卡后梯度方向改变</a></div>
+  </section>
+  <section class="section" aria-labelledby="sharded-global-clipping"><div class="section-heading"><span class="section-number">08 / GLOBAL GRADIENT NORM</span><h2 id="sharded-global-clipping">梯度分散在多张卡，裁剪系数怎样统一？</h2></div>
+    <p>先完成约定的梯度同步与归一化，并对缩放梯度 unscale。随后对所有独立参数的梯度计算一个范数。这里的复制参数已具有相同的同步后梯度；每个独立元素指定一个统计拥有者，其余副本不重复计数。</p>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+s_r&amp;=\sum_{j\in\mathcal U_r}g_j^2,\qquad
+n=\sqrt{\sum_r s_r},\\
+c&amp;=\begin{cases}1,&amp;n=0,\\\min(1,\tau/n),&amp;n&gt;0,\end{cases}\\
+g'_j&amp;=c\,g_j.
+\end{aligned}</div><figcaption>Uᵣ 是 rank r 负责计数的独立梯度集合；每个独立元素出现一次。τ 为非负 L2 阈值；示例用精确比例，不添加框架可能使用的 epsilon。</figcaption></figure>
+    <div class="experiment"><div class="experiment-head"><h3>两 rank：拥有关系、统一系数与更新</h3><span class="assumption">Scale=8 · 初始参数=1 · SGD η=0.1</span></div><div class="experiment-body"><div class="experiment-controls objective-controls">
+      <label><span>梯度布局</span><select data-sc-scenario><option value="shards">各持有一个分片：3 / 4</option><option value="mixed">分片 + 两卡复制的 12</option><option value="replicated">两卡都复制完整 [3,4]</option><option value="zero">全部梯度为零</option><option value="overflow">Rank 1 出现非有限梯度</option></select></label>
+      <label><span>归约与更新规则</span><select data-sc-mode><option value="global">唯一计数，统一系数与跳步</option><option value="local">错误：每卡按本地范数裁剪</option><option value="duplicate">错误：所有物理副本都计数</option><option value="local-skip">错误：本地检查、本地更新</option></select></label>
+      <label><span>全局 L2 阈值</span><select data-sc-threshold><option>0</option><option selected>1</option><option>20</option></select></label>
+    </div><div class="experiment-view" aria-live="polite"><div class="metric-row objective-metrics"><div><span>正确全局范数</span><strong data-sc-norm></strong></div><div><span>实际裁剪后的独立梯度范数</span><strong data-sc-output></strong></div><div><span>更新决策</span><strong data-sc-decision></strong></div></div><p class="memory-ledger" data-sc-squares></p><div class="compare-wrap"><table class="memory-wide"><thead><tr><th>Rank</th><th>参数 ID</th><th>缩放值 → unscale</th><th>正确统计归属</th><th>实际系数</th><th>应用的梯度</th><th>更新后参数</th></tr></thead><tbody data-sc-rows></tbody></table></div><p class="experiment-note" data-sc-note></p></div></div></div>
+    <p>默认梯度 [3,4] 的全局范数是 5，阈值为 1，统一系数是 0.2，结果为 [0.6,0.8]。各卡独立裁剪则得到 [1,1]，整体范数 √2。加入复制梯度 12 后，正确范数为 13；把两个副本都计入会得到 √313，改变裁剪强度。</p>
+  </section>
+  <section class="section" aria-labelledby="clipping-update-protocol"><div class="section-heading"><span class="section-number">09 / COORDINATE THE STEP</span><h2 id="clipping-update-protocol">一张卡溢出时，哪些状态一起停下？</h2></div>
+    <div class="mechanism-flow"><div><span>01 / UNSCALE</span><h3>还原与检查</h3><p>累积窗口完成后，以同一个 scale 还原梯度；每卡计算非有限标志。</p></div><div><span>02 / AGREE</span><h3>先统一有效性</h3><p>归约非有限标志。任何 rank 无效，全部 rank 执行相同的跳步决策。</p></div><div><span>03 / REDUCE</span><h3>归约独立平方和</h3><p>有限时按拥有关系统计，得到全局范数和统一裁剪系数。</p></div><div><span>04 / UPDATE</span><h3>推进同一训练步</h3><p>有限更新才改变参数、优化器历史和成功更新计数；scaler 变化按自己的策略处理。</p></div></div>
+    <p>面板的跳步只显示无动量 SGD 参数；并不模拟完整 GradScaler。独立 Gloo 验证为对照方便按固定顺序完成三个小标量归约；真实训练可以在全局无效之后协调跳过平方和归约，但各 rank 的 collective 顺序必须一致。</p>
+    <p>这里是“按独立元素指定统计拥有者”的明确协议，不调用 FSDP 的裁剪 API。实际 DP×TP/FSDP 布局应依据参数分片元数据选择对应接口；复制、分片和未同步梯度不能混为一谈。</p>
+    <div class="reading-links"><a href="numerical-computing.html#mixed-precision-update">混合精度更新顺序</a><a href="training-systems-deep.html#fsdp-lifecycle">FSDP 参数生命周期</a><a href="performance-analysis.html#memory-measurement-lab">双进程验证与测量</a></div>
+  </section>
+</div>

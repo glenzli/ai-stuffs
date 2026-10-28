@@ -1,0 +1,83 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">TRAINING ENGINEERING / FINETUNING RECIPE</p><h1>微调配方：从<span class="accent-text">一万条数据</span>到参数更新</h1><p class="lede">数据条数、训练 token、epoch、batch 和 LoRA rank 分别描述不同的训练选择。沿着一份配方，把样本、监督位置、预算、可训练参数和评估结果对应起来。</p></div><aside class="intro-aside"><p class="micro-label">阅读一份微调报告</p><p>底座原本会什么？数据新增了哪些场景？哪些位置提供监督？一共更新几次？效果在哪些独立任务上得到验证？</p></aside></section>
+
+  <section class="section" aria-labelledby="recipe-intent"><div class="section-heading"><span class="section-number">01 / TARGET</span><h2 id="recipe-intent">先确定要让模型学会什么</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>需求</th><th>可选择的路径</th><th>需要什么数据</th><th>怎样评估</th></tr></thead><tbody>
+      <tr><td>稳定输出格式、任务流程</td><td>提示基线 → SFT → 全参数或 LoRA。</td><td>输入与合格输出；覆盖缺失字段、模糊输入、异常情况。</td><td>内容正确性、协议符合率、未见模板和失败恢复。</td></tr>
+      <tr><td>获取经常更新、需要引用的事实</td><td>检索/工具提供当前证据，可再微调证据使用行为。</td><td>可信资料与访问接口；有依据的回答、无证据时的处理。</td><td>证据命中、引用支持、时效、权限和答案正确性。</td></tr>
+      <tr><td>适应领域分布</td><td>领域继续预训练，配合 SFT 和原能力回归。</td><td>领域原文与任务示范，区分新增知识和行为样例。</td><td>领域 held-out loss、任务质量、原有通用能力。</td></tr>
+      <tr><td>比较多个有效回答的取舍</td><td>偏好优化；有环境或规则奖励时可研究 RL。</td><td>偏好对、评分标准、可执行任务和验证器。</td><td>独立偏好、任务完成度、成本与奖励漏洞。</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>Base 与 Instruct 是不同起点。已经后训练的模型带有对话格式、拒答和工具行为，继续训练时需要保留这些能力的测试。选择底座还要核对许可、tokenizer、上下文、模板与部署支持；模型大小只是配方中的一项。</p><p>少量高质量示范有时能让已有能力更稳定地用于目标任务。LIMA（2023）研究了在已有 65B 模型上用 1,000 条精选示例训练的效果；这个结果依赖底座和测试范围。对新领域知识、长程工具任务或少数语言，应重新测量数据需求。具体依据见页尾 TRL、LIMA 与 LoRA 资料。</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="recipe-record"><div class="section-heading"><span class="section-number">02 / ONE RECORD</span><h2 id="recipe-record">一条记录怎样变成训练序列？</h2></div>
+    <div class="recipe-record"><div><p class="micro-label">原始记录 · 对话格式示例</p><pre><code>{
+  "messages": [
+    {"role": "user", "content": "从‘周三十点与王老师讨论项目’提取日程。"},
+    {"role": "assistant", "content": "{\"time\":\"周三10:00\",\"person\":\"王老师\",\"topic\":\"项目\"}"}
+  ]
+}</code></pre></div><div><p class="micro-label">进入模型前</p><ol class="recipe-stages"><li><strong>套用底座的 chat template。</strong>角色、轮次边界、BOS/EOS 与回答起点进入序列。</li><li><strong>用对应 tokenizer 转成 ID。</strong>检查特殊 token 是否被重复添加，以及回答是否被截断。</li><li><strong>构造标签和监督 mask。</strong>模型在位置 t 预测位置 t+1；由数据侧或模型内部完成一次 shift。</li><li><strong>形成 batch。</strong>padding 或 packing 决定实际布局，attention 边界与 loss 边界分别设置。</li></ol></div></div>
+    <figure class="math-block"><div class="math-display" data-math>\mathcal L=-\frac{\sum_i\sum_t m_{i,t}\log p_\theta(z_{i,t}\mid z_{i,&lt;t})}{\sum_i\sum_t m_{i,t}}</div><figcaption>z 包含模板、输入和回答；m 标记具有前文且参与监督的目标位置。response-only 的输入标签被屏蔽，但输入仍参与回答计算。分母为零时没有可定义的平均目标，应检查或跳过这个训练窗口。</figcaption></figure>
+    <div class="prose"><p>多轮对话可能监督每个 assistant 轮次，也可能只监督末轮；工具观测通常作为上下文，工具调用动作可以成为监督目标。带 CoT 的记录还要说明哪些推理 token 被保留、是否计 loss、部署时允许多长输出。数据集有一行，并不代表只有一个监督片段。</p><p>生产流水线需要检查模板渲染结果和实际 mask。某个字段名写着 response，不能代替对 token 标签的核验。完整的梯度和边界推导见<a href="posttraining-deep.html#sft-title">SFT 的 token mask 与对话模板</a>。</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="recipe-budget"><div class="section-heading"><span class="section-number">03 / BUDGET LEDGER</span><h2 id="recipe-budget">一万条、三轮训练，对应多少 token 和更新？</h2><p>本账本假设记录等长、每轮遍历一次、固定长度序列、右侧截断；不丢尾批，每个 epoch 结束时提交剩余累积梯度。所有长度已包含模板和特殊 token。</p></div>
+    <div class="experiment"><div class="experiment-head"><h3>微调预算账本</h3><span class="assumption">教学调度模型 · 非框架默认值</span></div><div class="experiment-body"><div class="experiment-controls recipe-controls">
+      <label><span>独立训练记录数</span><input type="number" min="0" max="1000000" step="100" value="10000" data-ft-records></label>
+      <label><span>每条输入 token</span><input type="number" min="0" max="32768" value="600" data-ft-prompt></label>
+      <label><span>每条回答 token</span><input type="number" min="1" max="32768" value="400" data-ft-answer></label>
+      <label><span>序列长度上限</span><select data-ft-limit><option>512</option><option>1024</option><option selected>2048</option><option>4096</option><option>8192</option></select></label>
+      <label><span>Epoch</span><input type="number" min="1" max="20" value="3" data-ft-epochs></label>
+      <label><span>每 DP 副本的 microbatch（序列）</span><input type="number" min="1" max="64" value="2" data-ft-micro></label>
+      <label><span>DP 副本数</span><select data-ft-dp><option>1</option><option>2</option><option selected>4</option><option>8</option></select></label>
+      <label><span>梯度累积 microsteps</span><input type="number" min="1" max="128" value="8" data-ft-accum></label>
+      <label><span>监督位置</span><select data-ft-supervise><option value="answer">仅回答</option><option value="all">全序列有效位置</option></select></label>
+      <label class="check-control"><input type="checkbox" data-ft-packing><span>整条记录 packing</span></label>
+    </div><div class="experiment-view" aria-live="polite">
+      <div class="metric-row recipe-budget-stats"><div><span>累计非 padding token</span><strong data-ft-processed></strong></div><div><span>累计监督 token</span><strong data-ft-supervised></strong></div><div><span>计划更新窗口</span><strong data-ft-updates></strong></div></div>
+      <p class="micro-label">单条记录截断后，在一个长度槽中的占比</p><div class="recipe-token-bar" role="img" aria-label="输入、回答与剩余空间占比"><i data-ft-prompt-bar></i><i data-ft-answer-bar></i><i data-ft-pad-bar></i></div><div class="recipe-legend"><span>输入</span><span>回答</span><span>剩余空间</span></div><p class="experiment-note" data-ft-mask></p>
+      <div class="metric-row compact-metrics"><div><span>每 epoch 序列</span><strong data-ft-sequences></strong></div><div><span>每完整序列的记录</span><strong data-ft-perseq></strong></div><div><span>计划槽位填充率</span><strong data-ft-fill></strong></div></div>
+      <div class="compare-wrap"><table class="ledger-table recipe-account-table"><thead><tr><th>统计项</th><th>数量</th></tr></thead><tbody data-ft-ledger></tbody></table></div><p class="experiment-note" data-ft-note></p>
+    </div></div><p class="experiment-caption">packing 保持每条记录完整并隔离 attention，不跨记录预测。槽位填充率按固定长度与尾批空位计算，并非实测 GPU 利用率。变长 kernel、分布式 sampler 补样、drop_last、流式采样和 max_steps 会改变账本。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}B_{\mathrm{seq}}&amp;=b_{\mathrm{micro}}\cdot P_{\mathrm{DP}}\cdot A,\\U&amp;=E\left\lceil\frac{\left\lceil S/(b_{\mathrm{micro}}P_{\mathrm{DP}})\right\rceil}{A}\right\rceil.\end{aligned}</div><figcaption>S 是每 epoch 打包后的序列数，E 是轮数，A 是累积步数。尾窗口可能较小；TP/PP/CP 协作处理同一序列，不计为额外 DP 副本。</figcaption></figure>
+    <div class="prose"><p>默认设置中，10,000 条记录读三遍，共处理 3,000 万非 padding token，其中 1,200 万是回答监督；每轮 157 个更新窗口，共 471 个。开启整条 packing 后，每完整序列放两条记录，更新窗口变成 237 个，监督总量保持不变。</p><p>这个差异说明：固定“每 batch 序列数”时，packing 会改变一次更新包含的原始样本量。比较训练效果时需要同时记录 token batch、学习率日程和更新次数。填充减少也不保证相同比例提速，实际执行还受 kernel、padding 消除和 attention 形状影响。</p></div>
+    <div class="reading-links"><a href="packing-correctness.html">逐 token 核对模板、packing 与梯度</a></div>
+  </section>
+
+  <section class="section" aria-labelledby="recipe-lora"><div class="section-heading"><span class="section-number">04 / TRAINABLE PARAMETERS</span><h2 id="recipe-lora">LoRA 的 rank 和 target modules 决定什么？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}W'&amp;=W+sBA,\\W&amp;\in\mathbb R^{d_{out}\times d_{in}},\\A&amp;\in\mathbb R^{r\times d_{in}},\quad B\in\mathbb R^{d_{out}\times r},\\N_{\mathrm{LoRA}}&amp;=r(d_{in}+d_{out}).\end{aligned}</div><figcaption>冻结 W，训练 A/B；s 是缩放，常见原始 LoRA 使用 α/r，其他变体的缩放可能不同。有效增量 BA 的秩至多为 r。</figcaption></figure>
+    <div class="experiment"><div class="experiment-head"><h3>可训练矩阵账本</h3><span class="assumption">假设 32 层、7B 底座 · 非具名模型配置</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>Rank <output data-ft-rank-value></output></span><input type="range" min="4" max="128" step="4" value="16" data-ft-rank></label><label><span>目标线性层</span><select data-ft-target><option value="qv">Q、V</option><option value="attention">Q、K、V、O</option><option value="all">Attention + 三组 FFN 投影</option></select></label><p class="experiment-note">d=4096，KV 投影宽度=1024，FFN 中间宽度=11008。每层配置相同；不含 bias、embedding、LM head 或额外 modules_to_save。</p></div><div class="experiment-view"><div class="metric-row recipe-parameter-stats"><div><span>LoRA 参数</span><strong data-ft-params></strong></div><div><span>相对假设底座</span><strong data-ft-ratio></strong></div></div><div class="compare-wrap"><table class="ledger-table"><thead><tr><th>矩阵</th><th>输入 → 输出</th><th>每层增量</th><th>32 层合计</th></tr></thead><tbody data-ft-lora-rows></tbody></table></div></div></div></div>
+    <div class="concept-pairs"><div><h3>Rank 决定增量容量</h3><p>提高 r 增加可训练参数，选更多模块扩展可调整路径。数据量、学习率、目标模块和缩放共同影响结果；小 rank 也可能明显改变原行为。</p></div><div><h3>QLoRA 改变底座存储精度</h3><p>冻结底座以低位量化形式保存，计算时按实现恢复或转换；梯度经过底座计算图到达 adapter。参数梯度和优化器状态减少，激活、临时空间和底座存储仍需计算。</p></div><div><h3>微调后的交付物</h3><p>Adapter 需要精确匹配的底座 revision、tokenizer、模板和配置。合并得到完整权重后，还要在目标精度与推理引擎上回归；量化底座的合并与再量化需另行验证。</p></div><div><h3>全参也有适用场景</h3><p>全参提供更广的调整范围，同时增加优化器、梯度和保存成本。应在相同任务、训练预算与发布要求下比较实际收益。</p></div></div>
+    <div class="reading-links"><a href="lora-mechanics.html">计算 LoRA 的 A/B 梯度、更新与合并</a></div>
+  </section>
+
+  <section class="section" aria-labelledby="recipe-data"><div class="section-heading"><span class="section-number">05 / DATA DESIGN</span><h2 id="recipe-data">条数之外，数据设计怎样影响训练？</h2></div>
+    <div class="mechanism-flow"><div><span>01 / COVERAGE</span><h3>列出任务切片</h3><p>常见输入、长尾、无答案、歧义、错误工具结果、多轮约束分别采样。</p></div><div><span>02 / ANNOTATION</span><h3>定义可接受输出</h3><p>标注依据、格式、错误处理、风格与边界。教师生成数据经过独立复核。</p></div><div><span>03 / SPLIT</span><h3>按关联来源切分</h3><p>同用户、文档、仓库、题族或近重复簇尽量放在同一划分，隔离最终测试。</p></div><div><span>04 / ITERATE</span><h3>补充真实缺口</h3><p>按失败类型扩充样本，记录规则和版本；复测目标能力与保留能力。</p></div></div>
+    <div class="prose"><p>一千条同模板改写可能覆盖很窄的输入范围。十条不同表述也可能都源于同一事实或文档；独立性需要按任务判断。数据重复相当于提高样本权重，训练三轮应记作三次暴露，而独立信息量仍由原数据决定。</p><p>困难样本需有可靠答案；高 loss 也可能来自错误标注或不可判断问题。先抽查再决定提高采样权重。已有 Instruct 底座继续学习时，可混入需要保留的行为样本或研究教师约束，随后测量目标收益与遗忘程度。</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="recipe-learning-curve"><div class="section-heading"><span class="section-number">06 / LEARNING CURVES</span><h2 id="recipe-learning-curve">怎样判断该补数据、加训练，还是换方案？</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>实验</th><th>固定与变化</th><th>能判断什么</th><th>需要防止的混淆</th></tr></thead><tbody>
+      <tr><td>数据规模曲线</td><td>取嵌套子集，例如 500 / 2,000 / 10,000；固定独立评估与底座。</td><td>新增样本在各任务切片上的边际收益。</td><td>同 epoch 时训练 token 同时增长，要再做同预算对照。</td></tr>
+      <tr><td>固定数据的重复曲线</td><td>同一训练集，比较不同 epoch/checkpoint。</td><td>是否仍欠拟合，何时出现任务停滞或回归。</td><td>学习率日程、评估波动及验证集选参影响。</td></tr>
+      <tr><td>固定预算的质量对照</td><td>监督 token 或 FLOPs 对齐，比较清洗、来源或难例配方。</td><td>预算不变时配方是否改善目标任务。</td><td>不同长度、模型和目标下，相同 token 不一定同算力。</td></tr>
+      <tr><td>参数范围对照</td><td>同数据下比较 target modules、rank、全参，各自调合适学习率。</td><td>适配容量与原能力保持之间的实际取舍。</td><td>把“同学习率”误当成对各方案公平的优化设置。</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>曲线应来自实际独立评测，并报告样本数、区间和关键切片。格式满分而事实错误多，优先看答案依据；训练 loss 很低但新模板失败，优先看覆盖与泄漏；验证集和训练集都差，再检查标签、模板、优化和底座能力。这里提供实验设计，真实模型的曲线留给观测。</p></div>
+    <details><summary>一份可复查的微调报告应包含哪些字段？</summary><p>底座 revision；数据来源、独立记录数和切分规则；模板与 tokenizer；截断前后长度、有效监督 token 与 mask；packing 与采样；DP/microbatch/accumulation；epoch/max_steps；学习率、日程与精度；全参或 LoRA 的目标模块、rank、alpha；随机种子；所选 checkpoint；独立任务和保留能力；部署工件与运行成本。</p></details>
+    <div class="reading-links"><a href="data-tokenizer.html#cleaning-operations">数据清洗与覆盖</a><a href="posttraining-deep.html#sft-title">标签、mask 与梯度</a><a href="model-evaluation.html#generalization">泛化与发布证据</a><a href="distillation-data.html#on-policy-distillation">学生轨迹上的教师监督</a></div>
+  </section>
+  <!-- learning-dynamics contextual links -->
+<div class="reading-links"><a href="batch-noise.html">在相同消费 token 预算下比较 batch、更新次数与真实学习曲线</a><a href="learning-run.html">核对 teacher-forced loss 与自由生成的实际差别</a></div>
+    <section class="section" aria-labelledby="sample-delivery"><div class="section-heading"><span class="section-number">07 / SAMPLE DELIVERY</span><h2 id="sample-delivery">十条样本分给三张卡，是否刚好读一遍？</h2></div>
+    <div class="prose"><p>Map-style 数据通常先由 sampler 给出索引顺序，再按 rank 分片，DataLoader 最后组成 batch。为了让各 rank 步数一致，sampler 可以补索引或丢尾索引；loader 的 drop_last 又决定各 rank 的尾 batch 是否保留。两处设置的作用不同。</p></div>
+    <div class="experiment"><div class="experiment-head"><h3>样本 ID 分发账本</h3><span class="assumption">等量 rank 分片 · 教学随机置换</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>样本数</span><input type="number" min="0" max="30" value="10" data-do-count></label><label><span>Rank 数</span><select data-do-ranks><option>1</option><option>2</option><option selected>3</option><option>4</option></select></label><label><span>每卡 batch</span><select data-do-batch><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label><label class="check-control"><input type="checkbox" data-do-sampler-drop><span>Sampler 丢尾，避免补样</span></label><label class="check-control"><input type="checkbox" data-do-loader-drop><span>Loader 丢弃不满 batch</span></label><label class="check-control"><input type="checkbox" data-do-shuffle><span>打乱样本顺序</span></label><label><span>Epoch</span><select data-do-epoch><option>0</option><option>1</option><option>2</option></select></label></div><div class="experiment-view" aria-live="polite"><p>置换后：<strong data-do-order></strong></p><p>补齐或截断后：<strong data-do-expanded></strong></p><div class="metric-row sample-readouts"><div><span>实际读取次数</span><strong data-do-reads></strong></div><div><span>独立样本数</span><strong data-do-unique></strong></div><div><span>未读取 ID</span><strong class="metric-word" data-do-missing></strong></div></div><div class="compare-wrap"><table class="sample-index-table"><thead><tr><th>Rank</th><th>分配索引</th><th>实际 batch</th><th>Loader 丢弃</th></tr></thead><tbody data-do-rows></tbody></table></div><p class="experiment-note" data-do-note></p></div></div><p class="experiment-caption">补齐时循环取置换序列的开头，rank r 取 r,r+R,…；空数据不补样。随机算法是本页固定的教学实现，顺序不与 PyTorch 相同。这里不含 gradient accumulation、packing 或变长 token 计数。</p></div>
+    <div class="prose"><p>默认 10 条、3 rank、每卡 batch=2：补齐到 12 个读取位置，所以至少两次读取是重复样本。Sampler 丢尾先保留 9 条，再由 Loader 丢尾可能只剩 6 条。评估时补齐样本也可能重复计分，需按原始 ID 去重或采用合适的汇总协议。</p></div>
+  </section>
+  <section class="section" aria-labelledby="worker-sharding"><div class="section-heading"><span class="section-number">08 / WORKERS &amp; RESUME</span><h2 id="worker-sharding">Rank 内还有多个 worker，谁负责避免重复？</h2></div>
+    <div class="experiment"><div class="experiment-head"><h3>Iterable 数据的四个读取者</h3><span class="assumption">2 rank × 2 worker · 样本数沿用上方</span></div><div class="experiment-view"><label class="check-control"><input type="checkbox" data-do-shard checked><span>按全局 worker 编号分片</span></label><div class="compare-wrap"><table class="exact-small-table"><thead><tr><th>Rank</th><th>Worker</th><th>全局编号</th><th>读取 ID</th></tr></thead><tbody data-do-worker-rows></tbody></table></div></div></div>
+    <div class="prose"><p>IterableDataset 在不同 worker 中有各自副本。如果每个副本都遍历完整数据，就会重复读取。一个可行规则是 global_worker=rank×workers+worker_id，按编号对总 worker 数取模分片；块读取、远程 shard 和变长流可用其他规则，但需要证明覆盖与互斥。</p><p>Map-style DataLoader 的索引通常由主进程 sampler 分配，不应再无意套一层相同分片。每轮 shuffle 的 epoch/seed、worker 随机数、预取队列和已消费数据位置需要区分。精确恢复应保存“已用于更新”的游标，读取到了但仍在预取队列里的样本未必已参与训练。</p></div>
+    <div class="reading-links"><a href="parallel-correctness.html">实际标签数与梯度分母</a><a href="model-artifacts.html#checkpoint-title">恢复所需的数据状态</a><a href="engineering-check.html">综合理解检查</a></div>
+  </section>
+</div>

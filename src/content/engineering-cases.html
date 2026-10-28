@@ -1,0 +1,25 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">TRAINING ENGINEERING / CASES</p><h1>工程诊断案例：<span class="accent-text">从症状走到证据</span></h1><p class="lede">遇到训练异常时，先列出可能原因，选择能区分这些原因的观测，再通过控制变量实验验证。</p></div><aside class="intro-aside"><p class="micro-label">案例性质</p><p>以下是用于练习诊断的人为案例，数值可核算，证据逐步展开。一个症状可能有多个原因，结论只限于给出的证据。</p></aside></section>
+  <section class="section" aria-labelledby="case-board"><div class="section-heading"><span class="section-number">01 / DIAGNOSE</span><h2 id="case-board">先选第一条证据，再展开后续记录</h2></div>
+    <div class="experiment"><div class="experiment-head"><h3>四个跨专题案例</h3><label class="case-picker">案例<select data-diagnosis-case><option value="parallel">多卡后更新方向变了</option><option value="data">数据分变高，长尾退化</option><option value="moe">激活参数更少，训练更慢</option><option value="reward">奖励和思考长度都涨，正确率没涨</option></select></label></div><div class="experiment-view">
+      <div class="case-brief"><p class="micro-label" data-diagnosis-domain></p><h3 data-diagnosis-title></h3><p data-diagnosis-trigger></p></div>
+      <fieldset class="case-options"><legend>你会先检查哪一项？</legend><div data-diagnosis-options></div></fieldset>
+      <p class="case-choice-feedback" data-diagnosis-feedback aria-live="polite"></p>
+      <ol class="case-evidence" data-diagnosis-evidence aria-live="polite"></ol>
+      <div class="case-conclusion" data-diagnosis-conclusion hidden></div>
+      <div class="step-actions"><button class="button button-primary" type="button" data-diagnosis-next>查看第一条证据</button><button class="button" type="button" data-diagnosis-reset>重置本例</button></div>
+    </div><p class="experiment-caption">选择不会修改证据。你可以把多种假设保留到验证阶段；练习重点是排查顺序，以及每条证据如何支持或排除一种解释。</p></div>
+  </section>
+  <!-- learning-dynamics contextual links -->
+<div class="reading-links"><a href="training-failures.html">在同一小模型上实际注入故障、定位首个差异并核验修复</a></div>
+    <section class="section" aria-labelledby="experiment-record"><div class="section-heading"><span class="section-number">02 / EXPERIMENT RECORD</span><h2 id="experiment-record">实验记录需要保留哪些信息？</h2></div>
+    <div class="mechanism-flow"><div><span>01 / OBSERVATION</span><h3>可复现的现象</h3><p>哪份模型、数据、配置、样本和计数；指标变化及波动范围。</p></div><div><span>02 / HYPOTHESIS</span><h3>可被推翻的解释</h3><p>如果是这个原因，什么观测应改变？什么结果会否定它？</p></div><div><span>03 / CONTROL</span><h3>最小区分实验</h3><p>固定其他因素，保留基线；记录随机性和环境差异。</p></div><div><span>04 / DECISION</span><h3>结论与下一步</h3><p>支持了什么、还排除不了什么、是否满足改动或发布门槛。</p></div></div>
+    <div class="compare-wrap"><table><thead><tr><th>不充分的记录</th><th>更有用的写法</th></tr></thead><tbody>
+      <tr><td>“换 AdamW 后好了”</td><td>同初始化、样本顺序、token 预算下，只改 optimizer；各自合理调参，比较多次验证结果与 update norm，记录完整 schedule。</td></tr>
+      <tr><td>“多卡结果不一样”</td><td>固定一次全局 batch，记录有效标签数量与 loss reduction，比较梯度和参数差，声明精度与容差。</td></tr>
+      <tr><td>“模型大了所以慢”</td><td>拆总参数/激活参数、FLOPs、HBM 流量、通信和关键路径；用一致工作负载测量。</td></tr>
+      <tr><td>“泛化没问题”</td><td>声明哪些未见分布、题族与切片被验证，样本量/区间、污染检查、仍未覆盖的边界。</td></tr>
+    </tbody></table></div>
+    <div class="reading-links"><a href="optimization-dynamics.html">优化与稳定性</a><a href="parallel-correctness.html">多卡正确性</a><a href="performance-analysis.html">性能账本</a><a href="model-evaluation.html#generalization">泛化证据</a><a href="training-engineer-guide.html">回工程师指南</a></div>
+  </section>
+</div>

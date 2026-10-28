@@ -1,0 +1,53 @@
+/* Reading navigation: neutral structure; domain charts own their data colors. */
+.reading-context { display: flex; align-items: center; flex-wrap: wrap; gap: 7px 12px; padding: 12px 0 0; color: var(--ink-faint); font-size: 11px; }
+.reading-context > a { margin-left: auto; color: var(--ink-soft); text-underline-offset: 3px; }
+.reading-tag { border: 1px solid var(--line); border-radius: 3px; padding: 1px 6px; font-size: 10px; }
+.page-intro.guide-intro { grid-template-columns: minmax(0,1fr); max-width: 960px; padding-bottom: 24px; }
+.guide-start { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; margin: 0 0 30px; }
+.guide-start > article { padding: 20px; border: 1px solid var(--line-strong); background: var(--surface-strong); }
+.guide-start h2 { margin: 0 0 8px; font: 600 20px/1.5 var(--sans); }
+.guide-start p { color: var(--ink-soft); font-size: 13px; margin: 8px 0 14px; }
+.guide-start-links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 13px; }
+.learning-path { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 0; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+.learning-path > li { display: grid; grid-template-columns: 24px minmax(0,1fr); gap: 10px; padding: 20px 16px 18px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.learning-path-number { color: var(--ink-faint); font: 11px/2 var(--mono); }
+.learning-path h3 { margin: 0 0 6px; font: 600 17px/1.5 var(--sans); }
+.learning-path h3 a { text-decoration: none; }
+.learning-path h3 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.learning-path p { margin: 0; color: var(--ink-soft); font-size: 13px; }
+.learning-path-open { grid-column: 2; font-size: 12px; text-underline-offset: 4px; justify-self: start; }
+.learning-path-detailed { grid-template-columns: minmax(0,1fr); }
+.learning-path-detailed > li { grid-template-columns: 42px minmax(0,1fr); gap: 20px; padding: 25px 0; scroll-margin-top: 110px; }
+.learning-path-detailed h3 { font-size: 22px; }
+.learning-path-detailed p { margin: 7px 0; font-size: 14px; }
+.learning-path-detailed .learning-path-check { border-left: 2px solid var(--line-strong); padding-left: 12px; margin: 12px 0; }
+.learning-path-further { display: flex; flex-wrap: wrap; gap: 7px 18px; margin-top: 12px; font-size: 12px; }
+.learning-path-further > span { color: var(--ink-faint); }
+.learning-path-further a { text-underline-offset: 4px; }
+.learning-branches { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; }
+.learning-branches > article { border-top: 1px solid var(--line-strong); padding-top: 17px; min-width: 0; }
+.learning-branches h3 { font: 600 18px/1.5 var(--sans); margin: 0 0 10px; }
+.learning-branches h3 a { text-decoration: none; }
+.learning-branches p { font-size: 13px; color: var(--ink-soft); margin: 8px 0; }
+.learning-continuation { margin: 38px 0 24px; padding: 22px 0; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line); }
+.learning-continuation > div > span { font: 11px var(--mono); color: var(--ink-faint); }
+.learning-continuation p { font-size: 14px; margin: 8px 0 15px; }
+.learning-continuation-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 22px; font-size: 13px; }
+.learning-continuation-links a { text-underline-offset: 4px; }
+.reading-choice { padding: 16px 18px; margin: 20px 0; border-left: 2px solid var(--line-strong); background: var(--surface); font-size: 14px; }
+.reading-choice p { margin: 6px 0; }
+.guide-reference summary { cursor: pointer; color: var(--ink-soft); font-size: 13px; margin-bottom: 15px; }
+@media (max-width: 1050px) {
+  .learning-path { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .learning-path-detailed { grid-template-columns: minmax(0,1fr); }
+  .learning-branches { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 760px) {
+  .guide-start, .learning-path { grid-template-columns: minmax(0,1fr); }
+  .guide-start > article { padding: 18px; }
+  .reading-context { gap: 6px 9px; }
+  .reading-context > a { margin-left: 0; }
+  .learning-path > li { padding: 17px 0; }
+  .learning-path-detailed > li { grid-template-columns: 27px minmax(0,1fr); gap: 12px; }
+  .learning-path-detailed h3 { font-size: 20px; }
+}

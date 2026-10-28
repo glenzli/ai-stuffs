@@ -1,0 +1,202 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">ENGINEERING EXTENSION / TRAINING SYSTEMS</p>
+        <h1>训练系统：<span class="accent-text">分片、精度与通信</span></h1>
+        <p class="lede">
+          参数、梯度、优化器、激活、层、专家和序列都可以被切分，但每一种切法换来不同的 collective、内存和调度。
+          精度又决定每份状态占多少 bytes。下面按切分对象和通信方式逐项分析。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">并行方式与切分对象</p>
+        <p>DP 切 batch，ZeRO/FSDP 切训练状态，TP 切层内矩阵，PP 切层，EP 切专家，CP 切序列。一个真实训练通常是组合方案。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="parallel-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="parallel-title">沿哪个维度切？</h2>
+        </div>
+        <p class="section-note">切换一种并行方式，看权重、梯度、优化器、activation 与 batch 分布怎样变化。</p>
+      </div>
+
+      <div class="parallel-deep-lab">
+        <div class="parallel-deep-controls">
+          <div class="parallel-mode-buttons" role="group" aria-label="训练并行方式">
+            <button type="button" data-par-mode="dp" aria-pressed="true">DP</button>
+            <button type="button" data-par-mode="zero" aria-pressed="false">ZeRO / FSDP</button>
+            <button type="button" data-par-mode="tp" aria-pressed="false">Tensor Parallel</button>
+            <button type="button" data-par-mode="pp" aria-pressed="false">Pipeline Parallel</button>
+            <button type="button" data-par-mode="ep" aria-pressed="false">Expert Parallel</button>
+            <button type="button" data-par-mode="cp" aria-pressed="false">Context Parallel</button>
+          </div>
+          <p class="micro-label" data-par-kicker>DATA PARALLEL</p>
+          <h3 data-par-title>复制完整模型，让不同 GPU 算不同 batch</h3>
+          <p data-par-copy>每卡有完整权重、梯度和优化器状态，适合单卡放得下训练状态的情况。反向结束时对同位置梯度做 all-reduce。</p>
+          <div class="parallel-facts">
+            <div><span>分片</span><p data-par-shard>batch</p></div>
+            <div><span>主要通信</span><p data-par-comm>all-reduce gradients</p></div>
+            <div><span>主要限制</span><p data-par-limit>每卡完整训练状态放不下</p></div>
+          </div>
+        </div>
+        <div class="parallel-deep-visual">
+          <div class="parallel-legend"><span><i></i>replicated</span><span><i></i>sharded / local</span><span><i></i>communication</span></div>
+          <div class="parallel-grid-map" data-par-grid></div>
+          <div class="parallel-note" data-par-note>
+            DP 的每个 GPU 都持有完整参数与 optimizer state；不同 GPU 分担 batch 计算，每卡仍需保存完整训练状态。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="precision-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="precision-title">数值精度与资源成本</h2>
+        </div>
+        <p class="section-note">bits 减少会同时改变显存、带宽、吞吐与数值稳定性；不同变量可以使用不同精度。</p>
+      </div>
+
+      <div class="precision-table-wrap">
+        <table class="deep-table precision-table">
+          <thead><tr><th>格式</th><th>bits / 结构</th><th>常见用途</th><th>优势</th><th>主要风险</th></tr></thead>
+          <tbody>
+            <tr><td>FP32</td><td>1 sign + 8 exp + 23 mantissa · 32b</td><td>master weights、精确优化器状态、诊断</td><td>范围与精度高</td><td>显存和带宽成本最高</td></tr>
+            <tr><td>TF32</td><td>NVIDIA 内部 matmul 模式 · 约 10b 有效尾数</td><td>部分 FP32 矩阵乘加速</td><td>改代码少、常见硬件支持</td><td>有效尾数少于 FP32；行为依赖硬件与 kernel</td></tr>
+            <tr><td>BF16</td><td>8 exp + 7 mantissa · 16b</td><td>训练 activation/参数、KV Cache</td><td>范围接近 FP32，不需要传统 loss scaling</td><td>尾数少，累加和细腻差异仍需注意</td></tr>
+            <tr><td>FP16</td><td>5 exp + 10 mantissa · 16b</td><td>部分推理、训练 mixed precision</td><td>精度较高、硬件成熟</td><td>指数范围小，可能出现 overflow/underflow</td></tr>
+            <tr><td>FP8</td><td>E4M3 / E5M2 · 8b</td><td>受支持的训练与推理 kernel</td><td>显存/带宽明显下降</td><td>需要 scaling、分组配置，并检查数值误差</td></tr>
+            <tr><td>INT8 / INT4</td><td>整数 + scale / group</td><td>权重量化、部分激活/KV</td><td>服务吞吐和内存友好</td><td>误差累积、outlier 与 kernel/模型结构依赖强</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="precision-rules">
+        <div><span>存储</span><p>权重、梯度、master copy、Adam m/v、activation、KV Cache 可以各有不同精度，应分别记录各自的字节数。</p></div>
+        <div><span>数值</span><p>Softmax、norm、loss 与 accumulation 常需要更高精度；低精度 kernel 是否安全必须用真实数据验证。</p></div>
+        <div><span>系统</span><p>量化收益取决于 kernel 支持；格式转换和额外访存可能抵消部分节省。</p></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="activation-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="activation-title">Activation 占用为什么会迅速增长</h2>
+        </div>
+        <p class="section-note">下面的估算显示单层关键中间张量。实际反传会保留一部分 activation，框架与重算策略差异很大。</p>
+      </div>
+
+      <div class="activation-lab">
+        <div class="activation-controls">
+          <label class="lab-range"><span>batch B <strong data-act-b-value>1</strong></span><input type="range" min="1" max="8" value="1" step="1" data-act-b></label>
+          <label class="lab-range"><span>sequence T <strong data-act-t-value>8192</strong></span><input type="range" min="512" max="32768" value="8192" step="512" data-act-t></label>
+          <label class="lab-range"><span>query heads H <strong data-act-h-value>32</strong></span><input type="range" min="8" max="64" value="32" step="8" data-act-h></label>
+          <label class="lab-range"><span>head dim <strong data-act-d-value>128</strong></span><input type="range" min="64" max="256" value="128" step="64" data-act-d></label>
+          <label class="lab-range"><span>FFN width <strong data-act-f-value>14336</strong></span><input type="range" min="4096" max="28672" value="14336" step="2048" data-act-f></label>
+          <label class="sim-select"><span>activation precision</span><select data-act-bytes><option value="2" selected>BF16 · 2 bytes</option><option value="1">FP8 · 1 byte</option></select></label>
+        </div>
+        <div class="activation-visual">
+          <div class="activation-primary">
+            <span>未融合 T×T attention 分数</span>
+            <strong data-act-attention>4.0 GiB</strong>
+            <small>单层、单个 materialized score matrix</small>
+          </div>
+          <div class="activation-breakdown">
+            <div><span>Q / K / V 张量</span><strong data-act-qkv>192 MiB</strong></div>
+            <div><span>SwiGLU 中间值</span><strong data-act-mlp>224 MiB</strong></div>
+            <div><span>residual / hidden</span><strong data-act-hidden>128 MiB</strong></div>
+          </div>
+          <div class="activation-compare">
+            <span>如果使用 FlashAttention / 分块 attention</span>
+            <p>可以避免显式保存完整 T×T 矩阵，显存更接近随 B·T·d 线性增长；但反向仍需保存/重算部分中间量，通信与 kernel 支持也会影响结果。</p>
+          </div>
+          <p class="figure-caption">这是一个教学估算：按当前 layer 的 attention heads 与序列长度直接计算，不代表整模型总峰值。实际还要加所有需要为反传保留的层、临时 workspace 与通信 buffers。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="collective-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="collective-title">四个 collective，先认清再调并行</h2>
+        </div>
+        <p class="section-note">集合通信会占用带宽并造成等待，需要放进完整执行时间线分析。</p>
+      </div>
+
+      <div class="collective-grid">
+        <article>
+          <span>ALL-REDUCE</span>
+          <h3>每卡算出局部贡献，求和后人人得到完整结果</h3>
+          <p>典型用于 DP 梯度同步。通信量与模型梯度大小相关，可用 bucket/overlap 与 backward 重叠。</p>
+          <code>g = Σ_i g_i</code>
+        </article>
+        <article>
+          <span>REDUCE-SCATTER</span>
+          <h3>规约并只保留自己负责的分片</h3>
+          <p>ZeRO/FSDP 常用来规约梯度并保留本卡分片，再更新本卡拥有的优化器状态；Adam 的 m/v 按各自参数分片维护。计算所需的参数分片之后还可能需要 all-gather。</p>
+          <code>reduce → shard</code>
+        </article>
+        <article>
+          <span>ALL-GATHER</span>
+          <h3>把各卡的分片拼成完整张量</h3>
+          <p>ZeRO-3/FSDP 计算层前重聚参数，TP 也常用。频繁 gather 会把参数分片省下的显存换成带宽压力。</p>
+          <code>shards → full</code>
+        </article>
+        <article>
+          <span>ALL-TO-ALL</span>
+          <h3>不同 token 发给不同专家/设备</h3>
+          <p>MoE expert parallel 的核心通信。路由不均衡时，某些设备成为热点；需要容量、负载均衡与调度。</p>
+          <code>tokens ↔ experts</code>
+        </article>
+      </div>
+    </section>
+
+    <div class="modern-page"><section class="section" aria-labelledby="pipeline-timeline"><div class="section-heading"><span class="section-number">05 / PIPELINE SCHEDULE</span><h2 id="pipeline-timeline">每张卡何时前向、何时反向？</h2></div>
+      <div class="prose"><p>Pipeline Parallel 将层分给不同阶段，再把 batch 拆成 microbatch。后阶段等待前阶段的激活，前阶段的反向等待后阶段的梯度。调度改变空闲位置和激活保留时间；本例所有 microbatch 完成反向后才更新权重。</p></div>
+      <div class="experiment"><div class="experiment-head"><h3>GPipe 与 1F1B 时间线</h3><span class="assumption">每次前向/反向各 1 tick，通信时间为 0</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>阶段数</span><select data-pp-stages><option>2</option><option selected>3</option><option>4</option></select></label><label><span>Microbatch 数 <output data-pp-micro-value></output></span><input type="range" min="1" max="8" value="4" data-pp-micro></label><label><span>调度方式</span><select data-pp-mode><option value="gpipe">GPipe：前向后反向</option><option value="1f1b">1F1B：交替前向反向</option></select></label><p class="experiment-note">依赖操作必须在前一 tick 完成；每个阶段每 tick 至多执行一项。GPipe 采用全前向屏障，1F1B 采用 warmup、交替和 cooldown。</p></div><div class="experiment-view" aria-live="polite"><div class="metric-row pp-readouts"><div><span>完成 tick</span><strong data-pp-finish></strong></div><div><span>空闲槽位</span><strong data-pp-idle></strong></div><div><span>各阶段激活峰值</span><strong data-pp-peak></strong></div></div><div class="compare-wrap pp-scroll" data-pp-grid></div><div class="compare-wrap"><table class="exact-small-table"><thead><tr><th>阶段</th><th>前向次数</th><th>反向次数</th><th>保留激活峰值</th></tr></thead><tbody data-pp-ledger></tbody></table></div><p class="experiment-note" data-pp-caption></p></div></div><p class="experiment-caption">F/B 后数字为 microbatch 编号。激活以每阶段、每 microbatch 一份计数，反向结束后释放；不含张量尺寸、重算和传输缓冲。逻辑 tick 不预测真实时延。</p></div>
+      <figure class="math-block"><div class="math-display" data-math>\text{空闲槽位}=P\,T-2PM,\qquad\text{空闲比例}=\frac{P\,T-2PM}{P\,T}</div><figcaption>P 为阶段数，M 为 microbatch 数，T 为本次调度完成 tick。每阶段必须执行 M 次前向和 M 次反向，总工作量相同；表内依赖决定空闲发生在哪些位置。</figcaption></figure>
+      <div class="prose"><p>1F1B 可让已完成前向的激活更早被反向消费，通常能降低某些阶段的保留峰值；在本例同速、零通信假设下，完成时间未必比 GPipe 更短。实际模型阶段耗时不等，通信、重算、虚拟阶段和调度交错都会改变结果。</p><p>Microbatch 增多可以更充分填充流水线，但同时改变每次更新的样本组织。比较必须保持全局目标、梯度缩放与权重版本语义一致。异步更新或不同版本权重属于另一类协议，不能直接套用本例的同权重对照。</p></div>
+      <div class="reading-links"><a href="activation-checkpointing.html">激活的保存与释放</a><a href="distributed-execution.html">层内张量并行</a><a href="parallel-correctness.html">跨 microbatch 的梯度归一化</a></div>
+    </section></div>
+    <div class="modern-page"><section class="section" aria-labelledby="fsdp-lifecycle"><div class="section-heading"><span class="section-number">06 / PARAMETER LIFETIME</span><h2 id="fsdp-lifecycle">参数分片之后，完整参数何时出现？</h2><p>每卡长期保存一部分参数，计算一层时临时聚齐该层。前向后释放完整参数能降低存活量，反向则需要重新获取。把状态分片和计算时的临时缓冲区放在同一条时间线上，才能解释峰值。</p></div>
+      <div class="prose"><p>本例用两个 DP rank、两层 2×2 矩阵和 tanh 中间激活；每卡持有不同样本。每层按扁平数组分成两个连续片段。目标是两份 ½‖Y−target‖² 的平均；反向先产生本地完整梯度，再求和、除以 2 并保留本卡片段。</p></div>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}W_\ell&amp;=\operatorname{AllGather}(W_{\ell,0},W_{\ell,1}),\\g_{\ell,r}&amp;=\operatorname{slice}_r\!\left(\frac{g_\ell^{(0)}+g_\ell^{(1)}}{2}\right),\\m_{\ell,r}'&amp;=0.9m_{\ell,r}+g_{\ell,r},\qquad W_{\ell,r}'=W_{\ell,r}-0.1m_{\ell,r}'.\end{aligned}</div><figcaption>gℓ⁽⁰⁾、gℓ⁽¹⁾ 是两份样本的本地梯度，r 为参数片拥有者。ReduceScatter 实现求和与分发，除以 DP 数的系数需与所选归约约定一致；本例动量初值为零。</figcaption></figure>
+      <div class="experiment"><div class="experiment-head"><h3>两卡、两层的逐事件账本</h3><span class="assumption">FSDP 风格逻辑过程 · 无通信时延</span></div><div class="experiment-body"><div class="experiment-controls recipe-controls">
+        <label><span>前向后的完整参数</span><select data-fl-strategy><option value="reshard">释放，反向前再聚合</option><option value="keep">保留到对应反向完成</option></select></label><label class="check-control"><input type="checkbox" data-fl-prefetch><span>提前聚合下一层参数</span></label><label><span>当前事件</span><select data-fl-event></select></label><div class="step-actions"><button class="button" type="button" data-fl-prev>上一步</button><button class="button button-primary" type="button" data-fl-next>下一步</button></div><p class="experiment-note">初始每卡有 4 个参数元素与 4 个动量元素。图只计参数、动量、完整本地梯度及归约梯度片；临时完整参数另分配缓冲区。字节账本假设每元素 4 B，数值计算使用 JavaScript 双精度。</p>
+      </div><div class="experiment-view" aria-live="polite"><div class="metric-row chain-metrics"><div><span>当前每卡逻辑存活量</span><strong data-fl-live></strong></div><div><span>截至当前的峰值</span><strong data-fl-peak></strong></div><div><span>已完成 AllGather / ReduceScatter</span><strong data-fl-collectives></strong></div></div><p class="experiment-note" data-fl-note></p><div class="compare-wrap"><table><thead><tr><th>Rank</th><th>持久参数片</th><th>临时完整参数</th><th>完整本地梯度</th><th>归约后的梯度片</th><th>逻辑字节</th></tr></thead><tbody data-fl-ranks></tbody></table></div><details><summary>完整事件序列的存活元素数（高亮当前事件）</summary><ol class="chain-memory" data-fl-memory aria-label="各事件每卡存活元素数"></ol></details></div></div><p class="experiment-caption">ReduceScatter 事件同时计入其输入梯度与输出片，随后释放输入。不计 activation、通信 workspace、分配器碎片及缓冲区别名。预取是提前聚合的逻辑顺序，不据此估计真实速度或物理显存峰值。</p></div>
+      <details><summary>完整运行后的梯度与一次更新校验</summary><p class="chain-verification">各策略完成全部事件后，与未分片参考的最大参数差：<strong data-fl-error></strong>。此结果独立于当前步进位置。</p><div class="compare-wrap"><table><thead><tr><th>参数</th><th>规约梯度</th><th>分片更新后重建</th><th>未分片参考更新</th></tr></thead><tbody data-fl-result></tbody></table></div></details>
+      <div class="concept-pairs"><div><h3>释放策略影响重新聚合次数</h3><p>本例两层前向后都释放时，共四次 AllGather；保留时共两次。两种策略计算相同目标，交换的是完整参数存活量与再次聚合的工作。</p></div><div><h3>预取提前占用缓冲区</h3><p>下一层参数先到位可能减少实际运行的等待，也可能使多层参数同时存活。这里只展示后一个可计数关系；重叠收益需要 profiler 证据。</p></div></div><div class="reading-links"><a href="distributed-execution.html#collective-ledger">集合通信的输入与输出</a><a href="engineering.html#memory-title">静态状态显存</a><a href="activation-checkpointing.html">激活保存与重算</a><a href="performance-analysis.html#execution-path">计算与通信关键路径</a></div>
+    </section></div>
+    <section class="section" aria-labelledby="profile-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">06</span>
+          <h2 id="profile-title">调参顺序：先 profiler，后学习率</h2>
+        </div>
+        <p class="section-note">训练系统的问题要先用可观测信号定位：计算、显存、dataloader 还是通信。</p>
+      </div>
+
+      <div class="profile-order">
+        <div><span>01</span><h3>确认数值闭环</h3><p>单 batch loss 下降、checkpoint 可恢复、grad 非零/不爆炸。</p></div>
+        <div><span>02</span><h3>看 tokens/s 与等待</h3><p>区分 compute、dataloader、collective、checkpoint 写入的等待。</p></div>
+        <div><span>03</span><h3>看显存峰值</h3><p>拆出参数、optimizer、activation、临时 workspace 与碎片。</p></div>
+        <div><span>04</span><h3>再改并行/batch</h3><p>每次改一项；验证全局 batch、学习率、warmup 与收敛证据。</p></div>
+      </div>
+
+      <div class="closing-links">
+        <a class="button button-primary" href="engineering.html">回训练工程全流程</a>
+        <a class="button" href="model-artifacts.html">查看 checkpoint 工件</a>
+        <a class="button" href="parallel-correctness.html">验证多卡目标</a>
+        <a class="button" href="performance-analysis.html">定量分析瓶颈</a>
+        <a class="button" href="model-evaluation.html">回到评估门禁</a>
+        <a class="button" href="distributed-execution.html">追踪每卡张量</a>
+        <a class="button" href="activation-checkpointing.html">查看激活生命周期</a>
+      </div>
+    </section>
+
+<div class="modern-page"><div class="reading-links"><a href="context-parallel.html">上下文并行的逐事件数值验证</a></div></div>

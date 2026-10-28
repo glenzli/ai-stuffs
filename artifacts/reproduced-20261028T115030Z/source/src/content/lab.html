@@ -1,0 +1,205 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">04 / RETRIEVAL SANDBOX</p>
+        <h1>向量检索：<span class="accent-text">从问题找到候选文档</span></h1>
+        <p class="lede">
+          这里用一个小型、可解释的五维向量空间模拟检索。你可以改变问题、分块粒度、召回数量和重排，
+          观察同一批向量为什么会产生不同的上下文包。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">离线教学沙盘</p>
+        <p>文档与向量都是手工构造，用于展示相似度计算与排序。reranker 用关键词命中做近似模拟，并明确标出。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="sandbox-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="sandbox-title">从 query 到上下文包</h2>
+        </div>
+        <p class="section-note">先调参数，再看下方候选排序。灰色框中的文字会随分块策略变化。</p>
+      </div>
+
+      <div class="sandbox-shell">
+        <form class="sandbox-controls" aria-label="检索实验参数" data-lab-form>
+          <div class="sandbox-control-head">
+            <p class="micro-label">CONTROLS</p>
+            <button type="button" data-sandbox-reset>恢复默认</button>
+          </div>
+
+          <label class="control-field">
+            <span>Query</span>
+            <select name="query">
+              <option value="training">负样本怎样产生梯度？</option>
+              <option value="context">句向量为什么要池化？</option>
+              <option value="posttrain">SFT 与偏好训练有什么区别？</option>
+            </select>
+          </label>
+
+          <fieldset class="control-field">
+            <legend>文档分块粒度</legend>
+            <div class="segment-control">
+              <label><input type="radio" name="chunking" value="fine"><span>细</span></label>
+              <label><input type="radio" name="chunking" value="medium" checked><span>中</span></label>
+              <label><input type="radio" name="chunking" value="coarse"><span>粗</span></label>
+            </div>
+            <small data-chunk-help>相邻句子合并成中等块：召回更稳，但可能混入一些无关细节。</small>
+          </fieldset>
+
+          <label class="control-field range-field">
+            <span>送入回答阶段的 Top-k <strong data-topk-value>4</strong></span>
+            <input type="range" name="topk" min="1" max="7" value="4" step="1">
+          </label>
+
+          <label class="switch-field">
+            <span>
+              <strong>模拟 cross-encoder 重排</strong>
+              <small>先召回候选，再用更贵的打分器重新排序</small>
+            </span>
+            <input type="checkbox" name="rerank">
+          </label>
+
+          <div class="query-vector">
+            <span class="micro-label">QUERY VECTOR / TOY 5D</span>
+            <div class="vector-bars" data-query-vector></div>
+            <small>轴：训练信号 / 负样本 / 上下文 / 行为 / 噪声</small>
+          </div>
+        </form>
+
+        <div class="sandbox-results">
+          <div class="sandbox-results-head">
+            <div>
+              <p class="micro-label">RETRIEVAL RESULTS</p>
+              <h3 data-query-title>负样本怎样产生梯度？</h3>
+            </div>
+            <div class="pipeline-state" data-pipeline-state>bi-encoder 召回</div>
+          </div>
+
+          <div class="score-legend">
+            <span><i class="score-embedding"></i>向量 cosine</span>
+            <span><i class="score-rerank"></i>重排后顺序</span>
+            <span><i class="score-cut"></i>Top-k 截断</span>
+          </div>
+
+          <div class="retrieval-list" data-retrieval-list aria-live="polite"></div>
+          <div class="retrieval-footer">
+            <span data-result-summary>4 个块进入上下文包</span>
+            <span data-rerank-note>未启用重排</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pipeline-strip" aria-label="RAG 检索流水线">
+        <div><span>1</span><strong>Query 编码</strong><small>问题 → 一个向量</small></div>
+        <i aria-hidden="true">→</i>
+        <div><span>2</span><strong>向量召回</strong><small>全库 cosine / ANN</small></div>
+        <i aria-hidden="true">→</i>
+        <div><span>3</span><strong>重排</strong><small>更贵但更细的相关性</small></div>
+        <i aria-hidden="true">→</i>
+        <div><span>4</span><strong>上下文组装</strong><small>Top-k 块 + 元数据</small></div>
+        <i aria-hidden="true">→</i>
+        <div><span>5</span><strong>生成</strong><small>LLM 基于证据回答</small></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="tradeoff-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="tradeoff-title">分块怎样影响检索结果</h2>
+        </div>
+        <p class="section-note">一个向量代表什么，首先由“你把哪段文字交给编码器”决定。</p>
+      </div>
+
+      <div class="chunk-tradeoff">
+        <article>
+          <span class="tag tag-coral">太细</span>
+          <h3>命中精确，证据残缺</h3>
+          <p>一句里有“负样本”和“梯度”，但缺失前置条件，生成阶段可能无法解释完整机制。短块还更容易出现语义重复。</p>
+          <code>precision ↑ / context continuity ↓</code>
+        </article>
+        <article>
+          <span class="tag tag-teal">合适</span>
+          <h3>一个块就是一个可回答单元</h3>
+          <p>块内保留定义、条件和结论，块间有清晰边界。标题、小节名与元数据可以帮助编码和过滤，让每个块保留回答所需的上下文。</p>
+          <code>unit of answer ≈ unit of vector</code>
+        </article>
+        <article>
+          <span class="tag">太粗</span>
+          <h3>主题相近，稀释关键信号</h3>
+          <p>长段落里包含很多主题，向量被平均后可能“什么都像一点”。召回可能看似相关，却挤占 Top-k 且把有效答案挡在外面。</p>
+          <code>recall superficially ↑ / answerability ↓</code>
+        </article>
+      </div>
+
+      <div class="callout">
+        <p><strong>实用原则：</strong>先按语义结构分块，再评测。除了 chunk size，标题层级、段落、代码边界、表格行、问题与答案的自然单元，往往比固定窗口更重要。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="cosine-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="cosine-title">高维“点”为什么能表示含义？</h2>
+        </div>
+        <p class="section-note">多个向量方向共同编码训练任务需要区分的差异，单个维度通常难以独立解释。</p>
+      </div>
+
+      <div class="meaning-grid">
+        <article>
+          <span class="big-symbol">R<sup>d</sup></span>
+          <h3>容量来自组合</h3>
+          <p>d 维空间有大量不同方向。模型可以把“是否问训练”“是否关于中文”“是否可回答”等差异分散到多个维度和组合上，形成组合表示。</p>
+        </article>
+        <article>
+          <span class="big-symbol">cos</span>
+          <h3>排序比绝对值更常用</h3>
+          <p>通常比较方向夹角或归一化点积。一个模型内的 0.82 可以比 0.79 更相近，但不同模型之间的 0.82 通常不可直接横向比较。</p>
+        </article>
+        <article>
+          <span class="big-symbol">−</span>
+          <h3>负样本防止“全都相似”</h3>
+          <p>只拉近正样本，表示可能坍缩到一个狭窄区域；负样本提供分离压力。难负样本则让分离发生在容易混淆的地方。</p>
+        </article>
+        <article>
+          <span class="big-symbol">τ</span>
+          <h3>温度改变梯度锐度</h3>
+          <p>在 InfoNCE 中，温度 τ 控制相似度分布有多尖锐。温度过低可能被少量难样本主导，过高则所有候选的差别被抹平。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="checklist-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="checklist-title">落地时的最小检查表</h2>
+        </div>
+        <p class="section-note">按表中的环节检查，可以定位召回和排序的损失来自哪里。</p>
+      </div>
+
+      <div class="checklist">
+        <label><input type="checkbox"><span><strong>表示单位与答案单位一致吗？</strong><small>一个块能否独立支撑你要生成的结论？</small></span></label>
+        <label><input type="checkbox"><span><strong>训练与在线的 normalize / pooling 一致吗？</strong><small>模型卡中的使用方式是否被工程代码忠实执行？</small></span></label>
+        <label><input type="checkbox"><span><strong>正负样本和业务目标一致吗？</strong><small>“相关”“可用”“能回答”是否被混为一谈？</small></span></label>
+        <label><input type="checkbox"><span><strong>召回与重排都测了吗？</strong><small>指标分开看：Recall@k 决定候选上限，reranker 只能在此之上精挑。</small></span></label>
+        <label><input type="checkbox"><span><strong>换模型时知道要重建什么吗？</strong><small>embedding 版本、块内容、索引、缓存与 query 指令需要对齐。</small></span></label>
+        <label><input type="checkbox"><span><strong>长尾和困难问题进了评估集吗？</strong><small>评估应覆盖不同来源、难度和问法。</small></span></label>
+      </div>
+    </section>
+
+    <section class="section closing">
+      <p class="eyebrow">THE FRAME YOU NOW HAVE</p>
+      <h2>先固定这四个变量：<br><span>表示单位</span>、<span>相似性定义</span>、<span>监督信号</span>、<span>评估方式</span>。</h2>
+      <p>模型名和维度是这四个变量的结果。可以继续查看：历史上某种目标为何出现、某条 loss 的梯度怎么推、后训练的负样本如何挖，或者检索系统某一层为什么掉了召回。</p>
+      <div class="closing-links">
+        <a class="button button-primary" href="representation.html">回看表示演化</a>
+        <a class="button" href="training.html">回到训练回路</a>
+        <a class="button" href="posttraining.html">回到后训练</a>
+      </div>
+    </section>
+
+<div class="modern-page"><div class="reading-links"><a href="ann-index.html">ANN 索引：精确参考、候选与版本检查</a></div></div>

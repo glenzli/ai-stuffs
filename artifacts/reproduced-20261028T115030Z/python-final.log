@@ -1,0 +1,78 @@
+
+Running test-learning-core.py
+test_causality_and_padding_do_not_change_supervised_logits (__main__.CoreTests.test_causality_and_padding_do_not_change_supervised_logits) ... ok
+test_checkpoint_optimizer_rng_cursor_trajectory_roundtrip (__main__.CoreTests.test_checkpoint_optimizer_rng_cursor_trajectory_roundtrip) ... ok
+test_eos_extra_missing_and_incomplete_score (__main__.CoreTests.test_eos_extra_missing_and_incomplete_score) ... ok
+test_evaluation_restores_rng_and_each_module_mode (__main__.CoreTests.test_evaluation_restores_rng_and_each_module_mode) ... ok
+test_full_cache_chunk_and_norm_equality (__main__.CoreTests.test_full_cache_chunk_and_norm_equality) ... ok
+test_generation_common_cap_and_no_gold_length_stop (__main__.CoreTests.test_generation_common_cap_and_no_gold_length_stop) ... ok
+test_generation_pad_is_real_position_and_cache_trajectory_matches (__main__.CoreTests.test_generation_pad_is_real_position_and_cache_trajectory_matches) ... ok
+test_group_disjointness_and_reversal_partner_presence (__main__.CoreTests.test_group_disjointness_and_reversal_partner_presence) ... ok
+test_loss_denominators_and_all_ignore_skip (__main__.CoreTests.test_loss_denominators_and_all_ignore_skip) ... ok
+test_model_construction_rng_isolation_and_baseline_separation (__main__.CoreTests.test_model_construction_rng_isolation_and_baseline_separation) ... ok
+test_parameter_gradient_against_directional_finite_difference (__main__.CoreTests.test_parameter_gradient_against_directional_finite_difference) ... ok
+test_supervision_shift_and_padding (__main__.CoreTests.test_supervision_shift_and_padding) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.662s
+
+OK
+
+Running test-failure-replay.py
+test_loss_and_18_real_traces_from_saved_tensors (__main__.SavedActualFailureAudit.test_loss_and_18_real_traces_from_saved_tensors) ... ok
+test_provenance_checks_and_pending_step (__main__.SavedActualFailureAudit.test_provenance_checks_and_pending_step) ... ok
+test_repairs_and_controls_are_binary_state_and_tensor_equal (__main__.SavedActualFailureAudit.test_repairs_and_controls_are_binary_state_and_tensor_equal) ... ok
+test_three_fault_types_and_probe_scope (__main__.SavedActualFailureAudit.test_three_fault_types_and_probe_scope) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.599s
+
+OK
+
+Running test-training-dynamics.py
+test_author_parameter_groups_readout_and_base_equivalence (__main__.DynamicsTests.test_author_parameter_groups_readout_and_base_equivalence) ... ok
+test_checkpoint_shape_restore_never_rescales_twice (__main__.DynamicsTests.test_checkpoint_shape_restore_never_rescales_twice) ... ok
+test_population_and_exact_sampling_against_vector_enumeration (__main__.DynamicsTests.test_population_and_exact_sampling_against_vector_enumeration) ... ok
+test_psd_and_near_zero_mean (__main__.DynamicsTests.test_psd_and_near_zero_mean) ... ok
+test_refuses_existing_report_and_directory (__main__.DynamicsTests.test_refuses_existing_report_and_directory) ... ok
+test_saved_batch_weights_metrics_and_actual_resume_rng (__main__.DynamicsTests.test_saved_batch_weights_metrics_and_actual_resume_rng) ... ok
+test_saved_gradient_tensors_recompute_the_report_population (__main__.DynamicsTests.test_saved_gradient_tensors_recompute_the_report_population) ... ok
+test_saved_width_and_depth_weights_recompute_displayed_measurements (__main__.DynamicsTests.test_saved_width_and_depth_weights_recompute_displayed_measurements) ... ok
+test_shared_decoder_sequence_objective_with_unequal_lengths (__main__.DynamicsTests.test_shared_decoder_sequence_objective_with_unequal_lengths) ... ok
+test_token_stream_scheduler_and_rng_detector (__main__.DynamicsTests.test_token_stream_scheduler_and_rng_detector) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 4.232s
+
+OK
+
+Running test-chunked-ce.py
+test_all_upstream_scalars_each_gradient_independently (__main__.ChunkedCETest.test_all_upstream_scalars_each_gradient_independently) ... ok
+test_autograd_gradcheck_and_higher_order_scope (__main__.ChunkedCETest.test_autograd_gradcheck_and_higher_order_scope) ... ok
+test_frozen_classifier_still_returns_hidden_gradient (__main__.ChunkedCETest.test_frozen_classifier_still_returns_hidden_gradient) ... ok
+test_hooks_deduplicate_shared_backing_storages (__main__.ChunkedCETest.test_hooks_deduplicate_shared_backing_storages) ... ok
+test_independent_dispatch_and_hook_allocation_audit (__main__.ChunkedCETest.test_independent_dispatch_and_hook_allocation_audit) ... ok
+test_invalid_arguments_and_masked_invalid_label (__main__.ChunkedCETest.test_invalid_arguments_and_masked_invalid_label) ... ok
+test_multiple_losses_sum_shared_output_gradients (__main__.ChunkedCETest.test_multiple_losses_sum_shared_output_gradients) ... ok
+test_noncontiguous_inputs_and_bias (__main__.ChunkedCETest.test_noncontiguous_inputs_and_bias) ... ok
+test_saved_inputs_cannot_be_mutated_between_stages (__main__.ChunkedCETest.test_saved_inputs_cannot_be_mutated_between_stages) ... ok
+test_single_class_and_custom_ignore_index (__main__.ChunkedCETest.test_single_class_and_custom_ignore_index) ... ok
+test_stable_common_shifts_in_argument_and_bias (__main__.ChunkedCETest.test_stable_common_shifts_in_argument_and_bias) ... ok
+test_tails_masks_and_target_in_every_block (__main__.ChunkedCETest.test_tails_masks_and_target_in_every_block) ... ok
+test_zero_valid_positions_and_zero_n (__main__.ChunkedCETest.test_zero_valid_positions_and_zero_n) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.512s
+
+OK
+
+Running test-learning-artifacts.py
+test_all_initial_and_final_weights_reproduce_every_metric_and_prediction (__main__.SavedLearningAudit.test_all_initial_and_final_weights_reproduce_every_metric_and_prediction) ... ok
+test_saved_files_sources_and_frozen_budget (__main__.SavedLearningAudit.test_saved_files_sources_and_frozen_budget) ... ok
+test_saved_new_process_resume_proofs_cover_full_state_and_trace (__main__.SavedLearningAudit.test_saved_new_process_resume_proofs_cover_full_state_and_trace) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.239s
+
+OK
+Failed targets: []

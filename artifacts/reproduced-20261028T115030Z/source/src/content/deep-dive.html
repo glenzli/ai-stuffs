@@ -1,0 +1,18 @@
+<section class="page-intro">
+  <div><p class="eyebrow">学习路线 / 从输入到可复现的训练</p><h1>六步主线：<span class="accent-text">先看一次学习，再逐层深入</span></h1><p class="lede">先知道模型收到什么、怎样计算和更新，再用小模型的实际结果区分拟合与泛化。完成这些以后，进入稳定性、复现和资源扩展。</p></div>
+  <aside class="intro-aside"><p class="micro-label">怎么使用这条路线</p><p>每步先读“先读”范围，再做一句自检。已有基础可以跳到对应步骤；公式推导和额外对照都在“按需深入”中。</p></aside>
+</section>
+<section class="section compact" aria-labelledby="deep-routes-title">
+  <div class="section-heading"><div><span class="section-number">01—06</span><h2 id="deep-routes-title">从一个问题走到下一份证据</h2></div><p class="section-note">先完成前四步即可建立学习闭环；第五、六步处理接续运行与扩大规模。</p></div>
+  <p class="learning-route-note">主线中的生成任务采用已有的四符号反转实验。各计算专题仍使用自己明确声明的小模型、维度与假设，数值不能直接跨示例拼接。</p>
+  {{learningPathDetailed}}
+</section>
+<section class="section" aria-labelledby="learning-branches"><div class="section-heading"><h2 id="learning-branches">按你的任务继续走</h2><p class="section-note">主线之后，选择当前任务需要的分支；各专题也可以直接查阅。</p></div>{{learningBranches}}</section>
+<section class="section" aria-labelledby="route-reading-depth"><div class="section-heading"><h2 id="route-reading-depth">什么时候需要再深入一层？</h2></div>
+  <div class="route-skip-grid">
+    <article><h3>要推清一条梯度</h3><p>先读 <a href="training-deep.html">损失与梯度</a>，再用 <a href="backpropagation.html">整层反传</a>核验。矩阵乘法、softmax 和链式法则在这里开始成为前置。</p></article>
+    <article><h3>要建立检索直觉</h3><p>从 <a href="lab.html">检索沙盘</a>开始，再看 <a href="representation-deep.html">表示几何</a>与 <a href="simulator.html">对比学习模拟</a>。手工向量、模拟更新与模型实测各自标注。</p></article>
+    <article><h3>要理解设计如何演变</h3><p>选读 <a href="representation.html">Embedding 演化</a>和 <a href="transformer-evolution.html">Transformer 演化</a>，再回到具体任务比较 <a href="architecture-variants.html">结构变体</a>。</p></article>
+  </div>
+  <p class="learning-route-note">已有异常时，直接进入 <a href="training-engineer-guide.html#radar-title">问题雷达</a>；想定位知识缺口，可以先做 <a href="engineering-check.html">综合自测</a>。页面上的“入门 / 进阶”表示建议阅读深度，“计算演示 / 实测报告”说明结果的呈现方式。</p>
+</section>

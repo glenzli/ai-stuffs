@@ -1,0 +1,491 @@
+/* Post-training deep dive */
+.objective-ledger {
+  border-top: 1px solid var(--line-strong);
+}
+
+.ledger-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.55fr) minmax(300px, 1.15fr) minmax(280px, 1fr) 120px;
+  gap: 24px;
+  align-items: center;
+  padding: 20px 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.ledger-row h3 {
+  margin: 8px 0 0;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.ledger-row code {
+  overflow-wrap: anywhere;
+  color: var(--accent);
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.ledger-row p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 11px;
+}
+
+.ledger-row > span {
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 8px;
+  text-align: right;
+}
+
+.scope-lab {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.scope-controls {
+  padding: 21px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.scope-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  margin-top: 12px;
+}
+
+.scope-buttons button {
+  min-height: 43px;
+  padding: 8px;
+  color: var(--ink-soft);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.scope-buttons button[aria-pressed="true"] {
+  color: var(--surface-strong);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.scope-caveat {
+  margin: 11px 0 0;
+  color: var(--ink-faint);
+  font-size: 9px;
+}
+
+.scope-diagram {
+  display: grid;
+  grid-template-columns: minmax(290px, 0.9fr) minmax(0, 1.1fr);
+  background: var(--surface-strong);
+}
+
+.scope-stack {
+  display: grid;
+  gap: 6px;
+  padding: 23px;
+  border-right: 1px solid var(--line);
+}
+
+.scope-block {
+  padding: 13px 15px;
+  background: var(--bg);
+  border-left: 4px solid var(--line-strong);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.scope-block strong,
+.scope-block span {
+  display: block;
+}
+
+.scope-block strong {
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.scope-block span {
+  color: var(--ink-faint);
+  font-size: 9px;
+}
+
+.scope-block.is-trainable {
+  background: var(--accent-soft);
+  border-left-color: var(--accent);
+}
+
+.scope-block.is-partial {
+  background: var(--yellow-soft);
+  border-left-color: var(--yellow);
+}
+
+.scope-block.is-frozen {
+  opacity: 0.55;
+  border-left-color: var(--line-strong);
+}
+
+.scope-result {
+  padding: 24px;
+}
+
+.scope-result h3 {
+  margin: 7px 0 9px;
+  font-family: var(--serif);
+  font-size: 27px;
+  font-weight: 500;
+}
+
+.scope-result > p:not(.micro-label) {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.scope-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 20px;
+  background: var(--line);
+}
+
+.scope-facts div {
+  padding: 10px;
+  background: var(--surface);
+}
+
+.scope-facts span {
+  display: block;
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.scope-facts strong {
+  display: block;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.dpo-derivation {
+  display: grid;
+  grid-template-columns: minmax(0, 1.07fr) minmax(0, 0.93fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.dpo-formulas {
+  display: grid;
+  grid-template-columns: 1fr;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.dpo-formulas > div {
+  padding: 19px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.dpo-formulas > div:last-child {
+  border-bottom: 0;
+}
+
+.dpo-formulas code {
+  display: block;
+  margin: 7px 0;
+  overflow-wrap: anywhere;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.dpo-formulas p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.dpo-lab {
+  min-width: 0;
+  padding: 22px;
+  background: var(--surface-strong);
+}
+
+.dpo-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.dpo-controls .lab-range {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.dpo-output {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 18px;
+  background: var(--line);
+}
+
+.dpo-output div {
+  padding: 11px;
+  background: var(--surface);
+}
+
+.dpo-output span {
+  display: block;
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.dpo-output strong {
+  display: block;
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.dpo-lab > p {
+  margin: 17px 0 0;
+  color: var(--ink-soft);
+  font-size: 11px;
+}
+
+.contrast-notes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.contrast-notes article {
+  padding: 19px;
+  background: var(--surface);
+  border-top: 2px solid var(--line-strong);
+}
+
+.contrast-notes span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.contrast-notes h3 {
+  margin: 9px 0 6px;
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 500;
+}
+
+.contrast-notes p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 11px;
+}
+
+.sft-details {
+  border-top: 1px solid var(--line-strong);
+}
+
+.sft-details details {
+  border-bottom: 1px solid var(--line);
+}
+
+.sft-details summary {
+  padding: 16px 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sft-details p {
+  max-width: 1000px;
+  margin: 0;
+  padding: 0 8px 18px 22px;
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.retrieval-post-flow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.retrieval-post-flow div {
+  min-width: 0;
+  padding: 20px;
+  border-right: 1px solid var(--line);
+}
+
+.retrieval-post-flow div:last-child {
+  border-right: 0;
+}
+
+.retrieval-post-flow span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.retrieval-post-flow h3 {
+  margin: 9px 0 6px;
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 500;
+}
+
+.retrieval-post-flow p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.eval-matrix {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.eval-matrix div {
+  min-width: 0;
+  padding: 19px;
+  background: var(--bg);
+}
+
+.eval-matrix span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.eval-matrix strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.eval-matrix p {
+  margin: 5px 0 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+@media (max-width: 1120px) {
+  .ledger-row {
+    grid-template-columns: minmax(150px, 0.5fr) minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+
+  .ledger-row > span {
+    display: none;
+  }
+
+  .dpo-derivation {
+    grid-template-columns: 1fr;
+  }
+
+  .dpo-formulas {
+    grid-template-columns: 1fr 1fr 1fr;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .dpo-formulas > div {
+    border-right: 1px solid var(--line);
+    border-bottom: 0;
+  }
+
+  .dpo-formulas > div:last-child {
+    border-right: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .ledger-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 18px 0;
+  }
+
+  .scope-controls,
+  .scope-stack,
+  .scope-result,
+  .dpo-lab {
+    padding: 17px 13px;
+  }
+
+  .scope-buttons {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .scope-buttons button {
+    min-height: 44px;
+  }
+
+  .scope-diagram {
+    grid-template-columns: 1fr;
+  }
+
+  .scope-stack {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .scope-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .dpo-formulas {
+    grid-template-columns: 1fr;
+  }
+
+  .dpo-formulas > div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .dpo-controls,
+  .dpo-output {
+    grid-template-columns: 1fr;
+  }
+
+  .dpo-output div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dpo-output strong {
+    font-size: 21px;
+  }
+
+  .contrast-notes,
+  .retrieval-post-flow,
+  .eval-matrix {
+    grid-template-columns: 1fr;
+  }
+
+  .retrieval-post-flow div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .retrieval-post-flow div:last-child {
+    border-bottom: 0;
+  }
+}

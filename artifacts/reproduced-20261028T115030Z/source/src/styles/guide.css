@@ -1,0 +1,411 @@
+/* Site concept index */
+.site-index {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.site-index-search {
+  display: block;
+  padding: 17px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-index-search > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink-soft);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.site-index-search input {
+  width: 100%;
+  min-height: 44px;
+  padding: 9px 12px;
+  color: var(--ink);
+  background: var(--surface-strong);
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  font-size: 11px;
+}
+
+.site-index-meta {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 9px 13px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-index-meta span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.site-index-meta small {
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.site-index-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+}
+
+.site-index-results > a {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.45fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: baseline;
+  padding: 13px;
+  background: var(--surface-strong);
+  text-decoration: none;
+}
+
+.site-index-results > a:hover {
+  background: var(--accent-soft);
+}
+
+.site-index-results strong {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.site-index-results span {
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.site-index-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 17px;
+  color: var(--ink-soft);
+  background: var(--surface-strong);
+  font-size: 10px;
+}
+
+@media (max-width: 760px) {
+  .site-index-results {
+    grid-template-columns: 1fr;
+  }
+
+  .site-index-results > a {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    min-height: 44px;
+  }
+}
+
+/* Training engineer field guide */
+.engineer-contracts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.engineer-contracts > a {
+  padding: 18px;
+  background: var(--surface);
+  border-top: 2px solid var(--accent);
+  text-decoration: none;
+}
+
+.engineer-contracts > a:hover {
+  background: var(--surface-strong);
+}
+
+.engineer-contracts span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.engineer-contracts h3 {
+  margin: 9px 0 6px;
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 500;
+}
+
+.engineer-contracts p {
+  min-height: 65px;
+  margin: 0 0 10px;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.engineer-contracts strong {
+  color: var(--ink);
+  font-size: 8px;
+  font-weight: 500;
+}
+
+.run-lifecycle {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.run-lifecycle > div {
+  min-width: 0;
+  padding: 16px;
+  border-right: 1px solid var(--line);
+}
+
+.run-lifecycle > div:last-child {
+  border-right: 0;
+}
+
+.run-lifecycle span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.run-lifecycle strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 10px;
+}
+
+.run-lifecycle p {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  font-size: 8px;
+}
+
+.problem-radar {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.problem-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  padding: 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.problem-filters button {
+  min-height: 34px;
+  padding: 6px 10px;
+  color: var(--ink-soft);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 9px;
+}
+
+.problem-filters button[aria-pressed="true"] {
+  color: var(--surface-strong);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.problem-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.48fr) minmax(0, 1.52fr);
+}
+
+.problem-list {
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.problem-list button {
+  display: block;
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 12px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  font-size: 9px;
+  text-align: left;
+}
+
+.problem-list button:hover {
+  background: var(--bg);
+}
+
+.problem-list button[aria-pressed="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+
+.problem-detail {
+  min-width: 0;
+  padding: 21px;
+  background: var(--surface-strong);
+}
+
+.problem-detail-head h3 {
+  margin: 7px 0 12px;
+  font-family: var(--serif);
+  font-size: 27px;
+  font-weight: 500;
+}
+
+.problem-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+}
+
+.problem-detail-grid > div {
+  padding: 12px;
+  background: var(--surface);
+}
+
+.problem-detail-grid span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.problem-detail-grid p {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.problem-detail-grid > div:last-child span {
+  color: var(--coral);
+}
+
+.engineer-skill-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.engineer-skill-grid article {
+  padding: 19px;
+  background: var(--surface);
+  border-top: 2px solid var(--line-strong);
+}
+
+.engineer-skill-grid span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.engineer-skill-grid h3 {
+  margin: 9px 0 6px;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.engineer-skill-grid p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 9px;
+}
+
+.project-questions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.project-questions > div {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 9px;
+  padding: 14px;
+  background: var(--bg);
+}
+
+.project-questions span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.project-questions p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+@media (max-width: 1120px) {
+  .engineer-contracts {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .run-lifecycle {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .run-lifecycle > div:nth-child(4n) {
+    border-right: 0;
+  }
+
+  .run-lifecycle > div:nth-child(-n+4) {
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 760px) {
+  .engineer-contracts,
+  .run-lifecycle,
+  .engineer-skill-grid,
+  .problem-layout,
+  .problem-detail-grid,
+  .project-questions {
+    grid-template-columns: 1fr;
+  }
+
+  .engineer-contracts p {
+    min-height: 0;
+  }
+
+  .run-lifecycle > div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .run-lifecycle > div:last-child {
+    border-bottom: 0;
+  }
+
+  .problem-filters button {
+    min-height: 44px;
+  }
+
+  .problem-list {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .problem-list button {
+    min-height: 44px;
+  }
+
+  .problem-detail {
+    padding: 17px 13px;
+  }
+}

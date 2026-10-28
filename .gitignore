@@ -1,0 +1,55 @@
+# Local dependencies and generated site
+/node_modules/
+/dist/
+/.venv/
+/.venv-*/
+/venv/
+/coverage/
+/.pytest_cache/
+/.mypy_cache/
+/.ruff_cache/
+/.cache/
+
+# Local credentials and environment overrides
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# OS, editor and Python caches (including archived run-time source copies)
+.DS_Store
+._*
+Thumbs.db
+__pycache__/
+*.py[cod]
+*.swp
+*.swo
+*~
+/.idea/
+/.vscode/
+*.log
+
+# Experiments are local by default. Keep the complete, pinned evidence set
+# referenced by src/experiment-sources.json so a clone can build and verify it.
+/artifacts/*
+!/artifacts/reproduced-20261028T115030Z/
+/artifacts/reproduced-20261028T115030Z/*
+!/artifacts/reproduced-20261028T115030Z/learning/
+!/artifacts/reproduced-20261028T115030Z/failures/
+!/artifacts/reproduced-20261028T115030Z/dynamics/
+!/artifacts/reproduced-20261028T115030Z/output/
+!/artifacts/reproduced-20261028T115030Z/downloads/
+!/artifacts/reproduced-20261028T115030Z/source/
+!/artifacts/reproduced-20261028T115030Z/SOURCE-SHA256SUMS
+!/artifacts/reproduced-20261028T115030Z/manifest.json
+!/artifacts/reproduced-20261028T115030Z/result-comparison.json
+!/artifacts/reproduced-20261028T115030Z/verification-summary.json
+!/artifacts/reproduced-20261028T115030Z/http-download-audit.json
+!/artifacts/reproduced-20261028T115030Z/browser-audit.json
+!/artifacts/reproduced-20261028T115030Z/browser-interaction.json
+!/artifacts/reproduced-20261028T115030Z/build-final.log
+!/artifacts/reproduced-20261028T115030Z/node-final.log
+!/artifacts/reproduced-20261028T115030Z/python-final.log

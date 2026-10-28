@@ -1,0 +1,263 @@
+<section class="page-intro guide-intro">
+      <div>
+        <p class="eyebrow">FIELD GUIDE / TRAINING ENGINEER</p>
+        <h1>模型工程指南：<span class="accent-text">从学习到问题定位</span></h1>
+        <p class="lede">从一条输入如何变成预测和参数更新开始，用真实小模型的结果理解学习与泛化，再进入复现、系统和任务专题。已有具体问题时，可以直接使用问题雷达和概念搜索。</p>
+      </div>
+    </section>
+
+<div class="guide-start">
+  <article aria-labelledby="guide-learn"><h2 id="guide-learn">我想从头学起</h2><p>先用前四步走完输入、预测、更新和学习结果，再按需读稳定与系统。</p><div class="guide-start-links"><a class="button button-primary" href="index.html">开始第一步 →</a><a href="deep-dive.html">查看六步路线与前置</a></div></article>
+  <article aria-labelledby="guide-lookup"><h2 id="guide-lookup">我正在解决问题</h2><p>按症状定位观测和下一步实验，也可以直接搜索概念与方法。</p><div class="guide-start-links"><a class="button" href="#radar-title">打开问题雷达</a><a href="#index-title">按概念搜索</a><a href="engineering-check.html">先做自测</a></div></article>
+</div>
+<section class="section compact" aria-labelledby="learning-mainline"><div class="section-heading"><div><span class="section-number">学习主线</span><h2 id="learning-mainline">先连成一次完整的学习过程</h2></div><p class="section-note">每步先看主问题；需要推导或实测细节时，再进入六步路线中的选读。</p></div>{{learningPath}}</section>
+
+<section class="section" aria-labelledby="radar-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">问题定位</span>
+          <h2 id="radar-title">问题雷达：从症状找到下一步实验</h2>
+        </div>
+        <p class="section-note">先选类型，再选具体现象。每项给出首要观测、可能方向、下一步实验与调整时的注意事项。</p>
+      </div>
+
+      <div class="problem-radar">
+        <div class="problem-filters" role="group" aria-label="训练问题类型">
+          <button type="button" data-problem-category="all" aria-pressed="true">全部</button>
+          <button type="button" data-problem-category="quality" aria-pressed="false">Loss / 质量</button>
+          <button type="button" data-problem-category="throughput" aria-pressed="false">吞吐</button>
+          <button type="button" data-problem-category="memory" aria-pressed="false">显存</button>
+          <button type="button" data-problem-category="distributed" aria-pressed="false">多卡</button>
+          <button type="button" data-problem-category="artifact" aria-pressed="false">恢复 / 工件</button>
+          <button type="button" data-problem-category="serving" aria-pressed="false">后训练 / 服务</button>
+        </div>
+
+        <div class="problem-layout">
+          <div class="problem-list" data-problem-list></div>
+          <div class="problem-detail" aria-live="polite">
+            <div class="problem-detail-head">
+              <p class="micro-label" data-problem-category-label>QUALITY</p>
+              <h3 data-problem-title>loss 完全不下降</h3>
+            </div>
+            <div class="problem-detail-grid">
+              <div><span>首要观测</span><p data-problem-observe>先检查固定小 batch 能否过拟合，确认数据、梯度与更新流程。</p></div>
+              <div><span>可能方向</span><p data-problem-cause>labels 错位、mask 全空、logits/loss 形状、优化器更新、学习率、初始化。</p></div>
+              <div><span>下一步实验</span><p data-problem-next>用一条真实样本检查 label→prediction 对齐；打印有效 token 数与梯度范数。</p></div>
+              <div><span>调整注意</span><p data-problem-avoid>直接调低学习率或换更大模型，掩盖数据/对齐错误。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section class="section compact" aria-labelledby="contracts-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">工程框架</span>
+          <h2 id="contracts-title">训练工程师的七个契约</h2>
+        </div>
+        <p class="section-note">七个方面各有对应的观测信号，可据此选择排查范围。</p>
+      </div>
+
+      <div class="engineer-contracts">
+        <a href="training-deep.html">
+          <span>01 / OBJECTIVE</span>
+          <h3>目标契约</h3>
+          <p>模型优化的是 token、pair 还是 preference？正样本、负样本和 reference 是什么？</p>
+          <strong>结合目标函数解释 loss 的变化。</strong>
+        </a>
+        <a href="data-tokenizer.html">
+          <span>02 / DATA</span>
+          <h3>数据契约</h3>
+          <p>唯一数据、重复、去重、tokenizer、special tokens、隔离与污染；线上 query 分布是什么？</p>
+          <strong>确认输入数据的内容、分布与版本。</strong>
+        </a>
+        <a href="transformer-anatomy.html">
+          <span>03 / TENSOR</span>
+          <h3>张量契约</h3>
+          <p>shape、mask、labels、padding、response mask、heads/KV heads、tied head 是否一致？</p>
+          <strong>运行成功后，继续核对形状和 mask。</strong>
+        </a>
+        <a href="training-systems-deep.html">
+          <span>04 / RESOURCE</span>
+          <h3>资源契约</h3>
+          <p>权重、optimizer、activation、KV、通信与吞吐；DP/TP/PP/EP 如何组合？</p>
+          <strong>测量峰值占用与等待，判断扩展条件。</strong>
+        </a>
+        <a href="training.html">
+          <span>05 / OPTIMIZATION</span>
+          <h3>优化契约</h3>
+          <p>global batch、梯度累积、LR/warmup、clip、init、precision 与异常数据。</p>
+          <strong>验证梯度、更新和恢复过程的数值一致性。</strong>
+        </a>
+        <a href="model-evaluation.html">
+          <span>06 / EVIDENCE</span>
+          <h3>证据契约</h3>
+          <p>held-out、切片、置信区间、污染、生成样例、发布门槛与回归集。</p>
+          <strong>用独立测试与回归结果验证训练收益。</strong>
+        </a>
+        <a href="model-artifacts.html">
+          <span>07 / ARTIFACT</span>
+          <h3>工件契约</h3>
+          <p>config、tokenizer、weights、optimizer、scheduler、RNG、数据游标与版本 manifest。</p>
+          <strong>保存恢复状态与版本，便于复现和后续使用。</strong>
+        </a>
+      </div>
+    </section>
+
+<section class="section" aria-labelledby="lifecycle-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">运行流程</span>
+          <h2 id="lifecycle-title">从设想到上线，一次训练 run 的生命周期</h2>
+        </div>
+        <p class="section-note">每个阶段都有验证条件，数据和工件检查贯穿全过程。</p>
+      </div>
+
+      <div class="run-lifecycle">
+        <div><span>00</span><strong>定义成功</strong><p>任务、失败代价、主指标、邻近任务与不可退化项。</p></div>
+        <div><span>01</span><strong>数据与 tokenizer 固化</strong><p>版本、去重、污染、模板、sequence 长度与 token 预算。</p></div>
+        <div><span>02</span><strong>单 batch 闭环</strong><p>形状、mask、loss、反传、保存与恢复都能通过。</p></div>
+        <div><span>03</span><strong>小规模真实分布</strong><p>计算吞吐、峰值、loss 下降、held-out 与失败样本。</p></div>
+        <div><span>04</span><strong>扩大并行与 token</strong><p>通信、显存、数据顺序、有效 batch、稳定性和成本。</p></div>
+        <div><span>05</span><strong>后训练与评估</strong><p>行为/表示目标、held-out 证据、污染与回归。</p></div>
+        <div><span>06</span><strong>工件与部署</strong><p>导出、量化、索引、回滚与线上监控。</p></div>
+      </div>
+    </section>
+
+<section class="section" aria-labelledby="index-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">概念搜索</span>
+          <h2 id="index-title">概念索引：从关键词直接找页面</h2>
+        </div>
+        <p class="section-note">搜模型名、训练事故、结构、评估或工程术语；例如 GQA、OOM、PPO、tokenizer、KV Cache。</p>
+      </div>
+
+      <div class="site-index">
+        <label for="site-concept-search" class="site-index-search">
+          <span>搜索全部页面</span>
+          <input id="site-concept-search" type="search" placeholder="输入概念，例如 MLA、reward hacking、KV Cache" autocomplete="off" data-site-search>
+        </label>
+        <div class="site-index-meta">
+          <span data-site-index-count>常用入口</span>
+          <small>结果来自本地静态索引，不需要联网。</small>
+        </div>
+        <div class="site-index-results" data-site-index-results aria-live="polite"></div>
+      </div>
+    </section>
+
+<section class="section" aria-labelledby="modern-paths"><div class="section-heading"><div><span class="section-number">任务分支</span><h2 id="modern-paths">把现代模型的关键问题接到工程主线</h2></div><p class="section-note">这些专题将新的目标、表示和运行方式接入前面的训练工程框架。</p></div>{{learningBranches}}<details class="guide-reference"><summary>按具体能力问题继续选读</summary><div class="engineer-contracts">
+      <a href="generation-mechanisms.html"><span>生成机制</span><h3>自回归与扩散</h3><p>训练为什么能并行，采样为什么要分步？潜在空间预测又在优化什么？</p><strong>先看分布分解与计算状态。</strong></a>
+      <a href="reasoning-compute.html"><span>推理机制</span><h3>CoT、Thinking 与 J-space</h3><p>可见解释、推理监督、验证器与内部表示如何区分？</p><strong>结合可见文本、内部状态与行为实验分析。</strong></a>
+      <a href="distillation-data.html"><span>数据与教师</span><h3>Teacher 和合成数据</h3><p>教师提供标签、概率、评分还是验证？怎么防止共同偏差？</p><strong>先定义监督对象，再选训练目标。</strong></a>
+      <a href="efficient-inference.html"><span>运行成本</span><h3>量化与投机解码</h3><p>低位数值怎样校准，草稿如何验收，实际速度为什么依赖引擎？</p><strong>质量、显存、吞吐和尾延迟一起验证。</strong></a>
+    </div></details></section>
+
+<section class="section" aria-labelledby="questions-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">项目起点</span>
+          <h2 id="questions-title">开始一个新项目时，先写下这十个答案</h2>
+        </div>
+        <p class="section-note">这些答案可以作为项目起始记录，随后用实验结果逐项修订。</p>
+      </div>
+
+      <div class="project-questions">
+        <div><span>01</span><p>要解决的用户失败是什么？成功指标是什么？</p></div>
+        <div><span>02</span><p>一个训练样本/答案单元是什么？长度分布怎样？</p></div>
+        <div><span>03</span><p>tokenizer 与 chat/task template 版本是什么？</p></div>
+        <div><span>04</span><p>唯一数据多少、重复多少、与评估集是否隔离？</p></div>
+        <div><span>05</span><p>训练 compute 与推理预算怎么平衡？</p></div>
+        <div><span>06</span><p>参数量、激活参数、显存与 KV 怎么估？</p></div>
+        <div><span>07</span><p>base / reference / reward / verifier 各自是谁？</p></div>
+        <div><span>08</span><p>主指标和不可退化项分别是什么？</p></div>
+        <div><span>09</span><p>checkpoint 如何保存、恢复、比较和回滚？</p></div>
+        <div><span>10</span><p>上线后的版本、索引、延迟和监控如何绑定？</p></div>
+      </div>
+    </section>
+
+<section class="section" aria-labelledby="skills-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">概念地图</span>
+          <h2 id="skills-title">训练工程师需要建立的概念地图</h2>
+        </div>
+        <p class="section-note">理解常见问题的原因、定位信号和可调整环节，有助于选择进一步研究的方向。</p>
+      </div>
+
+      <details class="guide-reference"><summary>展开六个工程知识方向</summary><div class="engineer-skill-grid">
+        <article><span>DATA</span><h3>清洗 → tokenizer → mixture</h3><p>知道 token 密度、去重、污染和混合会改变训练分布。</p></article>
+        <article><span>MODEL</span><h3>architecture → weights → shapes</h3><p>看懂 QKV、Norm、FFN/MoE、GQA/MLA、参数与 KV 公式。</p></article>
+        <article><span>SYSTEM</span><h3>compute → memory → communication</h3><p>区分计算瓶颈、OOM、通信等待与 dataloader starvation。</p></article>
+        <article><span>OPTIMIZATION</span><h3>loss → gradient → update</h3><p>理解 learning rate、batch、accumulation、precision、clip 与恢复。</p></article>
+        <article><span>EVIDENCE</span><h3>metric → slice → uncertainty</h3><p>会设计 held-out、污染检查、配对比较与发布门禁。</p></article>
+        <article><span>OPERATIONS</span><h3>artifact → rollout → monitoring</h3><p>文件版本、索引重建、灰度、回滚和失败集回归。</p></article>
+      </div></details>
+    </section>
+
+<div class="modern-page"><section class="section" aria-labelledby="exact-mechanics-route"><div class="section-heading"><span class="section-number">CORE / COMPUTATION</span><h2 id="exact-mechanics-route">把训练过程逐项算清楚</h2><p>按计算图、数值、执行和输出四条线阅读。每页先声明简化条件，再用参考结果核验；模型质量与硬件速度另行评估。</p></div><details class="guide-reference"><summary>展开计算图、数值、执行与输出的 18 个专题</summary><div class="exact-route-list">
+      <a href="backpropagation.html"><strong>1. 整层反向传播</strong><p>从交叉熵穿过 Attention、RMSNorm、残差和 SwiGLU，核对每个梯度。</p></a>
+      <a href="numerical-computing.html"><strong>2. 浮点与数值稳定性</strong><p>从舍入、求和顺序到稳定 softmax，观察误差怎样产生。</p></a>
+      <a href="attention-kernels.html"><strong>3. 分块 Attention</strong><p>运行最大值、分母与加权和，逐块还原同一行输出。</p></a>
+      <a href="distributed-execution.html"><strong>4. 多卡张量与通信</strong><p>两张逻辑卡分别算什么，在哪里合并前向结果和梯度。</p></a>
+      <a href="activation-checkpointing.html"><strong>5. 激活保存与重算</strong><p>沿时间线追踪激活的保留、重建、使用和释放。</p></a>
+      <a href="decoding-algorithms.html"><strong>6. 采样与约束解码</strong><p>从 logits 到候选、概率和输出，比较 greedy、采样和搜索。</p></a>
+      <a href="tensor-layout.html"><strong>7. 张量布局与内存</strong><p>用地址、步长和共享写入区分视图与副本。</p></a>
+      <a href="engineering-check.html"><strong>8. 综合理解检查</strong><p>自己核对数据、监督、形状、通信与缓存，再展开依据。</p></a>
+      <a href="position-cache.html"><strong>9. 位置与缓存一致性</strong><p>比较 RoPE、mask 和增量前向，定位第一个不同的 logits。</p></a>
+      <a href="model-artifacts.html#cpu-training-lab"><strong>10. CPU 训练与恢复实验</strong><p>运行同一小模型，保存状态并在新进程恢复，核对后续参数轨迹。</p></a>
+      <a href="packing-correctness.html"><strong>11. 样本打包与监督边界</strong><p>从多轮记录走到 token、mask、logits 和相同的参数梯度。</p></a>
+      <a href="lora-mechanics.html"><strong>12. LoRA 的梯度与合并</strong><p>观察 A/B 初始化、输入梯度、冻结底座与量化后的合并。</p></a>
+      <a href="parallel-correctness.html#contrastive-global"><strong>13. 跨卡对比学习</strong><p>全局负例、远端表示梯度、DDP 参数平均和累积边界。</p></a>
+      <a href="backpropagation.html#framework-reference"><strong>14. 独立框架对照</strong><p>用固定 PyTorch 版本核对自动微分、更新、恢复和双进程通信。</p></a>
+      <a href="attention-kernels.html#tiled-attention-backward"><strong>15. 分块反向与概率重建</strong><p>保存 LSE，重建局部概率，再累计所有 Q/K/V 梯度。</p></a>
+      <a href="activation-checkpointing.html#gradient-cache-lab"><strong>16. 全局负例的梯度缓存</strong><p>分块编码、全局表示梯度、随机重放和编码器反传。</p></a>
+      <a href="parallel-correctness.html#sharded-global-clipping"><strong>17. 分片范数与统一裁剪</strong><p>唯一拥有计数、复制参数去重、非有限梯度与协调跳步。</p></a>
+      <a href="performance-analysis.html#memory-measurement-lab"><strong>18. 保存量与真实耗时</strong><p>阅读 CPU 误差、张量存储引用、耗时分布及 profiler 报告。</p></a>
+    </div></details></section></div>
+
+<div class="modern-page"><section class="section" aria-labelledby="computation-chains-route"><div class="section-heading"><h2 id="computation-chains-route">把单项机制接成完整的执行过程</h2></div><details class="guide-reference"><summary>展开 5 个完整执行过程</summary><div class="exact-route-list"><a href="numerical-computing.html#mixed-precision-update"><strong>混合精度的一步更新</strong><p>从梯度缩放、累积到裁剪、溢出跳步和更新计数。</p></a><a href="model-artifacts.html#checkpoint-replay"><strong>恢复状态逐项对照</strong><p>观察遗漏 Adam、学习率、RNG 或数据位置后的首次偏差。</p></a><a href="training-systems-deep.html#fsdp-lifecycle"><strong>分片参数的生命周期</strong><p>聚合、前向、释放、反向、归约与本地更新。</p></a><a href="transformer-anatomy.html#moe-dispatch"><strong>专家分派与合并</strong><p>沿原 token ID 追踪复制、排列、计算与梯度相加。</p></a><a href="efficient-inference.html#speculative-probability"><strong>投机采样的概率账本</strong><p>接受质量与修正质量怎样合成同一个目标分布。</p></a></div></details></section></div>
+
+<div class="modern-page"><section class="section" aria-labelledby="decision-chains-route"><div class="section-heading"><span class="section-number">COMPUTE / COMPARE / VERIFY</span><h2 id="decision-chains-route">从计算正确走到实验判断</h2><p>在相同输入上比较分片、策略更新与量化，再用独立的结果评估和检索基准检验收益。</p></div><details class="guide-reference"><summary>展开 6 个计算与比较入口</summary><div class="exact-route-list">
+      <a href="context-parallel.html"><strong>上下文并行</strong><p>全局位置、K/V 交换、梯度归还和真实两进程对照。</p></a>
+      <a href="rl-update.html"><strong>RL 参数更新</strong><p>从回答 log-prob、优势和精确 KL 到六个参数的梯度。</p></a>
+      <a href="quantized-linear.html"><strong>量化矩阵乘</strong><p>逐项核对整数累加、零点、bias 单位和输出重定标。</p></a>
+      <a href="paired-evaluation.html"><strong>配对统计与导入</strong><p>逐题结果、来源组、差值区间和重复选择偏差。</p></a>
+      <a href="ann-index.html"><strong>ANN 索引与召回</strong><p>对照 Flat，检查候选遗漏、相关文档和编码版本。</p></a>
+      <a href="paired-evaluation.html#decision-cpu-lab"><strong>五项独立 CPU 实验</strong><p>统一导出固定输入，复核框架梯度、统计和真实索引。</p></a>
+    </div></details></section></div>
+
+<div class="modern-page"><section class="section" aria-labelledby="learning-dynamics-route"><div class="section-heading"><span class="section-number">TRAIN / REPLAY / MEASURE</span><h2 id="learning-dynamics-route">从小模型的学习过程检验训练决策</h2><p>先运行固定符号任务，再沿相同输入和评价口径检查生成、泛化与异常。深度、宽度、batch 和输出层各自保留独立对照，实际报告可在专题中读取。</p></div><details class="guide-reference"><summary>展开 5 个学习动态与输出层专题</summary><div class="exact-route-list">
+      <a href="learning-run.html"><strong>1. 学习、生成与泛化</strong><p>比较训练前后、多个种子、独立组合和长度外推，核对恢复与缓存。</p></a>
+      <a href="training-failures.html"><strong>2. 故障与确定性回放</strong><p>从同 checkpoint 和输入定位数值、更新与监督的首个差异，再验证修复。</p></a>
+      <a href="initialization-width.html"><strong>3. 初始化与宽度迁移</strong><p>分开深度和宽度，测量初始与更新后尺度，检查参数组与保留宽度。</p></a>
+      <a href="batch-noise.html"><strong>4. Batch 与梯度噪声</strong><p>先核算固定参数的样本梯度，再比较相同消费 token 预算的真实学习曲线。</p></a>
+      <a href="chunked-cross-entropy.html"><strong>5. 分块输出投影与交叉熵</strong><p>累计稳定 LSE、重建全部梯度，分别核验精确目标、保存量和 CPU 时间。</p></a>
+    </div></details></section></div>
+
+<div class="modern-page"><section class="section" aria-labelledby="judgment-path"><div class="section-heading"><span class="section-number">工程判断</span><h2 id="judgment-path">把机制变成可验证的工程判断</h2></div><div class="lesson-route-list">
+      <a href="optimization-dynamics.html"><span>先看更新</span><strong>梯度为何没有直接变成位移？</strong><p>AdamW、初始化、warmup、裁剪与数值状态。</p></a>
+      <a href="parallel-correctness.html"><span>再看目标</span><strong>多卡平均有没有改变样本权重？</strong><p>不同长度、零标签、累积和规约系数。</p></a>
+      <a href="performance-analysis.html"><span>再看时间</span><strong>慢的是算、搬，还是等？</strong><p>Roofline、矩阵形状与实际关键路径。</p></a>
+      <a href="engineering-cases.html"><span>连起来判断</span><strong>四个可逐步展开的诊断案例</strong><p>选择观测，核对证据，划清结论和未验证部分。</p></a>
+      <a href="finetuning-recipe.html"><span>读一份配方</span><strong>从一万条数据到参数更新</strong><p>追踪监督 token、打包、训练轮数、LoRA 范围与独立评估。</p></a>
+      <a href="rl-posttraining.html#rl-dynamics"><span>理解训练动态</span><strong>组内奖励、探索与策略版本</strong><p>解释无区分信号、裁剪平台、异步生成与陈旧数据。</p></a>
+      <a href="continual-learning.html"><span>解释能力回归</span><strong>任务梯度与保留能力</strong><p>局部冲突、有限步长、重放与阶段评估矩阵。</p></a>
+      <a href="training-environments.html"><span>定义训练世界</span><strong>任务环境与验证器</strong><p>从初始状态、动作权限到奖励和可恢复的失败。</p></a>
+    </div></section></div>
+
+<section class="section closing">
+      <p class="eyebrow">THE STANDARD</p>
+      <h2>从一个具体问题开始，选择对应专题</h2>
+      <p>
+        能把目标、数据、张量、资源、优化、证据和工件这七条线串起来，可以形成一份完整的训练分析记录。
+        遇到具体问题时，再沿架构、RL、评估或部署分支展开。
+      </p>
+      <div class="closing-links">
+        <a class="button button-primary" href="engineering.html">进入训练工程</a>
+        <a class="button" href="model-evaluation.html">看评估方法</a>
+        <a class="button" href="frontier.html">查看能力与应用</a>
+        <a class="button" href="deep-dive.html">查看完整路线</a>
+      </div>
+    </section>

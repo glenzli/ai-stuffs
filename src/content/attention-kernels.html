@@ -1,0 +1,47 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">EXACT MECHANICS / ATTENTION KERNELS</p><h1>分块 Attention：<span class="accent-text">重建概率，累计梯度</span></h1><p class="lede">前向用少量统计量完成归一化，反向再按块重建概率。先看一行输出如何形成，再追踪多个 query 对同一个 K/V 的梯度贡献。</p></div><aside class="intro-aside"><p class="micro-label">两个数值实验</p><p>前向入门使用六个分数；反向实验使用五位置、二维 Q/K/V。浏览器演示明确算法，独立 CPU 实测另见性能页；不运行 GPU kernel。</p></aside></section>
+  <section class="section" aria-labelledby="online-softmax"><div class="section-heading"><span class="section-number">01 / RUNNING STATE</span><h2 id="online-softmax">三个累计状态足够计算一行输出</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}m'&amp;=\max(m,\max_{j\in B}s_j),\quad\alpha=e^{m-m'},\\\ell'&amp;=\alpha\ell+\sum_{j\in B}e^{s_j-m'},\\a'&amp;=\alpha a+\sum_{j\in B}e^{s_j-m'}v_j,\quad o'=a'/\ell'.\end{aligned}</div><figcaption>m 为当前最大分数，ℓ 为相对此最大值的指数和，a 为向量加权和；B 是新块。初始 m=−∞、ℓ=0、a=0，首块旧状态缩放视为 0。</figcaption></figure>
+    <div class="prose"><p>全行减去同一最大值不会改变 softmax。如果新块含更大的分数，旧 ℓ 和 a 需要乘 e^(m−m′)，才能把新旧块放到同一尺度。只对每个块单独 softmax 再平均，通常得不到全行结果。</p></div>
+  </section>
+  <section class="section" aria-labelledby="attention-stream"><div class="section-heading"><span class="section-number">02 / BLOCK LEDGER</span><h2 id="attention-stream">按块推进，看旧累计值怎样重新缩放</h2></div>
+    <div class="experiment"><div class="experiment-head"><h3>六个分数与二维值向量</h3><span class="assumption">双精度在线计算</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>每块分数数目</span><select data-ak-block><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="6">6</option></select></label><label><span>所有分数同时平移 <output data-ak-offset-value></output></span><input type="range" min="-1000" max="1000" step="10" value="0" data-ak-offset></label><p class="experiment-note">原分数 [1,2,−1,3,0,2.5]。平移会改变运行最大值，不改变数学上的概率与输出。</p><div class="step-actions"><button type="button" class="button button-primary" data-ak-next>读取下一块</button><button type="button" class="button" data-ak-reset>重置</button></div></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>已读块数</span><strong data-ak-step></strong></div><div><span>当前 m</span><strong data-ak-m></strong></div><div><span>当前 ℓ</span><strong data-ak-l></strong></div></div><p>当前前缀输出：<strong data-ak-out></strong></p><p>整行参考输出：<strong data-ak-reference></strong></p><p>与整行参考的最大绝对差：<strong data-ak-error></strong></p><div class="compare-wrap"><table><thead><tr><th>块</th><th>本块分数</th><th>块最大值</th><th>运行最大值</th><th>旧状态缩放</th><th>累计分母</th></tr></thead><tbody data-ak-rows></tbody></table></div></div></div><p class="experiment-caption">读完所有块后才应与整行结果一致；中间状态只覆盖已读取位置。最大误差反映数值比较，不是模型质量。当前示例不含 mask、dropout、batch 或多 query。</p></div>
+    <details><summary>整行的值向量与参考概率</summary><div class="compare-wrap"><table class="exact-small-table"><thead><tr><th>位置</th><th>V</th><th>全行概率</th></tr></thead><tbody data-ak-values></tbody></table></div></details>
+  </section>
+  <section class="section" aria-labelledby="flash-execution"><div class="section-heading"><span class="section-number">03 / GPU EXECUTION</span><h2 id="flash-execution">FlashAttention 在这个关系上做了哪些工程工作？</h2></div>
+    <div class="mechanism-flow"><div><span>01 / TILE</span><h3>分块读取 Q/K/V</h3><p>把块送到片上存储，计算局部分数，避免把全部分数写回 HBM。</p></div><div><span>02 / MERGE</span><h3>更新各行累计状态</h3><p>维护最大值、分母与输出，局部块处理完后复用空间。</p></div><div><span>03 / BACKWARD</span><h3>重算局部概率</h3><p>反向使用保存的少量统计与 Q/K/V 重建需要的块，计算梯度。</p></div><div><span>04 / MEASURE</span><h3>核对数值与成本</h3><p>比较参考输出与梯度、峰值内存、访存和运行耗时。</p></div></div>
+    <div class="prose"><p>FlashAttention 的“精确”描述标准注意力目标；浮点求和顺序不同，结果不必逐位相同。它减少物化的中间矩阵和内存流量，密集全注意力的交互数量仍含序列长度平方项。稀疏 Attention 则还改变可访问的位置集合。</p><p>真实实现还需设计块尺寸、线程组织、寄存器占用、Tensor Core 计算、mask 和反向重算。更少 HBM 访问不等于任意形状都同样加速，必须在目标硬件、长度与 batch 下测量。全 mask 行与 dropout 的约定也需与参考实现匹配。</p></div>
+    <div class="reading-links"><a href="backpropagation.html#attention-backward">Attention 反传公式</a><a href="numerical-computing.html#stable-softmax">稳定归一化与浮点误差</a><a href="performance-analysis.html">访存、计算与等待</a></div>
+  </section>
+  <section class="section" aria-labelledby="tiled-attention-backward"><div class="section-heading"><span class="section-number">04 / RECONSTRUCT &amp; DIFFERENTIATE</span><h2 id="tiled-attention-backward">没有保存 P，反向怎样得到 dQ、dK、dV？</h2></div>
+    <p>前向完成后保留 Q/K/V、输出 O 和每行的 log-sum-exp（LSE）。当前块重新计算分数，再减去整行 LSE，即可重建该块对应的全局概率。下式使用无 dropout 的标准 Attention；上游梯度 G=∂L/∂O 固定。</p>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+\lambda_i&amp;=\log\sum_j e^{S_{ij}},\\
+P_{ij}&amp;=e^{S_{ij}-\lambda_i},\qquad D_i=G_i\cdot O_i,\\
+\partial S_{ij}&amp;=P_{ij}(G_i\cdot V_j-D_i),\\
+\partial Q_i&amp;\mathrel{+}=\partial S_{ij}K_j/\sqrt d,\\
+\partial K_j&amp;\mathrel{+}=\partial S_{ij}Q_i/\sqrt d,\\
+\partial V_j&amp;\mathrel{+}=P_{ij}G_i.
+\end{aligned}</div><figcaption>S=QKᵀ/√d，λ 是整行统计，不能换成块内归一化。∂S 表示损失对分数的导数；多个 query 块对相同 K/V 的贡献必须相加。</figcaption></figure>
+    <div class="experiment"><div class="experiment-head"><h3>五个位置的逐块反向</h3><span class="assumption">二维 Q/K/V · L=Σ O⊙G · 无 dropout</span></div><div class="experiment-body"><div class="experiment-controls objective-controls">
+      <label><span>Query 块大小</span><select data-ab-query><option>1</option><option selected>2</option><option>3</option><option>5</option></select></label>
+      <label><span>Key 块大小</span><select data-ab-key><option>1</option><option selected>2</option><option>3</option><option>5</option></select></label>
+      <label><span>可见性</span><select data-ab-mask><option value="causal">因果 Attention</option><option value="full">全部可见</option><option value="empty-first">因果，首行全部屏蔽</option></select></label>
+      <label><span>反向实现</span><select data-ab-fault><option value="none">整行统计 + 累加梯度</option><option value="local-softmax">错误：每块独立 softmax</option><option value="overwrite-kv">错误：覆盖 dK/dV</option></select></label>
+      <div class="step-actions"><button type="button" class="button" data-ab-prev>上一块</button><button type="button" class="button button-primary" data-ab-next>反向下一块</button><button type="button" class="button" data-ab-reset>重置</button></div>
+    </div><div class="experiment-view" aria-live="polite"><div class="metric-row objective-metrics"><div><span>反向块进度</span><strong data-ab-step></strong></div><div><span>前向输出最大差</span><strong data-ab-forward></strong></div><div><span>最终梯度最大差</span><strong data-ab-error></strong></div></div><p class="memory-ledger" data-ab-storage></p><p class="experiment-note" data-ab-pairs></p><div class="compare-wrap memory-scroll"><table class="memory-wide"><thead><tr><th>块</th><th>Query</th><th>Key</th><th>重建的概率行</th></tr></thead><tbody data-ab-events></tbody></table></div><p class="experiment-note" data-ab-note></p></div></div></div>
+    <details><summary>前向保存的逐行统计与输出</summary><div class="compare-wrap"><table class="memory-small"><thead><tr><th>行</th><th>LSE</th><th>输出 O</th><th>D=G·O</th></tr></thead><tbody data-ab-stats></tbody></table></div></details>
+    <details><summary>目前累计的梯度与完整参考</summary><div class="compare-wrap memory-scroll"><table class="memory-gradient-table"><thead><tr><th>对象</th><th>累计梯度</th><th>完整矩阵参考</th></tr></thead><tbody data-ab-gradients></tbody></table></div></details>
+    <details><summary>全部输入矩阵与空行约定</summary><pre class="chain-code"><code>Q = [[.2,-.3],[.5,.1],[-.4,.7],[.6,-.2],[.1,.8]]
+K = [[.3,.5],[-.2,.4],[.7,-.1],[.1,-.6],[-.5,.2]]
+V = [[1,0],[0,2],[-1,1],[2,-1],[.5,.3]]
+G = [[.2,-.1],[.3,.5],[-.4,.2],[.1,-.3],[.6,.4]]</code></pre><p>全部屏蔽的 query 行在本例显式定义 O=0、相关导数为零，LSE 显示为 −∞。实现单独处理该行，避免计算 −∞−(−∞)。这是一项明确的边界约定，不把无定义的普通 softmax 直接当成零。</p></details>
+  </section>
+  <section class="section" aria-labelledby="attention-storage-accounting"><div class="section-heading"><span class="section-number">05 / STORAGE &amp; WORK</span><h2 id="attention-storage-accounting">省下的保存量，与增加的重算分别记账</h2></div>
+    <p>本例对比“保留完整 P”与“保留一行一个 LSE”的路径。Q/K/V/O 在两条路径中共同保留；上游 G 和 dQ/dK/dV 另计。临时概率块按 query 块×key 块计容量，但真实反向还会产生分数、导数、矩阵乘 workspace 等临时张量，因此这个容量不是物理内存峰值。</p>
+    <p>5×5 概率表有 25 个元素，LSE 有 5 个；默认 2×2 概率块最多 4 个。前向对因果可见位置计算 15 次 QK 点积，反向重建再计算 15 次。JavaScript 交互保存的逐步快照和完整参考仅用于展示，未包含在算法账本里。</p>
+    <div class="reading-links"><a href="backpropagation.html#attention-backward">完整矩阵反向公式</a><a href="activation-checkpointing.html#gradient-cache-lab">编码器梯度缓存</a><a href="performance-analysis.html#memory-measurement-lab">运行独立验证与实测报告</a></div>
+  </section>
+</div>
+
+<div class="modern-page"><div class="reading-links"><a href="context-parallel.html">继续看上下文并行：跨卡 K/V 与梯度归还</a></div></div>

@@ -1,0 +1,30 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">TRAINING DYNAMICS / CONTINUAL LEARNING</p><h1>持续学习：<span class="accent-text">新旧任务怎样共享参数</span></h1><p class="lede">同一组权重服务多个任务，新任务的梯度也会改变旧任务的预测。用局部更新解释干扰，再把数据覆盖、参数约束、容量和评估一起放回训练流程。</p></div><aside class="intro-aside"><p class="micro-label">观察对象</p><p>新任务收益、旧任务退化、未见任务迁移、训练成本。记录这些量随每个训练阶段怎样变化。</p></aside></section>
+  <section class="section" aria-labelledby="gradient-interference"><div class="section-heading"><span class="section-number">01 / SHARED UPDATE</span><h2 id="gradient-interference">沿 B 的梯度更新，对 A 会发生什么？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}\theta'&amp;=\theta-\eta g_B,\\\mathcal L_A(\theta')&amp;\approx\mathcal L_A(\theta)-\eta g_A^\top g_B.
+\end{aligned}</div><figcaption>gA、gB 是同一参数位置的任务梯度。点积为负时，沿 −gB 的小步更新会使 A 的一阶近似损失上升；实际变化还包括曲率和有限步长的影响。</figcaption></figure>
+    <div class="prose"><p>梯度冲突是一种局部机制。遗忘还受样本覆盖、优化器历史、共享表示重组、任务顺序和训练时长影响；一批样本的梯度夹角不能代表整个任务。旧任务表现下降时，先区分测量波动、模板/部署变更、分布变化与参数更新带来的回归。</p></div>
+  </section>
+  <section class="section" aria-labelledby="interference-lab"><div class="section-heading"><span class="section-number">02 / TWO TASKS</span><h2 id="interference-lab">两张损失曲面，一次共享更新</h2><p>固定初始参数 θ=(0,0)，任务目标分别是 a=(1,0) 与单位圆上的 b。所有曲线和更新均可按公式精确核算。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}\mathcal L_A(\theta)&amp;=\tfrac12\lVert\theta-a\rVert^2,\\\mathcal L_B(\theta)&amp;=\tfrac12\lVert\theta-b\rVert^2,\\g&amp;=(1-w)g_A+wg_B,\quad\theta'=\theta-\eta g,\\\Delta\mathcal L_A&amp;=-\eta g_A^\top g+\tfrac12\eta^2\lVert g\rVert^2.
+\end{aligned}</div><figcaption>最后一式对本例二次损失是精确式。第一项是一阶预测，第二项说明步长过大可能抵消改善。图中圆环是等损失线，参数点只更新一步。</figcaption></figure>
+    <div class="experiment"><div class="experiment-head"><h3>任务梯度与实际位移</h3><span class="assumption">两个二维二次任务 · 无大模型训练</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>两任务夹角 <output data-cl-angle-value></output></span><input type="range" min="0" max="180" value="120" data-cl-angle></label><label><span>B 的混合权重 <output data-cl-weight-value></output></span><input type="range" min="0" max="100" value="50" data-cl-weight></label><label><span>步长 η <output data-cl-lr-value></output></span><input type="range" min="1" max="250" value="50" data-cl-lr></label><label><span>梯度处理</span><select data-cl-mode><option value="joint">直接加权</option><option value="projected">冲突时作对称投影</option></select></label></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>原始梯度 cosine</span><strong data-cl-cos></strong></div><div><span>更新后 A 损失</span><strong data-cl-loss-a></strong></div><div><span>更新后 B 损失</span><strong data-cl-loss-b></strong></div></div><canvas class="interference-canvas" width="640" height="440" data-cl-canvas role="img" aria-label="两个任务的等损失圆环、目标点和从原点出发的一次共享更新"></canvas><div class="compare-wrap"><table class="research-compact-table"><thead><tr><th>任务</th><th>初始损失</th><th>一阶预测</th><th>精确更新结果</th></tr></thead><tbody data-cl-rows></tbody></table></div><p class="experiment-note" data-cl-note></p></div></div><p class="experiment-caption">每次调整从原点重新计算一步。投影模式用原始两条梯度各投影一次，再按权重相加；用于解释 PCGrad 思路，未复现一般多任务随机投影顺序或完整优化器。</p></div>
+    <details><summary>投影具体移除了什么？</summary><figure class="math-block"><div class="math-display" data-math>g_A'=g_A-\frac{g_A^\top g_B}{\lVert g_B\rVert^2}g_B\qquad(g_A^\top g_B&lt;0)</div><figcaption>移除 gA 在冲突方向 gB 上的分量。本例对 B 同样处理。完全相反时两条投影都可能变为零；不冲突时保持原梯度。是否改善长期质量需实测。</figcaption></figure></details>
+  </section>
+  <section class="section" aria-labelledby="retention-methods"><div class="section-heading"><span class="section-number">03 / RETENTION</span><h2 id="retention-methods">保留旧能力，有哪些可选择的约束？</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>路径</th><th>保留什么</th><th>付出的代价</th><th>需要验证</th></tr></thead><tbody>
+      <tr><td>数据重放 / 混合</td><td>旧任务样本继续贡献梯度。</td><td>数据存储、权限、额外训练和新任务预算。</td><td>重放数据是否覆盖需要保留的行为，比例是否匹配。</td></tr>
+      <tr><td>教师分布约束</td><td>在选定输入上维持旧模型的输出分布。</td><td>教师推理、参考样本和约束权重。</td><td>旧教师错误是否被保留；未覆盖输入上的行为变化。</td></tr>
+      <tr><td>参数重要性正则</td><td>限制被估计为重要的参数离开旧值。</td><td>重要性估计、状态存储及对可塑性的限制。</td><td>局部/对角近似是否合适，后续多任务累积是否过强。</td></tr>
+      <tr><td>Adapter 或模块隔离</td><td>分开保存任务增量，按需路由或切换。</td><td>多套工件、路由和组合复杂度。</td><td>共享模块仍有干扰，加载某 adapter 后原行为也需回归。</td></tr>
+      <tr><td>梯度处理</td><td>缓和当前任务梯度的局部冲突。</td><td>分别计算任务梯度、通信与额外显存。</td><td>改变方向后是否改善目标指标，而不只是夹角更好看。</td></tr>
+    </tbody></table></div>
+    <figure class="math-block"><div class="math-display" data-math>\mathcal L=\mathcal L_{\mathrm{new}}+\frac\lambda2\sum_j F_j(\theta_j-\theta_j^*)^2</div><figcaption>EWC 的典型形式：θ* 为旧任务锚点，Fj 近似旧任务参数重要性（常用对角 Fisher）。它是局部近似约束，不是对所有未来任务的能力保证。</figcaption></figure>
+    <div class="prose"><p>可塑性与稳定性取决于目标任务。完全固定模型能保留权重，却无法通过参数吸收新信息；放开全部参数提供调整空间，也要承担回归风险。先定义需要保留的任务，再选择约束，而不是单凭“LoRA”“持续训练”等名称判断。</p></div>
+  </section>
+  <section class="section" aria-labelledby="continual-evaluation"><div class="section-heading"><span class="section-number">04 / EVALUATION MATRIX</span><h2 id="continual-evaluation">每学完一个阶段，都回测哪些任务？</h2></div>
+    <div class="mechanism-flow"><div><span>01 / BASELINE</span><h3>保存阶段前基线</h3><p>任务 A/B/C 使用同样模板、环境与预算，记录均值、区间和失败集。</p></div><div><span>02 / TRAIN</span><h3>学习新任务</h3><p>保留数据量、训练预算、顺序、混合和优化器状态。</p></div><div><span>03 / MATRIX</span><h3>回测整张矩阵</h3><p>行是训练阶段，列是任务；包括未训练的新任务，区分保留、迁移和干扰。</p></div><div><span>04 / DECIDE</span><h3>按收益与代价选择</h3><p>新能力和旧能力的最小门槛、成本、回滚点一起决定发布。</p></div></div>
+    <div class="prose"><p>把某个旧任务相对其历史最好表现的下降记为遗忘指标时，最好点也可能受噪声影响。保留逐任务结果、样本量和阶段信息，不用一个平均数掩盖关键能力。顺序 A→B 与 B→A、同预算联合训练、不同重放比例都是有价值的对照。</p></div>
+    <div class="reading-links"><a href="finetuning-recipe.html#recipe-data">微调数据与覆盖</a><a href="distillation-data.html#on-policy-distillation">旧模型作为教师</a><a href="model-evaluation.html#reliability-title">配对评估与不确定性</a><a href="optimization-dynamics.html">优化器与实际位移</a></div>
+  </section>
+</div>

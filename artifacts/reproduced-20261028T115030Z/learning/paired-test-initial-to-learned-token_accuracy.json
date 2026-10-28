@@ -1,0 +1,2924 @@
+{
+  "schema": 1,
+  "rows": [
+    {
+      "id": "reverse-2-CD",
+      "group": "reversal-2-CD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-2-DC",
+      "group": "reversal-2-CD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-2-DD",
+      "group": "reversal-2-DD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CDD",
+      "group": "reversal-3-CDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-DDC",
+      "group": "reversal-3-CDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-DCD",
+      "group": "reversal-3-DCD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-AAC",
+      "group": "reversal-3-AAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CAA",
+      "group": "reversal-3-AAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-ADB",
+      "group": "reversal-3-ADB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-BDA",
+      "group": "reversal-3-ADB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-ADC",
+      "group": "reversal-3-ADC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CDA",
+      "group": "reversal-3-ADC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CAD",
+      "group": "reversal-3-CAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-DAC",
+      "group": "reversal-3-CAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-AAA",
+      "group": "reversal-3-AAA",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-BAB",
+      "group": "reversal-3-BAB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ABCA",
+      "group": "reversal-4-ABCA",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACBA",
+      "group": "reversal-4-ABCA",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACCB",
+      "group": "reversal-4-ACCB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCCA",
+      "group": "reversal-4-ACCB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CABD",
+      "group": "reversal-4-CABD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBAC",
+      "group": "reversal-4-CABD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AAAD",
+      "group": "reversal-4-AAAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DAAA",
+      "group": "reversal-4-AAAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CAAC",
+      "group": "reversal-4-CAAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BBDD",
+      "group": "reversal-4-BBDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DDBB",
+      "group": "reversal-4-BBDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AABC",
+      "group": "reversal-4-AABC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CBAA",
+      "group": "reversal-4-AABC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDCD",
+      "group": "reversal-4-CDCD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DCDC",
+      "group": "reversal-4-CDCD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ABAC",
+      "group": "reversal-4-ABAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CABA",
+      "group": "reversal-4-ABAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCAC",
+      "group": "reversal-4-BCAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CACB",
+      "group": "reversal-4-BCAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACCC",
+      "group": "reversal-4-ACCC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCCA",
+      "group": "reversal-4-ACCC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BACC",
+      "group": "reversal-4-BACC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCAB",
+      "group": "reversal-4-BACC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BACB",
+      "group": "reversal-4-BACB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCAB",
+      "group": "reversal-4-BACB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCAD",
+      "group": "reversal-4-CCAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DACC",
+      "group": "reversal-4-CCAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BABD",
+      "group": "reversal-4-BABD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBAB",
+      "group": "reversal-4-BABD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CBDD",
+      "group": "reversal-4-CBDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DDBC",
+      "group": "reversal-4-CBDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AACA",
+      "group": "reversal-4-AACA",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACAA",
+      "group": "reversal-4-AACA",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AADC",
+      "group": "reversal-4-AADC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDAA",
+      "group": "reversal-4-AADC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BDCC",
+      "group": "reversal-4-BDCC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCDB",
+      "group": "reversal-4-BDCC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CADC",
+      "group": "reversal-4-CADC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDAC",
+      "group": "reversal-4-CADC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDDC",
+      "group": "reversal-4-CDDC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBCD",
+      "group": "reversal-4-DBCD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DCBD",
+      "group": "reversal-4-DBCD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ABCC",
+      "group": "reversal-4-ABCC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCBA",
+      "group": "reversal-4-ABCC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCCB",
+      "group": "reversal-4-BCCB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BAAC",
+      "group": "reversal-4-BAAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CAAB",
+      "group": "reversal-4-BAAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACDA",
+      "group": "reversal-4-ACDA",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ADCA",
+      "group": "reversal-4-ACDA",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BDBD",
+      "group": "reversal-4-BDBD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBDB",
+      "group": "reversal-4-BDBD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BBDB",
+      "group": "reversal-4-BBDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BDBB",
+      "group": "reversal-4-BBDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCCCC",
+      "group": "reversal-5-BCCCC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CCCCB",
+      "group": "reversal-5-BCCCC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABDAC",
+      "group": "reversal-5-ABDAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CADBA",
+      "group": "reversal-5-ABDAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCCBC",
+      "group": "reversal-5-BCCBC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CBCCB",
+      "group": "reversal-5-BCCBC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CACBD",
+      "group": "reversal-5-CACBD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBCAC",
+      "group": "reversal-5-CACBD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DACBD",
+      "group": "reversal-5-DACBD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBCAD",
+      "group": "reversal-5-DACBD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDBDD",
+      "group": "reversal-5-CDBDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDBDC",
+      "group": "reversal-5-CDBDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBCBC",
+      "group": "reversal-5-BBCBC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CBCBB",
+      "group": "reversal-5-BBCBC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABDDB",
+      "group": "reversal-5-ABDDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDBA",
+      "group": "reversal-5-ABDDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CCDDC",
+      "group": "reversal-5-CCDDC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDDCC",
+      "group": "reversal-5-CCDDC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BADDB",
+      "group": "reversal-5-BADDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDAB",
+      "group": "reversal-5-BADDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABACD",
+      "group": "reversal-5-ABACD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCABA",
+      "group": "reversal-5-ABACD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ACBDB",
+      "group": "reversal-5-ACBDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDBCA",
+      "group": "reversal-5-ACBDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBDDD",
+      "group": "reversal-5-DBDDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDDBD",
+      "group": "reversal-5-DBDDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ACCCC",
+      "group": "reversal-5-ACCCC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CCCCA",
+      "group": "reversal-5-ACCCC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCACD",
+      "group": "reversal-5-DCACD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDCD",
+      "group": "reversal-5-ADDCD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCDDA",
+      "group": "reversal-5-ADDCD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBBDD",
+      "group": "reversal-5-DBBDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDBBD",
+      "group": "reversal-5-DBBDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBCDB",
+      "group": "reversal-5-BBCDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDCBB",
+      "group": "reversal-5-BBCDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CACCD",
+      "group": "reversal-5-CACCD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCCAC",
+      "group": "reversal-5-CACCD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCAAC",
+      "group": "reversal-5-BCAAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CAACB",
+      "group": "reversal-5-BCAAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DAAAD",
+      "group": "reversal-5-DAAAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDCB",
+      "group": "reversal-5-ADDCB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCDDA",
+      "group": "reversal-5-ADDCB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBCBD",
+      "group": "reversal-5-BBCBD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBCBB",
+      "group": "reversal-5-BBCBD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCADD",
+      "group": "reversal-5-DCADD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDACD",
+      "group": "reversal-5-DCADD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCBDD",
+      "group": "reversal-5-DCBDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDBCD",
+      "group": "reversal-5-DCBDD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDDB",
+      "group": "reversal-5-ADDDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDDA",
+      "group": "reversal-5-ADDDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADACD",
+      "group": "reversal-5-ADACD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCADA",
+      "group": "reversal-5-ADACD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDDC",
+      "group": "reversal-5-ADDDC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDDDA",
+      "group": "reversal-5-ADDDC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBDDB",
+      "group": "reversal-5-BBDDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDBB",
+      "group": "reversal-5-BBDDB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABADC",
+      "group": "reversal-5-ABADC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDABA",
+      "group": "reversal-5-ABADC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-AAAAD",
+      "group": "reversal-5-AAAAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DAAAA",
+      "group": "reversal-5-AAAAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABBAC",
+      "group": "reversal-5-ABBAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CABBA",
+      "group": "reversal-5-ABBAC",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBADD",
+      "group": "reversal-5-BBADD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDABB",
+      "group": "reversal-5-BBADD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CBDAD",
+      "group": "reversal-5-CBDAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DADBC",
+      "group": "reversal-5-CBDAD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DADBD",
+      "group": "reversal-5-DADBD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBDAD",
+      "group": "reversal-5-DADBD",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ACCCB",
+      "group": "reversal-5-ACCCB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCCCA",
+      "group": "reversal-5-ACCCB",
+      "seed": "11",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-2-CD",
+      "group": "reversal-2-CD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-2-DC",
+      "group": "reversal-2-CD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-2-DD",
+      "group": "reversal-2-DD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CDD",
+      "group": "reversal-3-CDD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-DDC",
+      "group": "reversal-3-CDD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-DCD",
+      "group": "reversal-3-DCD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-AAC",
+      "group": "reversal-3-AAC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CAA",
+      "group": "reversal-3-AAC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-ADB",
+      "group": "reversal-3-ADB",
+      "seed": "29",
+      "old": 0.1,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-BDA",
+      "group": "reversal-3-ADB",
+      "seed": "29",
+      "old": 0.1,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-ADC",
+      "group": "reversal-3-ADC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CDA",
+      "group": "reversal-3-ADC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CAD",
+      "group": "reversal-3-CAD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-DAC",
+      "group": "reversal-3-CAD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-AAA",
+      "group": "reversal-3-AAA",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-BAB",
+      "group": "reversal-3-BAB",
+      "seed": "29",
+      "old": 0.2,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ABCA",
+      "group": "reversal-4-ABCA",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACBA",
+      "group": "reversal-4-ABCA",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACCB",
+      "group": "reversal-4-ACCB",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCCA",
+      "group": "reversal-4-ACCB",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CABD",
+      "group": "reversal-4-CABD",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBAC",
+      "group": "reversal-4-CABD",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AAAD",
+      "group": "reversal-4-AAAD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DAAA",
+      "group": "reversal-4-AAAD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CAAC",
+      "group": "reversal-4-CAAC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BBDD",
+      "group": "reversal-4-BBDD",
+      "seed": "29",
+      "old": 0.2222222222222222,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DDBB",
+      "group": "reversal-4-BBDD",
+      "seed": "29",
+      "old": 0.2222222222222222,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AABC",
+      "group": "reversal-4-AABC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CBAA",
+      "group": "reversal-4-AABC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDCD",
+      "group": "reversal-4-CDCD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DCDC",
+      "group": "reversal-4-CDCD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ABAC",
+      "group": "reversal-4-ABAC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CABA",
+      "group": "reversal-4-ABAC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCAC",
+      "group": "reversal-4-BCAC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CACB",
+      "group": "reversal-4-BCAC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACCC",
+      "group": "reversal-4-ACCC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCCA",
+      "group": "reversal-4-ACCC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BACC",
+      "group": "reversal-4-BACC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCAB",
+      "group": "reversal-4-BACC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BACB",
+      "group": "reversal-4-BACB",
+      "seed": "29",
+      "old": 0.2222222222222222,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCAB",
+      "group": "reversal-4-BACB",
+      "seed": "29",
+      "old": 0.2222222222222222,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCAD",
+      "group": "reversal-4-CCAD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DACC",
+      "group": "reversal-4-CCAD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BABD",
+      "group": "reversal-4-BABD",
+      "seed": "29",
+      "old": 0.2222222222222222,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBAB",
+      "group": "reversal-4-BABD",
+      "seed": "29",
+      "old": 0.2222222222222222,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CBDD",
+      "group": "reversal-4-CBDD",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DDBC",
+      "group": "reversal-4-CBDD",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AACA",
+      "group": "reversal-4-AACA",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACAA",
+      "group": "reversal-4-AACA",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AADC",
+      "group": "reversal-4-AADC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDAA",
+      "group": "reversal-4-AADC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BDCC",
+      "group": "reversal-4-BDCC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCDB",
+      "group": "reversal-4-BDCC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CADC",
+      "group": "reversal-4-CADC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDAC",
+      "group": "reversal-4-CADC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDDC",
+      "group": "reversal-4-CDDC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBCD",
+      "group": "reversal-4-DBCD",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DCBD",
+      "group": "reversal-4-DBCD",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ABCC",
+      "group": "reversal-4-ABCC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCBA",
+      "group": "reversal-4-ABCC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCCB",
+      "group": "reversal-4-BCCB",
+      "seed": "29",
+      "old": 0.2222222222222222,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BAAC",
+      "group": "reversal-4-BAAC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CAAB",
+      "group": "reversal-4-BAAC",
+      "seed": "29",
+      "old": 0.1111111111111111,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACDA",
+      "group": "reversal-4-ACDA",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ADCA",
+      "group": "reversal-4-ACDA",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BDBD",
+      "group": "reversal-4-BDBD",
+      "seed": "29",
+      "old": 0.2222222222222222,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBDB",
+      "group": "reversal-4-BDBD",
+      "seed": "29",
+      "old": 0.2222222222222222,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BBDB",
+      "group": "reversal-4-BBDB",
+      "seed": "29",
+      "old": 0.3333333333333333,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BDBB",
+      "group": "reversal-4-BBDB",
+      "seed": "29",
+      "old": 0.3333333333333333,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCCCC",
+      "group": "reversal-5-BCCCC",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CCCCB",
+      "group": "reversal-5-BCCCC",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABDAC",
+      "group": "reversal-5-ABDAC",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CADBA",
+      "group": "reversal-5-ABDAC",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCCBC",
+      "group": "reversal-5-BCCBC",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CBCCB",
+      "group": "reversal-5-BCCBC",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CACBD",
+      "group": "reversal-5-CACBD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBCAC",
+      "group": "reversal-5-CACBD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DACBD",
+      "group": "reversal-5-DACBD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBCAD",
+      "group": "reversal-5-DACBD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDBDD",
+      "group": "reversal-5-CDBDD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDBDC",
+      "group": "reversal-5-CDBDD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBCBC",
+      "group": "reversal-5-BBCBC",
+      "seed": "29",
+      "old": 0.375,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CBCBB",
+      "group": "reversal-5-BBCBC",
+      "seed": "29",
+      "old": 0.375,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABDDB",
+      "group": "reversal-5-ABDDB",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDBA",
+      "group": "reversal-5-ABDDB",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CCDDC",
+      "group": "reversal-5-CCDDC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDDCC",
+      "group": "reversal-5-CCDDC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BADDB",
+      "group": "reversal-5-BADDB",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDAB",
+      "group": "reversal-5-BADDB",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABACD",
+      "group": "reversal-5-ABACD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCABA",
+      "group": "reversal-5-ABACD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ACBDB",
+      "group": "reversal-5-ACBDB",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDBCA",
+      "group": "reversal-5-ACBDB",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBDDD",
+      "group": "reversal-5-DBDDD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDDBD",
+      "group": "reversal-5-DBDDD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ACCCC",
+      "group": "reversal-5-ACCCC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CCCCA",
+      "group": "reversal-5-ACCCC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCACD",
+      "group": "reversal-5-DCACD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDCD",
+      "group": "reversal-5-ADDCD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCDDA",
+      "group": "reversal-5-ADDCD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBBDD",
+      "group": "reversal-5-DBBDD",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDBBD",
+      "group": "reversal-5-DBBDD",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBCDB",
+      "group": "reversal-5-BBCDB",
+      "seed": "29",
+      "old": 0.375,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDCBB",
+      "group": "reversal-5-BBCDB",
+      "seed": "29",
+      "old": 0.375,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CACCD",
+      "group": "reversal-5-CACCD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCCAC",
+      "group": "reversal-5-CACCD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCAAC",
+      "group": "reversal-5-BCAAC",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CAACB",
+      "group": "reversal-5-BCAAC",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DAAAD",
+      "group": "reversal-5-DAAAD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDCB",
+      "group": "reversal-5-ADDCB",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCDDA",
+      "group": "reversal-5-ADDCB",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBCBD",
+      "group": "reversal-5-BBCBD",
+      "seed": "29",
+      "old": 0.375,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBCBB",
+      "group": "reversal-5-BBCBD",
+      "seed": "29",
+      "old": 0.375,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCADD",
+      "group": "reversal-5-DCADD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDACD",
+      "group": "reversal-5-DCADD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCBDD",
+      "group": "reversal-5-DCBDD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDBCD",
+      "group": "reversal-5-DCBDD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDDB",
+      "group": "reversal-5-ADDDB",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDDA",
+      "group": "reversal-5-ADDDB",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADACD",
+      "group": "reversal-5-ADACD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCADA",
+      "group": "reversal-5-ADACD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDDC",
+      "group": "reversal-5-ADDDC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDDDA",
+      "group": "reversal-5-ADDDC",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBDDB",
+      "group": "reversal-5-BBDDB",
+      "seed": "29",
+      "old": 0.375,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDBB",
+      "group": "reversal-5-BBDDB",
+      "seed": "29",
+      "old": 0.375,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABADC",
+      "group": "reversal-5-ABADC",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDABA",
+      "group": "reversal-5-ABADC",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-AAAAD",
+      "group": "reversal-5-AAAAD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DAAAA",
+      "group": "reversal-5-AAAAD",
+      "seed": "29",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABBAC",
+      "group": "reversal-5-ABBAC",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CABBA",
+      "group": "reversal-5-ABBAC",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBADD",
+      "group": "reversal-5-BBADD",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDABB",
+      "group": "reversal-5-BBADD",
+      "seed": "29",
+      "old": 0.25,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CBDAD",
+      "group": "reversal-5-CBDAD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DADBC",
+      "group": "reversal-5-CBDAD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DADBD",
+      "group": "reversal-5-DADBD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBDAD",
+      "group": "reversal-5-DADBD",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ACCCB",
+      "group": "reversal-5-ACCCB",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCCCA",
+      "group": "reversal-5-ACCCB",
+      "seed": "29",
+      "old": 0.125,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-2-CD",
+      "group": "reversal-2-CD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-2-DC",
+      "group": "reversal-2-CD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-2-DD",
+      "group": "reversal-2-DD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CDD",
+      "group": "reversal-3-CDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-DDC",
+      "group": "reversal-3-CDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-DCD",
+      "group": "reversal-3-DCD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-AAC",
+      "group": "reversal-3-AAC",
+      "seed": "47",
+      "old": 0.1,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CAA",
+      "group": "reversal-3-AAC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-ADB",
+      "group": "reversal-3-ADB",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-BDA",
+      "group": "reversal-3-ADB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-ADC",
+      "group": "reversal-3-ADC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CDA",
+      "group": "reversal-3-ADC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-CAD",
+      "group": "reversal-3-CAD",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-DAC",
+      "group": "reversal-3-CAD",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-AAA",
+      "group": "reversal-3-AAA",
+      "seed": "47",
+      "old": 0.1,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-3-BAB",
+      "group": "reversal-3-BAB",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ABCA",
+      "group": "reversal-4-ABCA",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACBA",
+      "group": "reversal-4-ABCA",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACCB",
+      "group": "reversal-4-ACCB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCCA",
+      "group": "reversal-4-ACCB",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CABD",
+      "group": "reversal-4-CABD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBAC",
+      "group": "reversal-4-CABD",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AAAD",
+      "group": "reversal-4-AAAD",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DAAA",
+      "group": "reversal-4-AAAD",
+      "seed": "47",
+      "old": 0.1,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CAAC",
+      "group": "reversal-4-CAAC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BBDD",
+      "group": "reversal-4-BBDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DDBB",
+      "group": "reversal-4-BBDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AABC",
+      "group": "reversal-4-AABC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CBAA",
+      "group": "reversal-4-AABC",
+      "seed": "47",
+      "old": 0.1,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDCD",
+      "group": "reversal-4-CDCD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DCDC",
+      "group": "reversal-4-CDCD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ABAC",
+      "group": "reversal-4-ABAC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CABA",
+      "group": "reversal-4-ABAC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCAC",
+      "group": "reversal-4-BCAC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CACB",
+      "group": "reversal-4-BCAC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACCC",
+      "group": "reversal-4-ACCC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCCA",
+      "group": "reversal-4-ACCC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BACC",
+      "group": "reversal-4-BACC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCAB",
+      "group": "reversal-4-BACC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BACB",
+      "group": "reversal-4-BACB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCAB",
+      "group": "reversal-4-BACB",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCAD",
+      "group": "reversal-4-CCAD",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DACC",
+      "group": "reversal-4-CCAD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BABD",
+      "group": "reversal-4-BABD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBAB",
+      "group": "reversal-4-BABD",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CBDD",
+      "group": "reversal-4-CBDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DDBC",
+      "group": "reversal-4-CBDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AACA",
+      "group": "reversal-4-AACA",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACAA",
+      "group": "reversal-4-AACA",
+      "seed": "47",
+      "old": 0.1,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-AADC",
+      "group": "reversal-4-AADC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDAA",
+      "group": "reversal-4-AADC",
+      "seed": "47",
+      "old": 0.1,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BDCC",
+      "group": "reversal-4-BDCC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCDB",
+      "group": "reversal-4-BDCC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CADC",
+      "group": "reversal-4-CADC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDAC",
+      "group": "reversal-4-CADC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CDDC",
+      "group": "reversal-4-CDDC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBCD",
+      "group": "reversal-4-DBCD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DCBD",
+      "group": "reversal-4-DBCD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ABCC",
+      "group": "reversal-4-ABCC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CCBA",
+      "group": "reversal-4-ABCC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BCCB",
+      "group": "reversal-4-BCCB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BAAC",
+      "group": "reversal-4-BAAC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-CAAB",
+      "group": "reversal-4-BAAC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ACDA",
+      "group": "reversal-4-ACDA",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-ADCA",
+      "group": "reversal-4-ACDA",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BDBD",
+      "group": "reversal-4-BDBD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-DBDB",
+      "group": "reversal-4-BDBD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BBDB",
+      "group": "reversal-4-BBDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-4-BDBB",
+      "group": "reversal-4-BBDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCCCC",
+      "group": "reversal-5-BCCCC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CCCCB",
+      "group": "reversal-5-BCCCC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABDAC",
+      "group": "reversal-5-ABDAC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CADBA",
+      "group": "reversal-5-ABDAC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCCBC",
+      "group": "reversal-5-BCCBC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CBCCB",
+      "group": "reversal-5-BCCBC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CACBD",
+      "group": "reversal-5-CACBD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBCAC",
+      "group": "reversal-5-CACBD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DACBD",
+      "group": "reversal-5-DACBD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBCAD",
+      "group": "reversal-5-DACBD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDBDD",
+      "group": "reversal-5-CDBDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDBDC",
+      "group": "reversal-5-CDBDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBCBC",
+      "group": "reversal-5-BBCBC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CBCBB",
+      "group": "reversal-5-BBCBC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABDDB",
+      "group": "reversal-5-ABDDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDBA",
+      "group": "reversal-5-ABDDB",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CCDDC",
+      "group": "reversal-5-CCDDC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDDCC",
+      "group": "reversal-5-CCDDC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BADDB",
+      "group": "reversal-5-BADDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDAB",
+      "group": "reversal-5-BADDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABACD",
+      "group": "reversal-5-ABACD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCABA",
+      "group": "reversal-5-ABACD",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ACBDB",
+      "group": "reversal-5-ACBDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDBCA",
+      "group": "reversal-5-ACBDB",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBDDD",
+      "group": "reversal-5-DBDDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDDBD",
+      "group": "reversal-5-DBDDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ACCCC",
+      "group": "reversal-5-ACCCC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CCCCA",
+      "group": "reversal-5-ACCCC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCACD",
+      "group": "reversal-5-DCACD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDCD",
+      "group": "reversal-5-ADDCD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCDDA",
+      "group": "reversal-5-ADDCD",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBBDD",
+      "group": "reversal-5-DBBDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDBBD",
+      "group": "reversal-5-DBBDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBCDB",
+      "group": "reversal-5-BBCDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDCBB",
+      "group": "reversal-5-BBCDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CACCD",
+      "group": "reversal-5-CACCD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCCAC",
+      "group": "reversal-5-CACCD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCAAC",
+      "group": "reversal-5-BCAAC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CAACB",
+      "group": "reversal-5-BCAAC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DAAAD",
+      "group": "reversal-5-DAAAD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDCB",
+      "group": "reversal-5-ADDCB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCDDA",
+      "group": "reversal-5-ADDCB",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBCBD",
+      "group": "reversal-5-BBCBD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBCBB",
+      "group": "reversal-5-BBCBD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCADD",
+      "group": "reversal-5-DCADD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDACD",
+      "group": "reversal-5-DCADD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCBDD",
+      "group": "reversal-5-DCBDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDBCD",
+      "group": "reversal-5-DCBDD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDDB",
+      "group": "reversal-5-ADDDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDDA",
+      "group": "reversal-5-ADDDB",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADACD",
+      "group": "reversal-5-ADACD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DCADA",
+      "group": "reversal-5-ADACD",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ADDDC",
+      "group": "reversal-5-ADDDC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDDDA",
+      "group": "reversal-5-ADDDC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBDDB",
+      "group": "reversal-5-BBDDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BDDBB",
+      "group": "reversal-5-BBDDB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABADC",
+      "group": "reversal-5-ABADC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CDABA",
+      "group": "reversal-5-ABADC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-AAAAD",
+      "group": "reversal-5-AAAAD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DAAAA",
+      "group": "reversal-5-AAAAD",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ABBAC",
+      "group": "reversal-5-ABBAC",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CABBA",
+      "group": "reversal-5-ABBAC",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BBADD",
+      "group": "reversal-5-BBADD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DDABB",
+      "group": "reversal-5-BBADD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-CBDAD",
+      "group": "reversal-5-CBDAD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DADBC",
+      "group": "reversal-5-CBDAD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DADBD",
+      "group": "reversal-5-DADBD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-DBDAD",
+      "group": "reversal-5-DADBD",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-ACCCB",
+      "group": "reversal-5-ACCCB",
+      "seed": "47",
+      "old": 0.0,
+      "new": 1.0
+    },
+    {
+      "id": "reverse-5-BCCCA",
+      "group": "reversal-5-ACCCB",
+      "seed": "47",
+      "old": 0.05,
+      "new": 1.0
+    }
+  ]
+}

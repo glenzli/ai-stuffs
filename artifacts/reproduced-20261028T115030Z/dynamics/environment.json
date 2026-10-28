@@ -1,0 +1,17 @@
+{
+  "python": "3.12.13",
+  "torch": "2.9.0",
+  "numpy": "2.3.4",
+  "mup": "1.0.0",
+  "pyyaml": "6.0.3",
+  "device": "cpu",
+  "width_dtype": "float32",
+  "noise_dtype": "float64",
+  "decoder_dtype": "float32",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "threads": 1,
+  "interop_threads": 1,
+  "deterministic_algorithms": true,
+  "no_pretrained_downloads": true
+}

@@ -1,0 +1,26 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">AGENT TRAINING / ENVIRONMENTS</p><h1>训练环境：<span class="accent-text">从任务到可验证的轨迹</span></h1><p class="lede">训练 Agent 要提供能行动、能观察、能重置、能判定结果的环境。任务怎样构造、哪些信息可见、什么行为得到奖励，共同决定模型学到什么。</p></div><aside class="intro-aside"><p class="micro-label">一条环境样本</p><p>任务描述 + 初始快照 + 工具与权限 + 转移规则 + 观测 + 结束条件 + 验证器。对话文本只是其中一部分。</p></aside></section>
+  <section class="section" aria-labelledby="environment-contract"><div class="section-heading"><span class="section-number">01 / CONTRACT</span><h2 id="environment-contract">训练前，先定义世界怎样响应动作</h2></div>
+    <div class="mechanism-flow"><div><span>01 / RESET</span><h3>恢复初始状态</h3><p>仓库、数据库或网页快照；固定版本、随机种子和访问权限。</p></div><div><span>02 / ACTION</span><h3>执行允许的动作</h3><p>类型、参数、资源预算、超时、幂等和错误返回由运行时约束。</p></div><div><span>03 / OBSERVE</span><h3>返回可见信息</h3><p>区分环境内部状态与模型可见观测；隐藏测试不能混进提示。</p></div><div><span>04 / VERIFY</span><h3>评估终点</h3><p>任务完成、回归、约束违反与副作用分别核对，记录失败原因。</p></div></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}a_t&amp;\sim\pi_\theta(\cdot\mid o_{\le t},a_{&lt;t}),\\s_{t+1}&amp;\sim P(\cdot\mid s_t,a_t),\quad o_{t+1}\sim O(\cdot\mid s_{t+1}),\\J(\theta)&amp;=\mathbb E\left[\sum_t\gamma^t r_t\right].\end{aligned}</div><figcaption>s 是内部环境状态，o 是可见观测，P 是转移，O 是观测规则。部分可观测时，模型可能需要历史或外部记忆；状态转移通常无需对 θ 可微，策略梯度使用采样动作的 log-prob。</figcaption></figure>
+    <div class="prose"><p>SWE-Gym（2024 年提交、2025 年修订）把真实软件任务、代码仓库、可执行环境和单元测试组织起来，用于训练 Agent 与验证器。软件环境还要锁定依赖、复现失败、限制资源，并避免把测试运行器、基础设施失败与代码缺陷混为一种奖励。</p></div>
+  </section>
+  <section class="section" aria-labelledby="environment-verifier"><div class="section-heading"><span class="section-number">02 / VERIFIER</span><h2 id="environment-verifier">相同结果，三种检查会给出什么奖励？</h2></div>
+    <div class="experiment"><div class="experiment-head"><h3>授权预留两件商品</h3><span class="assumption">离线预设轨迹 · 无真实库存操作</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>轨迹</span><select data-env-scenario><option value="good">正确完成</option><option value="claim">只声称完成</option><option value="overreserve">错误预留三件</option><option value="sideeffect">完成，但改动其他项目</option></select></label><label><span>验证器</span><select data-env-grader><option value="reply">检查最终回复</option><option value="state" selected>检查预留数量</option><option value="strict">数量、库存和副作用</option></select></label><p class="experiment-note">初始库存 10，授权预留 2 件，其他项目不得改变。切换轨迹总是从同一快照开始。</p></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>奖励</span><strong data-env-reward></strong></div><div><span>剩余库存</span><strong data-env-stock></strong></div><div><span>预留数量</span><strong data-env-reserved></strong></div></div><ol class="evidence-trace" data-env-trace></ol><div class="compare-wrap"><table class="research-compact-table"><thead><tr><th>检查</th><th>观测</th><th>是否满足</th></tr></thead><tbody data-env-checks></tbody></table></div><p class="experiment-note" data-env-note></p></div></div><p class="experiment-caption">奖励由已声明的规则确定。这里没有学习中的策略，也没有让真实模型探索漏洞；用于观察遗漏条件怎样改变奖励。</p></div>
+    <div class="prose"><p>通过现有检查只能说明满足已测条件。增加回归测试、状态不变量和隐藏变化，可提高覆盖；仍要抽查“得到高奖励但行为不合预期”的轨迹。验证器的代码和版本也是训练工件，改变它会改变优化目标。</p></div>
+  </section>
+  <section class="section" aria-labelledby="environment-data"><div class="section-heading"><span class="section-number">03 / TASK PRODUCTION</span><h2 id="environment-data">怎样持续产出有用、可解、独立的任务？</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>环节</th><th>要记录什么</th><th>常见失败</th><th>检查方法</th></tr></thead><tbody>
+      <tr><td>任务构造</td><td>来源、初始状态、目标、允许动作。</td><td>题目与快照矛盾，工具无权限，目标根本无法达到。</td><td>参考解或专家复核，基础环境检查；“当前模型没解出”单独分类。</td></tr>
+      <tr><td>难度与课程</td><td>基线成功率、行动长度、依赖深度、错误分布。</td><td>全容易或全失败，缺少有区分度的反馈。</td><td>按题族与难度监测；课程改变后继续测宽分布泛化。</td></tr>
+      <tr><td>轨迹采集</td><td>采样策略版本、动作、观测、奖励、终止原因。</td><td>只留成功路径，缺少错误恢复；截断被当作错误答案。</td><td>保留失败类型、环境故障和恢复案例，按目的筛选。</td></tr>
+      <tr><td>数据隔离</td><td>题族、仓库、模板、参考解和测试来源。</td><td>同仓库改写进入训练与测试，隐藏答案出现在日志。</td><td>按来源分组，检查可见观测，保留时间后移和独立测试。</td></tr>
+      <tr><td>更新闭环</td><td>环境/模型版本、任务配比、收益与成本。</td><td>模型与验证器互相适应，分数提高但任务覆盖收窄。</td><td>锁定外部验证集、替代验证器、人工审查和变体任务。</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>自动生成任务还要经过有效性和独立性筛选。可以由规则、专家或模型构造，再通过执行检查；成功的参考轨迹提供可解性证据，但参考答案不应泄漏进模型的可见上下文。每条轨迹多次调用工具，其成本也应计入有效训练数据预算。</p></div>
+  </section>
+  <section class="section" aria-labelledby="environment-safety"><div class="section-heading"><span class="section-number">04 / BOUNDARIES</span><h2 id="environment-safety">奖励、权限和测试隔离怎样配合？</h2></div>
+    <div class="concept-pairs"><div><h3>奖励提供偏好，运行时限制动作</h3><p>奖励惩罚越权无法代替权限控制。训练和评估环境应隔离、限制网络与文件访问、设置资源预算，并为不可逆动作定义审批边界。</p></div><div><h3>模型不能改自己的考卷</h3><p>把 grader、隐藏测试和计分日志与可写工作区隔离。测试源码若属于任务输入，另外准备未暴露的检查，记录每次修改与结果。</p></div><div><h3>环境故障单独处理</h3><p>超时、依赖下载失败、服务不可用和模型动作错误分别标记。是否重试、跳过或计失败，应提前固定并写入报告。</p></div><div><h3>仿真到真实环境的差异</h3><p>训练环境简化了时延、权限、页面变化和异常行为。用真实目标环境的独立任务检验迁移，逐步扩大授权范围。</p></div></div>
+    <div class="reading-links"><a href="rl-posttraining.html#rl-staleness">生成与训练系统</a><a href="agents-context.html#prompt-injection-boundary">外部内容与提示注入</a><a href="model-evaluation.html#agent-reliability">重复执行与环境评估</a></div>
+  </section>
+</div>

@@ -1,0 +1,181 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">LIVE EXPERIMENT / CONTRASTIVE TRAINING</p>
+        <h1>二维训练模拟器：<span class="accent-text">观察向量与损失的变化</span></h1>
+        <p class="lede">
+          这个模拟器会执行真实的 InfoNCE 前向与梯度更新。你可以调学习率、温度、难负样本比例和错误标签比例，
+          然后观察 loss、Hit@1、类内相似度与二维向量一起变化。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">模拟范围</p>
+        <p>直接训练二维的 query/document embedding；不经过 Transformer。用于观察目标、数据噪声和梯度怎样影响二维表示。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="simulator-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">LIVE</span>
+          <h2 id="simulator-title">一次信息检索 embedding 训练</h2>
+        </div>
+        <p class="section-note">先使用默认配置跑 50 步，再把“错误标签”调高，观察指标是反弹还是继续学偏。</p>
+      </div>
+
+      <div class="sim-shell">
+        <aside class="sim-controls">
+          <div class="sim-presets">
+            <p class="micro-label">SCENARIO</p>
+            <div>
+              <button type="button" data-sim-preset="clean" aria-pressed="true">干净数据</button>
+              <button type="button" data-sim-preset="nohard" aria-pressed="false">没有难负例</button>
+              <button type="button" data-sim-preset="noisy" aria-pressed="false">20% 错标</button>
+            </div>
+          </div>
+
+          <label class="sim-range">
+            <span>学习率 η <strong data-sim-lr-value>0.005</strong></span>
+            <input type="range" min="1" max="20" value="5" step="1" data-sim-lr>
+          </label>
+          <label class="sim-range">
+            <span>温度 τ <strong data-sim-temp-value>0.20</strong></span>
+            <input type="range" min="5" max="60" value="20" step="1" data-sim-temp>
+          </label>
+          <label class="sim-range">
+            <span>难负样本比例 <strong data-sim-hard-value>70%</strong></span>
+            <input type="range" min="0" max="100" value="70" step="5" data-sim-hard>
+          </label>
+          <label class="sim-range">
+            <span>错误正样本比例 <strong data-sim-noise-value>0%</strong></span>
+            <input type="range" min="0" max="35" value="0" step="5" data-sim-noise>
+          </label>
+          <label class="sim-select">
+            <span>每步 query 数</span>
+            <select data-sim-batch>
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="4">4</option>
+            </select>
+          </label>
+
+          <div class="sim-control-help">
+            <span>负例数固定为 3</span>
+            <p>错误正样本会模拟 false positive / false negative 噪声；评估始终使用真实类别。</p>
+          </div>
+        </aside>
+
+        <div class="sim-stage">
+          <div class="sim-stage-head">
+            <div>
+              <p class="micro-label">EMBEDDING MAP / 2D</p>
+              <h3 data-sim-status>准备开始</h3>
+            </div>
+            <div class="sim-step-count"><span data-sim-steps>0</span> steps</div>
+          </div>
+
+          <div class="sim-metrics">
+            <div><span>InfoNCE loss</span><strong data-sim-loss>—</strong></div>
+            <div><span>训练点 Hit@1</span><strong data-sim-recall>—</strong></div>
+            <div><span>类内 cosine</span><strong data-sim-same>—</strong></div>
+            <div><span>类内 − 类间</span><strong data-sim-gap>—</strong></div>
+          </div>
+
+          <div class="sim-map-wrap">
+            <svg class="sim-map" viewBox="0 0 620 390" role="img" aria-label="训练中的二维 query 与 document embedding" data-sim-map></svg>
+            <div class="sim-legend">
+              <span><i class="sim-query-shape"></i>query</span>
+              <span><i class="sim-doc-shape"></i>document</span>
+              <span><i class="sim-class-a"></i>检索</span>
+              <span><i class="sim-class-b"></i>生成</span>
+              <span><i class="sim-class-c"></i>偏好</span>
+            </div>
+          </div>
+
+          <div class="sim-map-note">
+            <span>看什么</span>
+            <p>query 与正确类别的 document 应该靠近；没有难负例时，不同主题可能依旧粘在一起。错误标签会让梯度追着错误关系走。</p>
+          </div>
+        </div>
+
+        <div class="sim-evidence">
+          <div class="sim-evidence-head">
+            <p class="micro-label">RUN SIGNAL</p>
+            <div class="sim-actions">
+              <button class="button" type="button" data-sim-step>单步</button>
+              <button class="button button-primary" type="button" data-sim-run>自动运行</button>
+              <button class="button" type="button" data-sim-reset>重置</button>
+            </div>
+          </div>
+          <div class="loss-chart-wrap">
+            <div class="loss-chart-head">
+              <span>loss history</span>
+              <strong data-sim-last-loss>尚未训练</strong>
+            </div>
+            <svg class="loss-chart" viewBox="0 0 420 190" role="img" aria-label="训练 loss 曲线" data-sim-chart></svg>
+          </div>
+          <div class="sim-batch">
+            <div class="sim-batch-head">
+              <span>最近一轮 batch</span>
+              <small data-sim-batch-note>还没有训练样本</small>
+            </div>
+            <div class="sim-batch-list" data-sim-batch-list></div>
+          </div>
+          <div class="sim-error-note" data-sim-error-note>
+            当前没有错误正样本。训练目标与评估目标一致，指标仍然可能受采样、学习率和温度影响。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="readout-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">HOW TO READ</span>
+          <h2 id="readout-title">模拟器里每个现象对应什么</h2>
+        </div>
+        <p class="section-note">每个点和分数都由当前参数计算得到；下方说明各指标的计算时点与含义。</p>
+      </div>
+
+      <div class="sim-reading-grid">
+        <article>
+          <span>01 / LOSS</span>
+          <h3>损失与命中率分别衡量什么</h3>
+          <p>loss 与候选概率取本步更新前；点坐标和 Top-1 命中率取更新后。命中率按原始类别检查同一批可学习 query，不受错标修改，但它仍是训练点诊断，不是 held-out 泛化评估。每类有多个相关文档，因此这里应称 Hit@1，不能当作“找回全部相关文档比例”的 Recall@1。</p>
+        </article>
+        <article>
+          <span>02 / TEMPERATURE</span>
+          <h3>温度决定谁主导梯度</h3>
+          <p>温度低时，最高分候选占据更大权重，难负样本会更强烈地推动几何；温度过低也可能让优化变得不稳定或只追少数样本。</p>
+        </article>
+        <article>
+          <span>03 / HARD NEGATIVES</span>
+          <h3>难负样本怎样影响分离</h3>
+          <p>随机负例已容易区分时，难负例可增加细粒度分离压力，但并不保证收益；降低难负比例也不必然导致坍缩。本例将同类文档排除出负例池，只通过错误正例开关注入标注噪声。</p>
+        </article>
+        <article>
+          <span>04 / LABEL NOISE</span>
+          <h3>错标怎样影响向量更新</h3>
+          <p>模拟器把错误正样本当成真实目标参与 softmax 与反传。可以从向量移动和命中率变化中观察错标的影响。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="limits-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">SCOPE</span>
+          <h2 id="limits-title">模拟中包含和省略的环节</h2>
+        </div>
+        <p class="section-note">下面列出这个二维实验覆盖的计算，以及完整训练中仍需考虑的环节。</p>
+      </div>
+      <div class="sim-limits">
+        <div><span>没有</span><p>Transformer、tokenizer、contextual pooling、batch 内其它 query 的 in-batch negatives。</p></div>
+        <div><span>没有</span><p>AdamW、学习率 schedule、混合精度、梯度累积与多卡通信。</p></div>
+        <div><span>有</span><p>点积、稳定 log-sum-exp loss 与解析梯度。先按 batch 平均，再逐向量裁剪梯度范数到 4，更新后投影到范数 ≤ 2.5 的球内；这不是全模型 global norm clipping。</p></div>
+        <div><span>看</span><p>目标函数如何把“标签关系”变成向量移动；它与工程页的资源流水线是两层，不互相替代。</p></div>
+      </div>
+      <div class="closing-links">
+        <a class="button button-primary" href="training-deep.html">回看 InfoNCE 公式</a>
+        <a class="button" href="engineering.html">查看真实 step 的资源流水线</a>
+      </div>
+    </section>

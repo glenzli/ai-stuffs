@@ -1,0 +1,7 @@
+/* The common chart/control rules are scoped in initialization-width.css. */
+.batch-noise-page .decision-metrics strong { font-size: 18px; overflow-wrap: anywhere; }
+.batch-noise-page [data-bn-predictions] td { overflow-wrap: anywhere; }
+.batch-noise-page .dynamics-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 760px) {
+  .batch-noise-page .dynamics-controls { grid-template-columns: minmax(0, 1fr); }
+}

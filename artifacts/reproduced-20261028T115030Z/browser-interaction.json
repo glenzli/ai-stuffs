@@ -1,0 +1,10 @@
+{
+  "page": "http://127.0.0.1:4173/chunked-cross-entropy.html",
+  "actualFullReportImport": {
+    "provenance": "2026-10-28T11:54:45.369070+00:00 · macOS-27.0.1-arm64-arm-64bit · Python 3.12.13 / PyTorch 2.9.0 / NumPy 2.3.4 · cpu/float64 · 1 线程。来源：artifacts/reproduced-20261028T115030Z/output/report.json；run output。",
+    "status": "已读取 report.json；显示该文件记录的实际实验结果。",
+    "visible": true
+  },
+  "console": [],
+  "downloadHelper": "Timed out; do not count as a successful browser download. All 12 served files verified independently by HTTP byte count and SHA-256."
+}

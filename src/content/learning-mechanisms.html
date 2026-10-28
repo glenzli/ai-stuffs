@@ -1,0 +1,27 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">MODEL MECHANISMS / IN-CONTEXT LEARNING</p><h1>上下文学习：<span class="accent-text">固定权重怎样利用新示例</span></h1><p class="lede">输入改变后，激活、注意力和后续预测随之改变。从一个模式复制电路出发，再看研究者怎样定位特征、设计干预、检验内部机制。</p></div><aside class="intro-aside"><p class="micro-label">前向计算也能适应</p><p>训练塑造可复用的计算规则；上下文给出本次任务的线索和示例。一次普通前向调用不需要再运行 optimizer。</p></aside></section>
+  <section class="section" aria-labelledby="icl-meaning"><div class="section-heading"><span class="section-number">01 / CONDITIONING</span><h2 id="icl-meaning">“临时学会”，可以指哪些变化？</h2></div>
+    <div class="concept-pairs"><div><h3>识别本次要做的任务</h3><p>示例提示输出格式、标签含义或任务类型，模型选择已学到的行为。换标签、换格式和换示例顺序可以检查这种依赖。</p></div><div><h3>利用本次输入提供的关系</h3><p>上下文中出现 A→B 的对应，模型可在后续 A 出现时利用它。输入内关系的使用与训练期间学到的先验共同影响答案。</p></div><div><h3>中间状态保存临时信息</h3><p>残差流与 KV 携带当前前缀的状态。改变示例通常需要重算受影响的前缀，不能继续沿用不同内容对应的 KV。</p></div><div><h3>实验要控制哪些变量</h3><p>示例内容、标签、顺序、相似度、数量和长度；固定模型与采样协议。例子更多可能带来干扰或超出有效上下文范围。</p></div></div>
+    <div class="prose"><p>上下文学习包含多种现象：从简单重复模式到 few-shot 任务适应。不同研究使用“序列后半段 loss 改善”“新标签任务准确率”等不同定义，阅读结论时先看实验测的是什么。</p></div>
+  </section>
+  <section class="section" aria-labelledby="induction-circuit"><div class="section-heading"><span class="section-number">02 / INDUCTION</span><h2 id="induction-circuit">A 后面曾跟着 B，再看到 A 时怎样找到 B？</h2></div>
+    <div class="mechanism-flow"><div><span>01 / PREVIOUS TOKEN</span><h3>写入前一项信息</h3><p>位置 B 的状态带上“前一个 token 是 A”的信息。</p></div><div><span>02 / MATCH</span><h3>用当前 A 匹配</h3><p>后面出现 A 时，查询寻找“前一个 token 为 A”的历史位置。</p></div><div><span>03 / COPY</span><h3>读取那个位置的内容</h3><p>匹配到的位置保存 B，输出路径把 B 的 logit 提高。</p></div><div><span>04 / PREDICT</span><h3>形成后续分布</h3><p>本例在 B、D 两个候选中归一化，比较换示例与断开路径的结果。</p></div></div>
+    <div class="experiment"><div class="experiment-head"><h3>固定规则的模式复制电路</h3><span class="assumption">构造性示意 · 未加载 Transformer</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>历史示例</span><select data-icl-example><option value="B">A → B</option><option value="D">A → D</option></select></label><label class="check-control"><input type="checkbox" data-icl-previous checked><span>写入前一 token 信息</span></label><label class="check-control"><input type="checkbox" data-icl-matching checked><span>匹配历史位置</span></label><label class="check-control"><input type="checkbox" data-icl-copy checked><span>复制到输出分数</span></label></div><div class="experiment-view" aria-live="polite"><div class="token-tape" data-icl-tokens></div><div class="metric-row"><div><span>复制内容</span><strong data-icl-copy-result></strong></div><div><span>P(B)</span><strong data-icl-prob-b></strong></div><div><span>P(D)</span><strong data-icl-prob-d></strong></div></div><div class="compare-wrap"><table class="compact-result-table"><thead><tr><th>位置</th><th>Token</th><th>前项信息</th></tr></thead><tbody data-icl-rows></tbody></table></div><p class="experiment-note" data-icl-note></p></div></div><p class="experiment-caption">B/D 初始 logits 均为 0，完整路径给复制项加 2，再做 softmax；断开任一环节则回到均匀分布。依赖关系由本例手工定义，实验结果仅验证这套规则。</p></div>
+    <div class="prose"><p>Olsson 等（2022）的 induction head 研究在小型 attention-only 模型中分析了类似的两头组合，并进行了消融。对大型、多层、带 MLP 的模型，其论文使用的是更间接的证据。一个可解释电路提供局部机制，广泛的任务适应仍需要更多跨模型研究。</p></div>
+  </section>
+  <section class="section" aria-labelledby="features-superposition"><div class="section-heading"><span class="section-number">03 / FEATURES</span><h2 id="features-superposition">一个维度或神经元，对应一个概念吗？</h2></div>
+    <div class="prose"><p>内部表示可以在多个维度上共同编码一个特征，一个神经元也可能对多个模式响应。Superposition 研究用玩具网络分析：稀疏特征可能通过非正交方向共享有限表示空间，代价是干扰。这是关于编码方式的模型与证据，不能据此给真实模型每个坐标指定固定语义。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}f&amp;=\operatorname{ReLU}(W_{enc}h+b_{enc}),\\\hat h&amp;=W_{dec}f+b_{dec},\\\mathcal L_{\mathrm{SAE}}&amp;=\lVert h-\hat h\rVert_2^2+\lambda\lVert f\rVert_1.\end{aligned}</div><figcaption>稀疏自编码器的一种示意目标：重构激活 h，同时鼓励较少特征激活。实际方法可使用 Top-K、归一化约束或其他稀疏机制。训练 SAE 使用收集到的激活，不要求更新原模型。</figcaption></figure>
+    <div class="concept-pairs"><div><h3>特征可解释性需要样本支持</h3><p>查看高激活样本、低激活对照、不同语言和上下文。一个简洁名称只是解释假设，需检查误触发与遗漏。</p></div><div><h3>重构误差影响后续结论</h3><p>SAE 没重构出的信息可能仍对行为重要。更稀疏、更容易命名和更忠实地保留原计算之间，需要用任务结果衡量。</p></div><div><h3>特征拆分与吸收</h3><p>字典大小和训练目标可能把一个模式拆成多个特征，或让多个模式混在一起。不同训练得到的特征 ID 不能直接当成天然的概念编号。</p></div><div><h3>从特征走向路径</h3><p>找到某个激活后，还要追踪它通过哪些层和投影影响输出。Circuit tracing 尝试构建局部可读的计算关系，并以干预检验部分关系。</p></div></div>
+  </section>
+  <section class="section" aria-labelledby="causal-evidence"><div class="section-heading"><span class="section-number">04 / EVIDENCE</span><h2 id="causal-evidence">探针、消融和激活替换，各能支持什么结论？</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>方法</th><th>操作</th><th>提供的证据</th><th>需要控制</th></tr></thead><tbody>
+      <tr><td>线性探针</td><td>从内部状态预测标签。</td><td>信息可被读出。</td><td>标签泄漏、探针容量、泛化；读得出还需检验原模型是否使用。</td></tr>
+      <tr><td>消融</td><td>删去或替换指定激活/路径。</td><td>该干预下行为对部件的依赖。</td><td>零值可能分布外，替换基线与冗余路径会改变结论。</td></tr>
+      <tr><td>Activation patching</td><td>在干净/扰动运行间移植某处激活。</td><td>某状态能否恢复或改变结果。</td><td>输入对照、层位置、替换范围、下游混合与多重选择。</td></tr>
+      <tr><td>路径追踪</td><td>结合特征与跨层连接建局部解释。</td><td>可检验的计算路径假设。</td><td>替代模型的保真度、未解释计算、任务范围及复现。</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>Anthropic 的 2025 年 circuit tracing 工作展示了特定任务上的路径分析和干预。报告一个内部机制时，写清楚模型版本、输入集合、干预方法和效应大小；可见 CoT、探针标签和因果计算路径应分别检验。</p></div>
+    <div class="reading-links"><a href="reasoning-compute.html#internal-reasoning">CoT 与 J-space</a><a href="uncertainty-calibration.html">自信、正确性与证据</a><a href="transformer-anatomy.html">残差与权重计算路径</a></div>
+  </section>
+</div>

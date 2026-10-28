@@ -1,0 +1,88 @@
+<div class="modern-page training-failures-page">
+  <section class="page-intro">
+    <div><p class="eyebrow">ACTUAL TRAINING / DETERMINISTIC REPLAY</p><h1>真实训练故障：<span class="accent-text">保存现场，再验证修复</span></h1><p class="lede">在同一个小型 decoder 的训练程序中注入指数溢出、过大学习率和错误标签。按执行顺序记录实际张量，用同一份更新前快照重跑，检查修复是否恢复基线。</p></div>
+    <aside class="intro-aside"><p class="micro-label">本页的证据</p><p>CPU float32 的真实 PyTorch 运行。表中的事件、loss、梯度和参数位移来自保存报告；浏览器读取结果，重新训练由本地命令执行。</p></aside>
+  </section>
+  <div class="concept-strip"><span><strong>同一模型</strong> 共享反转序列任务</span><span><strong>同一快照</strong> 参数、AdamW、RNG、游标</span><span><strong>三项单独故障</strong> 数值／更新／监督</span></div>
+
+  <section class="section" aria-labelledby="tf-contract">
+    <div class="section-heading"><span class="section-number">01 / SAVE THE SCENE</span><h2 id="tf-contract">更新前保存什么，才能比较同一现场？</h2></div>
+    <div class="prose"><p>实验导入与<a href="learning-run.html">学习实验</a>相同的 <code>learning_core.py</code>：固定词表的反转任务、两层 decoder、LayerNorm、dropout 和已对齐的监督标签。先执行八次正常 AdamW 更新，再保存第九步开始前的状态；这时优化器已有一阶和二阶矩，恢复随机种子本身不足以恢复训练现场。</p><p>快照包含 model 参数、optimizer 完整状态、Python／NumPy／CPU torch RNG、数据流的专用 RNG、完整排列、cursor／epoch、计数、模型与优化器配置、模块 train／eval 状态。失败 batch 的输入、mask、标签与 ID 另外保存。每个基线、故障和修复分支都在新 Python 进程中加载同一个文件，先断言加载状态的内容哈希一致，再执行对应步骤。</p></div>
+    <div class="mechanism-flow"><div><span>01 / BEFORE STEP</span><h3>保存完整快照</h3><p>已完成更新 8；待执行步骤 9。保留动量、随机状态和数据位置。</p></div><div><span>02 / ONE CHANGE</span><h3>只注入一项</h3><p>逐张量实测，故障 loss 使用本次实际 logits 与标签。</p></div><div><span>03 / SAME INPUT</span><h3>固定现场回放</h3><p>基线、故障、修复加载相同快照；下一次前向也实际执行。</p></div><div><span>04 / VERIFY</span><h3>比较修复与对照</h3><p>核验完整张量和最终状态相同，再测独立正常 batch。</p></div></div>
+  </section>
+
+  <section class="section" aria-labelledby="tf-lab">
+    <div class="section-heading"><span class="section-number">02 / OBSERVE REAL TENSORS</span><h2 id="tf-lab">首个异常或分歧，实际出现在哪里？</h2><p>切换故障和回放分支，逐事件查看该次保存运行。精简快照保留关键层边界与损失操作；序号沿用完整 trace 的真实执行索引，跳号表示省略了中间记录。</p></div>
+    <div class="experiment" data-tf-lab>
+      <div class="experiment-head"><h3>同一现场的三种回放</h3><span class="assumption">保存的真实 CPU 测量 · 单位见各表头</span></div>
+      <div class="experiment-body">
+        <div class="experiment-controls decision-controls">
+          <label><span>故障类型</span><select data-tf-case><option value="overflow">naive exp：数值溢出</option><option value="high-lr">过大 LR：有限异常更新</option><option value="labels">错误标签：符号 ID 轮换</option></select></label>
+          <label><span>回放分支</span><select data-tf-variant><option value="faulty">故障分支</option><option value="baseline">稳定基线</option><option value="repaired">修复后回放</option></select></label>
+          <label><span>输入 batch</span><select data-tf-selection><option value="target">指定故障 batch</option><option value="control">独立正常 batch 对照</option></select></label>
+          <label><span>事件阶段</span><select data-tf-phase><option value="all">全部：前向 → 反向 → 更新 → 下一前向</option><option value="step">本步：输入、前向和反向</option><option value="post-update">更新后：参数和位移</option><option value="next-forward">下一次实际前向</option></select></label>
+          <div class="step-actions"><button type="button" class="button" data-tf-prev>上一记录</button><button type="button" class="button" data-tf-next>下一记录</button><button type="button" class="button" data-tf-first>跳到首个证据</button><button type="button" class="button" data-tf-reset>回到开始</button></div>
+          <div class="decision-import tf-import"><label><span>读取本地 report.json 或 snapshot.json</span><input type="file" accept=".json,application/json" data-tf-file></label><button type="button" class="button" data-tf-default>恢复默认快照</button><button type="button" class="button" data-tf-download>下载当前已保存证据</button><p role="status" data-tf-status>正在载入真实运行快照。</p></div>
+        </div>
+        <div class="experiment-view"><div data-tf-output aria-live="polite" hidden>
+          <p class="tf-provenance" data-tf-provenance></p>
+          <div class="metric-row decision-metrics tf-metrics"><div><span>本步 loss · nats／监督 token</span><strong data-tf-loss></strong></div><div><span>全参数梯度 L2</span><strong data-tf-gradient></strong></div><div><span>参数位移 L2／更新前参数 L2</span><strong data-tf-update></strong></div><div><span>下一 batch 的 loss · nats／监督 token</span><strong data-tf-next-loss></strong></div></div>
+          <p class="decision-note tf-finding" data-tf-diagnosis></p>
+          <p class="tf-description" data-tf-case-description></p>
+          <p class="tf-verification" data-tf-verification></p>
+          <div class="tf-event"><p class="micro-label" data-tf-step></p><h3 data-tf-event-name></h3><p data-tf-event-detail></p></div>
+          <svg class="tf-chart" viewBox="0 0 640 150" role="img" aria-label="本次保存运行的 loss 对照，单位 nats／监督 token" data-tf-chart></svg>
+          <p class="experiment-note" data-tf-chart-note></p>
+          <div class="compare-wrap decision-scroll" tabindex="0" role="region" aria-label="按真实执行顺序保存的张量事件，可横向滚动"><table class="tf-event-table"><thead><tr><th scope="col">原始序号</th><th scope="col">阶段／张量</th><th scope="col">有限个数／总数</th><th scope="col">RMS</th><th scope="col">最大绝对值</th><th scope="col">与基线最大差</th></tr></thead><tbody data-tf-event-rows></tbody></table></div>
+          <details><summary>分层激活与实际参数梯度</summary><p class="experiment-note">RMS 和 L2 以 float64 累加本次 float32 值，避免统计器自身平方溢出。非有限张量不填造数值，显示 NaN／±∞ 个数；激活仅覆盖保存的模块边界。</p><div class="compare-wrap decision-scroll" tabindex="0" role="region" aria-label="本步实际分层激活，可横向滚动"><table class="tf-layer-table"><thead><tr><th scope="col">模块输出</th><th scope="col">shape</th><th scope="col">RMS</th><th scope="col">max |x|</th><th scope="col">有限性</th></tr></thead><tbody data-tf-layer-rows></tbody></table></div><div class="compare-wrap decision-scroll" tabindex="0" role="region" aria-label="实际参数梯度与参数位移，可横向滚动"><table class="tf-layer-table"><thead><tr><th scope="col">参数</th><th scope="col">梯度 L2</th><th scope="col">位移 L2</th><th scope="col">相对位移</th><th scope="col">参数有限性</th></tr></thead><tbody data-tf-parameter-rows></tbody></table></div></details>
+          <details><summary>样本、mask 与正确／实际标签</summary><p class="experiment-note">labels 已由 core 移位一次；−100 忽略，SEP 位置开始预测答案，EOS 也受监督。错误标签只轮换内容符号 ID，EOS 与监督 mask 保持不变。</p><p data-tf-batch-summary></p><div class="compare-wrap decision-scroll" tabindex="0" role="region" aria-label="batch 的 token 位置、mask 和标签，可横向滚动"><table class="tf-label-table"><thead><tr><th scope="col">记录 ID／位置</th><th scope="col">输入 token</th><th scope="col">有效 mask</th><th scope="col">正确标签</th><th scope="col">实际标签</th></tr></thead><tbody data-tf-label-rows></tbody></table></div></details>
+          <details><summary>损失重算、首个梯度分歧与回放证明</summary><div class="tf-evidence" data-tf-evidence></div><pre class="decision-code tf-code" data-tf-proof></pre></details>
+        </div></div>
+      </div>
+      <p class="experiment-caption">文件只在本地浏览器读取；结构校验检查字段和数值一致性，不能认证外部文件的来源。完整 tensor、optimizer 与 RNG 保存在本地二进制工件中。</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="tf-numerics">
+    <div class="section-heading"><span class="section-number">03 / FORWARD NUMERICAL FAILURE</span><h2 id="tf-numerics">相同 softmax 目标，为什么 naive exp 先溢出？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}p_i&amp;=\frac{\exp(z_i+c)}{\sum_j\exp(z_j+c)}\\\ell&amp;=-\log p_y,\qquad c=128\end{aligned}</div><figcaption>对每个位置的全部词表 logit 加相同常数，在实数算术中概率不变。参考、故障和修复使用相同的平移后张量；故障路径直接在 float32 计算 exp。</figcaption></figure>
+    <div class="prose"><p>本案例在指定 batch 的输出头后加入共同的 +128 刺激。模型输出和加法结果仍有限；直接 <code>exp</code> 会产生 +∞，求和仍为 +∞，随后的 ∞／∞ 得到 NaN。日志单独记录 <code>loss.shifted_logits</code>、<code>loss.exp</code>、分母、概率、log 概率和目标选择，首个异常取自真实有限性统计。</p><p>修复和稳定参考使用 <code>log_softmax</code> 的稳定表达式，从相同的平移后 logits 求目标 NLL。实际 loss 从保存 logits 与 labels 独立重算，并与共享 core 的未平移 CE 比较，容差公开记录。共同的安全规则在 loss／梯度非有限时跳过更新，所以故障的下一次前向可以仍有限；跳步不会恢复基线本来应执行的更新。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>\ell=\log\!\left(\sum_j\exp(u_j-m)\right)+m-u_y,\quad u_j=z_j+c,\quad m=\max_j u_j</div><figcaption>最大值平移限制指数幅度；在浮点计算中仍存在舍入误差。本页测试同一实际输入的 loss 与梯度，未宣称跨 dtype 完全相同。</figcaption></figure>
+  </section>
+
+  <section class="section" aria-labelledby="tf-update">
+    <div class="section-heading"><span class="section-number">04 / FINITE UPDATE FAILURE</span><h2 id="tf-update">过大的 LR 可以让所有张量有限，但轨迹已经偏离</h2></div>
+    <div class="prose"><p>第二个案例保持 logits、loss 和梯度不变，只在 <code>optimizer.step()</code> 前把 AdamW LR 从 0.003 改为 0.6。报告测量真实的参数位移，随后用更新后的模型和实际下一 batch 执行前向。当前保存结果出现大幅有限更新和下一前向分歧，日志按观察结果显示有限性。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>r=\frac{\lVert\theta_{t+1}-\theta_t\rVert_2}{\max(\lVert\theta_t\rVert_2,10^{-12})},\qquad r&gt;0.5\;\Rightarrow\;\text{本实验诊断提示}</div><figcaption>阈值 0.5 是本例预先声明的诊断启发式，不是通用稳定性定理。全参数指标和逐参数指标分别展示，分母包含各参数实际值。</figcaption></figure>
+    <div class="prose"><p>修复在相同更新前快照加载完成后恢复约定 LR；比较 loss、梯度、更新后参数、下一前向和完整 optimizer／RNG／cursor 状态。仅把幅度裁小不能代替该检查，因为裁剪会改变更新方向或大小。本例不把参数变大直接称为 NaN，也不从单步现象推断长期收敛。</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="tf-labels">
+    <div class="section-heading"><span class="section-number">05 / FINITE SEMANTIC FAILURE</span><h2 id="tf-labels">标签合法、loss 可能更小，目标仍然错误</h2></div>
+    <div class="prose"><p>第三个案例在有效答案位置执行 A→B→C→D→A 的符号 ID 轮换。输入和 teacher-forced 历史保持原记录，EOS 不改，−100 位置不改，监督 token 数完全相同。轮换后的标签都在合法词表范围；所有激活、loss 和梯度可以保持有限。</p><p>同一 logits 分别计算实际错误标签的 loss 与正确标签 loss，量化两者差值及全参数梯度差的 L2、相对 L2 和最大元素差。错误目标的 loss 可能更小，这不能说明原任务变好；完整标签对照和反转规则提供语义证据。修复必须恢复正确 labels，并从相同更新前状态重跑，不能在已经被错误目标更新过的参数上声称恢复了原轨迹。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>g^{\rm wrong}-g^{\rm correct}=\nabla_\theta\ell(\theta,x,\tilde y)-\nabla_\theta\ell(\theta,x,y)</div><figcaption>x、θ、mask 与 dropout RNG 相同；本页的梯度差由两次实际 autograd 回放得到。</figcaption></figure>
+  </section>
+
+  <section class="section" aria-labelledby="tf-limits">
+    <div class="section-heading"><span class="section-number">06 / DIAGNOSTIC SCOPE</span><h2 id="tf-limits">hooks 与 anomaly detection 能定位到什么范围？</h2></div>
+    <div class="concept-pairs"><div><h3>“首个”依赖监控集合</h3><p>模块输出 hooks 在模块前向完成后执行，包含各 block 返回元组的 hidden／KV；损失中的关键操作另行显式记录。SDPA、GELU 内部所有 kernel 张量未被逐一记录，因此结论是监控集合中的首个异常。</p></div><div><h3>反向顺序来自实际回调</h3><p>Tensor gradient hooks 在梯度计算时记录。参数 hook 的顺序来自 autograd，本页不按前向层名反转来伪造反向顺序；同一输出的别名只挂一次梯度 hook。</p></div><div><h3>anomaly probe 是单独诊断回放</h3><p>PyTorch 2.9 的 <code>detect_anomaly(check_nan=True)</code> 可对失败反向给出关联前向 traceback，并在反向 NaN 时抛错。指数案例同时保留普通 trace 和定向 probe，后者可提前中止，因此不能替代完整传播记录。</p></div><div><h3>高 LR probe 的具体边界</h3><p>本页 high-LR probe 只重跑更新前前向和反向，没有执行 high-LR optimizer 更新或下一前向。它没有抛错，只说明这段反向有限；高 LR 后果由主实验的真实更新和下一前向测量。</p></div></div>
+    <div class="prose"><p>标签 probe 的有限反向不会验证监督语义。诊断 hooks 有额外开销，本页不报告性能；逐位恢复一致性只在记录的软件和 CPU 环境内核验。导入文件的字符串安全显示，不执行 HTML，也不由浏览器读取或反序列化 <code>.pt</code>。</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="tf-run">
+    <div class="section-heading"><span class="section-number">07 / REPRODUCE LOCALLY</span><h2 id="tf-run">运行三个实际故障与新进程回放</h2></div>
+    <pre class="decision-code tf-code"><code># 沿用 PyTorch 2.9.0 / NumPy 2.3.4，创建新的工件目录
+node scripts/run-failure-lab.mjs
+
+# Python 核验实际张量、恢复、异常和控制
+.venv-framework/bin/python scripts/test-failure-replay.py
+
+# 页面报告结构、数字、导入竞态和交互测试
+node --test scripts/test-failure-replay.mjs
+
+# 指定新目录；已存在目录会被拒绝
+node scripts/run-failure-lab.mjs --out-dir artifacts/failure-lab-my-run</code></pre>
+    <div class="prose"><p>每次输出包含 <code>pre-step.pt</code>、<code>checkpoint-manifest.json</code>、18 组 <code>trace.json / tensors.pt / final-state.pt</code>、各案例的 <code>anomaly-probe.json</code>、完整 <code>report.json</code>、精简 <code>snapshot.json</code>、环境和已读取版本文档。两种 JSON 均可本地导入，文件上限 12 MiB；默认快照的报告路径与 SHA-256 展示在面板和证明中。</p><p>所有曲线与测量来自实际保存运行。该模型只用于观察故障与恢复，不对语言模型质量、GPU 吞吐或跨机器逐位复现作结论。机制依据为本机固定版 PyTorch 的 log_softmax／CE、hooks、AdamW、RNG 与 anomaly detection 文档，读取范围记录在报告 references 与实施说明中。</p></div>
+    <div class="reading-links"><a href="learning-run.html">小模型学习实验</a><a href="optimization-dynamics.html">优化稳定性</a><a href="model-artifacts.html">Checkpoint 与工件</a><a href="numerical-computing.html">浮点与数值</a><a href="packing-correctness.html">监督位置核验</a><a href="engineering-cases.html">工程诊断入口</a></div>
+  </section>
+</div>

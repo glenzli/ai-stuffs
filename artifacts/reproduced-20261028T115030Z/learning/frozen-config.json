@@ -1,0 +1,77 @@
+{
+  "schema": "learning-frozen-config-v1",
+  "frozen_at": "2026-10-28T11:50:31.672156+00:00",
+  "model": {
+    "width": 64,
+    "depth": 2,
+    "heads": 4,
+    "dropout": 0.1,
+    "norm": "pre",
+    "residual_scale": 1.0,
+    "ff_multiplier": 4,
+    "max_seq_len": 64,
+    "norm_eps": 1e-05
+  },
+  "data": {
+    "data_seed": 20261028,
+    "train_lengths": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "length_lengths": [
+      6,
+      7,
+      8
+    ],
+    "train_fraction": 0.6,
+    "validation_fraction": 0.2,
+    "max_groups_per_length": 180,
+    "length_groups_per_length": 24
+  },
+  "training": {
+    "steps": 1200,
+    "batch_size": 64,
+    "lr": 0.003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "clip_norm": 1.0,
+    "loss_reduction": "token",
+    "scheduler": "constant-lr; budget counts optimizer updates",
+    "eval_every": 200,
+    "checkpoint_selection": "final fixed-budget step; no selection on test or length"
+  },
+  "seeds": [
+    11,
+    29,
+    47
+  ],
+  "generation": {
+    "method": "greedy",
+    "max_new_tokens": 20,
+    "stop": "first predicted EOS or shared cap",
+    "vocabulary_mask": "none; generated PAD/BOS/SEP remain valid trajectory positions"
+  },
+  "correctness": {
+    "cache": {
+      "float32": {
+        "atol": 0.0001,
+        "rtol": 1e-05
+      },
+      "float64": {
+        "atol": 1e-09,
+        "rtol": 0
+      },
+      "elementwise_scale": "max(abs(full), abs(cache))",
+      "top1_disagreements": 0,
+      "generated_equal": true,
+      "revision": "declared after 2026-10-28 precision diagnosis; frozen before this future run"
+    }
+  },
+  "pilot": null
+}

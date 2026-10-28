@@ -1,0 +1,72 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">TRAINING ENGINEERING / PERFORMANCE</p><h1>性能分析：<span class="accent-text">计算、搬运与等待各花多久</span></h1><p class="lede">分析训练速度需要查看实际执行过程。把矩阵计算、内存搬运、启动开销、通信和数据等待分开计量，再沿实际执行时间线找关键路径。</p></div><aside class="intro-aside"><p class="micro-label">估算与测量</p><p>公式给量级与下界，profiler 给执行证据。本页使用假设硬件参数演示估算方法，实际吞吐由目标设备上的测量确定。</p></aside></section>
+  <section class="section" aria-labelledby="roofline-model"><div class="section-heading"><span class="section-number">01 / ROOFLINE</span><h2 id="roofline-model">同一矩阵乘，为什么 batch 不同就换了瓶颈？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+A_{M\times K}W_{K\times N}&amp;=Y_{M\times N},\\
+F&amp;\approx2MKN,\\
+Q_{\min}&amp;\approx b(MK+KN+MN),\\
+I&amp;=F/Q_{\min},\\
+P_{\mathrm{attainable}}&amp;\le\min(P_{\mathrm{peak}},\mathrm{BW}\cdot I),\\
+t_{\mathrm{ideal}}&amp;\ge\max\!\left(\frac{F}{P_{\mathrm{peak}}},\frac{Q_{\min}}{\mathrm{BW}}\right).
+\end{aligned}</div><figcaption>F 的单位是 FLOPs，Q 是 bytes，I 是 FLOPs/byte；Ppeak 是 FLOP/s，BW 是 byte/s。计算时间与搬运时间各给一个下界，理想重叠时也不能快过较大者。</figcaption></figure>
+    <div class="prose"><p>FMA 在此按一次乘、一次加共 2 FLOPs 计。b 是输入/权重/输出每元素字节数，Qmin 假设三者各读或写一次，忽略已有输出、缓存驻留、重复搬运和中间 workspace。实际 HBM 流量可能更多，跨调用缓存复用也可能改变这个口径。</p><p>当 M 小，读取 W 的成本难以被多个 token 分摊；M 变大，权重可被更多输入位置复用，算术强度上升。Roofline 的斜线由带宽约束，平台由峰值算力约束；落在哪一边只是上限分析，实际 kernel 还受 tile、占用、布局和启动延迟影响。</p></div>
+  </section>
+  <section class="section" aria-labelledby="roofline-lab"><div class="section-heading"><span class="section-number">02 / COST MODEL</span><h2 id="roofline-lab">固定权重，改变并行输入位置数</h2></div>
+    <div class="experiment"><div class="experiment-head"><h3>单个 GEMM 的计算与搬运下界</h3><span class="assumption">K=N=4096 · 不含 attention/通信</span></div><div class="experiment-body"><div class="experiment-controls">
+      <label><span>输入位置 M</span><select data-perf-m><option value="1">1 · 单位置</option><option value="16" selected>16</option><option value="256">256</option><option value="4096">4096</option></select></label>
+      <label><span>统一元素字节数 b</span><select data-perf-bytes><option value="2" selected>2 bytes</option><option value="4">4 bytes</option></select></label>
+      <label><span>假设峰值算力</span><select data-perf-compute><option value="50">50 TFLOP/s</option><option value="100" selected>100 TFLOP/s</option><option value="200">200 TFLOP/s</option></select></label>
+      <label><span>假设 HBM 带宽</span><select data-perf-bandwidth><option value="0.5">0.5 TB/s</option><option value="1" selected>1 TB/s</option><option value="2">2 TB/s</option></select></label>
+    </div><div class="experiment-view"><div class="metric-row"><div><span>算术强度 FLOPs/B</span><strong data-perf-intensity></strong></div><div><span>理想下界 ms</span><strong data-perf-time></strong></div><div><span>限制分支</span><strong class="metric-word" data-perf-bound></strong></div></div><svg class="roofline-chart" viewBox="0 0 620 270" role="img" aria-label="Roofline 对数坐标图：带宽斜线、算力平台及当前 GEMM 的理想上限点" data-perf-chart></svg><div class="compare-wrap"><table class="ledger-table"><thead><tr><th>工作量</th><th>最少流量</th><th>F/Ppeak</th><th>Qmin/BW</th></tr></thead><tbody data-perf-rows></tbody></table></div><p class="experiment-note" data-perf-note></p></div></div><p class="experiment-caption">单位采用十进制：1 TFLOP/s=10¹² FLOP/s，1 TB/s=10¹² byte/s。图中的点表示当前算术强度下的理论吞吐上限；更高 M 可能更高效，也可能总耗时更长。字节数与峰值在此独立可调，实际精度变更需采用对应硬件峰值。</p></div>
+  </section>
+  <section class="section" aria-labelledby="execution-path"><div class="section-heading"><span class="section-number">03 / CRITICAL PATH</span><h2 id="execution-path">通信量少了，step time 为什么不一定下降？</h2></div>
+    <div class="concept-pairs"><div><h3>暴露出来的等待才占关键路径</h3><p>如果某段通信完全藏在 backward 后面，减少它不一定缩短 step；最后一个尚未完成的 bucket 却可能让所有卡等待。先看时间线的重叠关系，再谈累计通信耗时。</p></div><div><h3>小包的延迟与大包的带宽</h3><p>粗略通信模型是 t≈α+bytes/有效带宽，但 collective 的参与数、算法、拓扑和竞争会改变 α 与字节量。频繁小包可能被延迟主导，合大包又可能推迟重叠启动。</p></div><div><h3>更快的 kernel 可能没有更快的训练</h3><p>计算压缩后原来隐藏的 dataloader 或通信可能暴露；主机同步、日志、checkpoint I/O 都会让设备空等。总加速比应根据新的关键路径重新测量。</p></div><div><h3>重算是在用时间换内存</h3><p>activation checkpointing 增加前向重算，减少保存的激活；可能允许更大 microbatch 或减少分片通信，从而让端到端反而更快，也可能只是变慢但能跑。要看最终配置。</p></div></div>
+    <div class="callout"><p><strong>一个可核算的例子：</strong>假设一次 step 的 backward 40 ms，其中前 30 ms 可覆盖通信；通信总需 35 ms，则理想暴露尾部至少 5 ms。将通信从 35 降到 20 ms，最多省这 5 ms，而非 15 ms。若依赖顺序让通信晚启动，重叠会更少；其他时间线应按各自的依赖和重叠关系计算。</p></div>
+  </section>
+  <section class="section" aria-labelledby="throughput-metrics"><div class="section-heading"><span class="section-number">04 / METRICS</span><h2 id="throughput-metrics">MFU、tokens/s 和利用率，分母不同</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>指标</th><th>必须声明的口径</th><th>常见误判</th></tr></thead><tbody>
+      <tr><td>tokens/s</td><td>输入 token、有效监督 token 还是输出 token；单卡/全局；是否含等待、重算和 warmup。</td><td>padding 更多也能让“处理 token”变高，但有效学习量未必增加。</td></tr>
+      <tr><td>MFU</td><td>有用模型 FLOPs ÷（设备数 × 对应精度峰值 × 时间）；模型 FLOPs 估算是否包含 attention 与激活专家。</td><td>重算通常不算额外有用模型 FLOPs；忽略长序列 attention 会失真。不同论文的估算公式未必相同。</td></tr>
+      <tr><td>HFU / 设备执行 FLOPs</td><td>实际执行计算，可包括重算；需声明测量/估算方法与精度峰值。</td><td>多做重算可能提高执行量，并不意味着任务更高效。</td></tr>
+      <tr><td>GPU utilization</td><td>监控采样周期与设备忙碌定义。</td><td>设备忙碌时仍可能存在 Tensor Core 利用不足或通信等待，需要结合算子时间线分析。</td></tr>
+      <tr><td>TTFT / ITL / tail latency</td><td>请求长度、并发、排队、prefill/decode、p50/p95/p99 与服务目标。</td><td>大 batch 提高吞吐的同时，单请求等待可能变长。</td></tr>
+    </tbody></table></div>
+  </section>
+  <section class="section" aria-labelledby="performance-experiment"><div class="section-heading"><span class="section-number">05 / CONTROLLED MEASUREMENT</span><h2 id="performance-experiment">从现象到一次能回答问题的实验</h2></div>
+    <div class="mechanism-flow"><div><span>01 / FIX</span><h3>固定工作负载</h3><p>形状、有效 token、精度、模型、并行、数据来源、batch、请求分布。</p></div><div><span>02 / WARM UP</span><h3>区分稳态与启动</h3><p>编译、缓存、内存分配与初次加载单独报告；异步执行要用设备事件或正确同步计时。</p></div><div><span>03 / PROFILE</span><h3>识别关键路径</h3><p>算子、HBM、CPU 输入、collective、流水线空泡、最慢 rank 与 checkpoint。</p></div><div><span>04 / VERIFY</span><h3>单因素改变</h3><p>记录速度与质量/梯度一致性；多次测量并报告波动，保留完整配置。</p></div></div>
+    <div class="prose"><p>融合可以减少中间张量的 HBM 往返与启动次数，但不一定减少数学 FLOPs。编译、静态 shape 和布局优化能减少调度/转换开销，却可能有编译成本与动态形状边界。固定某个 kernel 的加速和完整训练更快，应分开验证。</p></div>
+    <div class="reading-links"><a href="training-systems-deep.html">分片、精度与集合通信</a><a href="inference-engine.html">推理阶段与缓存</a><a href="engineering-cases.html#case-board">案例：MoE 为何更慢</a><a href="parallel-correctness.html">优化前先确认数学正确</a></div>
+  </section>
+  <section class="section" aria-labelledby="memory-measurement-lab"><div class="section-heading"><span class="section-number">06 / MEASURE THE SAME GRADIENT</span><h2 id="memory-measurement-lab">同一个目标，保存量和实际时间各变了多少？</h2></div>
+    <p>项目的 <code>lab:memory</code> 独立验证分块 Attention、梯度缓存和全局裁剪。先核对结果，再分别测量耗时、自动微分保存张量所引用的存储，以及 profiler 算子记录。实验固定 PyTorch 2.9.0、CPU float64、一个计算线程。</p>
+    <pre class="chain-code"><code># 已配置上一轮框架环境时，直接运行
+npm run lab:memory
+
+# 首次配置
+python3.12 -m venv .venv-framework
+.venv-framework/bin/python -m pip install -r scripts/framework-requirements.txt</code></pre>
+    <div class="compare-wrap"><table><thead><tr><th>读数</th><th>怎样得到</th><th>应怎样解释</th></tr></thead><tbody>
+      <tr><td>梯度/输出误差</td><td>页面算法、独立完整矩阵 autograd、分块实现和双进程 Gloo 对照。</td><td>正确配置按容差通过；错误配置应复现预期差异。误差小不证明模型质量高。</td></tr>
+      <tr><td>未插桩耗时</td><td>预热 3 次，测量 12 次完整调用，报告中位数、最小、最大和原始样本。</td><td>耗时包含该 Python 实现的准备和调度；不含 profiler/hooks，重算误差诊断也另行执行。局部裁剪计时不含 Gloo 通信。</td></tr>
+      <tr><td>保存张量的存储引用峰值</td><td>用 saved_tensors_hooks 追踪同时被反向保存对象引用的唯一 storage，别名不重复计。</td><td>包含被保存的输入和参数；不包括未保存临时量、分配器保留内存或进程 RSS，不是 GPU 显存峰值。</td></tr>
+      <tr><td>逻辑元素与计算次数</td><td>按各算法声明的矩阵、统计量、块容量和编码行数计数。</td><td>说明算法成本来源；与实际存储引用读数分开报告。</td></tr>
+      <tr><td>Profiler trace</td><td>另跑一次 CPU profile，记录形状、算子 self time 和内存事件，导出 trace。</td><td>用于寻找开销来源，不能把插桩 trace 时间直接当作未插桩测量。</td></tr>
+    </tbody></table></div>
+    <p>Attention 实测使用 N=64、d=16、块大小 16，比较密集 autograd 与自定义分块反向。梯度缓存实测使用 32 对样本、16→64→8 编码器、chunk=8 和 dropout=0.25；参考也采用同一分块随机轨迹。裁剪实际通信验证有两个 Gloo 进程，另测 4096 元素的本地归约算术。</p>
+    <p>输出目录 <code>artifacts/memory-lab-&lt;timestamp&gt;/</code> 包含 <code>report.json</code>、全部配置参考、两个 rank 的裁剪结果、环境版本和五份 <code>*-trace.json</code>。本机 CPU 的 Python 分块实现可能更慢；它检验机制与成本，不代表 FlashAttention GPU kernel 的速度。</p>
+  </section>
+  <!-- learning-dynamics contextual links -->
+<div class="reading-links"><a href="chunked-cross-entropy.html">输出投影与分块 CE：精确梯度、保存张量引用和独立 CPU 时间</a><a href="batch-noise.html">把 batch 的计算成本与相同 token 预算的学习结果一起比较</a></div>
+    <section class="section" aria-labelledby="memory-report-viewer"><div class="section-heading"><span class="section-number">07 / READ A LOCAL REPORT</span><h2 id="memory-report-viewer">把该次测量与算法账本放在一起看</h2></div>
+    <label class="memory-report-input"><span>选择本机 lab:memory 的 report.json（仅在浏览器读取）</span><input type="file" accept=".json,application/json" data-mr-file></label>
+    <p class="memory-report-status" data-mr-status aria-live="polite">选择本机实验的 report.json，查看该次实际结果。</p>
+    <div data-mr-output hidden><div class="compare-wrap"><table class="memory-wide"><thead><tr><th>测量方案</th><th>耗时中位数 ms</th><th>最小…最大 ms</th><th>保存 storage 引用峰值 B</th></tr></thead><tbody data-mr-rows></tbody></table></div>
+      <label class="memory-report-input"><span>查看一个方案的 profiler 热点</span><select data-mr-measurement></select></label>
+      <p data-mr-error class="experiment-note"></p>
+      <details><summary>该方案的逻辑配置与成本账本</summary><pre class="chain-code" data-mr-logical></pre></details>
+      <div class="compare-wrap"><table class="memory-wide"><thead><tr><th>操作</th><th>Self CPU μs</th><th>调用次数</th><th>Self CPU 内存净变化 B</th></tr></thead><tbody data-mr-profile></tbody></table></div>
+      <p>Profiler 内存事件可为负数，表示释放。按 self time 查看开销时，还需在原 trace 中核对父子调用和重叠关系。文件由本地读取，表格展示不会重新运行训练。</p>
+    </div>
+    <div class="reading-links"><a href="attention-kernels.html#tiled-attention-backward">概率重建与反传</a><a href="activation-checkpointing.html#gradient-cache-lab">全局负例的梯度缓存</a><a href="parallel-correctness.html#sharded-global-clipping">分片范数与协调跳步</a></div>
+  </section>
+</div>

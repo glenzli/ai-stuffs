@@ -1,0 +1,48 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">SFT / FROM RECORDS TO GRADIENTS</p><h1>样本打包：<span class="accent-text">边界、标签与相同的梯度</span></h1><p class="lede">同一批独立对话，可以分别计算、补齐长度，也可以放入一个长序列。沿 token、位置、可见范围和监督落点，检查改变存储布局后是否仍在优化同一个目标。</p></div><aside class="intro-aside"><p class="micro-label">固定实验</p><p>两条多轮对话、12 类符号词表、二维单头 Attention、输入残差和输出投影。全部权重可展开；无 Norm、FFN、dropout 或真实 tokenizer。</p></aside></section>
+
+  <section class="section" aria-labelledby="packing-records"><div class="section-heading"><span class="section-number">01 / RECORDS &amp; TEMPLATE</span><h2 id="packing-records">两条记录如何变成训练 token？</h2></div>
+    <div class="recipe-record"><div><p class="micro-label">记录 A</p><pre><code>user:      问一
+assistant: 答一
+user:      问二
+assistant: 答二</code></pre></div><div><p class="micro-label">记录 B</p><pre><code>user:      问三 问一
+assistant: 答三
+user:      问二
+assistant: 答二 答三</code></pre></div></div>
+    <p>这里把每个词直接映射到固定 ID，用教学模板连接：开头一个 BOS；每轮先放 USER 或 ASSISTANT；assistant 内容后放 EOS。A 共 11 token，B 共 13 token。EOS 用作本例回答结束标记，多轮对话仍可继续；具体模型应遵循自己的模板和轮次结束符。</p>
+    <div class="concept-pairs"><div><h3>目标位置与预测位置相差一步</h3><p>先在 token 本身标记是否监督，再让位置 t 的 logits 预测 t+1。标签列表示当前 logits 应预测的 ID，空白表示不计 loss。模板与用户内容仍可参与后续回答计算。</p></div><div><h3>监督范围先于布局</h3><p>可监督所有 assistant 轮次，也可只监督原记录末轮。右侧截断在模板完成后执行；“仅末轮”不会把被截断的末轮自动替换成前一轮。</p></div></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+C_{ij}&amp;=\mathbf 1[c_i=c_j]\,\mathbf 1[j\le i],\\
+M_{ij}&amp;=\nu_i\nu_jC_{ij},\\
+\mathcal L&amp;=\frac{1}{N}\sum_{r,t}m_{r,t+1}\,\operatorname{CE}(z_{r,t},x_{r,t+1}).
+\end{aligned}</div><figcaption>c 是样本 ID，ν 标记有效位置；M 决定 query 可访问哪些 key；m 决定哪个目标 token 直接提供监督；N 是两条记录的有效标签总数。每条记录的位置从 0 开始，跨记录预测被屏蔽。</figcaption></figure>
+  </section>
+
+  <section class="section" aria-labelledby="packing-lab"><div class="section-heading"><span class="section-number">02 / COMPARE THE COMPUTATION</span><h2 id="packing-lab">改变布局，输出和梯度是否一致？</h2><p>分别计算是参考路径；各条 loss sum 使用同一个全局 N。表中的梯度差覆盖 Embedding、Q/K/V 和输出矩阵的全部元素。数据、权重、位置规则和监督目标保持一致。</p></div>
+    <div class="experiment"><div class="experiment-head"><h3>三种正确布局与两种错误</h3><span class="assumption">CPU 二进制双精度 · 固定权重</span></div><div class="experiment-body"><div class="experiment-controls objective-controls">
+      <label><span>当前布局或故障</span><select data-pk-mode><option value="packed">独立样本 packing</option><option value="separate">分别处理</option><option value="padded">右侧 padding</option><option value="leaky">错误：跨样本可见</option><option value="double-shift">错误：重复 shift</option></select></label>
+      <label><span>每条记录的保留上限</span><select data-pk-limit><option value="32">完整保留</option><option value="10">10 token</option><option value="6">6 token</option><option value="3">3 token</option><option value="1">1 token</option></select></label>
+      <label><span>assistant 监督范围</span><select data-pk-supervise><option value="all">所有轮次</option><option value="last">仅原记录末轮</option></select></label>
+      <label class="check-control"><input type="checkbox" data-pk-change><span>把 A 第一轮“问一”换成“改写”</span></label>
+    </div><div class="experiment-view" aria-live="polite"><div class="metric-row objective-metrics"><div><span>有效监督标签</span><strong data-pk-count></strong></div><div><span>当前平均 loss</span><strong data-pk-loss></strong></div><div><span>参数梯度最大差</span><strong data-pk-gradient></strong></div></div><div class="compare-wrap"><table class="objective-result-table"><thead><tr><th>方案</th><th>标签数</th><th>Loss</th><th>Logits 最大差</th><th>梯度最大差</th></tr></thead><tbody data-pk-comparisons></tbody></table></div><p class="objective-observation" data-pk-isolation></p><p class="experiment-note" data-pk-note></p></div></div></div>
+    <p>默认三种正确布局各有 9 个监督标签。重复 shift 的故障也可能保留相同标签数量，因此标签计数相同还不足以证明监督一致。错误的跨样本 Attention 则在前向阶段就能影响 B。</p>
+  </section>
+
+  <section class="section" aria-labelledby="packing-token-ledger"><div class="section-heading"><span class="section-number">03 / INSPECT EACH POSITION</span><h2 id="packing-token-ledger">检查 ID、监督与允许访问的 key</h2></div>
+    <details open><summary>当前布局的全部 token 与标签</summary><div class="compare-wrap objective-scroll"><table><thead><tr><th>显示槽位</th><th>样本:位置</th><th>Position ID</th><th>Token ID / 符号</th><th>该 token 受监督</th><th>本位置 logits 的标签</th></tr></thead><tbody data-pk-tokens></tbody></table></div></details>
+    <div class="experiment"><div class="experiment-head"><h3>一个 query 实际能读到什么</h3><span class="assumption">可见性与概率同时核对</span></div><div class="experiment-view"><label class="objective-query"><span>Query 所在显示槽位：<output data-pk-query-value></output></span><input type="range" min="0" max="23" value="14" data-pk-query></label><div class="compare-wrap objective-scroll"><table class="objective-compact-table"><thead><tr><th>Key</th><th>符号</th><th>可见性</th><th>Attention 概率</th></tr></thead><tbody data-pk-attention></tbody></table></div></div></div>
+    <p>padding 方案在逻辑上是两行等长 batch。为了统一账本，面板把两行展开显示，数值实现用块隔离矩阵保留相同计算；padding query 定义为零 Attention 输出，不进入 loss。真实变长 kernel 的布局、边界标记与全屏蔽行行为需按对应实现核对。</p>
+  </section>
+
+  <section class="section" aria-labelledby="packing-reference"><div class="section-heading"><span class="section-number">04 / REFERENCE &amp; FAILURE</span><h2 id="packing-reference">用什么证据确认打包正确？</h2></div>
+    <div class="mechanism-flow"><div><span>01 / ALIGN</span><h3>同一目标</h3><p>对齐原始样本、截断、监督标签与全局分母，允许布局和 batch 形状不同。</p></div><div><span>02 / COMPARE</span><h3>前向和反向</h3><p>逐有效位置比较 logits，再比较 loss、所有参数梯度和一次更新。</p></div><div><span>03 / PERTURB</span><h3>独立样本不互相影响</h3><p>固定参数，只改一条记录，观察另一条记录的前向结果；更新权重后则不要求保持不变。</p></div><div><span>04 / CHECK</span><h3>零标签与停止标记</h3><p>确认截断后还有目标；核对回答结束符参与训练的位置和推理停止规则。</p></div></div>
+    <details><summary>查看全部数值约定与权重</summary><p>词表 ID 按 PAD、BOS、USER、ASSISTANT、EOS、问一、答一、问二、答二、问三、答三、改写排列。查表后给二维输入加 [0.04p, −0.03p]，p 为记录内位置；使用标准缩放点积 Attention，再加输入残差，最后输出 12 类 logits。这里的加法位置项专用于数值演示。</p><pre class="chain-code"><code>Embedding = [[0,0],[.1,.2],[-.2,.3],[.4,-.1],[.1,-.3],
+             [.5,.2],[-.4,.6],[.2,-.5],[.7,.1],[-.3,-.2],
+             [.3,.5],[-.7,.8]]
+Q = [[.3,-.2],[.4,.5]]   K = [[.2,.6],[-.3,.4]]
+V = [[.7,.1],[-.2,.5]]
+Output = [[.2,-.1,.4,.1,-.3,.5,-.2,.3,-.4,.6,.2,-.5],
+          [-.3,.4,.1,-.2,.5,-.1,.6,-.4,.2,.1,-.5,.3]]</code></pre></details>
+    <div class="reading-links"><a href="finetuning-recipe.html#recipe-budget">回到微调预算账本</a><a href="posttraining-deep.html#sft-title">SFT 目标与模板</a><a href="parallel-correctness.html#global-objective">全局有效 token 分母</a><a href="backpropagation.html#framework-reference">独立 PyTorch 对照实验</a></div>
+  </section>
+</div>

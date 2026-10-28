@@ -1,0 +1,7 @@
+.learning-route-note { border-left: 2px solid var(--line-strong); padding: 9px 0 9px 16px; font-size: 13px; color: var(--ink-soft); }
+.route-skip-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; }
+.route-skip-grid article { min-width: 0; border-top: 1px solid var(--line); padding-top: 16px; }
+.route-skip-grid h3 { margin: 0 0 10px; font: 600 18px/1.5 var(--sans); }
+.route-skip-grid p { font-size: 14px; color: var(--ink-soft); }
+.route-skip-grid a { text-underline-offset: 4px; }
+@media (max-width: 1050px) { .route-skip-grid { grid-template-columns: minmax(0,1fr); } }

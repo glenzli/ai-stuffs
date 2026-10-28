@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "fresh_python_process": true,
+  "resume_steps": 4,
+  "max_errors": {
+    "model": 0.0,
+    "optimizer": 0.0,
+    "next_steps": 0,
+    "evaluation": 0,
+    "rng": 0
+  },
+  "cursor_before": 2048,
+  "cursor_after": 2112
+}

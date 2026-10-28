@@ -1,0 +1,307 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">02 / TRAINING LOOP</p>
+        <h1>训练回路：从<span class="accent-text">ID 与目标</span>到参数更新</h1>
+        <p class="lede">
+          模型先接收 token ID 或样本配对，查表得到浮点向量，再经过上下文层和输出层。
+          损失函数把预测与目标之间的差变成标量；反向传播求出各可训练参数的梯度，优化器据此更新查表行与其他层的权重。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">训练信号</p>
+        <p>预训练的反馈来自目标与预测之间的误差。交叉熵提高正确目标的相对概率，负采样目标则鼓励正例得分更高、负例得分更低。</p>
+      </aside>
+    </section>
+
+<section class="section compact" aria-labelledby="packet-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="packet-title">一个 causal LM batch 长什么样？</h2>
+        </div>
+        <p class="section-note">真实训练里，数据加载器会把许多样本拼成 batch。每个样本包含 token ID、目标位置和相应的 mask。</p>
+      </div>
+
+      <div class="packet-grid">
+        <div class="data-packet">
+          <div class="packet-header">
+            <span class="tag tag-teal">batch item</span>
+            <span>教学示例</span>
+          </div>
+          <pre><code>{
+  "tokens": [103, 4821, 17, 889, 320],
+  "attention_mask": [1, 1, 1, 1, 1],
+  "labels":  [4821, 17, 889, 320, 77]
+}</code></pre>
+          <p>原始序列为 [103, 4821, 17, 889, 320, 77]：输入取前五个，标签取后五个。这里已在数据侧错开一格；若框架内部会 shift labels，就应传原始对齐标签，不能再错开一次。</p>
+        </div>
+
+        <div class="forward-code">
+          <div class="packet-header">
+            <span class="tag">forward pass</span>
+            <span>形状示意</span>
+          </div>
+          <pre><code>raw_ids                   # [B, T+1]
+ids = raw_ids[:, :-1]      # [B, T]
+labels = raw_ids[:, 1:]    # [B, T]
+x = E[ids]                # [B, T, d]
+h = Transformer(x, causal=True)
+# RoPE 在各层 Q/K 上；绝对位置才常加到 x
+logits = h @ W_out.T      # W_out [V,d]
+loss = CE(logits.reshape(-1, V),
+          labels.reshape(-1))</code></pre>
+          <p>进入第一层的浮点张量是 <code class="inline-code">x</code>；它由 token ID 和当前 embedding 表共同决定。</p>
+        </div>
+      </div>
+
+      <div class="lookup-steps">
+        <div>
+          <span class="lookup-step-number">01</span>
+          <p><strong>输入 ID：</strong>分词后得到整数 ID，例如 17。模型据此定位 embedding 表中索引为 17 的一行。</p>
+        </div>
+        <div>
+          <span class="lookup-step-number">02</span>
+          <p><strong>查表结果：</strong>取出该行当前的 d 个参数。例如 d = 768 时，得到一个 768 维向量；后续训练会更新这些数值。</p>
+        </div>
+      </div>
+    </section>
+
+<section class="section" aria-labelledby="route-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="route-title">沿着一条训练样本走完整回路</h2>
+        </div>
+        <p class="section-note">先选训练范式，再按“上一步 / 下一步”走。输入、输出和损失会一起切换。</p>
+      </div>
+
+      <div class="training-mode-tabs" role="tablist" aria-label="训练范式">
+        <button type="button" role="tab" aria-selected="true" data-training-mode="causal">
+          <span>下一词预测</span><small>Causal LM</small>
+        </button>
+<button type="button" role="tab" aria-selected="false" data-training-mode="masked">
+          <span>掩码语言模型</span><small>BERT-style MLM</small>
+        </button>
+<button type="button" role="tab" aria-selected="false" data-training-mode="contrastive">
+          <span>句向量对比</span><small>InfoNCE</small>
+        </button>
+<button type="button" role="tab" aria-selected="false" data-training-mode="word2vec">
+          <span>静态词向量</span><small>Word2Vec SGNS</small>
+        </button>
+      </div>
+
+      <div class="training-walker">
+        <div class="walker-head">
+          <div>
+            <p class="micro-label" data-walker-mode>下一词预测 / CAUSAL LM</p>
+            <h3 data-walker-title>先准备“前文 → 下一词”的监督样本</h3>
+          </div>
+          <div class="walker-counter"><span data-walker-step>01</span> / 06</div>
+        </div>
+        <div class="walker-rail" aria-label="训练步骤">
+          <button type="button" data-training-step="0" class="is-current">Batch</button>
+          <button type="button" data-training-step="1">Lookup</button>
+          <button type="button" data-training-step="2">Context</button>
+          <button type="button" data-training-step="3">Score</button>
+          <button type="button" data-training-step="4">Loss</button>
+          <button type="button" data-training-step="5">Backprop</button>
+        </div>
+        <div class="walker-body" aria-live="polite">
+          <div class="walker-copy">
+            <p data-walker-body>
+              把语料中的前文和真实下一 token 组成样本。模型可以同时看到整个 batch 中许多位置的真实目标；训练时使用 teacher forcing，直接把真实历史喂进去。
+            </p>
+            <div class="shape-flow">
+              <div><span>IN</span><code data-walker-in>[B, T] int64</code></div>
+              <b aria-hidden="true">→</b>
+              <div><span>THIS STEP</span><code data-walker-op>labels = ids[:, 1:]</code></div>
+              <b aria-hidden="true">→</b>
+              <div><span>OUT</span><code data-walker-out>[B, T-1] int64</code></div>
+            </div>
+            <div class="walker-note">
+              <span>注意</span>
+              <p data-walker-note>batch 里的 ID 长度不同，通常要 padding；attention mask 让模型忽略补齐位置。</p>
+            </div>
+          </div>
+          <pre class="walker-code"><code data-walker-code>for prompt, text in corpus:
+    ids = tokenizer(text).input_ids
+    x = ids[:, :-1]
+    y = ids[:, 1:]
+    train(x, y)</code></pre>
+        </div>
+        <div class="walker-actions">
+          <button class="button" type="button" data-walker-prev>← 上一步</button>
+          <button class="button button-primary" type="button" data-walker-next>下一步 →</button>
+        </div>
+      </div>
+    </section>
+
+<section class="section" aria-labelledby="gradient-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="gradient-title">自动微分怎样计算梯度</h2>
+        </div>
+        <p class="section-note">反向模式自动微分从标量 loss 往回走，用每一步的局部导数相乘，得到每个参数对 loss 的敏感度。</p>
+      </div>
+
+      <div class="chain-board">
+        <div class="chain-flow">
+          <div><span>01</span><strong>loss 很小或很大</strong><small>当前预测与目标差多少</small></div>
+          <i aria-hidden="true">→</i>
+          <div><span>02</span><strong>dL/dlogits</strong><small>抬高/压低哪些得分</small></div>
+          <i aria-hidden="true">→</i>
+          <div><span>03</span><strong>dL/dh</strong><small>hidden state 怎样改</small></div>
+          <i aria-hidden="true">→</i>
+          <div><span>04</span><strong>dL/dE[row]</strong><small>查表行怎样改</small></div>
+          <i aria-hidden="true">→</i>
+          <div><span>05</span><strong>optimizer.step()</strong><small>按学习率迈一小步</small></div>
+        </div>
+
+        <div class="formula-grid">
+          <article>
+            <span class="micro-label">SOFTMAX + CROSS ENTROPY</span>
+            <div class="math-display" data-math>\frac{\partial\mathcal L}{\partial z}=p-y</div>
+            <p>对正确类别，logit 梯度为 p−1；对每个非目标类别为 p。完整词表 softmax 因此通常给所有候选输出梯度，不需要逐个标注负例。</p>
+          </article>
+          <article>
+            <span class="micro-label">EMBEDDING LOOKUP</span>
+            <div class="math-display" data-math>\nabla_{E_{k,:}}\mathcal L=\sum_{t:\mathrm{id}_t=k}\nabla_{x_t}\mathcal L</div>
+            <p>token k 出现三次，lookup 分支就把三个位置的梯度加回同一行。未出现的行没有 lookup 梯度，但绑定输出头时仍可能有输出梯度；历史动量与权重衰减也可能改变参数。</p>
+          </article>
+          <article>
+            <span class="micro-label">UPDATE</span>
+            <div class="math-display" data-math>E\leftarrow E-\eta\nabla_E\mathcal L</div>
+            <p>η 是学习率。AdamW 等优化器还会结合一阶/二阶矩估计并做权重衰减；“负号”表示往降低当前损失的方向走。</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>梯度的形状与计算量：</strong> 对 embedding 行求导得到 d 维向量；对整个模型求导则得到与所有可训练参数同形的梯度。反向自动微分沿计算图组合局部导数，计算量通常是前向的常数倍，不需要在参数空间逐个试方向。它提供局部方向，不保证有限步更新一定降 loss 或达到全局最优。</p>
+      </div>
+    </section>
+
+<section class="section" aria-labelledby="signal-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="signal-title">四种训练信号的来源与作用</h2>
+        </div>
+        <p class="section-note">它们都会产生梯度，但监督信息从哪来、惩罚什么，差别很大。</p>
+      </div>
+
+      <div class="signal-table-wrap">
+        <table class="signal-table">
+          <thead>
+            <tr>
+              <th>信号</th>
+              <th>谁提供目标</th>
+              <th>正 / 负怎么来</th>
+              <th>典型损失</th>
+              <th>主要改变</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag tag-teal">自监督预测</span><br><strong>下一词 / 掩码</strong></td>
+              <td>文本自身</td>
+              <td>真实 token 是正类；词表其他 token 概率相对降低</td>
+              <td>交叉熵</td>
+              <td>语言规律、上下文状态与词表输出</td>
+            </tr>
+            <tr>
+              <td><span class="tag">显式负采样</span><br><strong>Word2Vec</strong></td>
+              <td>语料中的真实搭配 + 采样器</td>
+              <td>真实上下文为正；按频率分布抽取噪声词为负</td>
+              <td>logistic negative sampling</td>
+              <td>静态词向量的局部共现几何</td>
+            </tr>
+            <tr>
+              <td><span class="tag">成对监督</span><br><strong>对比 embedding</strong></td>
+              <td>人工/规则/模型构造的 pair、triplet</td>
+              <td>query 的对应文档为正；batch 内与其他难样本为负</td>
+              <td>InfoNCE / triplet</td>
+              <td>句级或检索级距离与排序</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-coral">偏好信号</span><br><strong>RLHF / DPO</strong></td>
+              <td>人类或 AI 的 A > B 偏好</td>
+              <td>对两个完整回答给出相对排序</td>
+              <td>reward / pairwise preference</td>
+              <td>回答行为与策略分布</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+<div class="reading-choice"><p><strong>对比学习支线：</strong>已经理解语言模型回路后，再用正负样本观察另一种目标如何产生梯度。可以按任务需要选读。</p></div>
+
+<section class="section" aria-labelledby="negative-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">05</span>
+          <h2 id="negative-title">负样本怎样变成梯度？</h2>
+        </div>
+        <p class="section-note">这里用二维向量和 logistic 负采样做真实一步 SGD。固定 query 是为了看清 context 向量往哪走。</p>
+      </div>
+
+      <div class="loss-lab">
+        <div class="loss-visual">
+          <div class="loss-topline">
+            <div>
+              <p class="micro-label">TOY 2D / 教学投影</p>
+              <h3>点积相似度空间</h3>
+            </div>
+            <div class="loss-readout">
+              <span>当前损失</span>
+              <strong data-lab-loss>2.312</strong>
+            </div>
+          </div>
+          <svg class="loss-plot" viewBox="0 0 420 300" role="img" aria-label="二维负采样梯度演示" data-lab-svg></svg>
+          <div class="lab-legend">
+            <span><i class="legend-query"></i>query / center</span>
+            <span><i class="legend-pos"></i>正样本</span>
+            <span><i class="legend-neg"></i>负样本</span>
+          </div>
+        </div>
+
+        <div class="loss-copy">
+          <p class="micro-label">TARGET / 目标</p>
+          <p class="target-sentence">提高 query 与<mark>正样本</mark>的点积，降低它与两个<mark>负样本</mark>的点积。</p>
+          <div class="scores-table" aria-live="polite">
+            <div><span>query · 正样本</span><code data-score-pos>0.70</code><b data-grade-pos>应上升 ↑</b></div>
+            <div><span>query · 负样本 A</span><code data-score-neg1>0.69</code><b data-grade-neg1>应下降 ↓</b></div>
+            <div><span>query · 负样本 B</span><code data-score-neg2>0.65</code><b data-grade-neg2>应下降 ↓</b></div>
+          </div>
+          <div class="gradient-formula">
+            <span>单正样本 + 2 负样本</span>
+            <div class="math-display" data-math>\mathcal L=-\log\sigma(q^\top p)-\sum_i\log\sigma(-q^\top n_i)</div>
+          </div>
+          <p class="loss-explanation" data-lab-explanation>
+            正例梯度为 (σ(q·p)−1)q，负例梯度为 σ(q·n)q；梯度下降的更新方向与导数相反。这里只优化点积，不保证欧氏距离按同样方向变化。
+          </p>
+          <div class="lab-actions">
+            <button class="button button-primary" type="button" data-lab-step>推进一步 SGD</button>
+            <button class="button" type="button" data-lab-reset>重置</button>
+            <span>已更新 <strong data-lab-updates>0</strong> 次</span>
+          </div>
+          <p class="figure-caption">此处固定 q，只更新上下文向量，并把每个坐标限制在 [-1,1]，触及边界后可能出现损失平台。这里限制的是参数取值；L2 归一化约束向量长度，梯度裁剪限制更新前的梯度幅度。经典 SGNS 通常更新两张表的采样行。</p>
+        </div>
+      </div>
+    </section>
+
+<p>沿训练回路继续看<a href="learning-run.html">小型 decoder 的实际学习、自由生成与独立泛化实验</a>，分别比较 loss、token accuracy 和整段 exact match。</p>
+
+<section class="section next-lesson">
+      <div>
+        <p class="eyebrow">选读 / 其他训练目标</p>
+        <h2>按任务需要，继续比较后训练目标</h2>
+      </div>
+      <div class="next-actions">
+        <a class="button" href="training-deep.html">深入损失与梯度</a>
+        <a class="button" href="optimization-dynamics.html">优化器怎样更新</a>
+        <a class="button" href="posttraining.html">选读后训练 →</a>
+      </div>
+    </section>

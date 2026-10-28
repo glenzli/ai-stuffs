@@ -1,0 +1,51 @@
+<div class="modern-page">
+  <section class="page-intro"><div><p class="eyebrow">TRAINING ENGINEERING / OPTIMIZATION</p><h1>优化与稳定性：<span class="accent-text">梯度怎样变成更新</span></h1><p class="lede">梯度回答损失对参数的局部敏感度，优化器还要结合历史状态、学习率和正则决定实际位移。把这几步拆开，才能解释为什么梯度很大却没走远，或当前梯度为零，参数仍在变化。</p></div><aside class="intro-aside"><p class="micro-label">前置知识</p><p>已理解交叉熵与反向传播。本页负责更新规则、初始化和稳定性；多卡归一化的正确性在独立专题中推导。</p></aside></section>
+  <section class="section" aria-labelledby="optimizer-update"><div class="section-heading"><span class="section-number">01 / UPDATE RULE</span><h2 id="optimizer-update">AdamW 的每个状态在做什么？</h2></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+g_t&amp;=\nabla_\theta\mathcal L_t,\\
+m_t&amp;=\beta_1m_{t-1}+(1-\beta_1)g_t,\\
+v_t&amp;=\beta_2v_{t-1}+(1-\beta_2)g_t^2,\\
+\hat m_t&amp;=\frac{m_t}{1-\beta_1^t},\qquad\hat v_t=\frac{v_t}{1-\beta_2^t},\\
+\theta_t&amp;=\theta_{t-1}-\eta_t\frac{\hat m_t}{\sqrt{\hat v_t}+\epsilon}-\eta_t\lambda\theta_{t-1}.
+\end{aligned}</div><figcaption>g 是当前梯度，m/v 是历史矩估计，η 是学习率，λ 是解耦衰减系数。平方、开方和除法均为逐元素运算；这里省略 AMSGrad 等变体。</figcaption></figure>
+    <div class="prose"><p>m 是梯度的指数移动平均；v 对平方梯度做指数移动平均，<strong>估计未中心化的二阶矩</strong>，用于调整各参数的更新尺度。偏差校正补偿零初始化的早期收缩；ε 避免分母过小，也可能影响极小梯度的行为。最后一项是与梯度自适应缩放解耦的权重衰减。</p><p>因此更新未必与当前 −g 同向：历史动量可能还在推旧方向。全局 η、batch、损失尺度、ε、初始化与模型结构仍需要一起调节。把 L2 项直接加到 loss 后进入 Adam 的矩估计，通常不等于解耦权重衰减。</p></div>
+    <div class="compare-wrap"><table><thead><tr><th>量</th><th>要观察什么</th><th>解释时的条件</th></tr></thead><tbody>
+      <tr><td>gradient norm</td><td>裁剪前/后、unscale 前/后、全局或逐层、有效 token 归一化口径。</td><td>结合训练阶段和 loss 归一化方式判断梯度大小。</td></tr>
+      <tr><td>update norm</td><td>实际 θafter−θbefore，包含优化器与衰减；与参数范数的比例。</td><td>相同学习率不意味着所有层走相同比例；零初始化张量的相对比值无意义。</td></tr>
+      <tr><td>m / v 状态</td><td>是否恢复、极端值是否长期残留、不同参数组的配置。</td><td>复现下一步更新，还需相同的矩状态、学习率和 step。</td></tr>
+      <tr><td>验证指标</td><td>相同数据版本、长度和采样协议下的趋势及方差。</td><td>随机 minibatch loss 会波动；泛化表现应在固定验证分布上检查。</td></tr>
+    </tbody></table></div>
+  </section>
+  <section class="section" aria-labelledby="optimizer-lab"><div class="section-heading"><span class="section-number">02 / STATE LEDGER</span><h2 id="optimizer-lab">把同一串梯度交给不同优化器</h2><p>外部输入梯度序列让每一步都可核算。观察变号、尖峰以及归零后，历史状态怎样影响 θ。</p></div>
+    <div class="experiment"><div class="experiment-head"><h3>单参数更新账本</h3><span class="assumption">人为指定梯度，无模型训练曲线</span></div><div class="experiment-body"><div class="experiment-controls">
+      <label><span>优化器</span><select data-opt-method><option value="adamw">AdamW</option><option value="momentum">Momentum SGD</option><option value="sgd">SGD</option></select></label>
+      <label><span>梯度序列</span><select data-opt-sequence><option value="reverse">1, 1, 1, −1, −1, 0, 0</option><option value="spike">0.1, 0.1, 8, 0.1, 0, 0, 0</option><option value="zero">0, 0, 0, 0, 0, 0, 0</option></select></label>
+      <label><span>学习率 η <output data-opt-lr-value></output></span><input type="range" min="1" max="100" step="1" value="20" data-opt-lr></label>
+      <label><span>动量 β₁ <output data-opt-beta-value></output></span><input type="range" min="0" max="95" step="5" value="90" data-opt-beta></label>
+      <label><span>解耦衰减 λ <output data-opt-decay-value></output></span><input type="range" min="0" max="50" step="5" value="10" data-opt-decay></label>
+    </div><div class="experiment-view"><div class="metric-row"><div><span>当前参数 θ</span><strong data-opt-theta></strong></div><div><span>最近一次 Δθ</span><strong data-opt-delta></strong></div><div><span>更新步数</span><strong data-opt-step></strong></div></div><div class="compare-wrap"><table class="ledger-table"><thead><tr><th>t / g</th><th>m / v</th><th>梯度驱动位移</th><th>衰减位移</th><th>θafter</th></tr></thead><tbody data-opt-rows></tbody></table></div><p class="experiment-note" data-opt-note></p><div class="step-actions"><button class="button button-primary" type="button" data-opt-next>更新一步</button><button class="button" type="button" data-opt-reset>重置</button></div></div></div><p class="experiment-caption">θ₀=1，m₀=v₀=0；AdamW β₂=0.99、ε=10⁻⁸。Momentum 用 bₜ=β₁bₜ₋₁+gₜ（无 dampening/Nesterov）。为比较位移，三种模式均显式加入相同解耦衰减；这不等同所有库中 SGD 的 weight_decay 实现。改配置会从 θ₀ 重算当前步数，未把人为梯度当作 loss 导数轨迹。</p></div>
+  </section>
+  <section class="section" aria-labelledby="initialization"><div class="section-heading"><span class="section-number">03 / INITIALIZATION</span><h2 id="initialization">为什么训练开始前就要关心数值尺度？</h2></div>
+    <div class="concept-pairs"><div><h3>打破对称，保持可传播尺度</h3><p>相同单元若完全对称初始化可能收到相同更新。随机权重需要结合 fan-in/out 与激活设置尺度，避免层层放大或衰减。某些残差分支的零初始化是有意设计，初始化应按各模块的结构分别选择。</p></div><div><h3>残差也会累积方差</h3><p>pre-norm 给残差主干短路径，但不保证任意深度或学习率稳定。残差缩放、输出投影初始化、Q/K 范数和 logits 动态范围都应随配方检查。</p></div><div><h3>Warmup 是过渡阶段</h3><p>学习率从小到大，让早期参数、激活和优化器状态逐步适应。标签和 mask 的正确性仍需单独检查；时长应明确以更新步、样本还是 token 计。</p></div><div><h3>小模型调参怎样迁移</h3><p>μP 按参数类别和宽度缩放初始化/学习率等，让某些超参数更可跨宽度迁移。不同参数类别采用不同的缩放规则；跨深度、数据、序列长度或 optimizer 时，先做坐标/尺度检查和中间规模验证。</p></div></div>
+  </section>
+  <!-- learning-dynamics contextual links -->
+<div class="reading-links"><a href="initialization-width.html">实测初始化、残差与宽度迁移</a><a href="batch-noise.html">逐序列梯度噪声与同 token 预算训练</a><a href="training-failures.html">用同 checkpoint 回放真实故障</a></div>
+    <section class="section" aria-labelledby="stability-signals"><div class="section-heading"><span class="section-number">04 / DIAGNOSIS</span><h2 id="stability-signals">看到不稳定，先把可能原因分开</h2></div>
+    <div class="compare-wrap"><table><thead><tr><th>现象</th><th>优先证据</th><th>可区分原因的实验</th></tr></thead><tbody>
+      <tr><td>突然 loss spike</td><td>该 batch 的来源、长度、有效标签、per-token loss、logit/grad 范数。</td><td>固定 checkpoint 回放 spike batch 与普通 batch，检查数据异常或数值溢出，根据回放结果再决定是否调整 LR。</td></tr>
+      <tr><td>loss 正常，参数不动</td><td>参数是否在 optimizer 内、实际 Δθ、scaler 是否跳步、学习率、冻结和 detach。</td><td>对一个应可训练张量记录前后差；确认是零梯度、未更新、舍入还是跳步。</td></tr>
+      <tr><td>恢复后走势改变</td><td>权重、m/v、step、scheduler、scaler、RNG、数据游标。</td><td>对比不中断基线与恢复分支的相同后续样本；同时比较参数变化和优化器状态。</td></tr>
+      <tr><td>裁剪长期触发</td><td>全局/逐层梯度分布、阈值和 loss 缩放口径。</td><td>先确认归一化；裁剪可能掩盖异常，阈值效果需要结合训练趋势验证。</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>梯度裁剪约束聚合梯度的大小；参数范数约束和 AdamW 衰减作用于参数，三者的作用位置不同。FP16 loss scaling 场景通常先完成有效 batch 累积、unscale、检查/同步有效梯度，再裁剪与 optimizer step；BF16 通常不需传统 loss scaling，但仍可能有溢出或舍入问题。若更新因非有限值被跳过，调度器和计数应遵守所用框架的跳步语义。</p><p>增大 batch 通常减少单次梯度的抽样噪声，却不意味着按比例放大学习率永远成立。训练 token 相同也可能有不同更新次数；warmup/decay 用 step 还是 token 计都会改变轨迹。是否值得改 batch，需要同预算验证，同时比较验证质量、更新次数和计算成本。</p></div>
+    <div class="reading-links"><a href="parallel-correctness.html">多卡与累积的数学正确性</a><a href="engineering-cases.html#case-board">案例：先看哪条证据</a><a href="scaling-laws.html#fit-evidence">规模迁移与拟合</a><a href="model-artifacts.html#checkpoint-title">恢复训练状态</a></div>
+  </section>
+  <section class="section" aria-labelledby="matrix-optimizers"><div class="section-heading"><span class="section-number">05 / MATRIX GEOMETRY</span><h2 id="matrix-optimizers">Muon 怎样利用更新矩阵的结构？</h2></div>
+    <div class="prose"><p>AdamW 用逐元素历史矩调整更新尺度；Muon 对选定矩阵的梯度动量作近似正交化，再配合更新尺度和权重衰减。要理解这种差别，可以先看一个满秩方阵的精确极分解方向，再回到实际算法。</p></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}M&amp;=U\Sigma V^\top,\qquad Q=UV^\top,\\W_{t+1}&amp;=(1-\eta_t\lambda)W_t-\eta_t c_t Q_t.\end{aligned}</div><figcaption>M 代表待处理的更新矩阵，常来自梯度动量；Q 为精确极分解方向，ct 表示实现中的尺度调整。实际 Muon 通常用有限次 Newton–Schulz 型迭代近似处理，而非每步计算精确 SVD；动量与缩放按版本核对。</figcaption></figure>
+    <div class="experiment"><div class="experiment-head"><h3>同一个 2×2 矩阵的三种方向</h3><span class="assumption">已知 SVD · 全部归一到相同 Frobenius 范数</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>奇异值比 σ₁/σ₂ <output data-mu-ratio-value></output></span><input type="range" min="1" max="32" value="8" data-mu-ratio></label><p class="experiment-note">M=R(30°)·diag(σ₁,1)·R(20°)ᵀ，旋转保持不变。逐元素一列使用首步、零历史 AdamW 梯度项 M/(|M|+10⁻⁸)，未计衰减。</p></div><div class="experiment-view" aria-live="polite"><div class="compare-wrap"><table class="matrix-direction-table"><thead><tr><th>位置</th><th>原始 M</th><th>M 归一方向</th><th>逐元素方向</th><th>极分解方向</th></tr></thead><tbody data-mu-rows></tbody></table></div><p class="experiment-note" data-mu-note></p></div></div><p class="experiment-caption">每个方向都除以自身 Frobenius 范数，显示数值未乘下降方向的负号。极分解原始 Q 的奇异值为 1；归一显示后为 1/√2。本例只比较方向，不代表训练速度或长期优化轨迹。</p></div>
+    <div class="concept-pairs"><div><h3>矩阵方向与坐标尺度</h3><p>改变 σ₁/σ₂ 会改变原始更新在不同奇异方向的强度。保持 U/V 不变时精确 Q 不变；逐元素缩放依赖坐标中的元素值，通常得到另一方向。</p></div><div><h3>尺度仍需匹配</h3><p>不同形状的矩阵正交化后，每元素更新 RMS 不同。学习率、矩阵形状、权重衰减与更新缩放一起影响实际位移；把方向归一只是本例的比较约定。</p></div><div><h3>参数组需要分别指定</h3><p>报告和实现常把适用的隐藏层矩阵交给 Muon，其他参数由 AdamW 等方式更新。向量、embedding、输出头、共享权重与张量 reshape 的处理需查看具体版本。</p></div><div><h3>分布式结构也有影响</h3><p>任意把矩阵切成几块后分别正交化，通常不同于整矩阵处理。检查分片维度、通信、重组、精度和状态恢复，再比较端到端成本。</p></div></div>
+    <div class="prose"><p>《Muon is Scalable for LLM Training》（2025）报告了权重衰减、更新尺度与分布式实现的实验。其效率结论依赖模型、数据、预算与调参协议；评估替换时同时看质量曲线、step time、显存、通信和数值稳定性。</p></div>
+    <div class="reading-links"><a href="continual-learning.html#gradient-interference">不同任务的更新干扰</a><a href="performance-analysis.html">端到端性能测量</a><a href="parallel-correctness.html">分布式数学等价性</a></div>
+  </section>
+</div>

@@ -1,0 +1,459 @@
+PyTorch 2.9.0 / detect_anomaly
+Context-manager that enable anomaly detection for the autograd engine.
+
+    This does two things:
+
+    - Running the forward pass with detection enabled will allow the backward
+      pass to print the traceback of the forward operation that created the failing
+      backward function.
+    - If ``check_nan`` is ``True``, any backward computation that generate "nan"
+      value will raise an error. Default ``True``.
+
+    .. warning::
+        This mode should be enabled only for debugging as the different tests
+        will slow down your program execution.
+
+    Example:
+        >>> # xdoctest: +REQUIRES(env:TORCH_DOCTEST_ANOMALY)
+        >>> import torch
+        >>> from torch import autograd
+        >>> class MyFunc(autograd.Function):
+        ...     @staticmethod
+        ...     def forward(ctx, inp):
+        ...         return inp.clone()
+        ...
+        ...     @staticmethod
+        ...     def backward(ctx, gO):
+        ...         # Error during the backward pass
+        ...         raise RuntimeError("Some error in backward")
+        ...         return gO.clone()
+        >>> def run_fn(a):
+        ...     out = MyFunc.apply(a)
+        ...     return out.sum()
+        >>> inp = torch.rand(10, 10, requires_grad=True)
+        >>> out = run_fn(inp)
+        >>> out.backward()
+            Traceback (most recent call last):
+              File "<stdin>", line 1, in <module>
+              File "/your/pytorch/install/torch/_tensor.py", line 93, in backward
+                torch.autograd.backward(self, gradient, retain_graph, create_graph)
+              File "/your/pytorch/install/torch/autograd/__init__.py", line 90, in backward
+                allow_unreachable=True)  # allow_unreachable flag
+              File "/your/pytorch/install/torch/autograd/function.py", line 76, in apply
+                return self._forward_cls.backward(self, *args)
+              File "<stdin>", line 8, in backward
+            RuntimeError: Some error in backward
+        >>> with autograd.detect_anomaly():
+        ...     inp = torch.rand(10, 10, requires_grad=True)
+        ...     out = run_fn(inp)
+        ...     out.backward()
+            Traceback of forward call that caused the error:
+              File "tmp.py", line 53, in <module>
+                out = run_fn(inp)
+              File "tmp.py", line 44, in run_fn
+                out = MyFunc.apply(a)
+            Traceback (most recent call last):
+              File "<stdin>", line 4, in <module>
+              File "/your/pytorch/install/torch/_tensor.py", line 93, in backward
+                torch.autograd.backward(self, gradient, retain_graph, create_graph)
+              File "/your/pytorch/install/torch/autograd/__init__.py", line 90, in backward
+                allow_unreachable=True)  # allow_unreachable flag
+              File "/your/pytorch/install/torch/autograd/function.py", line 76, in apply
+                return self._forward_cls.backward(self, *args)
+              File "<stdin>", line 8, in backward
+            RuntimeError: Some error in backward
+
+    
+
+PyTorch 2.9.0 / forward_hook
+Register a forward hook on the module.
+
+        The hook will be called every time after :func:`forward` has computed an output.
+
+        If ``with_kwargs`` is ``False`` or not specified, the input contains only
+        the positional arguments given to the module. Keyword arguments won't be
+        passed to the hooks and only to the ``forward``. The hook can modify the
+        output. It can modify the input inplace but it will not have effect on
+        forward since this is called after :func:`forward` is called. The hook
+        should have the following signature::
+
+            hook(module, args, output) -> None or modified output
+
+        If ``with_kwargs`` is ``True``, the forward hook will be passed the
+        ``kwargs`` given to the forward function and be expected to return the
+        output possibly modified. The hook should have the following signature::
+
+            hook(module, args, kwargs, output) -> None or modified output
+
+        Args:
+            hook (Callable): The user defined hook to be registered.
+            prepend (bool): If ``True``, the provided ``hook`` will be fired
+                before all existing ``forward`` hooks on this
+                :class:`torch.nn.Module`. Otherwise, the provided
+                ``hook`` will be fired after all existing ``forward`` hooks on
+                this :class:`torch.nn.Module`. Note that global
+                ``forward`` hooks registered with
+                :func:`register_module_forward_hook` will fire before all hooks
+                registered by this method.
+                Default: ``False``
+            with_kwargs (bool): If ``True``, the ``hook`` will be passed the
+                kwargs given to the forward function.
+                Default: ``False``
+            always_call (bool): If ``True`` the ``hook`` will be run regardless of
+                whether an exception is raised while calling the Module.
+                Default: ``False``
+
+        Returns:
+            :class:`torch.utils.hooks.RemovableHandle`:
+                a handle that can be used to remove the added hook by calling
+                ``handle.remove()``
+        
+
+PyTorch 2.9.0 / tensor_hook
+Registers a backward hook.
+
+        The hook will be called every time a gradient with respect to the
+        Tensor is computed. The hook should have the following signature::
+
+            hook(grad) -> Tensor or None
+
+
+        The hook should not modify its argument, but it can optionally return
+        a new gradient which will be used in place of :attr:`grad`.
+
+        This function returns a handle with a method ``handle.remove()``
+        that removes the hook from the module.
+
+        .. note::
+            See :ref:`backward-hooks-execution` for more information on how when this hook
+            is executed, and how its execution is ordered relative to other hooks.
+
+        Example::
+
+            >>> v = torch.tensor([0., 0., 0.], requires_grad=True)
+            >>> h = v.register_hook(lambda grad: grad * 2)  # double the gradient
+            >>> v.backward(torch.tensor([1., 2., 3.]))
+            >>> v.grad
+
+             2
+             4
+             6
+            [torch.FloatTensor of size (3,)]
+
+            >>> h.remove()  # removes the hook
+        
+
+PyTorch 2.9.0 / log_softmax
+Apply a softmax followed by a logarithm.
+
+    While mathematically equivalent to log(softmax(x)), doing these two
+    operations separately is slower and numerically unstable. This function
+    uses an alternative formulation to compute the output and gradient correctly.
+
+    See :class:`~torch.nn.LogSoftmax` for more details.
+
+    Args:
+        input (Tensor): input
+        dim (int): A dimension along which log_softmax will be computed.
+        dtype (:class:`torch.dtype`, optional): the desired data type of returned tensor.
+          If specified, the input tensor is cast to :attr:`dtype` before the operation
+          is performed. This is useful for preventing data type overflows. Default: None.
+    
+
+PyTorch 2.9.0 / cross_entropy
+Compute the cross entropy loss between input logits and target.
+
+    See :class:`~torch.nn.CrossEntropyLoss` for details.
+
+    Args:
+        input (Tensor) : Predicted unnormalized logits;
+            see Shape section below for supported shapes.
+        target (Tensor) : Ground truth class indices or class probabilities;
+            see Shape section below for supported shapes.
+        weight (Tensor, optional): a manual rescaling weight given to each
+            class. If given, has to be a Tensor of size `C`
+        size_average (bool, optional): Deprecated (see :attr:`reduction`).
+        ignore_index (int, optional): Specifies a target value that is ignored
+            and does not contribute to the input gradient. When :attr:`size_average` is
+            ``True``, the loss is averaged over non-ignored targets. Note that
+            :attr:`ignore_index` is only applicable when the target contains class indices.
+            Default: -100
+        reduce (bool, optional): Deprecated (see :attr:`reduction`).
+        reduction (str, optional): Specifies the reduction to apply to the output:
+            ``'none'`` | ``'mean'`` | ``'sum'``. ``'none'``: no reduction will be applied,
+            ``'mean'``: the sum of the output will be divided by the number of
+            elements in the output, ``'sum'``: the output will be summed. Note: :attr:`size_average`
+            and :attr:`reduce` are in the process of being deprecated, and in the meantime,
+            specifying either of those two args will override :attr:`reduction`. Default: ``'mean'``
+        label_smoothing (float, optional): A float in [0.0, 1.0]. Specifies the amount
+            of smoothing when computing the loss, where 0.0 means no smoothing. The targets
+            become a mixture of the original ground truth and a uniform distribution as described in
+            `Rethinking the Inception Architecture for Computer Vision <https://arxiv.org/abs/1512.00567>`__. Default: :math:`0.0`.
+
+    Shape:
+        - Input: Shape :math:`(C)`, :math:`(N, C)` or :math:`(N, C, d_1, d_2, ..., d_K)` with :math:`K \geq 1`
+          in the case of `K`-dimensional loss.
+        - Target: If containing class indices, shape :math:`()`, :math:`(N)` or :math:`(N, d_1, d_2, ..., d_K)` with
+          :math:`K \geq 1` in the case of K-dimensional loss where each value should be between :math:`[0, C)`.
+          If containing class probabilities, same shape as the input and each value should be between :math:`[0, 1]`.
+
+        where:
+
+        .. math::
+            \begin{aligned}
+                C ={} & \text{number of classes} \\
+                N ={} & \text{batch size} \\
+            \end{aligned}
+
+    Examples::
+
+        >>> # Example of target with class indices
+        >>> input = torch.randn(3, 5, requires_grad=True)
+        >>> target = torch.randint(5, (3,), dtype=torch.int64)
+        >>> loss = F.cross_entropy(input, target)
+        >>> loss.backward()
+        >>>
+        >>> # Example of target with class probabilities
+        >>> input = torch.randn(3, 5, requires_grad=True)
+        >>> target = torch.randn(3, 5).softmax(dim=1)
+        >>> loss = F.cross_entropy(input, target)
+        >>> loss.backward()
+    
+
+PyTorch 2.9.0 / deterministic_algorithms
+Sets whether PyTorch operations must use "deterministic"
+    algorithms. That is, algorithms which, given the same input, and when
+    run on the same software and hardware, always produce the same output.
+    When enabled, operations will use deterministic algorithms when available,
+    and if only nondeterministic algorithms are available they will throw a
+    :class:`RuntimeError` when called.
+
+    .. note:: This setting alone is not always enough to make an application
+        reproducible. Refer to :ref:`reproducibility` for more information.
+
+    .. note:: :func:`torch.set_deterministic_debug_mode` offers an alternative
+        interface for this feature.
+
+    The following normally-nondeterministic operations will act
+    deterministically when ``mode=True``:
+
+        * :class:`torch.nn.Conv1d` when called on CUDA tensor
+        * :class:`torch.nn.Conv2d` when called on CUDA tensor
+        * :class:`torch.nn.Conv3d` when called on CUDA tensor
+        * :class:`torch.nn.ConvTranspose1d` when called on CUDA tensor
+        * :class:`torch.nn.ConvTranspose2d` when called on CUDA tensor
+        * :class:`torch.nn.ConvTranspose3d` when called on CUDA tensor
+        * :class:`torch.nn.ReplicationPad1d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.ReplicationPad2d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.ReplicationPad3d` when attempting to differentiate a CUDA tensor
+        * :func:`torch.bmm` when called on sparse-dense CUDA tensors
+        * :func:`torch.Tensor.__getitem__` when attempting to differentiate a CPU tensor
+          and the index is a list of tensors
+        * :func:`torch.Tensor.index_put` with ``accumulate=False``
+        * :func:`torch.Tensor.index_put` with ``accumulate=True`` when called on a CPU
+          tensor
+        * :func:`torch.Tensor.put_` with ``accumulate=True`` when called on a CPU
+          tensor
+        * :func:`torch.Tensor.scatter_add_` when called on a CUDA tensor
+        * :func:`torch.gather` when called on a CUDA tensor that requires grad
+        * :func:`torch.index_add` when called on CUDA tensor
+        * :func:`torch.index_select` when attempting to differentiate a CUDA tensor
+        * :func:`torch.repeat_interleave` when attempting to differentiate a CUDA tensor
+        * :func:`torch.Tensor.index_copy` when called on a CPU or CUDA tensor
+        * :func:`torch.Tensor.scatter` when `src` type is Tensor and called on CUDA tensor
+        * :func:`torch.Tensor.scatter_reduce` when ``reduce='sum'`` or ``reduce='mean'`` and called on CUDA tensor
+
+    The following normally-nondeterministic operations will throw a
+    :class:`RuntimeError` when ``mode=True``:
+
+        * :class:`torch.nn.AvgPool3d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.AdaptiveAvgPool2d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.AdaptiveAvgPool3d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.MaxPool3d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.AdaptiveMaxPool2d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.FractionalMaxPool2d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.FractionalMaxPool3d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.MaxUnpool1d`
+        * :class:`torch.nn.MaxUnpool2d`
+        * :class:`torch.nn.MaxUnpool3d`
+        * :func:`torch.nn.functional.interpolate` when attempting to differentiate a CUDA tensor
+          and one of the following modes is used:
+
+          - ``linear``
+          - ``bilinear``
+          - ``bicubic``
+          - ``trilinear``
+
+        * :class:`torch.nn.ReflectionPad1d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.ReflectionPad2d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.ReflectionPad3d` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.NLLLoss` when called on a CUDA tensor
+        * :class:`torch.nn.CTCLoss` when attempting to differentiate a CUDA tensor
+        * :class:`torch.nn.EmbeddingBag` when attempting to differentiate a CUDA tensor when
+          ``mode='max'``
+        * :func:`torch.Tensor.put_` when ``accumulate=False``
+        * :func:`torch.Tensor.put_` when ``accumulate=True`` and called on a CUDA tensor
+        * :func:`torch.histc` when called on a CUDA tensor
+        * :func:`torch.bincount` when called on a CUDA tensor and ``weights``
+          tensor is given
+        * :func:`torch.kthvalue` with called on a CUDA tensor
+        * :func:`torch.median` with indices output when called on a CUDA tensor
+        * :func:`torch.nn.functional.grid_sample` when attempting to differentiate a CUDA tensor
+        * :func:`torch.cumsum` when called on a CUDA tensor when dtype is floating point or complex
+        * :func:`torch.Tensor.scatter_reduce` when ``reduce='prod'`` and called on CUDA tensor
+        * :func:`torch.Tensor.resize_` when called with a quantized tensor
+
+    In addition, several operations fill uninitialized memory when this setting
+    is turned on and when
+    :attr:`torch.utils.deterministic.fill_uninitialized_memory` is turned on.
+    See the documentation for that attribute for more information.
+
+    A handful of CUDA operations are nondeterministic if the CUDA version is
+    10.2 or greater, unless the environment variable ``CUBLAS_WORKSPACE_CONFIG=:4096:8``
+    or ``CUBLAS_WORKSPACE_CONFIG=:16:8`` is set. See the CUDA documentation for more
+    details: `<https://docs.nvidia.com/cuda/cublas/index.html#results-reproducibility>`_
+    If one of these environment variable configurations is not set, a :class:`RuntimeError`
+    will be raised from these operations when called with CUDA tensors:
+
+        * :func:`torch.mm`
+        * :func:`torch.mv`
+        * :func:`torch.bmm`
+
+    Note that deterministic operations tend to have worse performance than
+    nondeterministic operations.
+
+    .. note::
+
+        This flag does not detect or prevent nondeterministic behavior caused
+        by calling an inplace operation on a tensor with an internal memory
+        overlap or by giving such a tensor as the :attr:`out` argument for an
+        operation. In these cases, multiple writes of different data may target
+        a single memory location, and the order of writes is not guaranteed.
+
+    Args:
+        mode (:class:`bool`): If True, makes potentially nondeterministic
+            operations switch to a deterministic algorithm or throw a runtime
+            error. If False, allows nondeterministic operations.
+
+    Keyword args:
+        warn_only (:class:`bool`, optional): If True, operations that do not
+            have a deterministic implementation will throw a warning instead of
+            an error. Default: ``False``
+
+    Example::
+
+        >>> # xdoctest: +SKIP
+        >>> torch.use_deterministic_algorithms(True)
+
+        # Forward mode nondeterministic error
+        >>> torch.randn(10, device='cuda').kthvalue(1)
+        ...
+        RuntimeError: kthvalue CUDA does not have a deterministic implementation...
+
+        # Backward mode nondeterministic error
+        >>> torch.nn.AvgPool3d(1)(torch.randn(3, 4, 5, 6, requires_grad=True).cuda()).sum().backward()
+        ...
+        RuntimeError: avg_pool3d_backward_cuda does not have a deterministic implementation...
+    
+
+PyTorch 2.9.0 / get_rng_state
+Returns the random number generator state as a `torch.ByteTensor`.
+
+    .. note:: The returned state is for the default generator on CPU only.
+
+    See also: :func:`torch.random.fork_rng`.
+    
+
+PyTorch 2.9.0 / AdamW
+Implements AdamW algorithm, where weight decay does not accumulate in the momentum nor variance.
+
+    .. math::
+       \begin{aligned}
+            &\rule{110mm}{0.4pt}                                                                 \\
+            &\textbf{input}      : \gamma \text{(lr)}, \: \beta_1, \beta_2
+                \text{(betas)}, \: \theta_0 \text{(params)}, \: f(\theta) \text{(objective)},
+                \: \epsilon \text{ (epsilon)}                                                    \\
+            &\hspace{13mm}      \lambda \text{(weight decay)},  \: \textit{amsgrad},
+                \: \textit{maximize}                                                             \\
+            &\textbf{initialize} : m_0 \leftarrow 0 \text{ (first moment)}, v_0 \leftarrow 0
+                \text{ ( second moment)}, \: v_0^{max}\leftarrow 0                        \\[-1.ex]
+            &\rule{110mm}{0.4pt}                                                                 \\
+            &\textbf{for} \: t=1 \: \textbf{to} \: \ldots \: \textbf{do}                         \\
+
+            &\hspace{5mm}\textbf{if} \: \textit{maximize}:                                       \\
+            &\hspace{10mm}g_t           \leftarrow   -\nabla_{\theta} f_t (\theta_{t-1})         \\
+            &\hspace{5mm}\textbf{else}                                                           \\
+            &\hspace{10mm}g_t           \leftarrow   \nabla_{\theta} f_t (\theta_{t-1})          \\
+            &\hspace{5mm} \theta_t \leftarrow \theta_{t-1} - \gamma \lambda \theta_{t-1}         \\
+            &\hspace{5mm}m_t           \leftarrow   \beta_1 m_{t-1} + (1 - \beta_1) g_t          \\
+            &\hspace{5mm}v_t           \leftarrow   \beta_2 v_{t-1} + (1-\beta_2) g^2_t          \\
+            &\hspace{5mm}\widehat{m_t} \leftarrow   m_t/\big(1-\beta_1^t \big)                   \\
+            &\hspace{5mm}\textbf{if} \: amsgrad                                                  \\
+            &\hspace{10mm} v_t^{max} \leftarrow \mathrm{max}(v_{t-1}^{max},v_t)                  \\
+            &\hspace{10mm}\widehat{v_t} \leftarrow v_t^{max}/\big(1-\beta_2^t \big)              \\
+            &\hspace{5mm}\textbf{else}                                                           \\
+            &\hspace{10mm}\widehat{v_t} \leftarrow   v_t/\big(1-\beta_2^t \big)                  \\
+            &\hspace{5mm}\theta_t \leftarrow \theta_t - \gamma \widehat{m_t}/
+                \big(\sqrt{\widehat{v_t}} + \epsilon \big)                                       \\
+            &\rule{110mm}{0.4pt}                                                          \\[-1.ex]
+            &\bf{return} \:  \theta_t                                                     \\[-1.ex]
+            &\rule{110mm}{0.4pt}                                                          \\[-1.ex]
+       \end{aligned}
+
+    For further details regarding the algorithm we refer to `Decoupled Weight Decay Regularization`_.
+    
+    Args:
+        params (iterable): iterable of parameters or named_parameters to optimize
+            or iterable of dicts defining parameter groups. When using named_parameters,
+            all parameters in all groups should be named
+        lr (float, Tensor, optional): learning rate (default: 1e-3). A tensor LR
+            is not yet supported for all our implementations. Please use a float
+            LR if you are not also specifying fused=True or capturable=True.
+        betas (Tuple[float, float], optional): coefficients used for computing
+            running averages of gradient and its square (default: (0.9, 0.999))
+        eps (float, optional): term added to the denominator to improve
+            numerical stability (default: 1e-8)
+        weight_decay (float, optional): weight decay coefficient (default: 1e-2)
+        amsgrad (bool, optional): whether to use the AMSGrad variant of this
+            algorithm from the paper `On the Convergence of Adam and Beyond`_
+            (default: False)
+        maximize (bool, optional): maximize the objective with respect to the
+            params, instead of minimizing (default: False)
+        foreach (bool, optional): whether foreach implementation of optimizer
+            is used. If unspecified by the user (so foreach is None), we will try to use
+            foreach over the for-loop implementation on CUDA, since it is usually
+            significantly more performant. Note that the foreach implementation uses
+            ~ sizeof(params) more peak memory than the for-loop version due to the intermediates
+            being a tensorlist vs just one tensor. If memory is prohibitive, batch fewer
+            parameters through the optimizer at a time or switch this flag to False (default: None)
+        capturable (bool, optional): whether this instance is safe to
+            capture in a graph, whether for CUDA graphs or for torch.compile support.
+            Tensors are only capturable when on supported :ref:`accelerators<accelerators>`.
+            Passing True can impair ungraphed performance, so if you don't intend to graph
+            capture this instance, leave it False (default: False)
+        differentiable (bool, optional): whether autograd should
+            occur through the optimizer step in training. Otherwise, the step()
+            function runs in a torch.no_grad() context. Setting to True can impair
+            performance, so leave it False if you don't intend to run autograd
+            through this instance (default: False)
+        fused (bool, optional): whether the fused implementation is used.
+            Currently, `torch.float64`, `torch.float32`, `torch.float16`, and `torch.bfloat16`
+            are supported. (default: None)
+
+    .. note:: The foreach and fused implementations are typically faster than the for-loop,
+              single-tensor implementation, with fused being theoretically fastest with both
+              vertical and horizontal fusion. As such, if the user has not specified either
+              flag (i.e., when foreach = fused = None), we will attempt defaulting to the foreach
+              implementation when the tensors are all on CUDA. Why not fused? Since the fused
+              implementation is relatively new, we want to give it sufficient bake-in time.
+              To specify fused, pass True for fused. To force running the for-loop
+              implementation, pass False for either foreach or fused. 
+    .. Note::
+        A prototype implementation of Adam and AdamW for MPS supports `torch.float32` and `torch.float16`.
+    .. _Decoupled Weight Decay Regularization:
+        https://arxiv.org/abs/1711.05101
+    .. _On the Convergence of Adam and Beyond:
+        https://openreview.net/forum?id=ryQu7f-RZ
+
+    
+

@@ -1,0 +1,34 @@
+.modern-page .objective-controls { min-width: 0; }
+.modern-page .objective-controls label, .modern-page .objective-controls select { min-width: 0; max-width: 100%; }
+.modern-page .objective-controls .check-control { display: flex; align-items: flex-start; gap: 9px; }
+.modern-page .objective-controls .check-control input { width: 16px; height: 16px; flex: 0 0 16px; margin-top: 3px; accent-color: var(--accent); }
+.modern-page .objective-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin-bottom: 20px; }
+.modern-page .objective-metrics > div:last-child { grid-column: 1 / -1; }
+.modern-page .objective-metrics strong { font-size: 19px; line-height: 1.7; overflow-wrap: anywhere; }
+.modern-page .objective-result-table { min-width: 550px; }
+.modern-page .objective-result-table th, .modern-page .objective-result-table td { padding: 12px 10px; }
+.modern-page .objective-compact-table { min-width: 0; }
+.modern-page .objective-compact-table th, .modern-page .objective-compact-table td { padding: 11px 8px; min-width: 0; }
+.modern-page .objective-lora-table { min-width: 0; table-layout: fixed; }
+.modern-page .objective-lora-table th, .modern-page .objective-lora-table td { padding: 12px 8px; min-width: 0; overflow-wrap: anywhere; }
+.modern-page .objective-lora-table th:first-child { width: 17%; }
+.modern-page .objective-selected { background: var(--accent-soft); }
+.objective-allowed { color: var(--accent); }
+.objective-muted { color: var(--ink-faint); }
+.objective-scroll { max-height: 370px; }
+.objective-scroll thead { position: sticky; top: 0; background: var(--surface); z-index: 1; }
+.objective-observation { padding: 13px 16px; border-left: 3px solid var(--accent); background: var(--accent-soft); font-size: 13px; }
+.objective-query { display: grid; gap: 12px; margin-bottom: 18px; font-size: 13px; }
+.objective-query input { width: 100%; accent-color: var(--accent); }
+@media (max-width: 1100px) {
+  .modern-page .objective-controls { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px 14px; }
+  .modern-page .objective-controls label { margin: 0; }
+  .modern-page .objective-controls .check-control { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .modern-page .objective-controls, .modern-page .objective-metrics { grid-template-columns: minmax(0,1fr); }
+  .modern-page .objective-metrics > div:last-child { grid-column: auto; }
+  .modern-page .objective-metrics strong { font-size: 18px; }
+  .modern-page .objective-compact-table { font-size: 12px; }
+  .modern-page .objective-lora-table { font-size: 12px; }
+}
