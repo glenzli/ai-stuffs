@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "archive_sha256": "69b47c882bd1e7127918b3801b00d6a62d6f58cc275de1acf0bcd7e2167576f5",
+  "mode": "Extracted source and original inputs only; cwd outside repository; PYTHONPATH cleared",
+  "trials": 36,
+  "observations": 540,
+  "complete_report_equal": true,
+  "identical_tensor_files": 36,
+  "identical_reference_file": true,
+  "report_sha256": "3d80e75ea21b7d78bdb60abb90393cc77e268acfc1c61317e0d3fd72ace7c1d9"
+}

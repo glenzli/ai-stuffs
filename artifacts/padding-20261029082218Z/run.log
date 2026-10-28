@@ -1,0 +1,2 @@
+{"status": "passed", "correct_paths_passed": true, "empty_prompt_rejected": true, "cached_prefixes_unchanged": true, "trials": 36, "observations": 540, "correct_path_max_error": 7.993605777301127e-15}
+Prepared padding candidate: 27.40 MiB; accepted sources unchanged.

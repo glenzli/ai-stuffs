@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "preserved_experiments": [
+    "learning",
+    "failures",
+    "dynamics",
+    "output",
+    "practice",
+    "language-baselines",
+    "matched-budget",
+    "retrieval",
+    "retrieval-comparison",
+    "text-evaluation-audit",
+    "accumulation",
+    "retrieval-filtering"
+  ],
+  "captured_sources": {
+    "scripts/padding_inference_lab.py": "75f539e7511e7f757b4d6faf2993b8b28327d51ab0de56da85a2a9e092963865",
+    "scripts/text_training_core.py": "6b658cec0783c6a5bf9f8269c6f8427ca9fd49fec109ce8f28054359218635d5",
+    "scripts/learning_core.py": "f3d8cdfc21a2ec13ab829787bf0662063d45667848df02f1811987574571bfc7",
+    "scripts/framework-requirements.txt": "30e7809ec2e383a3b17db667db22953caec8e19e2167584d1820fe8086295862",
+    "scripts/run-padding-inference.mjs": "df69099ad0ca8a177b625fa2a93205629bd7847cbed2fd48a3ff22a566dbf540",
+    "scripts/experiment-bundles.mjs": "0a729b6574fa785ddc1565b890a6ff9747a4506d0e06c2f11da20335e94e6284"
+  },
+  "accepted_files": 71,
+  "untracked_files": 78,
+  "index_empty": true,
+  "head": "78ef25b2745d549069c9dc29a8d149cf05fd15ed"
+}

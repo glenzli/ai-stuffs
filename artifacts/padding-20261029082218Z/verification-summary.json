@@ -1,0 +1,115 @@
+{
+  "status": "passed",
+  "completed_at": "2026-10-29T08:46:57.688Z",
+  "previous_round_commit": {
+    "head": "78ef25b2745d549069c9dc29a8d149cf05fd15ed",
+    "parent": "7d097b82a621784cb1e0802ba932fec243eac5e3",
+    "authorDate": "2026-10-29T03:27:24+08:00",
+    "commitDate": "2026-10-29T03:27:24+08:00",
+    "offset_seconds": 2192,
+    "committed_paths": 53,
+    "working_tree_clean_immediately_after_commit": true,
+    "origin_main": "5ec1e58de6032d3cfb1c24df02bf2037d812b1be",
+    "push_performed": false
+  },
+  "new_changes": {
+    "committed": false,
+    "index_empty": true
+  },
+  "checks": {
+    "registered_node_tests": 456,
+    "python_evidence_tests": 6,
+    "dense_original_full_references": 45,
+    "dense_full_recomputations_of_cached_events": 180,
+    "raw_error_observations": 540,
+    "packaged_source_replay": {
+      "status": "passed",
+      "archive_sha256": "69b47c882bd1e7127918b3801b00d6a62d6f58cc275de1acf0bcd7e2167576f5",
+      "mode": "Extracted source and original inputs only; cwd outside repository; PYTHONPATH cleared",
+      "trials": 36,
+      "observations": 540,
+      "complete_report_equal": true,
+      "identical_tensor_files": 36,
+      "identical_reference_file": true,
+      "report_sha256": "3d80e75ea21b7d78bdb60abb90393cc77e268acfc1c61317e0d3fd72ace7c1d9"
+    },
+    "browser_condition_states": 90,
+    "browser_rendered_rows_compared": 540,
+    "browser_layouts": 6,
+    "http_downloads": 3,
+    "producer_existing_directory_guard": true,
+    "preserved_prior_experiments": [
+      "learning",
+      "failures",
+      "dynamics",
+      "output",
+      "practice",
+      "language-baselines",
+      "matched-budget",
+      "retrieval",
+      "retrieval-comparison",
+      "text-evaluation-audit",
+      "accumulation",
+      "retrieval-filtering"
+    ]
+  },
+  "build": {
+    "pages": 66,
+    "equations": 143,
+    "log": "build.log"
+  },
+  "accepted_identity": {
+    "manifest_sha256": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+    "report_sha256": "3d80e75ea21b7d78bdb60abb90393cc77e268acfc1c61317e0d3fd72ace7c1d9",
+    "archive_sha256": "69b47c882bd1e7127918b3801b00d6a62d6f58cc275de1acf0bcd7e2167576f5",
+    "archive_bytes": 28726844
+  },
+  "current_source_sha256": {
+    ".gitignore": "2d0a8e43d68bee44e702ee52b9294a42e0eb123280bc9fe26fab9fc5e5708f5e",
+    "README.md": "ad3793c1b5286bcc3372a63e4fccb3c35c9e353f0bfd9b16992bbe24f7b8c425",
+    "package.json": "957c8981b708a4adf34eb4661f9a1851f9fe5d370f8b580633d474c875f1e740",
+    "scripts/build.mjs": "eb21c32469da0633edad0921b45a5d46cc8636fee5276a6961b0721e55320521",
+    "scripts/experiment-sources.mjs": "a67850563d0bbfe9b3792aa82bc3d45692b03252b5edd1615208d60a8a3f01d4",
+    "src/content/inference-engine.html": "3814553a3c9baf41ff72fdbb7deefda6d2c33cce3de0e8b2d484a61d99144539",
+    "src/content/position-cache.html": "816b2a0d71206ef04a02e039a97364adc48c5082895f3c54e98c2a438b76fe9d",
+    "src/experiment-sources.json": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+    "src/pages.mjs": "38187d5dc4cc62d5d799556f8754136de709442dd6a81b89978848f560a6928e",
+    "src/references.mjs": "b5d1aaa836567ee0395e3989755fc49832002d1aa9018b96445f209ef94b956c",
+    "src/search.mjs": "24c0c3994cc77d2463aa623cb094d4d6b65daf2ac01bc4f74d2423f70debf93f",
+    "docs/padding-inference-2026-10-29.md": "891d7fdeab084c01c9556c8e0f6f7114aefd1ce97e391db21acf0cf7dd47eb1b",
+    "scripts/padding_inference_lab.py": "75f539e7511e7f757b4d6faf2993b8b28327d51ab0de56da85a2a9e092963865",
+    "scripts/run-padding-inference.mjs": "df69099ad0ca8a177b625fa2a93205629bd7847cbed2fd48a3ff22a566dbf540",
+    "scripts/test-padding-inference.mjs": "bf3d3cfc1e3f603026cf286a46359752ec79e2be87099adc94d3db0352e76df5",
+    "scripts/test-padding-inference.py": "2f2a531c32e03fc1cf63b2aac4c113a96608b194d573bfff17744ae82d7950c5",
+    "src/scripts/features/padding-inference-data.js": "8d12602375127abb977011fbcf5ad345bb5dcba08ebe28d903be66ed4e6aa10b",
+    "src/scripts/features/padding-inference.js": "2f3347eadbd031e4ba4e8b0a948f7715dd4f9f1e6e3d515be69041a4f3d65c6a"
+  },
+  "validation_logs": {
+    "node": {
+      "path": "node-final.log",
+      "sha256": "c60833f1b9fcb86cc631e4c2180c37aa9172d815e8999ebb5d0356e0a6abec2d"
+    },
+    "python": {
+      "path": "python-checks.log",
+      "sha256": "addc93c32e101e8dfe6b2f6049a8f1d43e8f0728dfdec31379f27933369ade60"
+    },
+    "build": {
+      "path": "build.log",
+      "sha256": "0e531f5a19b9b2e692f4583f4550c113438c6a2385ad5e3a5ce8dffb175206c1"
+    }
+  },
+  "evidence": [
+    "qa/browser.json",
+    "qa/padding-final.png",
+    "qa/padding-mobile.png",
+    "qa/padding-dark.png",
+    "qa/packaged-replay.json",
+    "qa/producer-guard.json",
+    "http-download-audit.json"
+  ],
+  "preview": {
+    "url": "http://127.0.0.1:4173/position-cache.html#padding-real",
+    "server_session": 38633
+  },
+  "scope": "CPU float64 full fixed-sinusoidal Transformer with unchanged trained weights. Batched padded prefill and four fixed real continuation inputs versus original per-sequence full forward. No RoPE full-model, free-generation, performance or GPU claim."
+}

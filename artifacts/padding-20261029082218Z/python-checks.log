@@ -1,0 +1,11 @@
+test_all_180_cached_events_match_dense_full_recomputation_with_historical_positions (__main__.PaddedInferenceEvidence.test_all_180_cached_events_match_dense_full_recomputation_with_historical_positions) ... ok
+test_all_45_original_unpadded_references_match_independent_dense_softmax (__main__.PaddedInferenceEvidence.test_all_45_original_unpadded_references_match_independent_dense_softmax) ... ok
+test_all_540_error_fields_and_physical_logical_ledgers_recompute_from_raw_tensors (__main__.PaddedInferenceEvidence.test_all_540_error_fields_and_physical_logical_ledgers_recompute_from_raw_tensors) ... ok
+test_empty_prompt_context_limit_and_malformed_cache_are_rejected (__main__.PaddedInferenceEvidence.test_empty_prompt_context_limit_and_malformed_cache_are_rejected) ... ok
+test_inputs_executed_sources_and_unchanged_full_model_identity (__main__.PaddedInferenceEvidence.test_inputs_executed_sources_and_unchanged_full_model_identity) ... ok
+test_observed_controls_preserve_prefill_readout_and_continuation_as_distinct_failures (__main__.PaddedInferenceEvidence.test_observed_controls_preserve_prefill_readout_and_continuation_as_distinct_failures) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.858s
+
+OK

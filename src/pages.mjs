@@ -616,6 +616,8 @@ pages.find(page => page.slug === "parallel-correctness").features.push("accumula
 pages.find(page => page.slug === "parallel-correctness").styles.push("practice");
 pages.find(page => page.slug === "ann-index").features.push("retrieval-filtering");
 pages.find(page => page.slug === "ann-index").styles.push("practice");
+pages.find(page => page.slug === "position-cache").features.push("padding-inference");
+pages.find(page => page.slug === "position-cache").styles.push("practice");
 pages.find(page => page.slug === "generalization-analysis").features.push("matched-budget");
 
 // Topic ownership determines both header navigation and the knowledge directory.

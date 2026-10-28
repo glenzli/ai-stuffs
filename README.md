@@ -1,6 +1,6 @@
 # 模型工程 Wiki
 
-当前十二组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
+当前十三组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
 初始化/宽度/Batch、分块交叉熵已重新运行，报告与原始工件保存在
 `artifacts/reproduced-20261028T115030Z/`。页面提供完整报告、源码与原始工件包、
 SHA-256 校验表；构建前核对这些文件，缺失或被修改时停止构建。
@@ -522,3 +522,18 @@ npm run accept:experiment -- --candidate artifacts/filtering-my-run/candidate.js
 只需固定 NumPy 2.3.4，不运行编码器或下载模型。候选包包含输入向量、原文、问题、原始报告、
 全部内积/排序和执行源码，可离开仓库独立重跑。机制与分母边界见
 [来源过滤核验](docs/retrieval-filtering-2026-10-29.md)。
+
+### 完整模型的填充、读取列与缓存续算
+
+复用文本项目的固定权重和三个原窗口，核验左右填充、逻辑位置、next logits 读取列和
+四次固定原始后缀的缓存续算；等长无填充与额外填充均保留。完整模型使用固定正弦位置，
+与位置页前半部分的 RoPE 教学配置分别声明。
+
+```bash
+npm run lab:padding-inference -- --out-dir artifacts/padding-my-run
+npm run test:padding-inference
+npm run accept:experiment -- --candidate artifacts/padding-my-run/candidate.json
+```
+
+候选包包含原始权重/窗口、全部执行源码、36 路实际张量、540 项逐阶段观测和缓存
+前缀哈希，不重新训练或下载模型。详见[完整模型填充核验](docs/padding-inference-2026-10-29.md)。

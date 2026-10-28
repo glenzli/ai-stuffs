@@ -1,0 +1,70 @@
+{
+  "tolerance": 2e-10,
+  "suffix_steps": 4,
+  "sides": [
+    "left",
+    "right"
+  ],
+  "cases": [
+    {
+      "id": "ragged",
+      "title": "变长前缀",
+      "lengths": [
+        7,
+        19,
+        41
+      ],
+      "extra_pad": 0
+    },
+    {
+      "id": "balanced",
+      "title": "等长、无填充的对照",
+      "lengths": [
+        19,
+        19,
+        19
+      ],
+      "extra_pad": 0
+    },
+    {
+      "id": "extra",
+      "title": "变长前缀、额外三个填充槽",
+      "lengths": [
+        7,
+        19,
+        41
+      ],
+      "extra_pad": 3
+    }
+  ],
+  "methods": [
+    {
+      "id": "correct",
+      "title": "逻辑位置、有效 key、最后有效位置"
+    },
+    {
+      "id": "physical",
+      "title": "故障：物理列号充当位置"
+    },
+    {
+      "id": "last-column",
+      "title": "故障：总取张量最后一列"
+    },
+    {
+      "id": "length-index",
+      "title": "故障：总取有效长度减一"
+    },
+    {
+      "id": "no-key-mask",
+      "title": "故障：不屏蔽填充 key"
+    },
+    {
+      "id": "cache-physical",
+      "title": "故障：仅续算位置取缓存槽数"
+    }
+  ],
+  "input_selection": "First three saved training windows, fixed prefix lengths and next four original input tokens; no sampling or selection by outcomes.",
+  "reference": "Original TextDecoder.forward on each unpadded prefix at every event, with hooks recording actual per-layer K/V.",
+  "position_encoding": "Saved fixed sinusoidal buffer, float32 values cast to float64; this complete model does not use RoPE.",
+  "generation": "Four teacher-forced original continuation inputs. Compare next-position logits; no free-running generation, EOS stopping, context cropping or padding-token emission experiment."
+}

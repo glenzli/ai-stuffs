@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-29T08:43:24.643Z",
+  "downloads": [
+    {
+      "kind": "report",
+      "href": "assets/experiments/padding-inference-report.3d80e75ea2.json",
+      "status": 200,
+      "bytes": 330836,
+      "sha256": "3d80e75ea21b7d78bdb60abb90393cc77e268acfc1c61317e0d3fd72ace7c1d9",
+      "match": true
+    },
+    {
+      "kind": "archive",
+      "href": "assets/experiments/padding-inference-archive.69b47c882b.tar.gz",
+      "status": 200,
+      "bytes": 28726844,
+      "sha256": "69b47c882bd1e7127918b3801b00d6a62d6f58cc275de1acf0bcd7e2167576f5",
+      "match": true
+    },
+    {
+      "kind": "checksums",
+      "href": "assets/experiments/padding-inference-checksums.13bbb3e88d.txt",
+      "status": 200,
+      "bytes": 4493,
+      "sha256": "13bbb3e88d689dd3cf4d0e11bdefb835cb5423ae79596755f90eedeb78eda9f5",
+      "match": true
+    }
+  ]
+}

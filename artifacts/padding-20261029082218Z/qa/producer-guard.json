@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "existing_directory_rejected": true,
+  "exit_code": 1,
+  "accepted_before": {
+    "src/experiment-sources.json": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+    "src/scripts/features/padding-inference-data.js": "8d12602375127abb977011fbcf5ad345bb5dcba08ebe28d903be66ed4e6aa10b",
+    ".gitignore": "2d0a8e43d68bee44e702ee52b9294a42e0eb123280bc9fe26fab9fc5e5708f5e"
+  },
+  "accepted_after": {
+    "src/experiment-sources.json": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+    "src/scripts/features/padding-inference-data.js": "8d12602375127abb977011fbcf5ad345bb5dcba08ebe28d903be66ed4e6aa10b",
+    ".gitignore": "2d0a8e43d68bee44e702ee52b9294a42e0eb123280bc9fe26fab9fc5e5708f5e"
+  }
+}
