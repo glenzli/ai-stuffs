@@ -50,7 +50,8 @@
     "test:experiment-navigation": "node --test scripts/test-experiment-navigation.mjs",
     "check:experiment": "node scripts/check-experiment.mjs",
     "test:experiment-preflight": "node --test scripts/test-experiment-preflight.mjs",
-    "test:sampling-state": "node --test scripts/test-sampling-state.mjs"
+    "test:sampling-state": "node --test scripts/test-sampling-state.mjs",
+    "test:editorial": "node --test scripts/test-editorial-alignment.mjs"
   },
   "devDependencies": {
     "katex": "0.19.1",

@@ -129,3 +129,7 @@ __pycache__/
 # Fixed-distribution sampling ledger validation, separate from model measurements.
 !/artifacts/sampling-state-20261029134939Z/
 !/artifacts/sampling-state-20261029134939Z/**
+
+# Editorial and metric-layout checks; model experiment outputs are unchanged.
+!/artifacts/editorial-20261029142135Z/
+!/artifacts/editorial-20261029142135Z/**

@@ -126,7 +126,7 @@ export const sources = {
 
 export const pageEvidence = {
   "retrieval-project": { scope: "本站 877 段自然语言与 36 个事先指定证据的问题，查询按来源文档分组为验证／测试。固定 BGE 本机编码，BM25、Faiss Flat/IVF 与候选内 RRF 实际运行；追加两路前十并集、截断 RRF 与来源组配对重采样。新增比较复用已查看的题目，属探索性证据；标注不穷尽，不作通用检索或生产延迟结论。", refs: ["bgeSmallZh", "faissIndexes", "rrf", "pairedBootstrap", "eval"] },
-  "generalization-analysis": { scope: "原有四符号反转任务及保存权重的独立诊断。EOS 约束使用已知任务答案长度；位置平移只作推理扰动。扩展支持训练对齐更新次数，监督 token 与计算量未对齐；三个 seed 的全部结果保留，不据此识别唯一根因。", refs: ["lengthGeneralization", "attention", "torch29Autograd"] },
+  "generalization-analysis": { scope: "四符号反转任务的保存权重诊断。EOS 约束使用任务答案长度，位置平移仅作推理扰动。两组独立训练对照分别固定 1,200 次更新和 410,000 个监督标签；前者监督量未对齐，后者更新数未对齐，均未对齐计算量。全部三个 seed 保留，不识别单独的长度因果效应。", refs: ["lengthGeneralization", "attention", "torch29Autograd"] },
   "text-training-project": { scope: "本站 38 篇中文文档、按文档固定拆分的 byte BPE 与约 30 万参数 CPU decoder。Tokenizer 只拟合训练文档；固定权重的逐位置 NLL、逐文档误差、宏微平均和整文档重采样与原始生成分别报告。文档近重复与语义独立性未证明，区间以一个保存模型为条件；不代表通用中文能力或指令模型。", refs: ["ngramLM", "bpeCourse", "attention", "ce", "pairedBootstrap", "torch29Autograd", "artifacts"] },
   "reproducibility-lab": { scope: "单线程 CPU、同一固定环境中的 16 步受控探针，保存首次边界张量与后续误差。精度转换和数据顺序说明当前可观察差异；旧 seed 47 与重跑差异缺少旧轨迹，原因仍未定位。未运行跨系统或 GPU 对照。", refs: ["randomness29", "numericalAccuracy", "artifacts"] },
   "training-step-profile": { scope: "约 30 万参数真实文本 decoder、CPU float64、同权重和 batch 序列，3 次预热与 12 次交替测量。计时不插 hooks；保存引用另测。先核对 loss 与连续更新，再解释整步时间；不包含 GPU 性能、磁盘读入或在线分词。", refs: ["profiler29", "torch29Autograd", "appleCCE", "roofline"] },

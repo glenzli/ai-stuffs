@@ -91,15 +91,15 @@ export function initDataTokenizer() {
       const modes = {
         char: {
           tokens: chars,
-          note: "按字符切分时，每个汉字约一个 token。序列很长，但词表与未见词处理比较直接。",
+          note: "本例每个字符（含句号）记为一个 token，共 15 个。真实的字符词表仍需处理未收录字符。",
         },
         bpe: {
           tokens: bpe,
-          note: "子词把常见组合压成一个 token，减少序列长度；但不同 tokenizer 的词表不可直接比较 token 数、loss 或推理速度。",
+          note: "这 8 个子词由手工指定。更少的 token 缩短了本句序列；质量、速度与 loss 还需在各自明确的评估条件下比较。",
         },
         byte: {
           tokens: bytes,
-          note: "字节回退保证任意文本都能编码，但一个汉字通常变成 3 个 byte token，长上下文与 KV Cache 成本明显增加。",
+          note: "本例直接把每个 UTF-8 字节记为一个 token，15 个字符共 45 字节。这与 tokenizer 遇到未知字符时才做的 byte fallback 不同。",
         },
       };
       const renderTokens = (key) => {
@@ -116,7 +116,7 @@ export function initDataTokenizer() {
           `<span>${token}</span>`,
         ).join("");
         $("[data-tokenizer-seq]").textContent = `S = ${count} for this sentence`;
-        $("[data-tokenizer-vocab]").textContent = key === "byte" ? "V × d (byte fallback)" : "V × d";
+        $("[data-tokenizer-vocab]").textContent = key === "byte" ? "256 × d（不含特殊项）" : "V × d";
         $("[data-tokenizer-kv]").textContent = `∝ ${count} · L · Hkv`;
       };
       tokenButtons.forEach((button) => {

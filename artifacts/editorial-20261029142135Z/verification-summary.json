@@ -1,0 +1,63 @@
+{
+  "baseCommit": "0c56d75beade4dede70cdc06a9209fa6ef328dba",
+  "scope": "Editorial consistency, reader routes, metric alignment; no model experiment rerun, commit or push.",
+  "build": {
+    "pages": 66,
+    "frontendScripts": 114,
+    "styles": 44,
+    "equations": 143,
+    "log": "build.log"
+  },
+  "tests": {
+    "command": "node --test scripts/test-editorial-alignment.mjs scripts/test-reading.mjs scripts/test-data-bpe.mjs",
+    "passed": 25,
+    "log": "node-focused.log"
+  },
+  "browser": {
+    "tokenizerStates": 18,
+    "sharedLayouts": 96,
+    "samplingLayouts": 6,
+    "totalLayouts": 120,
+    "groups": 203,
+    "cards": 625,
+    "comparedRows": 180,
+    "maxAllowedValueTopDifferencePx": 0.5,
+    "alignmentFailures": 0,
+    "cardOverflows": 0,
+    "pageOverflows": 0,
+    "readerTasks": 3,
+    "limits": "Agent task walkthrough, no independent user study. Subgrid fallback not separately runtime tested."
+  },
+  "experiments": {
+    "groups": 13,
+    "manifestSha256": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+    "pinnedFilesVerified": 57,
+    "unchangedFromBase": true,
+    "numericalEvidence": "Reused existing verification; all pinned files byte-verified."
+  },
+  "sourceInputs": {
+    ".gitignore": "42ea231e83fa2aaa53e0c14b459ded1e8dd56b6474f7f8f001195bb3d263932b",
+    "README.md": "aa03b65bdb411191bc19427f73791c6f220cb06e5648f8c5bff980e63f98c378",
+    "package.json": "dd03f2aa17298a0741547aead28b73807e97751308b43913a406c8ef3787f9e0",
+    "src/content/data-tokenizer.html": "9846830a6546a584d14a3b6d9374dafec50fdfbb249e9e43a235c61b718bb475",
+    "src/content/deep-dive.html": "68d1d06b4cf1896d29d9e190582dde5c2a5367fdd0aa676886924b1999f3b254",
+    "src/content/engineering-check.html": "8410df97353078b9c8696b8073c60a7a31ec829113b9520ee03c7cd34f4086f7",
+    "src/content/generalization-analysis.html": "b1eb2a7bff30ad545d4156b531e9c6c663a1371b94cd1c384fb8a4f78b28db2f",
+    "src/content/model-evaluation.html": "33d546b0e3e4fdd2574b9929d8c5fa4528ddafc77713316fc8e066bbdf31034b",
+    "src/content/training-engineer-guide.html": "72ef0d98a300b70461767ed0b74bbff36071a4b1fae692b324e8ce60250230b1",
+    "src/references.mjs": "0f5a70b56fc7367d2b2f97aa075f3a3e74e755d2239d9276ad1b0475feeaad6b",
+    "src/scripts/features/data-tokenizer.js": "07e9f4c558c3d0ca5131dc9fc07839c9ac7f689e0be80819da94697c0addf664",
+    "src/styles/data-tokenizer.css": "566b0739e126f04abcb47d9fc86e11061daf26d72b00425afb9c5d13800f7072",
+    "src/styles/modern.css": "768bc8e744890063bc649e190b8c723beb2217f1722f4bfc2ae3821a7c4c515c",
+    "src/styles/practice.css": "5d77749b5ed790e2ad6169d142ac9d3097af05c8d7e1a9034e8e4e62ad7058f8",
+    "src/styles/sampling-state.css": "b5ab91d92e7a6150138d090210aa1df24bab3072437fe3129b35cbda737f889d",
+    "src/styles/shared.css": "a0fafe0b6ede417ee3033ba348166398d21e3e4c784292185632de11c06dbec5",
+    "scripts/test-editorial-alignment.mjs": "615ba7cb16c89714967c33e117a3af548d1064cca6dfae98f53e0e510e401b81",
+    "docs/editorial-alignment-2026-10-29.md": "9e44ebf6614013721c0ea5ada19a072987a8d34ab83eb1bf190fdea7e4ec79a2"
+  },
+  "screenshots": [
+    "tokenizer-desktop.png",
+    "tokenizer-mobile.png",
+    "tokenizer-dark.png"
+  ]
+}

@@ -1,4 +1,28 @@
 /* Shared teaching components */
+/* A metric's label and value share tracks with their neighbours, including
+   wrapped labels and multi-line values. The local grid is a fallback. */
+:where(.metric-row, .tokenizer-metrics, .practice-metrics) > div,
+:where(.sampling-metrics) > p {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  row-gap: 8px;
+  min-width: 0;
+}
+
+:where(.metric-row, .tokenizer-metrics, .practice-metrics) > div > :last-child,
+:where(.sampling-metrics) > p > strong {
+  align-self: start;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+@supports (grid-template-rows: subgrid) {
+  :where(.metric-row, .tokenizer-metrics, .practice-metrics) > div,
+  :where(.sampling-metrics) > p {
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+  }
+}
+
 .page-intro {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.65fr);

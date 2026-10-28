@@ -52,10 +52,10 @@
           <span class="section-number">02</span>
           <h2 id="tokenizer-title">Tokenizer 决定序列如何变长</h2>
         </div>
-        <p class="section-note">切换切分方式。这里用固定示例展示 token 单位与预算影响，真实 tokenizer 由语料训练出的 BPE/Unigram 词表决定。</p>
+        <p class="section-note">切换字符、手工子词与 UTF-8 字节切分，观察同一句话的序列长度。下方 BPE 实验再展示怎样从语料学习合并规则。</p>
       </div>
 
-      <div class="tokenizer-lab">
+      <div class="tokenizer-lab" aria-describedby="tokenizer-budget-note">
         <div class="tokenizer-controls">
           <p class="micro-label">TOKENIZATION MODE</p>
           <div class="tokenizer-tabs">
@@ -65,21 +65,22 @@
           </div>
           <div class="tokenizer-metrics">
             <div><span>token 数</span><strong data-tokenizer-count>8</strong></div>
-            <div><span>每字 token 比</span><strong data-tokenizer-ratio>0.57</strong></div>
-            <div><span>同 4K 上下文的有效字数</span><strong data-tokenizer-capacity>7,168</strong></div>
+            <div><span>token / 字符</span><strong data-tokenizer-ratio>0.53</strong></div>
+            <div><span>4K 字符估算</span><strong data-tokenizer-capacity>7,680</strong></div>
           </div>
-          <p data-tokenizer-note>子词把常见组合压成一个 token，减少序列长度；但不同 tokenizer 的词表不可直接比较 token 数、loss 或推理速度。</p>
+          <p data-tokenizer-note>这 8 个子词由手工指定。更少的 token 缩短了本句序列；质量、速度与 loss 还需在各自明确的评估条件下比较。</p>
         </div>
         <div class="tokenizer-visual">
           <div class="tokenizer-text">负样本让模型学会区分错误候选。</div>
           <div class="token-chips" data-tokenizer-chips></div>
           <div class="tokenizer-impact">
-            <div><span>注意力序列长度</span><code data-tokenizer-seq>S</code></div>
+            <div><span>注意力序列长度</span><code data-tokenizer-seq>S = 8 for this sentence</code></div>
             <div><span>Embedding 表</span><code data-tokenizer-vocab>V × d</code></div>
-            <div><span>KV Cache</span><code data-tokenizer-kv>∝ S · L · Hkv</code></div>
+            <div><span>KV Cache</span><code data-tokenizer-kv>∝ 8 · L · Hkv</code></div>
           </div>
         </div>
       </div>
+      <p class="figure-caption" id="tokenizer-budget-note">本句含句号共 15 个 Unicode 字符；4K = 4,096 token。估算字符数 = ⌊4,096 × 15 ÷ token 数⌋，沿用本句的切分比例，未计模板与特殊 token 开销，不能代表其他文本的容量或理解能力。</p>
 
       <div class="tokenizer-principles">
         <article>

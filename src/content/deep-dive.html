@@ -1,15 +1,15 @@
 <section class="page-intro">
   <div><p class="eyebrow">学习路线 / 从输入到可复现的训练</p><h1>六步主线：<span class="accent-text">先看一次学习，再逐层深入</span></h1><p class="lede">先知道模型收到什么、怎样计算和更新，再用小模型的实际结果区分拟合与泛化。完成这些以后，进入稳定性、复现和资源扩展。</p></div>
-  <aside class="intro-aside"><p class="micro-label">怎么使用这条路线</p><p>每步先读“先读”范围，再做一句自检。已有基础可以跳到对应步骤；公式推导和额外对照都在“按需深入”中。</p></aside>
+  <aside class="intro-aside"><p class="micro-label">怎么使用这条路线</p><p>每步先读“先读”范围，能回答自检就继续；卡住时只补对应的“按需深入”。已有基础可以从当前问题所在步骤开始。</p></aside>
 </section>
 <section class="section compact" aria-labelledby="deep-routes-title">
   <div class="section-heading"><div><span class="section-number">01—06</span><h2 id="deep-routes-title">从一个问题走到下一份证据</h2></div><p class="section-note">先完成前四步即可建立学习闭环；第五、六步处理接续运行与扩大规模。</p></div>
   <p class="learning-route-note">主线中的生成任务采用已有的四符号反转实验。各计算专题仍使用自己明确声明的小模型、维度与假设，数值不能直接跨示例拼接。</p>
   {{learningPathDetailed}}
 </section>
-<section class="section" aria-labelledby="practice-route"><div class="section-heading"><h2 id="practice-route">五个可运行实战，把主线接到真实记录</h2><p class="section-note">读过小模型学习实验后，沿诊断、项目、复现和性能继续走。每页提供同一份完整证据包。</p></div>
+<section class="section" aria-labelledby="practice-route"><div class="section-heading"><h2 id="practice-route">五个可运行实战，按当前问题选一项</h2><p class="section-note">读过小模型实验后，选择诊断、项目、复现、性能或检索；不必依次完成。每项都提供原始报告、源码与复现说明。</p></div>
   <div class="practice-route-grid">
-    <a href="generalization-analysis.html"><span class="micro-label">实战一 / 学习与泛化</span><h3>诊断长序列为什么失败</h3><p>同权重检查提前 EOS 与位置扰动，再比较扩展训练支持的三个 seed。</p></a>
+    <a href="generalization-analysis.html"><span class="micro-label">实战一 / 学习与泛化</span><h3>诊断长序列为什么失败</h3><p>先检查同权重下的 EOS 与位置扰动，再区分等更新次数、等监督量两组训练对照。</p></a>
     <a href="text-training-project.html"><span class="micro-label">实战二 / 完整项目</span><h3>从中文语料到可恢复的小模型</h3><p>实际串起文档拆分、BPE、训练、独立评估和未经修饰的生成。</p></a>
     <a href="reproducibility-lab.html"><span class="micro-label">实战三 / 稳定与复现</span><h3>找到第一处可观察差异</h3><p>对齐初值和输入，区分精度变化、数据顺序与尚未解释的历史变化。</p></a>
     <a href="training-step-profile.html"><span class="micro-label">实战四 / 系统与扩展</span><h3>在完整 step 里检验局部优化</h3><p>先核对同一目标和更新，再看各阶段耗时与保存引用的取舍。</p></a>

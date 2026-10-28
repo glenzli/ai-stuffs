@@ -1,0 +1,33 @@
+✔ 默认采样保留填充读入，并区分两个阶段的丢弃 (1.312584ms)
+✔ 固定教学 LCG32 的 epoch 置换可重复 (0.604167ms)
+✔ 47,616 种采样组合符合独立分配、批处理和读入计数 (611.021375ms)
+✔ worker 分片覆盖每个索引一次；未分片每个 worker 读取全部索引 (36.245333ms)
+✔ 采样与 worker API 拒绝越界、非整数和非布尔参数 (0.794417ms)
+✔ BPE 固定 12 轮合并、加权频次和最终切分 (2.008917ms)
+✔ 每轮 BPE 候选与独立滑窗计数一致，快照保留合并后的完整语料 (3.124375ms)
+✔ 编码按学得顺序合并所有不重叠位置，保留未见码点和边界 (2.440333ms)
+✔ BPE API 拒绝无效轮数和合并表 (0.341125ms)
+✔ 无 DOM 或页面标记时两个初始化函数安全返回 (0.811459ms)
+✔ 采样界面所有控件更新真实四列表格，worker 控件独立固定为 2 x 2 (7.6635ms)
+✔ 采样界面无效输入清空结果，恢复后没有 NaN 或旧表格 (1.261458ms)
+✔ BPE 界面显示四列合并快照和三列下一轮候选，并转义边界符 (12.635625ms)
+✔ BPE 界面拒绝空值和越界，缺少可选输出仍可初始化 (0.632125ms)
+✔ 只有主输入而无可选节点时仍可渲染和监听 (0.280084ms)
+✔ the saved BPE fallback agrees with the initialized UI, including its unit note (21.675333ms)
+✔ all three modes update the same units, selection and actual token chips (3.638833ms)
+✔ topic ownership covers every page once and agrees with header navigation (83.284ms)
+✔ built reading routes and all local authored links resolve to pages and anchors (483.12525ms)
+✔ guide starts with learning and problem lookup; advanced collections are optional (2.212625ms)
+✔ guide and detailed route share six steps with a real learning result in the first four (2.976ms)
+✔ before/after examples come from the same saved question across every seed and split (6.899833ms)
+✔ partial or conflicting saved pairs never fabricate a before/after comparison (2.678917ms)
+✔ report question identifiers are escaped in the new example (2.538875ms)
+✔ report starts with evidence while failure outcomes and all existing controls remain available (5.942375ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 910.19475

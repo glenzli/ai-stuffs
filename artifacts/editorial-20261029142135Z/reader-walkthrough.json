@@ -1,0 +1,59 @@
+[
+  {
+    "continuation": "第 1 / 6 步 · 输入与监督能指出输入、监督目标和一次参数更新各是什么。完整路线下一步：模型前向 →",
+    "overflow": 0,
+    "task": "first-learning-step",
+    "title": "模型怎样学习：从输入走到一次更新",
+    "url": "http://127.0.0.1:4173/index.html"
+  },
+  {
+    "continuation": "第 2 / 6 步 · 模型前向能沿 Embedding、Attention、MLP 和输出头说清张量的去向。← 输入与监督完整路线下一步：损失与更新 →",
+    "overflow": 0,
+    "task": "learning-continuation",
+    "title": "Transformer 架构：结构、权重与推理",
+    "url": "http://127.0.0.1:4173/transformer-lab.html"
+  },
+  {
+    "continuation": "第 3 / 6 步 · 损失与更新能区分 loss、梯度与优化器更新，并说明 labels 和 mask 的作用。← 模型前向完整路线下一步：学习与泛化 →",
+    "overflow": 0,
+    "task": "learning-continuation",
+    "title": "训练回路：从ID 与目标到参数更新",
+    "url": "http://127.0.0.1:4173/training.html"
+  },
+  {
+    "continuation": "第 4 / 6 步 · 学习与泛化能分别解释 teacher-forced loss、自由生成和长度外推的结果。← 损失与更新完整路线下一步：稳定与复现 →",
+    "overflow": 0,
+    "task": "learning-continuation",
+    "title": "小模型学习：拟合、生成与未见长度",
+    "url": "http://127.0.0.1:4173/learning-run.html"
+  },
+  {
+    "next": "从同一 checkpoint fork 两次各跑 5 步，逐 step 比较 loss、grad_norm、LR 与样本 ID。",
+    "observation": "optimizer/scheduler/RNG/data cursor、accumulation 边界、global step 与 sharding 映射。",
+    "overflow": 0,
+    "task": "problem-radar",
+    "title": "checkpoint 恢复后轨迹与中断前不连续",
+    "url": "http://127.0.0.1:4173/training-engineer-guide.html#radar-title"
+  },
+  {
+    "status": "显示 2 / 13 组",
+    "task": "find-length-evidence",
+    "url": "http://127.0.0.1:4173/deep-dive.html?verify=%E9%95%BF%E5%BA%A6#verified-experiments",
+    "visibleStudies": [
+      {
+        "id": "learning",
+        "question": "训练集学会了，换组合或加长输入还会吗？"
+      },
+      {
+        "id": "matched-budget",
+        "question": "长序列改善来自长度支持，还是多训练了 Token？"
+      }
+    ]
+  },
+  {
+    "contract": "01 / FREEZE THE QUESTION先固定比较对象，防止悄悄换题原模型只训练长度 2–5。原独立测试保持相同长度、使用未见的反转等价组；长度 6–8 是原报告的外推集。诊断另加长度 9–10 的独立组。所有原始权重与已保存测试预测先逐题复核，不重新挑 checkpoint。第一组扩展训练在原训练集之外加入长度 6–8 的新训练组，并排除所有评估组。每个 seed 仍固定 1,200 次更新、batch 64、AdamW LR 0.003、dropout 0.1、裁剪阈值 1；数据序列及消费 token 均保存。原先的“长度外推集”对扩展模型已经变成训练长度范围内的未见输入，真正的新长度外推是 9–10。两组对照固定的预算不同第一组固定 1,200 次更新，监督 token 和 FLOPs 未对齐；扩展组消费更多 token，padding 与计算形状也变化。第二组固定 410,000 个监督标签，更新次数与计算量仍不同。两组都需保留全部 seed，分别解释各自预算下的方案差异。",
+    "scope": "\n    适用范围与一手资料\n    四符号反转任务的保存权重诊断。EOS 约束使用任务答案长度，位置平移仅作推理扰动。两组独立训练对照分别固定 1,200 次更新和 410,000 个监督标签；前者监督量未对齐，后者更新数未对齐，均未对齐计算量。全部三个 seed 保留，不识别单独的长度因果效应。\n    公式与机制的原始依据 · 3 项Exploring Length Generalization in Large Language Models (2022, v2)2026-10-28 核对摘要与版本；作为长度外推问题的研究背景，本站符号任务与探针独立实现，未复现论文配方\nAttention Is All You Need (2017)Q/K/V、缩放点积、残差与原始 encoder-decoder\nPyTorch 2.9 · Autograd mechanics本项目框架对照固定 PyTorch 2.9.0；冻结、计算图与 no-grad 的语义，2026-10-27 核对\n  ",
+    "task": "separate-training-budgets",
+    "url": "http://127.0.0.1:4173/generalization-analysis.html"
+  }
+]

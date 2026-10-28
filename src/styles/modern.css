@@ -41,8 +41,8 @@
 .modern-page .experiment-caption { border-top: 1px solid var(--line); padding: 13px 20px; margin: 0; font-size: 12px; color: var(--ink-faint); }
 .modern-page .metric-row { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin: 0 0 20px; }
 .modern-page .metric-row > div { border-bottom: 1px solid var(--line); padding: 0 0 14px; min-width: 0; }
-.modern-page .metric-row span { display: block; font-size: 11px; color: var(--ink-faint); }
-.modern-page .metric-row strong { display: block; font: 500 26px/1.7 var(--mono); color: var(--accent); }
+.modern-page .metric-row > div > span { display: block; font-size: 11px; color: var(--ink-faint); }
+.modern-page .metric-row > div > strong { display: block; font: 500 26px/1.4 var(--mono); color: var(--accent); overflow-wrap: anywhere; }
 .modern-page .horizontal-bars { display: grid; gap: 16px; margin: 20px 0; }
 .modern-page .bar-row { display: grid; grid-template-columns: 100px minmax(0,1fr) 58px; gap: 12px; align-items: center; font-size: 12px; }
 .modern-page .bar-track { height: 12px; background: var(--surface); border-radius: 2px; overflow: hidden; }
@@ -77,7 +77,7 @@
   .modern-page .mechanism-flow > div { border-right: 0; border-bottom: 1px solid var(--line); padding: 16px 0; }
   .modern-page .experiment-head, .modern-page .experiment-controls, .modern-page .experiment-view { padding: 16px; }
   .modern-page .metric-row { gap: 10px; }
-  .modern-page .metric-row strong { font-size: 19px; }
+  .modern-page .metric-row > div > strong { font-size: 19px; }
   .modern-page .bar-row { grid-template-columns: 80px minmax(0,1fr) 45px; gap: 6px; }
   .modern-page .prose p { font-size: 14px; }
 }

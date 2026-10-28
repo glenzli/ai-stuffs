@@ -1,0 +1,3170 @@
+[
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 324,
+          "x": 33,
+          "y": 568.1328125
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 107.328125,
+              "x": 33,
+              "y": 568.1328125
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 580.1328125
+            },
+            "overflow": 0,
+            "value": "15",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 604.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 141.328125,
+              "y": 568.1328125
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 580.1328125
+            },
+            "overflow": 0,
+            "value": "1.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 604.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 249.6640625,
+              "y": 568.1328125
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 580.1328125
+            },
+            "overflow": 0,
+            "value": "4,096",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 604.6328125
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 67.7421875,
+          "width": 324,
+          "x": 33,
+          "y": 5757.140625
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5757.140625
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5757.140625
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5783.2890625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5757.140625
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5757.140625
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5783.2890625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5757.140625
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5757.140625
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5783.2890625
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 390,
+    "mode": "char"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 324,
+          "x": 33,
+          "y": 527.1328125
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 107.328125,
+              "x": 33,
+              "y": 527.1328125
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 539.1328125
+            },
+            "overflow": 0,
+            "value": "8",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 563.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 141.328125,
+              "y": 527.1328125
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 539.1328125
+            },
+            "overflow": 0,
+            "value": "0.53",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 563.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 249.6640625,
+              "y": 527.1328125
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 539.1328125
+            },
+            "overflow": 0,
+            "value": "7,680",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 563.6328125
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 67.7421875,
+          "width": 324,
+          "x": 33,
+          "y": 5740.8359375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5740.8359375
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5740.8359375
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5766.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5740.8359375
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5740.8359375
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5766.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5740.8359375
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5740.8359375
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5766.984375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 390,
+    "mode": "bpe"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 324,
+          "x": 33,
+          "y": 486.1328125
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 107.328125,
+              "x": 33,
+              "y": 486.1328125
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 498.1328125
+            },
+            "overflow": 0,
+            "value": "45",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 522.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 141.328125,
+              "y": 486.1328125
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 498.1328125
+            },
+            "overflow": 0,
+            "value": "3.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 522.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 249.6640625,
+              "y": 486.1328125
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 498.1328125
+            },
+            "overflow": 0,
+            "value": "1,365",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 522.6328125
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 67.7421875,
+          "width": 324,
+          "x": 33,
+          "y": 5710.0546875
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5710.0546875
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5710.0546875
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5736.203125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5710.0546875
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5710.0546875
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5736.203125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5710.0546875
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5710.0546875
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5736.203125
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 390,
+    "mode": "byte"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 324,
+          "x": 33,
+          "y": 568.1328125
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 107.328125,
+              "x": 33,
+              "y": 568.1328125
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 580.1328125
+            },
+            "overflow": 0,
+            "value": "15",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 604.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 141.328125,
+              "y": 568.1328125
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 580.1328125
+            },
+            "overflow": 0,
+            "value": "1.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 604.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 249.6640625,
+              "y": 568.1328125
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 580.1328125
+            },
+            "overflow": 0,
+            "value": "4,096",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 604.6328125
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 67.7421875,
+          "width": 324,
+          "x": 33,
+          "y": 5757.140625
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5757.140625
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5757.140625
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5783.2890625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5757.140625
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5757.140625
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5783.2890625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5757.140625
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5757.140625
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5783.2890625
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 390,
+    "mode": "char"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 324,
+          "x": 33,
+          "y": 527.1328125
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 107.328125,
+              "x": 33,
+              "y": 527.1328125
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 539.1328125
+            },
+            "overflow": 0,
+            "value": "8",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 563.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 141.328125,
+              "y": 527.1328125
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 539.1328125
+            },
+            "overflow": 0,
+            "value": "0.53",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 563.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 249.6640625,
+              "y": 527.1328125
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 539.1328125
+            },
+            "overflow": 0,
+            "value": "7,680",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 563.6328125
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 67.7421875,
+          "width": 324,
+          "x": 33,
+          "y": 5740.8359375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5740.8359375
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5740.8359375
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5766.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5740.8359375
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5740.8359375
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5766.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5740.8359375
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5740.8359375
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5766.984375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 390,
+    "mode": "bpe"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 324,
+          "x": 33,
+          "y": 486.1328125
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 107.328125,
+              "x": 33,
+              "y": 486.1328125
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 498.1328125
+            },
+            "overflow": 0,
+            "value": "45",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.328125,
+              "x": 42,
+              "y": 522.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 141.328125,
+              "y": 486.1328125
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 498.1328125
+            },
+            "overflow": 0,
+            "value": "3.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 150.328125,
+              "y": 522.6328125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 107.3359375,
+              "x": 249.6640625,
+              "y": 486.1328125
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 498.1328125
+            },
+            "overflow": 0,
+            "value": "1,365",
+            "valueBox": {
+              "height": 27.5,
+              "width": 89.3359375,
+              "x": 258.6640625,
+              "y": 522.6328125
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 67.7421875,
+          "width": 324,
+          "x": 33,
+          "y": 5710.0546875
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5710.0546875
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5710.0546875
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.328125,
+              "x": 33,
+              "y": 5736.203125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5710.0546875
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5710.0546875
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 144.328125,
+              "y": 5736.203125
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 67.7421875,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5710.0546875
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5710.0546875
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 26.59375,
+              "width": 101.3359375,
+              "x": 255.6640625,
+              "y": 5736.203125
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 390,
+    "mode": "byte"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 674,
+          "x": 47,
+          "y": 568.09375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 47,
+              "y": 568.09375
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 56,
+              "y": 580.09375
+            },
+            "overflow": 0,
+            "value": "15",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 56,
+              "y": 604.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 272,
+              "y": 568.09375
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 281,
+              "y": 580.09375
+            },
+            "overflow": 0,
+            "value": "1.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 281,
+              "y": 604.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 497,
+              "y": 568.09375
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 506,
+              "y": 580.09375
+            },
+            "overflow": 0,
+            "value": "4,096",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 506,
+              "y": 604.59375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 674,
+          "x": 47,
+          "y": 4718.8359375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 47,
+              "y": 4718.8359375
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 47,
+              "y": 4718.8359375
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 47,
+              "y": 4744.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 277,
+              "y": 4718.8359375
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 277,
+              "y": 4718.8359375
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 277,
+              "y": 4744.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 507,
+              "y": 4718.8359375
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 507,
+              "y": 4718.8359375
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 507,
+              "y": 4744.984375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 768,
+    "mode": "char"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 674,
+          "x": 47,
+          "y": 527.09375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 47,
+              "y": 527.09375
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 56,
+              "y": 539.09375
+            },
+            "overflow": 0,
+            "value": "8",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 56,
+              "y": 563.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 272,
+              "y": 527.09375
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 281,
+              "y": 539.09375
+            },
+            "overflow": 0,
+            "value": "0.53",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 281,
+              "y": 563.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 497,
+              "y": 527.09375
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 506,
+              "y": 539.09375
+            },
+            "overflow": 0,
+            "value": "7,680",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 506,
+              "y": 563.59375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 674,
+          "x": 47,
+          "y": 4677.8359375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 47,
+              "y": 4677.8359375
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 47,
+              "y": 4677.8359375
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 47,
+              "y": 4703.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 277,
+              "y": 4677.8359375
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 277,
+              "y": 4677.8359375
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 277,
+              "y": 4703.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 507,
+              "y": 4677.8359375
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 507,
+              "y": 4677.8359375
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 507,
+              "y": 4703.984375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 768,
+    "mode": "bpe"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 674,
+          "x": 47,
+          "y": 486.09375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 47,
+              "y": 486.09375
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 56,
+              "y": 498.09375
+            },
+            "overflow": 0,
+            "value": "45",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 56,
+              "y": 522.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 272,
+              "y": 486.09375
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 281,
+              "y": 498.09375
+            },
+            "overflow": 0,
+            "value": "3.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 281,
+              "y": 522.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 497,
+              "y": 486.09375
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 506,
+              "y": 498.09375
+            },
+            "overflow": 0,
+            "value": "1,365",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 506,
+              "y": 522.59375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 674,
+          "x": 47,
+          "y": 4661.53125
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 47,
+              "y": 4661.53125
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 47,
+              "y": 4661.53125
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 47,
+              "y": 4687.6796875
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 277,
+              "y": 4661.53125
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 277,
+              "y": 4661.53125
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 277,
+              "y": 4687.6796875
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 507,
+              "y": 4661.53125
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 507,
+              "y": 4661.53125
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 507,
+              "y": 4687.6796875
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 768,
+    "mode": "byte"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 674,
+          "x": 47,
+          "y": 568.09375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 47,
+              "y": 568.09375
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 56,
+              "y": 580.09375
+            },
+            "overflow": 0,
+            "value": "15",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 56,
+              "y": 604.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 272,
+              "y": 568.09375
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 281,
+              "y": 580.09375
+            },
+            "overflow": 0,
+            "value": "1.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 281,
+              "y": 604.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 497,
+              "y": 568.09375
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 506,
+              "y": 580.09375
+            },
+            "overflow": 0,
+            "value": "4,096",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 506,
+              "y": 604.59375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 674,
+          "x": 47,
+          "y": 4718.8359375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 47,
+              "y": 4718.8359375
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 47,
+              "y": 4718.8359375
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 47,
+              "y": 4744.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 277,
+              "y": 4718.8359375
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 277,
+              "y": 4718.8359375
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 277,
+              "y": 4744.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 507,
+              "y": 4718.8359375
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 507,
+              "y": 4718.8359375
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 507,
+              "y": 4744.984375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 768,
+    "mode": "char"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 674,
+          "x": 47,
+          "y": 527.09375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 47,
+              "y": 527.09375
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 56,
+              "y": 539.09375
+            },
+            "overflow": 0,
+            "value": "8",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 56,
+              "y": 563.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 272,
+              "y": 527.09375
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 281,
+              "y": 539.09375
+            },
+            "overflow": 0,
+            "value": "0.53",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 281,
+              "y": 563.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 497,
+              "y": 527.09375
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 506,
+              "y": 539.09375
+            },
+            "overflow": 0,
+            "value": "7,680",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 506,
+              "y": 563.59375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 674,
+          "x": 47,
+          "y": 4677.8359375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 47,
+              "y": 4677.8359375
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 47,
+              "y": 4677.8359375
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 47,
+              "y": 4703.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 277,
+              "y": 4677.8359375
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 277,
+              "y": 4677.8359375
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 277,
+              "y": 4703.984375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 507,
+              "y": 4677.8359375
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 507,
+              "y": 4677.8359375
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 507,
+              "y": 4703.984375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 768,
+    "mode": "bpe"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 674,
+          "x": 47,
+          "y": 486.09375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 47,
+              "y": 486.09375
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 56,
+              "y": 498.09375
+            },
+            "overflow": 0,
+            "value": "45",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 56,
+              "y": 522.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 272,
+              "y": 486.09375
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 281,
+              "y": 498.09375
+            },
+            "overflow": 0,
+            "value": "3.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 281,
+              "y": 522.59375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 224,
+              "x": 497,
+              "y": 486.09375
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 206,
+              "x": 506,
+              "y": 498.09375
+            },
+            "overflow": 0,
+            "value": "1,365",
+            "valueBox": {
+              "height": 27.5,
+              "width": 206,
+              "x": 506,
+              "y": 522.59375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 674,
+          "x": 47,
+          "y": 4661.53125
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 47,
+              "y": 4661.53125
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 47,
+              "y": 4661.53125
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 47,
+              "y": 4687.6796875
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 277,
+              "y": 4661.53125
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 277,
+              "y": 4661.53125
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 277,
+              "y": 4687.6796875
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 214,
+              "x": 507,
+              "y": 4661.53125
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 214,
+              "x": 507,
+              "y": 4661.53125
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 214,
+              "x": 507,
+              "y": 4687.6796875
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 768,
+    "mode": "byte"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 301.1953125,
+          "x": 271,
+          "y": 617.9140625
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 99.7265625,
+              "x": 271,
+              "y": 617.9140625
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 629.9140625
+            },
+            "overflow": 0,
+            "value": "15",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 654.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 371.7265625,
+              "y": 617.9140625
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 629.9140625
+            },
+            "overflow": 0,
+            "value": "1.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 654.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 472.4609375,
+              "y": 617.9140625
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 629.9140625
+            },
+            "overflow": 0,
+            "value": "4,096",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 654.4140625
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 742.8203125,
+          "x": 638.1796875,
+          "y": 3396.390625
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3396.390625
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3396.390625
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3422.5390625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3396.390625
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3396.390625
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3422.5390625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3396.390625
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3396.390625
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3422.5390625
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 1440,
+    "mode": "char"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 301.1953125,
+          "x": 271,
+          "y": 576.9140625
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 99.7265625,
+              "x": 271,
+              "y": 576.9140625
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 588.9140625
+            },
+            "overflow": 0,
+            "value": "8",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 613.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 371.7265625,
+              "y": 576.9140625
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 588.9140625
+            },
+            "overflow": 0,
+            "value": "0.53",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 613.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 472.4609375,
+              "y": 576.9140625
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 588.9140625
+            },
+            "overflow": 0,
+            "value": "7,680",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 613.4140625
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 742.8203125,
+          "x": 638.1796875,
+          "y": 3380.0859375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3380.0859375
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3380.0859375
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3406.234375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3380.0859375
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3380.0859375
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3406.234375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3380.0859375
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3380.0859375
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3406.234375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 1440,
+    "mode": "bpe"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 301.1953125,
+          "x": 271,
+          "y": 535.9140625
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 99.7265625,
+              "x": 271,
+              "y": 535.9140625
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 547.9140625
+            },
+            "overflow": 0,
+            "value": "45",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 572.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 371.7265625,
+              "y": 535.9140625
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 547.9140625
+            },
+            "overflow": 0,
+            "value": "3.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 572.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 472.4609375,
+              "y": 535.9140625
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 547.9140625
+            },
+            "overflow": 0,
+            "value": "1,365",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 572.4140625
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 742.8203125,
+          "x": 638.1796875,
+          "y": 3339.0859375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3339.0859375
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3339.0859375
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3365.234375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3339.0859375
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3339.0859375
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3365.234375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3339.0859375
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3339.0859375
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3365.234375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 1440,
+    "mode": "byte"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 301.1953125,
+          "x": 271,
+          "y": 617.9140625
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 99.7265625,
+              "x": 271,
+              "y": 617.9140625
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 629.9140625
+            },
+            "overflow": 0,
+            "value": "15",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 654.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 371.7265625,
+              "y": 617.9140625
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 629.9140625
+            },
+            "overflow": 0,
+            "value": "1.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 654.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 472.4609375,
+              "y": 617.9140625
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 629.9140625
+            },
+            "overflow": 0,
+            "value": "4,096",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 654.4140625
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 742.8203125,
+          "x": 638.1796875,
+          "y": 3396.390625
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3396.390625
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3396.390625
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3422.5390625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3396.390625
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3396.390625
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3422.5390625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3396.390625
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3396.390625
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3422.5390625
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 1440,
+    "mode": "char"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 301.1953125,
+          "x": 271,
+          "y": 576.9140625
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 99.7265625,
+              "x": 271,
+              "y": 576.9140625
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 588.9140625
+            },
+            "overflow": 0,
+            "value": "8",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 613.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 371.7265625,
+              "y": 576.9140625
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 588.9140625
+            },
+            "overflow": 0,
+            "value": "0.53",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 613.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 472.4609375,
+              "y": 576.9140625
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 588.9140625
+            },
+            "overflow": 0,
+            "value": "7,680",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 613.4140625
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 742.8203125,
+          "x": 638.1796875,
+          "y": 3380.0859375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3380.0859375
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3380.0859375
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3406.234375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3380.0859375
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3380.0859375
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3406.234375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3380.0859375
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3380.0859375
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3406.234375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 1440,
+    "mode": "bpe"
+  },
+  {
+    "groups": [
+      {
+        "box": {
+          "height": 76,
+          "width": 301.1953125,
+          "x": 271,
+          "y": 535.9140625
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 76,
+              "width": 99.7265625,
+              "x": 271,
+              "y": 535.9140625
+            },
+            "label": "token 数",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 547.9140625
+            },
+            "overflow": 0,
+            "value": "45",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.7265625,
+              "x": 280,
+              "y": 572.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 371.7265625,
+              "y": 535.9140625
+            },
+            "label": "token / 字符",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 547.9140625
+            },
+            "overflow": 0,
+            "value": "3.00",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 380.7265625,
+              "y": 572.4140625
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 76,
+              "width": 99.734375,
+              "x": 472.4609375,
+              "y": 535.9140625
+            },
+            "label": "4K 字符估算",
+            "labelBox": {
+              "height": 16.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 547.9140625
+            },
+            "overflow": 0,
+            "value": "1,365",
+            "valueBox": {
+              "height": 27.5,
+              "width": 81.734375,
+              "x": 481.4609375,
+              "y": 572.4140625
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "tokenizer-metrics"
+      },
+      {
+        "box": {
+          "height": 77.546875,
+          "width": 742.8203125,
+          "x": 638.1796875,
+          "y": 3339.0859375
+        },
+        "cards": [
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3339.0859375
+            },
+            "label": "保留样本",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3339.0859375
+            },
+            "overflow": 0,
+            "value": "4/8",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 638.1796875,
+              "y": 3365.234375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3339.0859375
+            },
+            "label": "保留来源类型",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3339.0859375
+            },
+            "overflow": 0,
+            "value": "3",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9375,
+              "x": 891.1171875,
+              "y": 3365.234375
+            },
+            "valueOverflow": 0
+          },
+          {
+            "box": {
+              "height": 77.546875,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3339.0859375
+            },
+            "label": "已知重叠泄漏",
+            "labelBox": {
+              "height": 18.1484375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3339.0859375
+            },
+            "overflow": 0,
+            "value": "0",
+            "valueBox": {
+              "height": 36.3984375,
+              "width": 236.9453125,
+              "x": 1144.0546875,
+              "y": 3365.234375
+            },
+            "valueOverflow": 0
+          }
+        ],
+        "kind": "metric-row"
+      }
+    ],
+    "pageOverflow": 0,
+    "ready": "true",
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/data-tokenizer.html#tokenizer-title",
+    "width": 1440,
+    "mode": "byte"
+  }
+]

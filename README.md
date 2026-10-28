@@ -59,6 +59,10 @@ npm run serve
 
 打开 `http://127.0.0.1:4173/`。
 
+阅读入口、实验预算口径及共享指标卡的最近一轮校对见
+[编辑与布局验收](docs/editorial-alignment-2026-10-29.md)。
+`npm run test:editorial` 检查 Tokenizer 三种模式与静态回退内容是否一致。
+
 ## 项目结构
 
 ```text
