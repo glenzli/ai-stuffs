@@ -70,6 +70,12 @@ __pycache__/
 !/artifacts/practice-20261028T152417Z/build.log
 
 # Accepted experiment bundles (managed by accept-experiment.mjs)
+!/artifacts/evidence-audit-20261029034521Z/
+/artifacts/evidence-audit-20261029034521Z/*
+!/artifacts/evidence-audit-20261029034521Z/retrieval-comparison/
+!/artifacts/evidence-audit-20261029034521Z/retrieval-comparison/**
+!/artifacts/evidence-audit-20261029034521Z/text-evaluation-audit/
+!/artifacts/evidence-audit-20261029034521Z/text-evaluation-audit/**
 !/artifacts/extension-20261029T022617Z/
 /artifacts/extension-20261029T022617Z/*
 !/artifacts/extension-20261029T022617Z/language-baselines/
@@ -94,3 +100,15 @@ __pycache__/
 !/artifacts/extension-20261029T022617Z/python-retrieval-encoder.log
 !/artifacts/extension-20261029T022617Z/python-practice-final.log
 !/artifacts/extension-20261029T022617Z/workflow-tests.log
+
+# Follow-up evaluation audit and its independently checked UI/download evidence.
+!/artifacts/evidence-audit-20261029034521Z/qa/
+!/artifacts/evidence-audit-20261029034521Z/qa/**
+!/artifacts/evidence-audit-20261029034521Z/verification-summary.json
+!/artifacts/evidence-audit-20261029034521Z/producer-replay.json
+!/artifacts/evidence-audit-20261029034521Z/http-download-audit.json
+!/artifacts/evidence-audit-20261029034521Z/build.log
+!/artifacts/evidence-audit-20261029034521Z/node-final.log
+!/artifacts/evidence-audit-20261029034521Z/node-focused.log
+!/artifacts/evidence-audit-20261029034521Z/node-initial-float-tolerance.log
+!/artifacts/evidence-audit-20261029034521Z/python-audit.log

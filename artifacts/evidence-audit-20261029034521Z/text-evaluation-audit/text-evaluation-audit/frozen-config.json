@@ -1,0 +1,15 @@
+{
+  "seeds": [
+    11,
+    29,
+    47
+  ],
+  "checkpoint": "unchanged final update 800; no training or checkpoint selection",
+  "batch_size": 16,
+  "scope": "all saved non-padding targets, including document EOS; same frozen tokenizer and windows",
+  "aggregation": "micro=sum NLL/sum labels; macro=equal mean of document CE",
+  "repetitions": 2000,
+  "random_seed": 73,
+  "resampling": "whole documents; recompute paired NLL difference / sampled label count",
+  "analysis_status": "descriptive follow-up of already inspected fixed data"
+}

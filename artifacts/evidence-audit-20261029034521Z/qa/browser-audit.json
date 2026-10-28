@@ -1,0 +1,182 @@
+{
+  "interactions": [
+    {
+      "check": "hybrid options and reload",
+      "selection": [
+        "test",
+        "bm25",
+        "mrr_at_10",
+        "pad-gradient-paraphrase"
+      ],
+      "verified": true
+    },
+    {
+      "check": "real paired dataset",
+      "questions": 24,
+      "groups": 12,
+      "delta_pp": 14.91,
+      "group_interval_pp": [
+        8.66,
+        21.63
+      ],
+      "row_interval_pp": [
+        6.18,
+        24.42
+      ],
+      "verified": true
+    },
+    {
+      "check": "dataset URL changes and reload",
+      "preset": "identical",
+      "delta_pp": 0,
+      "verified": true
+    },
+    {
+      "check": "document audit URL and reload",
+      "seed": 47,
+      "split": "validation",
+      "documents": 6,
+      "original_model_seed": 29,
+      "verified": true
+    },
+    {
+      "check": "prediction questions",
+      "document_correct": true,
+      "document_incorrect_feedback": true,
+      "hybrid_correct": true,
+      "verified": true
+    }
+  ],
+  "viewports": [
+    {
+      "page": "retrieval-project",
+      "downloads": 6,
+      "duplicates": [],
+      "expanded": 6,
+      "scrollWidth": 390,
+      "theme": "light",
+      "unlabelledSelects": 0,
+      "wide": [],
+      "width": 390
+    },
+    {
+      "page": "paired-evaluation",
+      "downloads": 3,
+      "duplicates": [],
+      "expanded": 5,
+      "scrollWidth": 390,
+      "theme": "light",
+      "unlabelledSelects": 0,
+      "wide": [],
+      "width": 390
+    },
+    {
+      "page": "retrieval-project",
+      "downloads": 6,
+      "duplicates": [],
+      "expanded": 6,
+      "scrollWidth": 768,
+      "theme": "light",
+      "unlabelledSelects": 0,
+      "wide": [],
+      "width": 768
+    },
+    {
+      "page": "paired-evaluation",
+      "downloads": 3,
+      "duplicates": [],
+      "expanded": 5,
+      "scrollWidth": 768,
+      "theme": "light",
+      "unlabelledSelects": 0,
+      "wide": [],
+      "width": 768
+    },
+    {
+      "page": "retrieval-project",
+      "downloads": 6,
+      "duplicates": [],
+      "expanded": 6,
+      "scrollWidth": 1440,
+      "theme": "dark",
+      "unlabelledSelects": 0,
+      "wide": [],
+      "width": 1440
+    },
+    {
+      "page": "paired-evaluation",
+      "downloads": 3,
+      "duplicates": [],
+      "expanded": 5,
+      "scrollWidth": 1440,
+      "theme": "dark",
+      "unlabelledSelects": 0,
+      "wide": [],
+      "width": 1440
+    },
+    {
+      "page": "text-training-project",
+      "documentTitles": [
+        "模型评估",
+        "配对统计与结果导入",
+        "不确定性与校准",
+        "工具、Agent 与上下文",
+        "训练环境与验证器",
+        "多模态模型工程",
+        "CoT 与推理计算",
+        "上下文学习与机制解释"
+      ],
+      "downloads": 9,
+      "duplicates": [],
+      "expanded": 0,
+      "scrollWidth": 390,
+      "theme": "light",
+      "unlabelledSelects": 0,
+      "wide": [],
+      "width": 390
+    },
+    {
+      "page": "text-training-project",
+      "documentTitles": [
+        "模型评估",
+        "配对统计与结果导入",
+        "不确定性与校准",
+        "工具、Agent 与上下文",
+        "训练环境与验证器",
+        "多模态模型工程",
+        "CoT 与推理计算",
+        "上下文学习与机制解释"
+      ],
+      "downloads": 9,
+      "duplicates": [],
+      "expanded": 0,
+      "scrollWidth": 768,
+      "theme": "light",
+      "unlabelledSelects": 0,
+      "wide": [],
+      "width": 768
+    },
+    {
+      "page": "text-training-project",
+      "documentTitles": [
+        "模型评估",
+        "配对统计与结果导入",
+        "不确定性与校准",
+        "工具、Agent 与上下文",
+        "训练环境与验证器",
+        "多模态模型工程",
+        "CoT 与推理计算",
+        "上下文学习与机制解释"
+      ],
+      "downloads": 9,
+      "duplicates": [],
+      "expanded": 0,
+      "scrollWidth": 1440,
+      "theme": "dark",
+      "unlabelledSelects": 0,
+      "wide": [],
+      "width": 1440
+    }
+  ],
+  "console": []
+}

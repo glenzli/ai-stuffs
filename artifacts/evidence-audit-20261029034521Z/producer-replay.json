@@ -1,0 +1,18 @@
+{
+  "output": "artifacts/audit-producer-check-20261029T053506082Z",
+  "accepted_sources_unchanged": true,
+  "files": [
+    "src/experiment-sources.json",
+    "src/scripts/features/retrieval-comparison-data.js",
+    "src/scripts/features/text-evaluation-audit-data.js",
+    ".gitignore"
+  ],
+  "hashes": [
+    "c26a063e7da05f5a02b16452d1c01094390df6edfcba2c9f169492d17106fd39",
+    "0397c7b6d69f0c29edcbd915834327a3f446af5490d599cfd9016f27e4551f73",
+    "c904049e312c1ddd375e5f332b1a2f613708f862f7387bb3553b36ab0b378583",
+    "a29d0e8692af5ee330928852231a210e1cee7806fcbba71cca4641d0f5968dd5"
+  ],
+  "stdout": "retrieval-comparison: 0.51 MiB candidate; accepted page sources unchanged.\nCandidates prepared under artifacts/audit-producer-check-20261029T053506082Z. Accepted page sources unchanged; adopt explicitly with accept:experiment.\n",
+  "stderr": ""
+}

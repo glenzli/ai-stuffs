@@ -14,6 +14,8 @@ const root = process.cwd();
 const outDir = path.join(root, "dist");
 const globalStyles = ["tokens", "layout", "shared", "reading"];
 const featureExports = {
+  "retrieval-comparison": "initRetrievalComparison",
+  "text-evaluation-audit": "initTextEvaluationAudit",
   "language-baselines": "initLanguageBaselines",
   "matched-budget": "initMatchedBudget",
   "retrieval-project": "initRetrievalProject",

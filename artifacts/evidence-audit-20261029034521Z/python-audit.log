@@ -1,0 +1,13 @@
+test_document_sums_weighted_means_and_bigram_baseline_match_independent_probability_matrix (__main__.DocumentLossEvidence.test_document_sums_weighted_means_and_bigram_baseline_match_independent_probability_matrix) ... ok
+test_every_position_and_prediction_recomputes_from_saved_weights_with_different_batches (__main__.DocumentLossEvidence.test_every_position_and_prediction_recomputes_from_saved_weights_with_different_batches) ... ok
+test_whole_document_resampling_recomputes_the_label_denominator_for_every_seed_and_split (__main__.DocumentLossEvidence.test_whole_document_resampling_recomputes_the_label_denominator_for_every_seed_and_split) ... ok
+test_all_candidates_recompute_from_unchanged_real_source_lists (__main__.RetrievalFusion.test_all_candidates_recompute_from_unchanged_real_source_lists) ... ok
+test_every_slice_metric_and_coverage_bound_uses_all_its_saved_questions (__main__.RetrievalFusion.test_every_slice_metric_and_coverage_bound_uses_all_its_saved_questions) ... ok
+test_tiny_hand_computed_rank_fusion_and_missing_contributions (__main__.RetrievalFusion.test_tiny_hand_computed_rank_fusion_and_missing_contributions) ... ok
+test_empty_nonfinite_and_single_unit_states_are_explicit (__main__.UnitResampling.test_empty_nonfinite_and_single_unit_states_are_explicit) ... ok
+test_unequal_units_keep_the_sampled_denominator_and_match_independent_numpy (__main__.UnitResampling.test_unequal_units_keep_the_sampled_denominator_and_match_independent_numpy) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 2.244s
+
+OK

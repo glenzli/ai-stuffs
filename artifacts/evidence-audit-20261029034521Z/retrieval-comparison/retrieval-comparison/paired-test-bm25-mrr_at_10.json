@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "rows": [
+    {
+      "id": "pad-gradient-keyword",
+      "group": "training-deep",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "pad-gradient-paraphrase",
+      "group": "training-deep",
+      "old": 0.0,
+      "new": 0.0
+    },
+    {
+      "id": "weight-decay-keyword",
+      "group": "optimization-dynamics",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "weight-decay-paraphrase",
+      "group": "optimization-dynamics",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "duplicate-batch-keyword",
+      "group": "batch-noise",
+      "old": 0.5,
+      "new": 0.25
+    },
+    {
+      "id": "duplicate-batch-paraphrase",
+      "group": "batch-noise",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "prefill-keyword",
+      "group": "inference-engine",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "prefill-paraphrase",
+      "group": "inference-engine",
+      "old": 1.0,
+      "new": 0.5
+    },
+    {
+      "id": "grammar-order-keyword",
+      "group": "decoding-algorithms",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "grammar-order-paraphrase",
+      "group": "decoding-algorithms",
+      "old": 0.5,
+      "new": 0.16666666666666666
+    },
+    {
+      "id": "speculation-keyword",
+      "group": "efficient-inference",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "speculation-paraphrase",
+      "group": "efficient-inference",
+      "old": 0.0,
+      "new": 0.0
+    },
+    {
+      "id": "quant-reference-keyword",
+      "group": "quantized-linear",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "quant-reference-paraphrase",
+      "group": "quantized-linear",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "bootstrap-keyword",
+      "group": "paired-evaluation",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "bootstrap-paraphrase",
+      "group": "paired-evaluation",
+      "old": 0.3333333333333333,
+      "new": 0.3333333333333333
+    },
+    {
+      "id": "temperature-keyword",
+      "group": "uncertainty-calibration",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "temperature-paraphrase",
+      "group": "uncertainty-calibration",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "external-instructions-keyword",
+      "group": "agents-context",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "external-instructions-paraphrase",
+      "group": "agents-context",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "supervision-units-keyword",
+      "group": "finetuning-recipe",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "supervision-units-paraphrase",
+      "group": "finetuning-recipe",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "clip-order-keyword",
+      "group": "numerical-computing",
+      "old": 0.2,
+      "new": 0.1111111111111111
+    },
+    {
+      "id": "clip-order-paraphrase",
+      "group": "numerical-computing",
+      "old": 0.25,
+      "new": 0.1111111111111111
+    }
+  ]
+}

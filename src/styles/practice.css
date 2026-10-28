@@ -52,3 +52,6 @@
 [data-retrieval-project] blockquote footer{font-size:12px;color:var(--ink-soft);overflow-wrap:anywhere}
 
 .practice-route-grid>a:last-child:nth-child(odd){grid-column:1/-1}
+.audit-positive{color:var(--blue)}
+.audit-negative{color:var(--yellow)}
+[data-retrieval-comparison] .practice-scroll details{min-width:220px;max-width:480px;white-space:normal}

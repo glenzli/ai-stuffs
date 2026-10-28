@@ -1,0 +1,12 @@
+{
+  "candidate_depth_per_method": 10,
+  "return_depth": 10,
+  "rrf_constant": 60,
+  "missing_rank_contribution": 0,
+  "tie_break": "passage SHA-256 ascending",
+  "repetitions": 2000,
+  "random_seed": 73,
+  "analysis_status": "exploratory extension of an already inspected dataset; no fresh held-out confirmation",
+  "comparison": "fixed BM25, fixed BGE Flat, and union of their saved top-10 lists; no parameter search",
+  "old_reranker": "prior candidate-only RRF used global BM25 ranks; this new truncated-list fusion is a separate method"
+}

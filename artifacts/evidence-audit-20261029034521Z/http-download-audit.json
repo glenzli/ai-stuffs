@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "downloads": [
+    {
+      "experiment": "retrieval-comparison",
+      "kind": "report",
+      "status": 200,
+      "bytes": 595824,
+      "sha256": "36bbc20eb67832527eb691662319616576f5f7c432a4b76ae4d2214c086c9dbb",
+      "href": "assets/experiments/retrieval-comparison-report.36bbc20eb6.json"
+    },
+    {
+      "experiment": "retrieval-comparison",
+      "kind": "archive",
+      "status": 200,
+      "bytes": 533347,
+      "sha256": "dfc131fba58568ee8ecbf7b8b0edad27f1a5e66f7e9406feb85d49292afecb63",
+      "href": "assets/experiments/retrieval-comparison-archive.dfc131fba5.tar.gz"
+    },
+    {
+      "experiment": "retrieval-comparison",
+      "kind": "checksums",
+      "status": 200,
+      "bytes": 1320,
+      "sha256": "6a2417b037978e3722241eb12e340655c98dfa1dbedcbfe1dc7ee4763f744da3",
+      "href": "assets/experiments/retrieval-comparison-checksums.6a2417b037.txt"
+    },
+    {
+      "experiment": "text-evaluation-audit",
+      "kind": "report",
+      "status": 200,
+      "bytes": 62729,
+      "sha256": "77dae129725170326561c60d80e4a2d15d64a6ab3ad4927b53f65c96506b7f5a",
+      "href": "assets/experiments/text-evaluation-audit-report.77dae12972.json"
+    },
+    {
+      "experiment": "text-evaluation-audit",
+      "kind": "archive",
+      "status": 200,
+      "bytes": 11779373,
+      "sha256": "db355cd54c69b4d1ecbdf01ba3599bb96fd25568b17b2d1ca5e534b909026bd5",
+      "href": "assets/experiments/text-evaluation-audit-archive.db355cd54c.tar.gz"
+    },
+    {
+      "experiment": "text-evaluation-audit",
+      "kind": "checksums",
+      "status": 200,
+      "bytes": 1136,
+      "sha256": "846a2e138cb544f429f195336178331c47c56cc3deabcf46d065f23d2fc16a11",
+      "href": "assets/experiments/text-evaluation-audit-checksums.846a2e138c.txt"
+    }
+  ]
+}

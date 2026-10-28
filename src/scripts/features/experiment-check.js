@@ -7,6 +7,8 @@ export const experimentQuestions = {
   reproduction: { prompt: '初始化 seed 相同，但数据顺序变了，还应要求逐步参数完全一致吗？', choices: ['不应该，先对齐实际输入和已保存状态', '应该，seed 决定全部后续状态', '只要最终 loss 接近就算逐值复现'], answer: 0, why: '实际输入已经是不同的计算条件。应先对齐初值、数据和优化器状态，再逐边界比较；最终指标接近也不等于相同数值轨迹。' },
   profile: { prompt: '某个算法减少反向图保存的引用，能否据此断言完整 step 更快？', choices: ['不能，要实测整步并检查数值目标一致', '能，少保存一定减少总时间', '能，把局部阶段的中位数相加即可'], answer: 0, why: '保存引用、物理内存峰值和时间是不同指标。重算、循环与其他阶段仍有成本；同一次 step 的阶段可相加，来自不同样本的中位数不必相加。' },
   retrieval: { prompt: '相关证据没有进入召回的前 10 条，随后只重排这 10 条能找回它吗？', choices: ['能，重排会搜索整个语料库', '不能，候选集的覆盖率限制了重排上限', '只要换成神经网络重排就能保证找回'], answer: 1, why: '重排改变候选的次序，不产生候选集外的新文档。本实验保存 RRF 前后的完整候选 ID，可以直接验证这个边界。' },
+  hybrid: { prompt: '取 BM25 与向量检索候选的并集，最终前十条的证据命中一定更好吗？', choices: ['一定，两路召回必然提高最终准确率', '候选数越多就保证检索延迟越低', '并集覆盖不会减少，但最终排序仍可能丢掉证据'], answer: 2, why: '候选并集包含两路原候选，因此集合覆盖有单调性；输出前十条还经过排序和截断。排序质量与资源成本各需证据，混合方案也可能低于更强的单路基线。' },
+  document: { prompt: '固定权重和全部预测，只把 token 微平均改成文档宏平均，分数变低说明模型进步了吗？', choices: ['说明评价权重变了，模型与预测没有改变', '说明这次又训练出更好的参数', '说明长文档里的标签都应被删除'], answer: 0, why: '微平均让每个有效标签等权，宏平均让每篇文档等权；文档长短不等时两者回答不同问题。改变统计权重不会改变已有预测，也不能替代逐文档误差分析。' },
 };
 export function gradeExperimentAnswer(id, choice) {
   if (!Object.hasOwn(experimentQuestions, id) || !Number.isInteger(choice) || choice < 0 || choice >= experimentQuestions[id].choices.length) throw new RangeError('未知预测题或选项');

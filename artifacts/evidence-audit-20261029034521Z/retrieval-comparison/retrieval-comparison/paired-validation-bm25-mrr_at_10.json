@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "rows": [
+    {
+      "id": "dedup-keyword",
+      "group": "data-tokenizer",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "dedup-paraphrase",
+      "group": "data-tokenizer",
+      "old": 0.0,
+      "new": 0.0
+    },
+    {
+      "id": "packing-keyword",
+      "group": "packing-correctness",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "packing-paraphrase",
+      "group": "packing-correctness",
+      "old": 0.16666666666666666,
+      "new": 0.0
+    },
+    {
+      "id": "gradients-keyword",
+      "group": "backpropagation",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "gradients-paraphrase",
+      "group": "backpropagation",
+      "old": 0.0,
+      "new": 0.0
+    },
+    {
+      "id": "resume-keyword",
+      "group": "model-artifacts",
+      "old": 1.0,
+      "new": 0.3333333333333333
+    },
+    {
+      "id": "resume-paraphrase",
+      "group": "model-artifacts",
+      "old": 0.0,
+      "new": 0.0
+    },
+    {
+      "id": "chunks-keyword",
+      "group": "lab",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "chunks-paraphrase",
+      "group": "lab",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "positions-keyword",
+      "group": "position-cache",
+      "old": 1.0,
+      "new": 1.0
+    },
+    {
+      "id": "positions-paraphrase",
+      "group": "position-cache",
+      "old": 0.3333333333333333,
+      "new": 0.3333333333333333
+    }
+  ]
+}

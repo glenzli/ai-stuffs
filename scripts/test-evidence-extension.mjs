@@ -77,7 +77,7 @@ test('separate-widget URL prefixes preserve the other panel and defaults remain 
   assert.deepEqual(resolveViewState(new URL(url).search, choices, defaults, 'budget_').state, { seed: '29' });
 });
 test('each prediction question gives distinct feedback and rejects impossible answers', () => {
-  assert.equal(Object.keys(experimentQuestions).length, 6);
+  assert.equal(Object.keys(experimentQuestions).length, 8);
   for (const [id, row] of Object.entries(experimentQuestions)) {
     assert.equal(gradeExperimentAnswer(id, row.answer).correct, true);
     assert.equal(gradeExperimentAnswer(id, (row.answer + 1) % row.choices.length).correct, false);

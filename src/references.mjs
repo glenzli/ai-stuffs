@@ -123,9 +123,9 @@ export const sources = {
 };
 
 export const pageEvidence = {
-  "retrieval-project": { scope: "本站 877 段自然语言与 36 个事先指定证据的问题，查询按来源文档分组为验证／测试。BM25 用字符／英文词计数，固定 BGE 本机编码，Faiss Flat/IVF 与候选内 RRF 实际运行。标注不穷尽，不报告通用精确率；未训练模型、未调用神经重排或远端推理，不作生产延迟结论。", refs: ["bgeSmallZh", "faissIndexes", "rrf", "eval"] },
+  "retrieval-project": { scope: "本站 877 段自然语言与 36 个事先指定证据的问题，查询按来源文档分组为验证／测试。固定 BGE 本机编码，BM25、Faiss Flat/IVF 与候选内 RRF 实际运行；追加两路前十并集、截断 RRF 与来源组配对重采样。新增比较复用已查看的题目，属探索性证据；标注不穷尽，不作通用检索或生产延迟结论。", refs: ["bgeSmallZh", "faissIndexes", "rrf", "pairedBootstrap", "eval"] },
   "generalization-analysis": { scope: "原有四符号反转任务及保存权重的独立诊断。EOS 约束使用已知任务答案长度；位置平移只作推理扰动。扩展支持训练对齐更新次数，监督 token 与计算量未对齐；三个 seed 的全部结果保留，不据此识别唯一根因。", refs: ["lengthGeneralization", "attention", "torch29Autograd"] },
-  "text-training-project": { scope: "本站 38 篇中文文档、按文档固定拆分的 byte BPE 与约 30 万参数 CPU decoder。Tokenizer 只拟合训练文档；完整 split 评估与原始 greedy 生成分别报告。近重复与语义独立性未证明；不代表通用语言能力或指令模型。", refs: ["ngramLM", "bpeCourse", "attention", "ce", "torch29Autograd", "artifacts"] },
+  "text-training-project": { scope: "本站 38 篇中文文档、按文档固定拆分的 byte BPE 与约 30 万参数 CPU decoder。Tokenizer 只拟合训练文档；固定权重的逐位置 NLL、逐文档误差、宏微平均和整文档重采样与原始生成分别报告。文档近重复与语义独立性未证明，区间以一个保存模型为条件；不代表通用中文能力或指令模型。", refs: ["ngramLM", "bpeCourse", "attention", "ce", "pairedBootstrap", "torch29Autograd", "artifacts"] },
   "reproducibility-lab": { scope: "单线程 CPU、同一固定环境中的 16 步受控探针，保存首次边界张量与后续误差。精度转换和数据顺序说明当前可观察差异；旧 seed 47 与重跑差异缺少旧轨迹，原因仍未定位。未运行跨系统或 GPU 对照。", refs: ["randomness29", "numericalAccuracy", "artifacts"] },
   "training-step-profile": { scope: "约 30 万参数真实文本 decoder、CPU float64、同权重和 batch 序列，3 次预热与 12 次交替测量。计时不插 hooks；保存引用另测。先核对 loss 与连续更新，再解释整步时间；不包含 GPU 性能、磁盘读入或在线分词。", refs: ["profiler29", "torch29Autograd", "appleCCE", "roofline"] },
   "learning-run": { scope: "固定符号序列任务上的本地小型 decoder，独立拆分训练、验证、测试与长度外推。分别记录 teacher-forced loss、自由生成 token accuracy 和完整序列 exact match；实际报告的种子、环境、预算、恢复与缓存误差在专题内声明。", refs: ["attention", "torch29Autograd", "artifacts", "eval"] },
@@ -136,7 +136,7 @@ export const pageEvidence = {
   "context-parallel": { scope: "五位置二维 Q/K/V、固定 G、全局平均、无 dropout。比较分片输出与输入梯度；两个 Gloo 进程运行明确的 KV 重放与梯度归还协议，不调用 Megatron 或 NCCL，不估算 GPU 性能。", refs: ["contextParallel", "flash", "torch29Autograd", "torch29DDP"] },
   "rl-update": { scope: "二维特征、三动作、四条固定回答与 2×3 参数，手算 clipped surrogate 加当前位置精确 KL 的梯度。另穷举九条轨迹核对完整期望；独立 autograd 验证，不实现完整 PPO/GRPO 训练器。", refs: ["ppo", "ppoSpinningUp", "torch29Autograd", "grpo"] },
   "quantized-linear": { scope: "2×3 输入和 3×2 权重，uint8 仿射量化与 INT32 范围检查；重定标用实数倍率。W4A16 恢复后使用 binary64 乘加，未运行低位 kernel、QAT 或性能测试。", refs: ["quantInteger", "numericalAccuracy", "awq"] },
-  "paired-evaluation": { scope: "固定模型与一个训练 seed 的逐题平均差；LCG 配对 percentile bootstrap、按组共同抽样和最多 16 单位精确交换。小样本区间仅为教学估计，导入文件只在浏览器处理。", refs: ["eval", "pairedBootstrap", "pairedPermutation"] },
+  "paired-evaluation": { scope: "固定方案与一次模型运行的逐题平均差；LCG 配对 percentile bootstrap、按组共同抽样和最多 16 单位精确交换。包含模拟示例及真实检索24题/12来源组的独立分布复算；实测复用已查看的数据，属探索性比较。小样本区间与交换检验附带各自假设，导入文件只在浏览器处理。", refs: ["eval", "pairedBootstrap", "pairedPermutation", "rrf"] },
   "ann-index": { scope: "12 个二维向量与预设质心，平方 L2、固定并列规则的 IVF 模拟；v2 采用共同旋转演示版本契约。可选 Faiss CPU 实验另测真实索引，教学候选数不视为实际耗时。", refs: ["faissIndexes", "eval", "mrl"] },
   "packing-correctness": { scope: "两条人工多轮记录、12 类符号词表、二维单头 Attention 与加法位置项；右截断，独立样本目标。padding 在页面按逻辑块隔离展开；PyTorch 对照用真实 batch 维度。比较有效位置及参数梯度，不测 GPU 性能。", refs: ["sft", "ce", "torch29Autograd", "attention"] },
   "lora-mechanics": { scope: "二维 Rank-1 线性层，平方损失、SGD、固定输入；冻结底座与切断梯度分别计算。INT4 仅演示低位底座机制，不实现 NF4、分页优化器或完整 QLoRA；合并核对同一个计算底座。", refs: ["lora", "peft", "qlora", "torch29Autograd"] },

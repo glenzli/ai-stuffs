@@ -610,6 +610,8 @@ pages.push({ slug: "retrieval-project", file: "retrieval-project.html", title: "
   footer: ["真实中文检索实战", "区分指定证据命中、向量近邻近似与候选内重排。"] });
 for (const slug of ["generalization-analysis", "text-training-project", "reproducibility-lab", "training-step-profile"]) pages.find(page => page.slug === slug).features.push("experiment-check");
 pages.find(page => page.slug === "text-training-project").features.push("language-baselines");
+pages.find(page => page.slug === "text-training-project").features.push("text-evaluation-audit");
+pages.find(page => page.slug === "retrieval-project").features.push("retrieval-comparison");
 pages.find(page => page.slug === "generalization-analysis").features.push("matched-budget");
 
 // Topic ownership determines both header navigation and the knowledge directory.

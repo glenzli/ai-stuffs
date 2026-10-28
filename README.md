@@ -1,12 +1,14 @@
 # 模型工程 Wiki
 
-当前八组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
+当前十组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
 初始化/宽度/Batch、分块交叉熵已重新运行，报告与原始工件保存在
 `artifacts/reproduced-20261028T115030Z/`。页面提供完整报告、源码与原始工件包、
 SHA-256 校验表；构建前核对这些文件，缺失或被修改时停止构建。
 来源迁移、当前结果和验证步骤见 [实验来源核验记录](docs/experiment-reproduction-2026-10-28.md)。
 新增语言基线、同监督 token 预算训练与真实中文检索的证据保存在
 `artifacts/extension-20261029T022617Z/`，见 [五项扩展与核验](docs/evidence-extension-2026-10-29.md)。
+候选并集、真实配对统计和文本模型逐文档复算见
+[误差与评估深化](docs/evidence-audit-2026-10-29.md)，原始实验来源保持不变。
 
 ```sh
 npm run check
@@ -437,6 +439,25 @@ runner 的 `--model-directory` 可指定另一份相同版本的本地模型。
 重跑不覆盖已有目录，也不自动采纳。`test:evidence` 从完整报告和保存的概率计数、权重、
 向量、模型、索引独立复算，不重新训练全部模型；它会抽样重新编码真实输入。
 详细命令、结论边界和失败记录见 [五项扩展与核验](docs/evidence-extension-2026-10-29.md)。
+
+### 从总体分数到逐项证据
+
+检索页在原始排名上追加两路候选并集与截断 RRF，分别展示候选覆盖、最终命中、
+MRR 和来源组重采样区间。可直接跳转配对评估页的真实数据预设，在浏览器复算同一批
+24 道测试题、12 个来源组；模拟示例与真实来源分别标注。
+
+文本项目从三个最终 checkpoint 重新计算全部逐位置损失，逐文档展示 bigram 对照、
+token 权重、宏微平均及整文档重采样。本轮没有重新训练或按新切片重新选择模型。
+
+```bash
+npm run lab:audit -- --out-dir artifacts/audit-my-run
+npm run test:evidence-audit
+```
+
+沿用 `.venv-framework`；只读已有来源，不下载新模型。runner 仅准备候选，支持
+`--only retrieval-comparison` 或 `--only text-evaluation-audit`，仍由 `accept:experiment`
+显式采纳。新结论使用已查看的数据集，标为探索性比较；区间不消除标注与数据复用偏差。
+完整输入、逐位置分数、权重、实际候选和重采样分布见 [误差与评估深化](docs/evidence-audit-2026-10-29.md)。
 
 ## 内容质量约定
 

@@ -1,5 +1,6 @@
 import { $ } from "../core.js";
 import { escapeText, formatValue } from "./objective-math.js";
+import { retrievalComparison } from "./retrieval-comparison-data.js";
 
 export function randomStream(seed = 73) {
   if (!Number.isInteger(seed) || seed < 0 || seed > 4294967295) throw new RangeError("随机种子必须是 uint32。");
@@ -12,6 +13,7 @@ export function linearQuantile(sorted, probability) {
   return sorted[lower] * (1 - fraction) + sorted[Math.min(lower + 1, sorted.length - 1)] * fraction;
 }
 export function pairedExample(kind = "correlated") {
+  if (kind === "retrieval-comparison") return validatePairedData(retrievalComparison.paired_exports['test-flat-mrr_at_10']);
   if (!["correlated", "identical", "multi-seed"].includes(kind)) throw new RangeError("未知的评估示例。");
   const rows = [], sizes = [2, 6, 3, 5], shifts = [.18, .16, -.09, .06];
   for (const seed of kind === "multi-seed" ? ["11", "29", "47"] : ["11"]) {
@@ -88,7 +90,9 @@ export function checkpointSelection({ candidates = 10, trials = 300, randomSeed 
 export function initPairedEvaluation() {
   const mode = $("[data-pe-mode]"); if (!mode) return;
   const preset = $("[data-pe-preset]"), seed = $("[data-pe-seed]"), threshold = $("[data-pe-threshold]"), input = $("[data-pe-file]"), candidates = $("[data-pe-candidates]");
-  let data = pairedExample(), request = 0;
+  const initialPreset = new URLSearchParams(location.search).get('dataset');
+  if ([...preset.options].some(option => option.value === initialPreset)) preset.value = initialPreset;
+  let data = pairedExample(preset.value), request = 0;
   const set = (name, value) => { $(`[data-pe-${name}]`).textContent = value; };
   const selectSeeds = () => { seed.replaceChildren(...[...new Set(data.rows.map(row => row.seed))].map(value => { const option = document.createElement("option"); option.value = value; option.textContent = value; return option; })); };
   const render = () => {
@@ -108,9 +112,19 @@ export function initPairedEvaluation() {
     $("[data-pe-chart]").innerHTML = `<line x1="40" y1="185" x2="580" y2="185" class="decision-axis"/>${bins.map((b, i) => `<rect x="${40 + i * 27}" y="${185 - b / peak * 145}" width="24" height="${b / peak * 145}" class="decision-bar"/>`).join("")}<line x1="${x(0)}" y1="20" x2="${x(0)}" y2="185" class="decision-zero"/><text x="40" y="211">${(low * 100).toFixed(1)} pp</text><text x="520" y="211">${(high * 100).toFixed(1)} pp</text><text x="40" y="18">差值的重采样分布 · 2,000 次</text>`;
   };
   const renderSelection = () => { const r = checkpointSelection({ candidates: +candidates.value }); set("selection", `所有候选真实成功率都为 60%；${r.trials} 次模拟中，选中者验证均值 ${(r.selected * 100).toFixed(2)}%，独立测试均值 ${(r.independent * 100).toFixed(2)}%。每个数据集 40 次 Bernoulli 试验，候选与试验在本模拟中独立。`); };
-  preset.addEventListener("change", () => { request++; input.value = ""; data = pairedExample(preset.value); selectSeeds(); set("status", "已载入教学数据。"); render(); });
+  const presetStatus = () => preset.value === 'retrieval-comparison'
+    ? '已载入可核验的检索实测：24 题、12 来源组，Flat → 混合的 MRR@10；既有公开测试集的探索性比较。default 表示固定编码器运行，不是新增训练 seed。'
+    : '已载入教学数据。';
+  const updateDatasetUrl = name => {
+    const url = new URL(location.href);
+    if (!name || name === 'correlated') url.searchParams.delete('dataset');
+    else url.searchParams.set('dataset', name);
+    history.replaceState(null, '', url.href);
+  };
+  preset.addEventListener("change", () => { request++; input.value = ""; data = pairedExample(preset.value); updateDatasetUrl(preset.value); selectSeeds(); set("status", presetStatus()); render(); });
   [mode, seed, threshold].forEach(el => el.addEventListener("change", render)); candidates.addEventListener("change", renderSelection);
   input.addEventListener("change", async () => {
+    updateDatasetUrl(null);
     const ticket = ++request; data = null; $("[data-pe-results]").hidden = true; seed.replaceChildren(); set("status", "正在读取本地文件…");
     try {
       const file = input.files?.[0]; if (!file) { set("status", "未选择文件，选择示例可恢复。"); return; }
@@ -120,5 +134,5 @@ export function initPairedEvaluation() {
     } catch (error) { if (ticket === request) set("status", `读取失败：${error.message}`); }
   });
   $("[data-pe-download]").addEventListener("click", () => { const url = URL.createObjectURL(new Blob([JSON.stringify(pairedExample("multi-seed"), null, 2)], { type: "application/json" })); const link = document.createElement("a"); link.href = url; link.download = "paired-evaluation-example.json"; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); });
-  selectSeeds(); render(); renderSelection();
+  selectSeeds(); set("status", presetStatus()); render(); renderSelection();
 }

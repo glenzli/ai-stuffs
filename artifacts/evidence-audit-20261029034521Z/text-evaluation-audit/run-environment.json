@@ -1,0 +1,28 @@
+{
+  "started_at": "2026-10-29T03:45:24.533Z",
+  "runtime": {
+    "python": "3.12.13",
+    "torch": "2.9.0",
+    "numpy": "2.3.4",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "device": "cpu",
+    "dtype": "float32",
+    "threads": 1,
+    "deterministic_algorithms": true,
+    "torch_build": "PyTorch built with:\n  - GCC 4.2\n  - C++ Version: 201703\n  - clang 15.0.0\n  - OpenMP 201811\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: DEFAULT\n  - Build settings: BLAS_INFO=accelerate, BUILD_TYPE=Release, COMMIT_SHA=0fabc3ba44823f257e70ce397d989c8de5e362c1, CXX_COMPILER=/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_PYTORCH_QNNPACK -DAT_BUILD_ARM_VEC256_WITH_SLEEF -DUSE_XNNPACK -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DUSE_COREML_DELEGATE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=braced-scalar-init -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wvla-extension -Wsuggest-override -Wnewline-eof -Winconsistent-missing-override -Winconsistent-missing-destructor-override -Wno-pass-failed -Wno-error=old-style-cast -Wconstant-conversion -Qunused-arguments -faligned-new -fno-math-errno -fno-trapping-math -Werror=format -DUSE_MPS -Wno-missing-braces, LAPACK_INFO=accelerate, TORCH_VERSION=2.9.0, USE_CUDA=OFF, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_EIGEN_FOR_BLAS=ON, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=OFF, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n"
+  },
+  "base_manifest_sha256": "de783986a40b89c0d97fa47a1be4958a63763c81b97873a192e13e04eb5ba622",
+  "source_sha256": {
+    "scripts/text_evaluation_audit.py": "3f0f146618ca0f156f84219c2ab3e2ba2415afeb3a6d735f730ddefd150bae7d",
+    "scripts/paired_evidence.py": "73ec064363a9bc1f4fa7b68775fc8a275ab3f12f87d4315c468eaf20b9476310",
+    "scripts/text_training_core.py": "6b658cec0783c6a5bf9f8269c6f8427ca9fd49fec109ce8f28054359218635d5",
+    "scripts/learning_core.py": "f3d8cdfc21a2ec13ab829787bf0662063d45667848df02f1811987574571bfc7",
+    "scripts/framework-requirements.txt": "30e7809ec2e383a3b17db667db22953caec8e19e2167584d1820fe8086295862",
+    "scripts/evidence-audit-studies.mjs": "4fc6105c6ad04a185f6bb38fe13c6150a27fcdb13fb3d9bcb1e68a9b66326e4c",
+    "scripts/run-evidence-audit.mjs": "018f9b8ce8d8c858d3f58f65f7eed32ffb90d5e74a8c8d7c5a5e2c3887ea5fe4",
+    "scripts/package-evidence-audit.mjs": "9c5bfb48513343825677b6d64e883733236a77b62a00aedd0f30127c8a97f7ec",
+    "scripts/experiment-bundles.mjs": "0a729b6574fa785ddc1565b890a6ff9747a4506d0e06c2f11da20335e94e6284"
+  },
+  "analysis_status": "exploratory follow-up; already inspected source datasets"
+}
