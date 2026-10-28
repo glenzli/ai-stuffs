@@ -1,3 +1,4 @@
+<p class="learning-route-note">把局部算法放回同一个真实模型，查看 <a href="training-step-profile.html">完整训练 step 的时间与保存量实测</a>。</p>
 <div class="modern-page">
   <section class="page-intro"><div><p class="eyebrow">TRAINING ENGINEERING / PERFORMANCE</p><h1>性能分析：<span class="accent-text">计算、搬运与等待各花多久</span></h1><p class="lede">分析训练速度需要查看实际执行过程。把矩阵计算、内存搬运、启动开销、通信和数据等待分开计量，再沿实际执行时间线找关键路径。</p></div><aside class="intro-aside"><p class="micro-label">估算与测量</p><p>公式给量级与下界，profiler 给执行证据。本页使用假设硬件参数演示估算方法，实际吞吐由目标设备上的测量确定。</p></aside></section>
   <section class="section" aria-labelledby="roofline-model"><div class="section-heading"><span class="section-number">01 / ROOFLINE</span><h2 id="roofline-model">同一矩阵乘，为什么 batch 不同就换了瓶颈？</h2></div>

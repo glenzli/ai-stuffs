@@ -595,6 +595,16 @@ for (const slug of ["learning-run", "training-failures", "initialization-width",
 // Both dynamics pages use the chart, control and provenance rules in this sheet.
 pages.find(page => page.slug === "batch-noise").styles.splice(3, 0, "initialization-width");
 
+for (const [slug, title, description] of [
+  ["generalization-analysis", "长度泛化失败诊断", "固定权重下的 EOS 与位置探针、扩展训练长度的三 seed 对照，以及逐题结果和预算边界。"],
+  ["text-training-project", "自然语言小模型项目", "从本站中文语料、训练集 BPE 到小型语言模型训练、独立文档评估、生成和新进程恢复。"],
+  ["reproducibility-lab", "复现差异定位实验", "同初始权重与输入、精度转换和数据顺序探针；逐边界记录首次差异并保留历史原因的不确定性。"],
+  ["training-step-profile", "完整训练 step 实测", "在同一真实小模型上比较完整与精确分块输出层，核对更新结果后分阶段测量 CPU 时间与保存引用。"],
+]) pages.push({ slug, file: `${slug}.html`, title: `${title} · 模型工程 Wiki`, description,
+  bodyPage: slug, features: ["practice-reports"], styles: ["modern", "exact-mechanics", "practice"],
+  footer: [title, "从保存的输入、权重和逐步记录，核验页面上的每项结论。"] });
+pages.find(page => page.slug === "deep-dive").styles.push("practice");
+
 // Topic ownership determines both header navigation and the knowledge directory.
 const pageTopics = new Map(wikiGroups.flatMap(group => group.pages.map(([slug]) => [slug, group])));
 for (const page of pages) {

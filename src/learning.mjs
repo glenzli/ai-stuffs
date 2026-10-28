@@ -31,7 +31,7 @@ export const learningPath = [
     focus: "先比较同一道题训练前后的生成，再看学习曲线、独立测试与未见长度。",
     prerequisite: "知道模型按监督目标更新参数。",
     checkpoint: "能分别解释 teacher-forced loss、自由生成和长度外推的结果。",
-    further: [["model-evaluation.html#generalization", "训练、验证与泛化"], ["paired-evaluation.html", "配对比较结果"]],
+    further: [["generalization-analysis.html", "诊断长度外推失败"], ["text-training-project.html", "完成自然语言小模型项目"], ["model-evaluation.html#generalization", "训练、验证与泛化"], ["paired-evaluation.html", "配对比较结果"]],
   },
   {
     id: "reproduce", title: "稳定与复现", href: "model-artifacts.html", label: "保存、恢复并定位故障",
@@ -39,7 +39,7 @@ export const learningPath = [
     focus: "先看 checkpoint 包含什么，再对照完整恢复和遗漏状态后的轨迹。",
     prerequisite: "能区分学习结果和计算核验。",
     checkpoint: "能解释为什么权重、优化器、随机状态和数据位置需要一起保存。",
-    further: [["training-failures.html", "相同输入的故障回放"], ["numerical-computing.html", "数值稳定与混合精度"], ["optimization-dynamics.html", "优化器与更新尺度"]],
+    further: [["reproducibility-lab.html", "找到复现的首个差异"], ["training-failures.html", "相同输入的故障回放"], ["numerical-computing.html", "数值稳定与混合精度"], ["optimization-dynamics.html", "优化器与更新尺度"]],
   },
   {
     id: "systems", title: "系统与扩展", href: "engineering.html", label: "把训练放进资源约束",
@@ -47,7 +47,7 @@ export const learningPath = [
     focus: "先看训练 step、token 预算和显存账本，再按瓶颈进入并行与性能专题。",
     prerequisite: "能追踪一次更新，也知道如何保存和核验它。",
     checkpoint: "能区分数据并行副本、协作分片、显存占用和实际等待。",
-    further: [["training-systems-deep.html", "并行与数值精度"], ["performance-analysis.html", "测量性能瓶颈"], ["initialization-width.html", "初始化与宽度迁移"], ["batch-noise.html", "Batch 与学习预算"], ["chunked-cross-entropy.html", "输出层保存量与精确梯度"]],
+    further: [["training-step-profile.html", "比较完整训练 step"], ["training-systems-deep.html", "并行与数值精度"], ["performance-analysis.html", "测量性能瓶颈"], ["initialization-width.html", "初始化与宽度迁移"], ["batch-noise.html", "Batch 与学习预算"], ["chunked-cross-entropy.html", "输出层保存量与精确梯度"]],
   },
 ];
 
@@ -61,7 +61,7 @@ const introductory = new Set([
   "training-engineer-guide", "deep-dive", "index", "engineering-check", "representation", "training",
   "transformer-lab", "posttraining", "engineering", "model-artifacts", "model-evaluation", "lab", "frontier", "learning-run",
 ]);
-const reportPages = new Set(["learning-run", "training-failures", "initialization-width", "batch-noise", "chunked-cross-entropy"]);
+const reportPages = new Set(["learning-run", "training-failures", "initialization-width", "batch-noise", "chunked-cross-entropy", "generalization-analysis", "text-training-project", "reproducibility-lab", "training-step-profile"]);
 const navigationPages = new Set(["training-engineer-guide", "deep-dive", "frontier", "transformer-lab"]);
 const calculationPages = new Set([
   "representation-deep", "training-deep", "backpropagation", "numerical-computing", "tensor-layout",

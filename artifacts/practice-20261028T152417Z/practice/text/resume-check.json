@@ -1,0 +1,14 @@
+{
+  "fresh_python_process": true,
+  "from_update": 400,
+  "to_update": 416,
+  "errors": {
+    "model": 0.0,
+    "optimizer": 0.0,
+    "stream": 0,
+    "torch_rng": 0.0,
+    "trace": 0.0
+  },
+  "passed": true,
+  "scope": "CPU single process, dropout=0; sampler has its own Python Random state; no asynchronous data workers or GPU RNG"
+}

@@ -100,7 +100,7 @@ src/
 
 ## 页面地图
 
-目前共 61 页，页面正文、目录、搜索与适用范围逐页对应。
+目前共 65 页，页面正文、目录、搜索与适用范围逐页对应。
 
 - `training-engineer-guide.html`：建议的总入口、七个工程契约、生命周期和问题雷达
 - `index.html`：Embedding 与训练全局路径
@@ -164,10 +164,10 @@ Agent 页负责记忆保留与持续学习边界；评估页负责重复可靠�
 
 ## 检查
 
-2026-10-28 的当前副本缺少部分历史 `artifacts/` 原始报告、checkpoint 与张量文件。
-页面构建使用随源码提供的内置快照，可以独立运行；涉及原始报告哈希、完整逐题结果
-和已保存张量的来源核验仍需对应工件。缺失清单与本次结果见
-[整体检查与主题调整记录](docs/model-engineering-review-2026-10-28.md)。
+2026-10-28 已重新生成学习、故障、尺度与 batch、输出层的完整来源，并追加四项实战。
+构建会核对 `src/experiment-sources.json` 指定的报告、工件包和校验表；缺失或内容不符时
+停止构建并保留原输出。仓库包含这些固定证据；其他历史实验是否重跑，以各轮验收说明为准。
+来源恢复记录见 [实验重跑与核验](docs/experiment-reproduction-2026-10-28.md)。
 
 源代码检查与构建：
 
@@ -366,6 +366,42 @@ checkpoint 和输入的实际事件及修复比较。尺度与 batch 报告分�
 所有新验收记录放入独立 `artifacts/learning-dynamics-qa/`，保留已有轮次；最终结果与
 已覆盖范围见 `docs/learning-dynamics-acceptance-2026-10-28.md`。
 
+## 四项可运行实战
+
+沿六步学习路线进入以下实测专题，页面均链接到同一份完整来源包：
+
+- `generalization-analysis.html`：冻结反转权重，检查 EOS、位置扰动与长度支持扩展；保留三个 seed 和预算混杂。
+- `text-training-project.html`：38 篇本站中文文档、训练集专用 byte BPE、约 30 万参数 decoder；训练、完整评估、原始生成、保存与新进程恢复。
+- `reproducibility-lab.html`：对齐初值和输入，记录精度及数据顺序变化后的首个可观察差异；历史 seed 47 变化仍未定位原因。
+- `training-step-profile.html`：同一模型的完整 step 阶段计时、保存引用与精确分块 CE 对照，先核验数值再解释性能。
+
+```bash
+npm run test:practice
+npm run lab:practice -- --out-dir artifacts/practice-my-run
+```
+
+沿用固定的 `.venv-framework` 环境；重跑包含三 seed 的两组训练，需要数分钟。
+输出目录必须尚不存在。runner 复用保存的语料和原始 HTML，避免 Wiki 后续文案变化改变训练输入；
+`export-text-corpus.mjs` 可单独导出当前页面，但那是另一份数据，不能替代本轮冻结来源。
+实验脚本不会下载外部语料、预训练模型或 tokenizer。再次运行会生成新报告和页面数据，
+并更新对应来源清单；旧工件保留。复制到新项目时，需要一并保留原反转实验的完整来源。
+
+加载已保存文本模型：
+
+```bash
+.venv-framework/bin/python scripts/text-inference.py \
+  --checkpoint artifacts/practice-20261028T152417Z/practice/text/seed-11-final.pt \
+  --tokenizer artifacts/practice-20261028T152417Z/practice/text/tokenizer.json \
+  --prompt '模型训练'
+```
+
+CLI 按同一包的 `SHA256SUMS` 核对权重与 tokenizer 身份，再用固定 greedy 策略生成。
+下载包解压后也可用对应的绝对路径；保留 `practice/SHA256SUMS` 与 `practice/text/` 的层级。
+`test:practice` 从权重复算所有文本评估和样本、16 步恢复、逐题汇总、首次差异张量和完整模型梯度；
+不会重新训练 800/1,200 步。报告的通过状态表示声明的链路核验通过，语言生成仍不连贯，
+长度 9–10 的外推仍失败，CPU double 时间也不代表 GPU 性能。
+实现和验证范围见 [四项实战说明](docs/practice-expansion-2026-10-28.md)。
+
 ## 内容质量约定
 
 ### 数学排版
@@ -397,6 +433,4 @@ TeX 语法或结构错误会使构建失败，并保留此前输出（公式校�
 
 主验收记录见 `docs/engineering-wiki-acceptance-2026-10-26.md`。
 
-学习动态验证运行 `npm run test:learning`（四份 Node 与四份 Python 测试）；最终验收见 [learning-dynamics-acceptance-2026-10-28.md](docs/learning-dynamics-acceptance-2026-10-28.md)。
-
-学习动态五项补充已完成；npm run test:learning 运行新增Node/Python检查，最终验收见 docs/learning-dynamics-acceptance-2026-10-28.md。
+学习动态验证运行 `npm run test:learning`；最终验收见 [learning-dynamics-acceptance-2026-10-28.md](docs/learning-dynamics-acceptance-2026-10-28.md)。

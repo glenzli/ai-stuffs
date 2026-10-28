@@ -1,0 +1,158 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">ARCHITECTURE / EVOLUTION</p>
+        <h1>Transformer 演化：<span class="accent-text">结构、目标与执行方式</span></h1>
+        <p class="lede">
+          原始 Transformer 已经给出 attention、残差、FFN 和层级堆叠。后续变化主要围绕：归一化放在哪、
+          位置怎么表达、激活与 FFN 怎么算、KV 怎么省、容量怎么稀疏化，以及训练和推理系统怎样利用 GPU。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">先分清三类变化</p>
+        <p>架构变化会改变权重与计算图；训练目标变化改变数据与 loss；系统优化如 FlashAttention / Paged KV 主要改变执行方式。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="evolution-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="evolution-title">一条结构演化时间线</h2>
+        </div>
+        <p class="section-note">按采用趋势归组，非每项技术的首发年份：SwiGLU 为 2020、RMSNorm 为 2019、RoPE 为 2021、FlashAttention 为 2022；稀疏 MoE 也早于 2023。这些技术在不同时期被组合采用。</p>
+      </div>
+
+      <div class="evo-tabs" role="group" aria-label="Transformer 演化阶段">
+        <button type="button" data-evo="0" aria-pressed="true"><span>2017</span>原始 Transformer</button>
+        <button type="button" data-evo="1" aria-pressed="false"><span>2018–19</span>BERT / GPT / Pre-LN</button>
+        <button type="button" data-evo="2" aria-pressed="false"><span>2020</span>规模与稀疏 attention</button>
+        <button type="button" data-evo="3" aria-pressed="false"><span>2021–22</span>RoPE / SwiGLU / FlashAttention</button>
+        <button type="button" data-evo="4" aria-pressed="false"><span>2023</span>GQA / MoE / Decoder 统一</button>
+        <button type="button" data-evo="5" aria-pressed="false"><span>2024+</span>长上下文与系统协同</button>
+      </div>
+
+      <div class="evo-panel" aria-live="polite">
+        <div class="evo-title">
+          <span data-evo-era>2017 · ORIGINAL TRANSFORMER</span>
+          <h3 data-evo-title>Encoder-decoder + post-norm</h3>
+          <p data-evo-summary>
+            用 self-attention 替代循环结构，让序列内所有位置并行交互。原始模型仍包含 encoder 与 decoder，使用正弦位置编码、ReLU FFN 和 post-layer-norm。
+          </p>
+        </div>
+        <div class="evo-axis-grid">
+          <div><span>对齐 / 目标</span><p data-evo-objective>机器翻译：encoder 编码源语言，decoder 因果生成目标语言。</p></div>
+          <div><span>Attention</span><p data-evo-attention>MHA；每个 query 位置看完整 source 或已生成 target。</p></div>
+          <div><span>Norm / 残差</span><p data-evo-norm>每个子层输出后做 LayerNorm；残差帮助深层训练。</p></div>
+          <div><span>位置</span><p data-evo-position>正弦/余弦位置编码，注入顺序信息。</p></div>
+          <div><span>FFN / 激活</span><p data-evo-mlp>两层 MLP + ReLU；通常 4d 宽，参数量约 2·d·d_ff。</p></div>
+          <div><span>推理 / 容量</span><p data-evo-inference>decoder 自回归生成；MHA 的 KV 与 head 数同规模。</p></div>
+        </div>
+        <div class="evo-verdict">
+          <div><span>解决了什么</span><p data-evo-solved>长距离依赖可并行建模，训练比 RNN 更充分利用硬件。</p></div>
+          <div><span>新增代价</span><p data-evo-cost>注意力成本随上下文长度二次增长；自回归 decode 每步仍需逐 token。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="change-type-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="change-type-title">结构、目标和系统分别怎样改进</h2>
+        </div>
+        <p class="section-note">按结构、目标和系统分类，可以追踪每种方法改变了哪些计算或训练条件。</p>
+      </div>
+
+      <div class="change-plane">
+        <article>
+          <span class="tag tag-teal">STRUCTURE</span>
+          <h3>改变权重与计算图</h3>
+          <p>Pre-LN、RMSNorm、SwiGLU、RoPE、GQA/MQA、MoE、滑窗/稀疏 attention。它们改变 block 的矩阵、位置处理或路由。</p>
+          <strong>会改变计算关系；参数量或形状未必变化，例如部分 Norm 布局调整。</strong>
+        </article>
+        <article>
+          <span class="tag">OBJECTIVE</span>
+          <h3>改变数据与损失</h3>
+          <p>BERT 的 masked LM、GPT 的 causal LM、T5 的 span denoising、SFT/DPO 都改变“模型看见什么、为什么被惩罚”。</p>
+          <strong>不一定改变 block 结构，但改变学到的分布。</strong>
+        </article>
+        <article>
+          <span class="tag tag-coral">SYSTEM</span>
+          <h3>改变执行与内存访问</h3>
+          <p>FlashAttention、KV Cache、Paged Attention、连续批处理、量化、投机解码。多数不改变数学结果或只改变数值精度。</p>
+          <strong>重点优化延迟、吞吐和显存占用。</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="parts-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="parts-title">现代 decoder 的几个关键零件</h2>
+        </div>
+        <p class="section-note">这些模块分别影响稳定性、位置表示、表达能力和计算成本，可以组合使用。</p>
+      </div>
+
+      <div class="part-evolution-list">
+        <details open>
+          <summary>Pre-LN / RMSNorm：先稳定监督，再进入子层</summary>
+          <p>Post-LN 在每个子层相加后归一化，深层训练可能更依赖 warmup；Pre-LN 在 attention/MLP 前归一化，更常用于现代 decoder。RMSNorm 不减均值，只用均方根缩放，计算更省；替换后的质量和稳定性需要在完整训练设置中验证。</p>
+        </details>
+        <details>
+          <summary>残差：为跨层计算保留直接路径</summary>
+          <p>每个 block 都在 residual stream 上加回 x。Attention 与 MLP 将学到的增量加回主干表示。残差给梯度提供短路径，尤其是深层网络；Pre-LN 与残差共同影响数值稳定性。</p>
+        </details>
+        <details>
+          <summary>RoPE：把相对位置写进 Q/K 的旋转</summary>
+          <p>旋转位置编码对 query/key 的不同位置维度施加角度，使点积自然表达相对位移。它不再依赖把位置向量直接加到 token embedding；长上下文外推仍受训练长度、频率设置与 attention 模式影响。</p>
+        </details>
+        <details>
+          <summary>SwiGLU：门控表达与三组投影</summary>
+          <p>列向量约定下：FFN(x) = W_down[SiLU(W_gate x) ⊙ (W_up x)]。三张矩阵共约 3·d·d_ff 个参数；同 d_ff 比两投影 FFN 多，但常把中间宽度从 4d 调成约 8d/3，使参数量相近。门控的收益需用等预算实验判断。</p>
+        </details>
+        <details>
+          <summary>GQA / MQA：共享 KV head，减少缓存和读取</summary>
+          <p>MHA 每个 query head 都有独立 K/V；GQA 让多个 query heads 共享一组 KV heads；MQA 只保留一组 K/V。训练时仍是 attention，推理时 KV Cache 显著变小、memory bandwidth 压力降低，但可能牺牲部分表达力。</p>
+        </details>
+        <details>
+          <summary>MoE：总参数变大，每 token 只激活少量专家</summary>
+          <p>Router 为每个 token 选 top-k experts。总权重需要存放在内存里，但每 token 计算只走选中专家；还要付 all-to-all、负载均衡、容量与路由稳定性的系统成本。选型时需同时计算专家容量和这些系统开销。</p>
+        </details>
+        <details>
+          <summary>FlashAttention：通常不改网络结构</summary>
+          <p>它用片上 SRAM 分块和在线 softmax，减少与 HBM 之间的数据搬运，避免保存完整 attention 矩阵。数学上计算精确 attention（有限精度舍入可能不同），标准全注意力的算术量仍随序列长度二次增长。</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="family-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="family-title">Encoder、Decoder 与 MoE 的结构差别</h2>
+        </div>
+        <p class="section-note">同样叫 Transformer，encoder、decoder、目标函数和 attention 访问方式可能完全不同。</p>
+      </div>
+
+      <div class="family-table-wrap">
+        <table class="deep-table family-table">
+          <thead><tr><th>类型</th><th>典型结构</th><th>能看到什么</th><th>适合 / 后果</th></tr></thead>
+          <tbody>
+            <tr><td>Encoder-only</td><td>双向 self-attention，常输出每 token 状态</td><td>整段输入上下文</td><td>分类、匹配、masked LM；不能直接按因果顺序逐词生成</td></tr>
+            <tr><td>Decoder-only</td><td>causal attention，下一 token 预测</td><td>只看过去与当前</td><td>生成、对话、现代 LLM 主力；prefill + decode 推理</td></tr>
+            <tr><td>Encoder-decoder</td><td>编码源序列，再在 decoder 中 cross-attend</td><td>encoder 看全输入，decoder 因果生成</td><td>翻译、摘要；两个阶段和两套 attention</td></tr>
+            <tr><td>Dense decoder</td><td>每 token 经过同一 MLP</td><td>全参数参与该 token</td><td>行为可预测、调优成熟；总参数 = 每 token 激活参数</td></tr>
+            <tr><td>MoE decoder</td><td>router 选 top-k experts</td><td>每个 token 只看选中 experts</td><td>提高总容量/激活比；显存、通信和负载均衡更复杂</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section next-lesson">
+      <div>
+        <p class="eyebrow">NEXT / COUNT THE WEIGHTS</p>
+        <h2>把一层拆开：Q/K/V、残差、SwiGLU 与 MoE 各有多少参数？</h2>
+      </div>
+      <a class="button button-primary" href="transformer-anatomy.html">进入权重解剖 →</a>
+    </section>

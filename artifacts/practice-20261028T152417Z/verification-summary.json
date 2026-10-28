@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-10-28T16:03:32.195Z",
+  "status": "passed",
+  "source": {
+    "pages": 65,
+    "scripts": 93,
+    "styles": 42,
+    "equations": 141
+  },
+  "node_tests": 413,
+  "new_python_tests": 14,
+  "browser_combinations": 12,
+  "browser_interaction_cases": 10,
+  "http_downloads": 3,
+  "report_sha256": "d9062e4d471c8d96df315bf3fa7b6dfcd2f5205858d190b949c67afb7550512b",
+  "archive_sha256": "60a962c9a1f1a9752cf0e41754ffa9aad2a171da823ad25f5142e609258533ea",
+  "identities": {
+    "src/scripts/features/practice-reports.js": "fab461e3af443f346b250c459cd0862813b4cf4bec3a32efef1fab255f6fb2ee",
+    "src/styles/practice.css": "1f0bf9bdb4bad9f0f007b184bf9aac1baa55decf943cd88bbaef246bcd8e8f99",
+    "artifacts/practice-20261028T152417Z/node-final.log": "f277790e05754b72dc13b49eacb37bfc4429941554ebf90b710e983e3e549139",
+    "artifacts/practice-20261028T152417Z/python-final.log": "1cc9cd51f9721502b095afc16de699eded55a3332433eb61eafb332cd56fa155",
+    "artifacts/practice-20261028T152417Z/browser-audit.json": "ddb47e5320ce15a523fa6354d91f37aa129381da3407120d5307c37d0058cd1b",
+    "artifacts/practice-20261028T152417Z/http-download-audit.json": "2b33c3c55b1d6eba56bd75c35f3032e1a4770428ccc6c2d005a7eaeca8f0db35"
+  },
+  "performance_revision": "identical frozen workload remeasured after other experiment processes completed; initial timing retained in bundle history",
+  "runtime_numerical_sources_unchanged": true
+}

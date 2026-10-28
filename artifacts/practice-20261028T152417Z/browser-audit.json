@@ -1,0 +1,289 @@
+{
+  "checked_at": "2026-10-28T16:02:49.334Z",
+  "engine": "Codex in-app browser",
+  "viewport_restored": true,
+  "theme_restored": "light",
+  "pages": [
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "目标与优化",
+      "overflow": false,
+      "page": "/generalization-analysis.html",
+      "ready": "true",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "目标与优化",
+      "overflow": false,
+      "page": "/text-training-project.html",
+      "ready": "true",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "评估与复现",
+      "overflow": false,
+      "page": "/reproducibility-lab.html",
+      "ready": "true",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "系统与性能",
+      "overflow": false,
+      "page": "/training-step-profile.html",
+      "ready": "true",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "目标与优化",
+      "overflow": false,
+      "page": "/generalization-analysis.html",
+      "ready": "true",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "目标与优化",
+      "overflow": false,
+      "page": "/text-training-project.html",
+      "ready": "true",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "评估与复现",
+      "overflow": false,
+      "page": "/reproducibility-lab.html",
+      "ready": "true",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "系统与性能",
+      "overflow": false,
+      "page": "/training-step-profile.html",
+      "ready": "true",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "目标与优化",
+      "overflow": false,
+      "page": "/generalization-analysis.html",
+      "ready": "true",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "目标与优化",
+      "overflow": false,
+      "page": "/text-training-project.html",
+      "ready": "true",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "评估与复现",
+      "overflow": false,
+      "page": "/reproducibility-lab.html",
+      "ready": "true",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "downloadHrefs": [
+        "assets/experiments/practice-report.d9062e4d47.json",
+        "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+        "assets/experiments/practice-checksums.1c56f462cb.txt"
+      ],
+      "duplicateIds": [],
+      "labels": true,
+      "nav": "系统与性能",
+      "overflow": false,
+      "page": "/training-step-profile.html",
+      "ready": "true",
+      "theme": "dark",
+      "width": 1440
+    }
+  ],
+  "interactions": [
+    {
+      "case": "extended-seed29-length8",
+      "controls": [
+        [
+          "seed",
+          "29"
+        ],
+        [
+          "policy",
+          "extended"
+        ],
+        [
+          "length",
+          "8"
+        ]
+      ],
+      "examples": 6,
+      "row": "8支持内 · 未见题目486.25%79.69%0"
+    },
+    {
+      "case": "text-seed47-validation-prompt2",
+      "metrics": "初始 CE · nats/token5.9825训练后 CE · nats/token3.1535Teacher-forced top-125.97%",
+      "policy": "48 个生成 token；达到 48-token 上限；替换字符 1，非 EOS 特殊 token 0。",
+      "sample": "、验证看法签签策验证长度。\n注答答答答�"
+    },
+    {
+      "case": "repeat-float32",
+      "firstRow": "10000000",
+      "metrics": "首次可观察差异16 次更新均逐值一致同一输入序列是历史变化原因仍未定位"
+    },
+    {
+      "case": "cast-float64",
+      "firstRow": "105.960e-85.277e-73.558e-74.370e-73.183e-82.103e-5",
+      "metrics": "首次可观察差异第 1 次更新 · embedding同一输入序列是历史变化原因仍未定位"
+    },
+    {
+      "case": "changed-data-order",
+      "firstRow": "13510.1080.19880.04210.10150.07770.004",
+      "metrics": "首次可观察差异第 1 次更新 · input_ids同一输入序列否历史变化原因仍未定位"
+    },
+    {
+      "case": "search",
+      "query": "长度泛化",
+      "results": [
+        "generalization-analysis.html"
+      ]
+    },
+    {
+      "case": "search",
+      "query": "自然语言",
+      "results": [
+        "text-training-project.html"
+      ]
+    },
+    {
+      "case": "search",
+      "query": "复现差异",
+      "results": [
+        "reproducibility-lab.html"
+      ]
+    },
+    {
+      "case": "search",
+      "query": "完整训练",
+      "results": [
+        "training-step-profile.html"
+      ]
+    },
+    {
+      "case": "profile-chunked-sample12",
+      "metrics": "完整 step 中位数22.893 ms监督 token / 秒16578.3345反向保存引用12.17 MiB",
+      "sums": "本次各阶段之和 23.0707 ms；本次完整 step 23.0707 ms。各阶段的中位数不必相加等于总中位数。"
+    }
+  ],
+  "console": [],
+  "additional_checks": {
+    "dark_axis_fill": "rgb(194, 194, 194)",
+    "legend_overlaps_axis_title": false
+  },
+  "resolved_findings": [
+    {
+      "page": "text-training-project.html",
+      "width": 390,
+      "issue": "long commands overflowed document",
+      "fix": "bounded independent command scrolling",
+      "rechecked": true
+    },
+    {
+      "page": "reproducibility-lab.html",
+      "theme": "dark",
+      "issue": "SVG labels referenced an undefined color token",
+      "fix": "use shared ink-soft and blue/purple theme tokens",
+      "rechecked": true
+    }
+  ],
+  "screenshots": [
+    "qa/practice-route.png",
+    "qa/text-project.png",
+    "qa/reproduction-dark.png"
+  ]
+}

@@ -1,0 +1,3 @@
+# Fixed reference environment; CPU float64. No pretrained model download.
+torch==2.9.0
+numpy==2.3.4

@@ -3,7 +3,7 @@
 
 # Evidence must retain its exact original bytes, including report JSON and
 # the run-time source copies included in the checksum manifests.
-/artifacts/** -text
+/artifacts/** -text -whitespace
 *.pt binary
 *.tar.gz binary
 *.png binary

@@ -1,0 +1,26 @@
+{
+  "checked_at": "2026-10-28T16:01:49.848Z",
+  "rows": [
+    {
+      "href": "assets/experiments/practice-report.d9062e4d47.json",
+      "status": 200,
+      "bytes": 6934686,
+      "sha256": "d9062e4d471c8d96df315bf3fa7b6dfcd2f5205858d190b949c67afb7550512b",
+      "passed": true
+    },
+    {
+      "href": "assets/experiments/practice-archive.60a962c9a1.tar.gz",
+      "status": 200,
+      "bytes": 66512016,
+      "sha256": "60a962c9a1f1a9752cf0e41754ffa9aad2a171da823ad25f5142e609258533ea",
+      "passed": true
+    },
+    {
+      "href": "assets/experiments/practice-checksums.1c56f462cb.txt",
+      "status": 200,
+      "bytes": 8433,
+      "sha256": "1c56f462cb72c1468f8dc3d418e7f2ef5f5663df19a2874c8670643e35c75922",
+      "passed": true
+    }
+  ]
+}

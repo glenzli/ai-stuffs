@@ -1,0 +1,625 @@
+{
+  "schema": "reproduction-differences-v1",
+  "cases": [
+    {
+      "case": "repeat-float32",
+      "first_difference": null,
+      "rows": [
+        {
+          "update": 1,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 2,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 3,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 4,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 5,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 6,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 7,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 8,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 9,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 10,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 11,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 12,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 13,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 14,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 15,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        },
+        {
+          "update": 16,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 0.0,
+            "hidden": 0.0,
+            "logits": 0.0,
+            "loss": 0.0,
+            "gradient": 0.0,
+            "parameters": 0.0
+          }
+        }
+      ],
+      "same_inputs": true,
+      "same_initial_values": true
+    },
+    {
+      "case": "cast-float64",
+      "first_difference": {
+        "update": 1,
+        "stage": "embedding",
+        "max_absolute_difference": 5.960464477539063e-08
+      },
+      "rows": [
+        {
+          "update": 1,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 5.960464477539063e-08,
+            "hidden": 5.277007937287692e-07,
+            "logits": 3.5575615064953325e-07,
+            "loss": 4.370227442151986e-07,
+            "gradient": 3.183153872432509e-08,
+            "parameters": 2.102975433724251e-05
+          }
+        },
+        {
+          "update": 2,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 6.08942658519851e-08,
+            "hidden": 6.7278478097509975e-06,
+            "logits": 6.115053934885317e-07,
+            "loss": 2.691075948746402e-07,
+            "gradient": 1.5306263011216625e-07,
+            "parameters": 2.103003710180948e-05
+          }
+        },
+        {
+          "update": 3,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 9.624378982664439e-08,
+            "hidden": 6.1946176408422815e-06,
+            "logits": 6.634684757145237e-07,
+            "loss": 3.63331976949155e-07,
+            "gradient": 5.284658855519986e-07,
+            "parameters": 2.09758152635341e-05
+          }
+        },
+        {
+          "update": 4,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 6.60503116645117e-08,
+            "hidden": 4.854856383351702e-06,
+            "logits": 5.822247871045683e-07,
+            "loss": 2.397386928976175e-07,
+            "gradient": 1.3763763236085413e-07,
+            "parameters": 2.0931200011625392e-05
+          }
+        },
+        {
+          "update": 5,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 1.2861976510410156e-07,
+            "hidden": 3.647801692152619e-06,
+            "logits": 8.01139180994781e-07,
+            "loss": 2.727045584904886e-07,
+            "gradient": 6.841639090373122e-08,
+            "parameters": 2.0973318257628236e-05
+          }
+        },
+        {
+          "update": 6,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 1.744592922348076e-07,
+            "hidden": 3.109949856971994e-06,
+            "logits": 8.883626563260805e-07,
+            "loss": 4.794486763159966e-07,
+            "gradient": 9.094118883455887e-08,
+            "parameters": 2.0982711643764435e-05
+          }
+        },
+        {
+          "update": 7,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 1.2794232710083842e-07,
+            "hidden": 2.751830582514714e-06,
+            "logits": 1.1073777950176833e-06,
+            "loss": 9.665865796648632e-08,
+            "gradient": 8.582584955230121e-08,
+            "parameters": 2.1017648220056535e-05
+          }
+        },
+        {
+          "update": 8,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 1.7005434160832777e-07,
+            "hidden": 2.3307607369682515e-06,
+            "logits": 1.2451841608918102e-06,
+            "loss": 5.914266880679975e-07,
+            "gradient": 5.647988531596107e-08,
+            "parameters": 2.1025513224183457e-05
+          }
+        },
+        {
+          "update": 9,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 1.2991370814188774e-07,
+            "hidden": 2.280012464855874e-06,
+            "logits": 1.2467517469527678e-06,
+            "loss": 8.701887592721391e-07,
+            "gradient": 7.455858175298147e-08,
+            "parameters": 2.1037892987817598e-05
+          }
+        },
+        {
+          "update": 10,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 7.816065658583504e-08,
+            "hidden": 2.1613262418535006e-06,
+            "logits": 1.4491694779739106e-06,
+            "loss": 5.300736631852487e-07,
+            "gradient": 5.408549501382913e-08,
+            "parameters": 2.1052852357310737e-05
+          }
+        },
+        {
+          "update": 11,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 8.40381642053245e-08,
+            "hidden": 1.998449218762466e-06,
+            "logits": 1.4717465341984592e-06,
+            "loss": 2.083197614410892e-08,
+            "gradient": 6.95607178750196e-08,
+            "parameters": 2.1074946900886092e-05
+          }
+        },
+        {
+          "update": 12,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 1.2896773177173415e-07,
+            "hidden": 2.4187146907550527e-06,
+            "logits": 1.7503835427756798e-06,
+            "loss": 2.460622168243276e-07,
+            "gradient": 5.827283362964952e-08,
+            "parameters": 2.1095585472181424e-05
+          }
+        },
+        {
+          "update": 13,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 8.91581344530934e-07,
+            "hidden": 1.9538095696880475e-06,
+            "logits": 1.6590762577095575e-06,
+            "loss": 2.1027210550528252e-07,
+            "gradient": 7.510124763743242e-08,
+            "parameters": 2.110036596010632e-05
+          }
+        },
+        {
+          "update": 14,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 1.2731919833697258e-07,
+            "hidden": 2.169610438862435e-06,
+            "logits": 1.9261337014242486e-06,
+            "loss": 6.005012771481688e-07,
+            "gradient": 5.802897029994619e-08,
+            "parameters": 2.1105061296149033e-05
+          }
+        },
+        {
+          "update": 15,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 1.6655217982552983e-07,
+            "hidden": 2.0361763943821387e-06,
+            "logits": 2.1532117533418216e-06,
+            "loss": 2.75522014092644e-08,
+            "gradient": 8.001528950529746e-08,
+            "parameters": 2.1101842878161947e-05
+          }
+        },
+        {
+          "update": 16,
+          "errors": {
+            "input_ids": 0.0,
+            "embedding": 5.233605285814846e-07,
+            "hidden": 2.0747653843855574e-06,
+            "logits": 2.225495503438424e-06,
+            "loss": 8.032418730152813e-08,
+            "gradient": 4.295715883874396e-08,
+            "parameters": 2.1105197952044075e-05
+          }
+        }
+      ],
+      "same_inputs": true,
+      "same_initial_values": true
+    },
+    {
+      "case": "changed-data-order",
+      "first_difference": {
+        "update": 1,
+        "stage": "input_ids",
+        "max_absolute_difference": 351.0
+      },
+      "rows": [
+        {
+          "update": 1,
+          "errors": {
+            "input_ids": 351.0,
+            "embedding": 0.10795515775680542,
+            "hidden": 0.19879400730133057,
+            "logits": 0.04207643307745457,
+            "loss": 0.10147237777709961,
+            "gradient": 0.077660356531851,
+            "parameters": 0.003999998793005943
+          }
+        },
+        {
+          "update": 2,
+          "errors": {
+            "input_ids": 312.0,
+            "embedding": 0.09854236245155334,
+            "hidden": 1.5288549363613129,
+            "logits": 0.61563640832901,
+            "loss": 0.07181644439697266,
+            "gradient": 0.20672899577766657,
+            "parameters": 0.008004369214177132
+          }
+        },
+        {
+          "update": 3,
+          "errors": {
+            "input_ids": 326.0,
+            "embedding": 0.11427277326583862,
+            "hidden": 1.2901422679424286,
+            "logits": 0.7850569933652878,
+            "loss": 0.10334253311157227,
+            "gradient": 0.24185596033930779,
+            "parameters": 0.011973907239735126
+          }
+        },
+        {
+          "update": 4,
+          "errors": {
+            "input_ids": 326.0,
+            "embedding": 0.11065596342086792,
+            "hidden": 1.0977430939674377,
+            "logits": 0.8308251425623894,
+            "loss": 0.04678964614868164,
+            "gradient": 0.08746449928730726,
+            "parameters": 0.015831638127565384
+          }
+        },
+        {
+          "update": 5,
+          "errors": {
+            "input_ids": 313.0,
+            "embedding": 0.10944896936416626,
+            "hidden": 0.9733411371707916,
+            "logits": 0.8399147093296051,
+            "loss": 0.025554180145263672,
+            "gradient": 0.09261255897581577,
+            "parameters": 0.019417395815253258
+          }
+        },
+        {
+          "update": 6,
+          "errors": {
+            "input_ids": 384.0,
+            "embedding": 0.12047549337148666,
+            "hidden": 0.9029586911201477,
+            "logits": 0.8961843252182007,
+            "loss": 0.028451919555664062,
+            "gradient": 0.13192899338901043,
+            "parameters": 0.022973361425101757
+          }
+        },
+        {
+          "update": 7,
+          "errors": {
+            "input_ids": 371.0,
+            "embedding": 0.12280064821243286,
+            "hidden": 0.7164470553398132,
+            "logits": 0.9721294641494751,
+            "loss": 0.07933807373046875,
+            "gradient": 0.11140884086489677,
+            "parameters": 0.02570275031030178
+          }
+        },
+        {
+          "update": 8,
+          "errors": {
+            "input_ids": 266.0,
+            "embedding": 0.12618112564086914,
+            "hidden": 0.737858222797513,
+            "logits": 1.0834242552518845,
+            "loss": 0.20020532608032227,
+            "gradient": 0.09755490534007549,
+            "parameters": 0.02875763177871704
+          }
+        },
+        {
+          "update": 9,
+          "errors": {
+            "input_ids": 373.0,
+            "embedding": 0.11982142925262451,
+            "hidden": 0.8825758844614029,
+            "logits": 1.1481482908129692,
+            "loss": 0.18071508407592773,
+            "gradient": 0.09901050105690956,
+            "parameters": 0.031366913579404354
+          }
+        },
+        {
+          "update": 10,
+          "errors": {
+            "input_ids": 371.0,
+            "embedding": 0.11447791382670403,
+            "hidden": 1.042831163853407,
+            "logits": 1.2330169901251793,
+            "loss": 0.05532503128051758,
+            "gradient": 0.09875610657036304,
+            "parameters": 0.0334984976798296
+          }
+        },
+        {
+          "update": 11,
+          "errors": {
+            "input_ids": 331.0,
+            "embedding": 0.11851335316896439,
+            "hidden": 1.2044266760349274,
+            "logits": 1.329090801998973,
+            "loss": 0.06865787506103516,
+            "gradient": 0.0971235609613359,
+            "parameters": 0.035532571375370026
+          }
+        },
+        {
+          "update": 12,
+          "errors": {
+            "input_ids": 384.0,
+            "embedding": 0.12737759947776794,
+            "hidden": 1.2155887186527252,
+            "logits": 1.414081308990717,
+            "loss": 0.033818721771240234,
+            "gradient": 0.13406945671886206,
+            "parameters": 0.03741617687046528
+          }
+        },
+        {
+          "update": 13,
+          "errors": {
+            "input_ids": 335.0,
+            "embedding": 0.12693041563034058,
+            "hidden": 1.2710612416267395,
+            "logits": 1.4891291856765747,
+            "loss": 0.24924468994140625,
+            "gradient": 0.14015641435980797,
+            "parameters": 0.03995749354362488
+          }
+        },
+        {
+          "update": 14,
+          "errors": {
+            "input_ids": 331.0,
+            "embedding": 0.11692775040864944,
+            "hidden": 1.3437257409095764,
+            "logits": 1.5610220432281494,
+            "loss": 0.18004179000854492,
+            "gradient": 0.10977352783083916,
+            "parameters": 0.04182744026184082
+          }
+        },
+        {
+          "update": 15,
+          "errors": {
+            "input_ids": 318.0,
+            "embedding": 0.11471301317214966,
+            "hidden": 1.353481948375702,
+            "logits": 1.6261775195598602,
+            "loss": 0.08520889282226562,
+            "gradient": 0.10617674142122269,
+            "parameters": 0.04331571701914072
+          }
+        },
+        {
+          "update": 16,
+          "errors": {
+            "input_ids": 330.0,
+            "embedding": 0.13470542430877686,
+            "hidden": 1.3663191199302673,
+            "logits": 1.6746175587177277,
+            "loss": 0.16376113891601562,
+            "gradient": 0.06553418003022671,
+            "parameters": 0.04423031397163868
+          }
+        }
+      ],
+      "same_inputs": false,
+      "same_initial_values": true
+    }
+  ],
+  "matched_repeat_exact": true,
+  "historical_difference": {
+    "status": "unresolved",
+    "reason": "old page snapshot and new run differ, but old complete checkpoints/traces are unavailable; these controlled probes do not establish that historical cause"
+  },
+  "scope": "same CPU and installed PyTorch, 16 updates; float64 cast and changed data order are intentional new interventions, not different OS/GPU reproductions",
+  "levels": [
+    "byte identity via hashes",
+    "same-environment numerical replay",
+    "cross-environment numerical agreement under declared tolerance",
+    "multi-seed capability statistics"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "device": "cpu",
+  "dtype": "float64",
+  "warmups": 3,
+  "samples": 12,
+  "batch_size": 4,
+  "context": 96,
+  "methods": [
+    "dense",
+    "chunked-exact"
+  ],
+  "token_block": 64,
+  "vocab_block": 128,
+  "timing_order": "alternate method order each iteration; distinct models/optimizers with identical initial values and batch sequence",
+  "timing_scope": "pretokenized records collate + zero grad + hidden forward + output/loss + backward + clipping + AdamW; no disk input, tokenization, profiler or saved-tensor hooks in timed runs",
+  "parameter_tolerance": 1e-06,
+  "loss_tolerance": 1e-08
+}

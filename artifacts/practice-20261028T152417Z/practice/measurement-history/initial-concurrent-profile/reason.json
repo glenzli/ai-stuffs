@@ -1,0 +1,7 @@
+{
+  "reason": "Initial profile overlapped the final seconds of the independent generalization job. Preserve all original bytes; repeat the same frozen workload after all training jobs finish.",
+  "original_profile_start_utc": "2026-10-28T15:25:26.671278+00:00",
+  "original_profile_end_utc": "2026-10-28T15:25:28.242857+00:00",
+  "generalization_report_completed_utc": "2026-10-28T15:25:29.158005+00:00",
+  "training_and_reproduction_results_unchanged": true
+}

@@ -4,7 +4,7 @@ import path from "node:path";
 
 const sha = bytes => createHash("sha256").update(bytes).digest("hex");
 const esc = value => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
-const owners = { learning: ["learning-run"], failures: ["training-failures"], dynamics: ["initialization-width", "batch-noise"], output: ["chunked-cross-entropy"] };
+const owners = { learning: ["learning-run"], failures: ["training-failures"], dynamics: ["initialization-width", "batch-noise"], output: ["chunked-cross-entropy"], practice: ["generalization-analysis", "text-training-project", "reproducibility-lab", "training-step-profile"] };
 
 // Validate before replacing dist: an absent or modified source must fail the build.
 export async function verifyExperimentSources({ root = process.cwd(), manifest } = {}) {
@@ -65,7 +65,7 @@ export function renderExperimentSources(slug, experiments) {
     <details><summary>报告身份与复现实验</summary>
     <p>${esc(experiment.created_at)} · Python ${esc(runtime.python)} / PyTorch ${esc(runtime.torch)} / NumPy ${esc(runtime.numpy)} · ${esc(runtime.platform)}</p>
     <p>报告 SHA-256：<code>${assets.report.sha256}</code><br>工件包 SHA-256：<code>${assets.archive.sha256}</code></p>
-    <p>在仓库根目录使用固定依赖环境，输出到一个尚不存在的新目录：</p><pre class="decision-code"><code>${esc(experiment.command)}</code></pre>
+    <p>在仓库根目录使用固定依赖环境，输出到一个尚不存在的新目录：</p><pre class="decision-code" tabindex="0" aria-label="复现实验命令"><code>${esc(experiment.command)}</code></pre>
     <p>解压工件包后，可在实验目录运行 <code>shasum -a 256 -c SHA256SUMS</code>；在解压根目录运行 <code>shasum -a 256 -c SOURCE-SHA256SUMS</code> 核对运行时源码。相同配置在不同系统上可能产生不同浮点轨迹，CPU 耗时也只描述本次环境。</p>
     </details>
   </aside>`;

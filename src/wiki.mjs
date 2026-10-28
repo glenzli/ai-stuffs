@@ -11,7 +11,8 @@ export const wikiGroups = [
     ["transformer-evolution", "Transformer 演化"], ["model-case-studies", "公开模型案例"],
   ] },
   { title: "训练目标与优化", shortTitle: "目标与优化", nav: "training.html", pages: [
-    ["training", "训练回路"], ["learning-run", "小模型学习与泛化"], ["training-deep", "损失与梯度"], ["backpropagation", "整层反向传播"],
+    ["training", "训练回路"], ["learning-run", "小模型学习与泛化"], ["generalization-analysis", "长度泛化失败诊断"],
+    ["text-training-project", "自然语言小模型项目"], ["training-deep", "损失与梯度"], ["backpropagation", "整层反向传播"],
     ["optimization-dynamics", "优化与训练稳定性"], ["initialization-width", "初始化与宽度迁移"], ["batch-noise", "Batch 与梯度噪声"],
     ["simulator", "对比学习二维模拟"], ["continual-learning", "持续学习与任务干扰"], ["scaling-laws", "Scaling 与预算"],
   ] },
@@ -19,7 +20,7 @@ export const wikiGroups = [
     ["engineering", "工程全流程"], ["numerical-computing", "浮点与数值稳定"], ["tensor-layout", "张量布局与存储视图"],
     ["training-systems-deep", "并行与数值精度"], ["distributed-execution", "多卡张量与通信"], ["parallel-correctness", "并行计算正确性"],
     ["context-parallel", "上下文并行与梯度归还"], ["attention-kernels", "分块 Attention 与反传"],
-    ["activation-checkpointing", "激活重算与梯度缓存"], ["chunked-cross-entropy", "分块输出投影与交叉熵"], ["performance-analysis", "性能与瓶颈分析"],
+    ["activation-checkpointing", "激活重算与梯度缓存"], ["chunked-cross-entropy", "分块输出投影与交叉熵"], ["performance-analysis", "性能与瓶颈分析"], ["training-step-profile", "完整训练 step 实测"],
   ] },
   { title: "微调与后训练", shortTitle: "后训练", nav: "posttraining.html", pages: [
     ["posttraining", "后训练概览"], ["finetuning-recipe", "开源模型微调配方"], ["posttraining-deep", "后训练目标"],
@@ -31,7 +32,7 @@ export const wikiGroups = [
   ] },
   { title: "评估、诊断与复现", shortTitle: "评估与复现", nav: "model-evaluation.html", pages: [
     ["model-evaluation", "模型评估"], ["paired-evaluation", "配对统计与结果导入"], ["uncertainty-calibration", "不确定性与校准"],
-    ["model-artifacts", "工件与恢复"], ["training-failures", "训练故障与确定性回放"], ["engineering-cases", "工程诊断案例"],
+    ["model-artifacts", "工件与恢复"], ["reproducibility-lab", "复现差异定位"], ["training-failures", "训练故障与确定性回放"], ["engineering-cases", "工程诊断案例"],
   ] },
   { title: "模型能力与应用", shortTitle: "能力与应用", nav: "frontier.html", pages: [
     ["frontier", "能力与应用导航"], ["generation-mechanisms", "自回归、扩散与潜在空间"], ["multimodal", "多模态模型工程"],

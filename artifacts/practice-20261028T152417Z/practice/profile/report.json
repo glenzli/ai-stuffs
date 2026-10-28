@@ -1,0 +1,315 @@
+{
+  "schema": "full-step-profile-v1",
+  "frozen": {
+    "device": "cpu",
+    "dtype": "float64",
+    "warmups": 3,
+    "samples": 12,
+    "batch_size": 4,
+    "context": 96,
+    "methods": [
+      "dense",
+      "chunked-exact"
+    ],
+    "token_block": 64,
+    "vocab_block": 128,
+    "timing_order": "alternate method order each iteration; distinct models/optimizers with identical initial values and batch sequence",
+    "timing_scope": "pretokenized records collate + zero grad + hidden forward + output/loss + backward + clipping + AdamW; no disk input, tokenization, profiler or saved-tensor hooks in timed runs",
+    "parameter_tolerance": 1e-06,
+    "loss_tolerance": 1e-08
+  },
+  "rows": [
+    {
+      "method": "dense",
+      "stages_ms": {
+        "prepare_and_zero_grad": {
+          "median": 0.20245800000000003,
+          "min": 0.188833,
+          "max": 0.225833,
+          "samples": [
+            0.211333,
+            0.188833,
+            0.197833,
+            0.202333,
+            0.194667,
+            0.202583,
+            0.214333,
+            0.208875,
+            0.201708,
+            0.224208,
+            0.225833,
+            0.192875
+          ]
+        },
+        "model_forward": {
+          "median": 6.8615625,
+          "min": 6.525042,
+          "max": 7.072084,
+          "samples": [
+            6.967792,
+            6.525042,
+            6.964958,
+            6.996334,
+            6.897416,
+            6.881625,
+            6.688875,
+            6.746667,
+            6.8415,
+            7.072084,
+            6.751959,
+            6.634625
+          ]
+        },
+        "output_and_loss": {
+          "median": 0.7408334999999999,
+          "min": 0.715125,
+          "max": 0.753625,
+          "samples": [
+            0.747541,
+            0.71875,
+            0.749542,
+            0.752708,
+            0.744792,
+            0.749584,
+            0.716042,
+            0.717958,
+            0.753625,
+            0.736875,
+            0.733541,
+            0.715125
+          ]
+        },
+        "backward": {
+          "median": 10.340396,
+          "min": 9.939083,
+          "max": 10.974167,
+          "samples": [
+            10.163625,
+            9.939083,
+            10.529625,
+            10.282625,
+            10.559917,
+            10.132458,
+            10.974167,
+            10.543833,
+            10.60575,
+            10.324,
+            10.356792,
+            10.190292
+          ]
+        },
+        "clip_and_update": {
+          "median": 1.6271665,
+          "min": 1.476916,
+          "max": 1.96075,
+          "samples": [
+            1.61825,
+            1.528417,
+            1.883542,
+            1.53475,
+            1.622125,
+            1.593792,
+            1.87025,
+            1.778375,
+            1.96075,
+            1.800375,
+            1.632208,
+            1.476916
+          ]
+        },
+        "total": {
+          "median": 19.882229000000002,
+          "min": 18.900125,
+          "max": 20.463667,
+          "samples": [
+            19.708541,
+            18.900125,
+            20.3255,
+            19.76875,
+            20.018917,
+            19.560042,
+            20.463667,
+            19.995708,
+            20.363333,
+            20.157542,
+            19.700333,
+            19.209833
+          ]
+        }
+      },
+      "saved_storage": {
+        "peak_referenced_bytes": 13941512,
+        "peak_unique_storages": 55,
+        "save_requests": 62,
+        "live_bytes_after_backward": 0,
+        "full_score_shape_save_requests": 2,
+        "includes": "Unique backing storages referenced by tensors saved for backward, including H/W/bias and labels. Views share a storage and count once.",
+        "excludes": "Unsaved tiles and GEMM temporaries, gradient buffers, allocator allocated/reserved peaks, process RSS and GPU memory."
+      },
+      "supervised_tokens_per_second": 18990.45426741098
+    },
+    {
+      "method": "chunked-exact",
+      "stages_ms": {
+        "prepare_and_zero_grad": {
+          "median": 0.2070415,
+          "min": 0.180916,
+          "max": 0.300958,
+          "samples": [
+            0.205875,
+            0.208666,
+            0.201375,
+            0.192167,
+            0.189875,
+            0.224208,
+            0.185209,
+            0.248542,
+            0.300958,
+            0.208209,
+            0.208208,
+            0.180916
+          ]
+        },
+        "model_forward": {
+          "median": 6.9293545000000005,
+          "min": 6.575917,
+          "max": 7.075125,
+          "samples": [
+            6.575917,
+            6.960209,
+            6.596542,
+            7.023042,
+            6.812042,
+            6.792083,
+            6.721916,
+            7.022041,
+            7.075125,
+            7.009958,
+            7.046125,
+            6.8985
+          ]
+        },
+        "output_and_loss": {
+          "median": 2.6914795,
+          "min": 2.547083,
+          "max": 2.927833,
+          "samples": [
+            2.616833,
+            2.628833,
+            2.680375,
+            2.927833,
+            2.547083,
+            2.690125,
+            2.692834,
+            2.7545,
+            2.705167,
+            2.601667,
+            2.736125,
+            2.866584
+          ]
+        },
+        "backward": {
+          "median": 11.3854165,
+          "min": 10.931667,
+          "max": 11.805,
+          "samples": [
+            10.931667,
+            11.23375,
+            11.805,
+            11.368625,
+            11.672167,
+            10.967625,
+            11.086791,
+            11.447334,
+            11.402208,
+            11.213375,
+            11.454,
+            11.411041
+          ]
+        },
+        "clip_and_update": {
+          "median": 1.63075,
+          "min": 1.46825,
+          "max": 1.802917,
+          "samples": [
+            1.499958,
+            1.66875,
+            1.802917,
+            1.52225,
+            1.608583,
+            1.46825,
+            1.674,
+            1.545333,
+            1.472875,
+            1.66725,
+            1.652917,
+            1.713625
+          ]
+        },
+        "total": {
+          "median": 22.893041500000002,
+          "min": 21.83025,
+          "max": 23.097375,
+          "samples": [
+            21.83025,
+            22.700208,
+            23.086209,
+            23.033917,
+            22.82975,
+            22.142291,
+            22.36075,
+            23.01775,
+            22.956333,
+            22.700459,
+            23.097375,
+            23.070666
+          ]
+        }
+      },
+      "saved_storage": {
+        "peak_referenced_bytes": 12758784,
+        "peak_unique_storages": 55,
+        "save_requests": 62,
+        "live_bytes_after_backward": 0,
+        "full_score_shape_save_requests": 0,
+        "includes": "Unique backing storages referenced by tensors saved for backward, including H/W/bias and labels. Views share a storage and count once.",
+        "excludes": "Unsaved tiles and GEMM temporaries, gradient buffers, allocator allocated/reserved peaks, process RSS and GPU memory."
+      },
+      "supervised_tokens_per_second": 16578.334529297244
+    }
+  ],
+  "separate_overheads_ms": {
+    "evaluate": {
+      "median": 222.611958,
+      "min": 218.656916,
+      "max": 226.494625,
+      "samples": [
+        226.494625,
+        222.611958,
+        218.656916
+      ]
+    },
+    "checkpoint_write": {
+      "median": 15.700125,
+      "min": 15.398833,
+      "max": 16.756291,
+      "samples": [
+        16.756291,
+        15.398833,
+        15.700125
+      ]
+    }
+  },
+  "numerical_comparison": {
+    "loss_max_error": 8.881784197001252e-16,
+    "final_parameter_max_error": 3.028375363046715e-12,
+    "passed": true
+  },
+  "limits": [
+    "CPU double precision timing, not GPU or the float32 training throughput",
+    "saved storage references are not allocator/RSS/physical memory peaks",
+    "stage medians need not sum to the total median; raw paired per-step samples do sum",
+    "evaluation and writes measured separately; write timing does not guarantee fsync durability",
+    "no full model retraining quality claim from changing the CE implementation"
+  ]
+}

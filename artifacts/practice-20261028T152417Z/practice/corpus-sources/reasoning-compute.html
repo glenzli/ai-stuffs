@@ -1,0 +1,82 @@
+<div class="modern-page">
+  <section class="page-intro">
+    <div><p class="eyebrow">MODERN AI / REASONING</p><h1>CoT、Thinking 与<span class="accent-text">推理计算</span></h1><p class="lede">从“模型写了几步解释”，追到这些 token 怎样改变后续预测、监督怎样进入参数、额外计算又怎样变成可验证的收益。先分清可见文本、内部状态与最终答案。</p></div>
+    <aside class="intro-aside"><p class="micro-label">本页前提</p><p>已理解 token、causal attention 和交叉熵。CoT 将中间推理表达成序列，下面沿 token 生成与训练目标分析它的作用。</p></aside>
+  </section>
+  <div class="concept-strip"><span><strong>文本</strong> reasoning tokens</span><span><strong>参数</strong> 学到的生成策略</span><span><strong>激活</strong> 一次计算中的状态</span><span><strong>证据</strong> 正确率、预算与因果检验</span></div>
+
+  <section class="section" aria-labelledby="cot-definition"><div class="section-heading"><span class="section-number">01 / WHAT IS IT</span><h2 id="cot-definition">CoT 怎样表示中间推理？</h2></div>
+    <div class="prose"><p>Chain of Thought（思维链）是模型在答案前或答案之间生成的一串中间步骤，例如先列条件、做分解、算中间值，再给结论。原始 CoT prompting 的关键是给出“问题 → 推理步骤 → 答案”的示例，让同一个模型按这种模式继续生成；<strong>提示时不需要修改权重</strong>。</p><p>对自回归模型，中间步骤和答案一样是 token。已生成的步骤进入后续上下文，下一步可以注意到这些符号，相当于获得可读取的临时记录。更多步骤也意味着更多 forward、更多 KV 和更长延迟。每一步的正确性、作用和解释忠实性，需要分别检验。</p></div>
+    <figure class="math-block">
+      <div class="math-display" data-math>p_\theta(r,a\mid x)=p_\theta(r\mid x)\,p_\theta(a\mid x,r)</div>
+      <dl class="math-symbols"><div><dt>x</dt><dd>问题</dd></div><div><dt>r</dt><dd>中间推理序列</dd></div><div><dt>a</dt><dd>最终答案</dd></div><div><dt>θ</dt><dd>模型参数</dd></div></dl>
+      <figcaption>先生成推理，再在“问题 + 这条推理”的条件下生成答案。这是联合概率的链式分解，推理是否正确需另行验证。</figcaption>
+    </figure>
+    <details class="math-derivation"><summary>继续推导：一条推理的概率，怎样联系最终答案的概率？</summary>
+      <p>同一个答案可能由多条推理得到。若采用“先采样推理、再生成答案”的固定协议，最终答案的边缘概率需要对全部可能推理求和：</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+p_\theta(a\mid x)
+&amp;=\sum_r p_\theta(r,a\mid x)\\
+&amp;=\sum_r p_\theta(r\mid x)\,p_\theta(a\mid x,r).
+\end{aligned}</div><figcaption>这里假设推理段有明确结束标记，协议能终止，r 枚举完整推理序列。对不同生成协议，例如直接回答或带验证器选择，应分别定义对应的输出分布。</figcaption></figure>
+      <p>一个两路径示例：模型以 0.6 的概率选到 r₁，其中目标答案概率为 0.9；其余 0.4 选到 r₂，其中目标答案概率为 0.1。最终是 0.6×0.9+0.4×0.1=0.58。只展示 r₁ 后看到的 0.9，不能代表整个采样流程有 90% 的成功率。</p>
+      <p>真实推理序列太多，通常不能显式求和。多条采样、投票、搜索或验证器选择是不同近似或决策规则；挑出“最高分一条”也不等于计算这整个求和。</p>
+    </details>
+    <div class="compare-wrap"><table><thead><tr><th>看到的东西</th><th>它是什么</th><th>如何理解</th></tr></thead><tbody>
+      <tr><td>CoT 提示</td><td>上下文中的分步示例或指令，改变本次生成条件。</td><td>提示改变当前上下文，模型权重和结构保持原配置。</td></tr>
+      <tr><td><code>&lt;thinking&gt;</code> / <code>&lt;think&gt;</code></td><td>可能是训练模板中的专用标记、普通文本标签，或产品 UI 对推理通道的命名。由具体 tokenizer、协议与产品决定。</td><td>标签的作用取决于模型训练模板和产品协议，具体行为需查看对应实现。</td></tr>
+      <tr><td>界面展示的思考</td><td>可能是完整可见推理，也可能是摘要或经过筛选的展示。需要阅读该模型/产品说明。</td><td>展示文本覆盖了哪些计算，需要结合产品说明和模型内部研究判断。</td></tr>
+      <tr><td>hidden state / residual stream</td><td>每个位置、每一层的高维数值激活；即使直接答题也存在。</td><td>概念通常由多个维度共同表达；读出某种信息后，还可通过干预研究它的作用。</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section class="section" aria-labelledby="cot-supervision"><div class="section-heading"><span class="section-number">02 / HOW IT IS TRAINED</span><h2 id="cot-supervision">CoT 监督使用哪些数据和目标？</h2><p>训练记录可以写成 (问题 x，中间步骤 r，答案 a，验证结果 v)。不同算法使用其中不同字段。</p></div>
+    <div class="mechanism-flow"><div><span>01 / GENERATE</span><h3>得到候选轨迹</h3><p>人工解题、强教师生成、工具执行或当前策略采样。记录来源和完整上下文。</p></div><div><span>02 / VERIFY</span><h3>检查答案与步骤</h3><p>结果验证、可执行中间量、过程标注。最终答案和中间步骤分别检查。</p></div><div><span>03 / OPTIMIZE</span><h3>选择训练信号</h3><p>SFT 模仿 token；偏好比较轨迹；RL 用奖励加权策略更新。三者对轨迹的监督粒度和更新方式不同。</p></div><div><span>04 / EVALUATE</span><h3>固定预算比较</h3><p>新问题、相同输出预算、独立验证器；检查正确率、长度和停止行为。</p></div></div>
+    <div class="compare-wrap"><table><thead><tr><th>方法</th><th>监督与梯度</th><th>具体边界</th></tr></thead><tbody>
+      <tr><td>CoT SFT</td><td>将推理与答案拼成 s = r ⊕ a，对选定位置的 token 做 teacher-forced 交叉熵，下方给出带 mask 的目标。</td><td>先按模板区分 reasoning 与 answer；可分别加权、mask。长轨迹在全局 token 平均下权重更大，错步骤也会被模仿。</td></tr>
+      <tr><td>拒绝采样 + SFT</td><td>教师/策略生成多条轨迹，保留通过检查者，再做监督训练。</td><td>筛选改了数据分布；只留容易题、短答案或评分器喜欢的格式会产生偏差。</td></tr>
+      <tr><td>Outcome RL / RLVR</td><td>由最后结果给标量 reward，经 advantage 和 log-prob 更新采样策略。</td><td>通常不提供逐 token 的正确步骤标签。中间步骤如何得到信用取决于估计器、奖励位置与目标。</td></tr>
+      <tr><td>过程监督 / PRM</td><td>标注中间步骤正确性，训练 process reward model；可用于搜索评分，也可参与策略训练。</td><td>“步骤”切分、标注噪声和多种合法路径都要处理。过程评分需通过独立结果验证和路径对照检查。</td></tr>
+    </tbody></table></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+s &amp;= r\oplus a,\\
+\mathcal L_{\mathrm{SFT}}(\theta)
+&amp;=-\frac{1}{Z}\sum_{t=1}^{|s|}m_t\log p_\theta(s_t\mid x,s_{&lt;t}),\\
+Z&amp;=\sum_t m_t&gt;0.
+\end{aligned}</div><figcaption>mₜ∈{0,1} 表示该位置是否直接计 loss，Z 是本例的有效 token 分母。训练时模型根据示范前缀预测下一个 token，并在选定位置计 loss。跨样本/多卡的分母见<a href="parallel-correctness.html#global-objective">全局目标</a>。</figcaption></figure>
+    <div class="callout"><p><strong>只监督最终答案，模型会自动学到正确 CoT 吗？</strong>不保证。若中间推理 token 被 mask，它们没有直接 CE 标签，但仍可能作为后续条件产生梯度路径；若它们是离散采样得到的，仅对最终答案 CE 反传不能自动穿过采样操作，需要另一个训练设计。上下文的计算路径和产生离散 token 的采样过程，需要分别处理。</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="reasoning-budget"><div class="section-heading"><span class="section-number">03 / TEST-TIME COMPUTE</span><h2 id="reasoning-budget">多想一会儿，和多试几次，是两种预算</h2><p>串行修订把预算用于一条轨迹；并行采样需要选择器；树搜索还会反复评分和扩展分支。实际质量不只取决于生成多少 token。</p></div>
+    <div class="experiment"><div class="experiment-head"><h3>候选覆盖率与最终选中率</h3><span class="assumption">独立采样的教学概率模型</span></div><div class="experiment-body"><div class="experiment-controls">
+      <label><span>单条候选正确率 p <output data-reason-p-value></output></span><input type="range" min="5" max="90" step="5" value="30" data-reason-p></label>
+      <label><span>候选数 N <output data-reason-n-value></output></span><input type="range" min="1" max="16" value="4" data-reason-n></label>
+      <label><span>混合候选中选对概率 q <output data-reason-q-value></output></span><input type="range" min="0" max="100" step="5" value="70" data-reason-q></label>
+    </div><div class="experiment-view"><div class="metric-row"><div><span>至少一个正确</span><strong data-reason-coverage></strong></div><div><span>最终选中正确</span><strong data-reason-selected></strong></div><div><span>生成预算</span><strong data-reason-cost></strong></div></div><div class="horizontal-bars" data-reason-bars></div><p class="experiment-note" data-reason-note></p><figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+P_{\mathrm{cover}} &amp;=1-(1-p)^N,\\
+P_{\mathrm{select}} &amp;=p^N+q\bigl[1-(1-p)^N-p^N\bigr].
+\end{aligned}</div><figcaption>cover：候选中至少一条正确；select：最终选中正确答案。第二式把“全对”和“对错混合”两种事件分开计算。</figcaption></figure></div></div><p class="experiment-caption">q 只作用于“既有正确也有错误”的候选集；全对必选对，全错无法选对。现实样本会相关，q 会随 N 和难度变化；图中预算仅为等长生成次数，不含评分与调度。</p></div>
+    <div class="prose"><p>这张图说明了 pass@N 与部署成功率之间缺了一个选择器。多数投票可能强化共同错误，PRM 可能偏爱熟悉的步骤，验证器可能被格式钻空子。比较两种推理策略时，要一起记录输入难度、总生成 token、评分调用、工具耗时和最终选中答案的正确率。</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="internal-reasoning"><div class="section-heading"><span class="section-number">04 / INTERNAL REPRESENTATIONS</span><h2 id="internal-reasoning">潜在推理与 J-space：模型内部发生了什么？</h2></div>
+    <div class="concept-pairs"><div><h3>连续潜在空间推理</h3><p>Coconut 等研究将某步 hidden state 直接作为后续输入表示，让连续状态承载中间计算。采用这种回路需要相应的训练流程和执行方式。</p></div><div><h3>Anthropic 的 J-space</h3><p>Anthropic 在 2026-07-06 的研究中，用 Jacobian lens 识别了一组与概念相关的内部激活模式，并将它们称为 J-space。研究者观察模型能否报告和调控这些模式，再通过干预检验它们对任务结果的影响。</p></div><div><h3>观测、探针与干预</h3><p>探针从激活中预测某个概念，说明相关信息可以被读出。要了解这些信息是否参与了任务计算，还可以改变激活，观察结果怎样变化，并用对照实验检查影响是否来自特定表示。</p></div><div><h3>怎样读这些研究</h3><p>先看研究测了哪些模型和任务，再看干预改动了什么、行为变化有多大。一次实验能解释某种表示的作用；更广的结论还需要跨模型、跨任务复现。</p></div></div>
+    <div class="prose"><p>JEPA 的训练目标是在表示空间预测缺失部分。详见<a href="generation-mechanisms.html#latent-objectives">潜在空间与预测目标</a>。</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="reasoning-evidence"><div class="section-heading"><span class="section-number">05 / EVIDENCE</span><h2 id="reasoning-evidence">怎样评估推理能力的变化？</h2></div>
+    <div class="prose"><p>把“最终正确”“步骤正确”“解释忠实”“成本可接受”分开评价。同题换数字、换表述、交换无关信息、移除提示线索，能测试它是否依赖表面模式；未见过的组合和时间后移任务用于检查迁移，但没有单一基准能证明所有分布上的泛化。</p><p>对可见 CoT，正确解释可以是事后合理化；没有展示某因素也不证明模型没用它。要结合受控干预和行为测试。停止训练时，应结合预先定义的任务目标、回归指标与推理成本作判断。</p></div>
+    <div class="reading-links"><a href="rl-posttraining.html">PPO / GRPO 的更新机制</a><a href="distillation-data.html">Teacher 与轨迹蒸馏</a><a href="model-evaluation.html#generalization">泛化与训练停止判据</a><a href="scaling-laws.html#fit-evidence">Scaling Law 的实验来源</a></div>
+  </section>
+  <section class="section" aria-labelledby="rl-capability-evidence"><div class="section-heading"><span class="section-number">06 / RESEARCH COMPARISON</span><h2 id="rl-capability-evidence">RL 提升了什么？先把能力定义和实验条件对齐</h2></div>
+    <div class="prose"><p>“第一次更容易答对”“有限预算内能解更多题”“正确答案来自正确步骤”是三个不同问题。测量它们的指标和采样协议不同，因此研究可能对同一类训练给出不同解释。比较前先核对底座、算法、任务、长度预算与验证器。</p></div>
+    <div class="compare-wrap"><table><thead><tr><th>研究</th><th>主要实验视角</th><th>作者在所测范围内的结论</th><th>读者还需检查</th></tr></thead><tbody>
+      <tr><td>Yue 等，2025<br>Does RL Really Incentivize…<br>v5：2025-11-24</td><td>比较底座与 RLVR 后模型在不同 k 下的 pass@k，结合覆盖和概率分析。</td><td>所测配方在小 k 提升，而大 k 时底座可能覆盖更多题；作者认为这些训练主要利用底座已有的模式。</td><td>有限采样无法穷尽低概率能力；题目、采样温度、输出长度和推理格式都会影响可见覆盖。</td></tr>
+      <tr><td>Wen 等，2025<br>RLVR Implicitly Incentivizes…<br>v2：2025-10-02</td><td>重新检查 pass@k，并用同时关注最终答案与中间步骤的 CoT-Pass@K 分析推理。</td><td>作者在数学与代码实验中报告了正确推理质量及能力边界的改善，并给出结果奖励激励正确推理的理论分析。</td><td>步骤正确性如何判定，判分误差和理论假设是否适用；不同模型与训练设置需单独比较。</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>这两项工作可以帮助设计区分实验，不能合并成“所有 RL 都只能重排概率”或“所有 RL 都会获得新能力”的结论。证据应绑定明确版本与任务；后续训练规模、课程、环境交互和验证器变化，都值得另做实验。</p></div>
+    <div class="experiment"><div class="experiment-head"><h3>两道题，三类解题路径</h3><span class="assumption">人工概率 · 不复现论文实验</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>概率配置</span><select data-re-mode><option value="base">基线</option><option value="efficient">集中到较容易的题</option><option value="process">减少碰巧答对的路径</option></select></label><label><span>每题尝试次数 k <output data-re-k-value></output></span><input type="range" min="1" max="256" value="16" data-re-k></label><p class="experiment-note">路径分为步骤正确、步骤有误但答案正确、答案错误。所有路径概率都大于零，改变配置只改变其权重。</p></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>平均 pass@1</span><strong data-re-pass1></strong></div><div><span>平均 pass@k</span><strong data-re-passk></strong></div><div><span>单次步骤及答案正确</span><strong data-re-sound></strong></div></div><p class="experiment-note">答对条件下步骤正确的比例：<strong data-re-conditional></strong></p><div class="compare-wrap"><table><thead><tr><th>题目</th><th>步骤正确</th><th>碰巧答对</th><th>答案错误</th><th>Pass@k</th></tr></thead><tbody data-re-rows></tbody></table></div><p class="experiment-note" data-re-note></p></div></div><p class="experiment-caption">先按题计算 1−(1−p)ᵏ，再对两题等权平均；不能把平均 p 先代入非线性公式。步骤标签人工给定。这里的单次过程指标不是论文 CoT-Pass@K 的实现。</p></div>
+    <div class="concept-pairs"><div><h3>有限预算下的可用能力</h3><p>极低概率的正确路径可能在实际上无法找到。即使路径支持集保持不变，提高有限预算下的成功率也有工程价值；报告预算与选择成本。</p></div><div><h3>回答正确与步骤正确</h3><p>最终答案可能碰巧命中，正确思路也可能在最后算错。分别标记答案、过程和可执行中间量，验证器的可靠性也要评估。</p></div><div><h3>分布外能力需要新任务</h3><p>换数字、组合、题族、来源或环境，控制难度后比较。训练题族内覆盖增加，不能直接外推到所有新任务。</p></div><div><h3>同 k 还不等于同成本</h3><p>回答长度、工具调用、评分和搜索开销都可能不同。用相同 token/时间/算力预算的曲线补充 pass@k。</p></div></div>
+    <div class="reading-links"><a href="training-environments.html">环境与新训练信号</a><a href="uncertainty-calibration.html#semantic-entropy">正确性与输出一致性</a><a href="model-evaluation.html#agent-reliability">重复执行的统计口径</a></div>
+  </section>
+</div>

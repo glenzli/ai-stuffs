@@ -14,6 +14,7 @@ const root = process.cwd();
 const outDir = path.join(root, "dist");
 const globalStyles = ["tokens", "layout", "shared", "reading"];
 const featureExports = {
+  "practice-reports": "initPracticeReports",
   "home": "initHome",
   "representation": "initRepresentation",
   "representation-deep": "initRepresentationDeep",

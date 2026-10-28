@@ -1,5 +1,7 @@
 // References describe specific mechanisms; they are not claims of current rankings.
 export const sources = {
+  randomness29: { title: "PyTorch 2.9 · Reproducibility", url: "https://docs.pytorch.org/docs/2.9/notes/randomness.html", note: "2026-10-28 核对固定版本正文：控制随机源与确定性算法有适用环境，seed 不保证跨版本或平台逐值一致" },
+  lengthGeneralization: { title: "Exploring Length Generalization in Large Language Models (2022, v2)", url: "https://arxiv.org/abs/2207.04901v2", note: "2026-10-28 核对摘要与版本；作为长度外推问题的研究背景，本站符号任务与探针独立实现，未复现论文配方" },
   torch29Anomaly: { title: "PyTorch 2.9 · torch.autograd.detect_anomaly", url: "https://docs.pytorch.org/docs/2.9/autograd.html#torch.autograd.detect_anomaly", note: "本机 PyTorch 2.9.0 的完整 docstring 于 2026-10-28 读取：前向 traceback、反向 NaN 检查与调试开销；标签语义另验" },
   mup10: { title: "Microsoft μP · v1.0.0 author implementation", url: "https://github.com/microsoft/mup/tree/v1.0.0/mup", note: "固定作者实现的 readout、参数组、初始化与 base shapes；README 与安装源文件的实际核对范围见本轮尺度实验实施说明" },
   layerNormXiong: { title: "On Layer Normalization in the Transformer Architecture (ICML 2020)", url: "https://proceedings.mlr.press/v119/xiong20b.html", note: "PMLR 119:10524–10533；摘要与出版信息已核对，正文假设与本轮实验的对应范围见尺度实验实施说明" },
@@ -118,6 +120,10 @@ export const sources = {
 };
 
 export const pageEvidence = {
+  "generalization-analysis": { scope: "原有四符号反转任务及保存权重的独立诊断。EOS 约束使用已知任务答案长度；位置平移只作推理扰动。扩展支持训练对齐更新次数，监督 token 与计算量未对齐；三个 seed 的全部结果保留，不据此识别唯一根因。", refs: ["lengthGeneralization", "attention", "torch29Autograd"] },
+  "text-training-project": { scope: "本站 38 篇中文文档、按文档固定拆分的 byte BPE 与约 30 万参数 CPU decoder。Tokenizer 只拟合训练文档；完整 split 评估与原始 greedy 生成分别报告。近重复与语义独立性未证明；不代表通用语言能力或指令模型。", refs: ["bpeCourse", "attention", "ce", "torch29Autograd", "artifacts"] },
+  "reproducibility-lab": { scope: "单线程 CPU、同一固定环境中的 16 步受控探针，保存首次边界张量与后续误差。精度转换和数据顺序说明当前可观察差异；旧 seed 47 与重跑差异缺少旧轨迹，原因仍未定位。未运行跨系统或 GPU 对照。", refs: ["randomness29", "numericalAccuracy", "artifacts"] },
+  "training-step-profile": { scope: "约 30 万参数真实文本 decoder、CPU float64、同权重和 batch 序列，3 次预热与 12 次交替测量。计时不插 hooks；保存引用另测。先核对 loss 与连续更新，再解释整步时间；不包含 GPU 性能、磁盘读入或在线分词。", refs: ["profiler29", "torch29Autograd", "appleCCE", "roofline"] },
   "learning-run": { scope: "固定符号序列任务上的本地小型 decoder，独立拆分训练、验证、测试与长度外推。分别记录 teacher-forced loss、自由生成 token accuracy 和完整序列 exact match；实际报告的种子、环境、预算、恢复与缓存误差在专题内声明。", refs: ["attention", "torch29Autograd", "artifacts", "eval"] },
   "training-failures": { scope: "与学习实验共用小模型和任务，从相同 checkpoint、样本与随机状态回放单一故障。区分数值非有限、更新幅度异常和有限但错误的监督；修复以同一目标和正常对照核验，定向诊断不承担普遍根因判定。", refs: ["torch29Anomaly", "torch29Autograd", "artifacts"] },
   "initialization-width": { scope: "固定宽度的 decoder 深度/Norm/残差实验与固定深度的 MLP 宽度实验分别进行。记录初始化与更新后尺度、多个 seed、实际参数组与 readout 因子；μP 坐标检查与保留宽度的学习率验证只解释所测任务和预算。", refs: ["mup10", "mup", "layerNormXiong", "torch29Autograd"] },

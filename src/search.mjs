@@ -1,4 +1,8 @@
 export const searchMetadata = {
+  "generalization-analysis.html": { summary: "同权重的 EOS 约束与位置扰动、长度支持扩展训练、三 seed 逐题预测与预算混杂", terms: "长度泛化 失败诊断 EOS 位置 外推 长序列 训练支持 generalization length position probe", priority: 10 },
+  "text-training-project.html": { summary: "38 篇中文文档的 byte BPE、小模型从零训练、完整评估、原始生成和新进程恢复", terms: "自然语言 中文 小模型 项目 从零训练 tokenizer BPE 数据 划分 损失 生成 交付 text project language model resume", priority: 10 },
+  "reproducibility-lab.html": { summary: "同 seed 同初值与输入的精度和顺序对照，定位首个可观察差异，保留历史未知原因", terms: "复现 差异 定位 seed 精度 浮点 数据顺序 reproducibility randomness divergence float32 float64", priority: 10 },
+  "training-step-profile.html": { summary: "完整小模型 step 的前向、输出层、反向和更新耗时，精确分块 CE 的整步收益", terms: "完整训练 step 性能 瓶颈 实测 profiler CPU 吞吐 交叉熵 分块 full step profile", priority: 10 },
   "learning-run.html": { summary: "真实 decoder 学习曲线、teacher-forced loss、自由生成、独立组合与长度外推、恢复和缓存核验", terms: "learning run decoder reversal teacher forcing token accuracy exact match held out generalization seed checkpoint cache 学习 训练 反转 泛化 自由生成 未见组合 长度外推 拆分 恢复 实测 报告", priority: 10 },
   "training-failures.html": { summary: "同 checkpoint 与输入回放数值异常、过大学习率、有限但错位的监督，并核验受控修复", terms: "training failure replay anomaly NaN infinity checkpoint RNG labels alignment learning rate hooks activation RMS gradient 故障 回放 异常 首个差异 数值 监督 错位 修复 学习率", priority: 10 },
   "initialization-width.html": { summary: "深度、Norm 与残差的尺度实测，以及标准/μP 参数组、readout、坐标检查和保留宽度迁移", terms: "initialization width depth residual pre ln post ln layer norm RMS mup μP maximal update parameterization readout fan in coordinate check learning rate 初始化 宽度 深度 残差 尺度 参数组 方差 学习率迁移", priority: 10 },

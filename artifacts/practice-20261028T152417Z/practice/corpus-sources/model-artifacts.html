@@ -1,0 +1,161 @@
+<section class="page-intro">
+      <div>
+        <p class="eyebrow">ENGINEERING EXTENSION / ARTIFACTS</p>
+        <h1>模型工件：<span class="accent-text">配置、权重与恢复状态</span></h1>
+        <p class="lede">
+          权重只是其中一部分。config 决定张量形状，tokenizer 决定输入的 ID，safetensors 分片承载参数，
+          generation config 决定推理行为，训练 checkpoint 还要保存优化器、scheduler、RNG 与数据游标。
+        </p>
+      </div>
+      <aside class="intro-aside">
+        <p class="micro-label">模型工程师的日常问题</p>
+        <p>“这个 loss 是哪个 commit、哪份数据、哪个 tokenizer、哪份权重恢复出来的？”实验记录应能追溯到这些版本。</p>
+      </aside>
+    </section>
+
+    <section class="section compact" aria-labelledby="bundle-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+          <h2 id="bundle-title">一个部署模型目录里有什么？</h2>
+        </div>
+        <p class="section-note">点击文件，查看它在训练、推理与恢复中的责任。不同框架文件名会变，但依赖关系基本不变。</p>
+      </div>
+
+      <div class="artifact-browser">
+        <div class="artifact-tree" role="group" aria-label="模型工件文件">
+          <button type="button" data-artifact="config" aria-pressed="true"><code>config.json</code><span>结构参数</span></button>
+          <button type="button" data-artifact="tokenizer" aria-pressed="false"><code>tokenizer.json</code><span>文本 ↔ token</span></button>
+          <button type="button" data-artifact="safetensors" aria-pressed="false"><code>model.safetensors</code><span>权重分片</span></button>
+          <button type="button" data-artifact="index" aria-pressed="false"><code>model.safetensors.index.json</code><span>张量 → shard</span></button>
+          <button type="button" data-artifact="generation" aria-pressed="false"><code>generation_config.json</code><span>采样 / 停止</span></button>
+          <button type="button" data-artifact="optimizer" aria-pressed="false"><code>optimizer.pt / shards</code><span>恢复训练</span></button>
+          <button type="button" data-artifact="trainer" aria-pressed="false"><code>trainer_state.json</code><span>step / schedule</span></button>
+          <button type="button" data-artifact="manifest" aria-pressed="false"><code>run_manifest.json</code><span>版本与哈希</span></button>
+        </div>
+        <div class="artifact-detail" aria-live="polite">
+          <p class="micro-label" data-artifact-kicker>MODEL CONFIG</p>
+          <h3 data-artifact-title>先定义权重该长什么样</h3>
+          <p data-artifact-copy>
+            hidden size、层数、heads、KV heads、FFN 宽、词表、RoPE、Norm 和 tied embedding 都从 config 读取。加载权重前如果 architecture 不一致，形状会直接不匹配。
+          </p>
+          <div class="artifact-facts">
+            <div><span>部署需要</span><p data-artifact-deploy>必须</p></div>
+            <div><span>恢复训练需要</span><p data-artifact-resume>结构侧必须；还需数据/优化器状态</p></div>
+            <div><span>常见故障</span><p data-artifact-risk>config 与 checkpoint 版本不一致，权重能下载但 forward 形状错误。</p></div>
+          </div>
+          <div class="artifact-snippet">
+            <pre><code data-artifact-code>{
+  "hidden_size": 4096,
+  "num_hidden_layers": 32,
+  "num_attention_heads": 32,
+  "num_key_value_heads": 8
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="config-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2 id="config-title">config 中哪些字段决定模型结构？</h2>
+        </div>
+        <p class="section-note">这些字段能解释参数量、显存与推理行为。可据此核对配置与权重是否匹配。</p>
+      </div>
+
+      <div class="config-field-grid">
+        <div><code>hidden_size</code><strong>残差宽度 d</strong><p>注意力/MLP 接口宽度，影响矩阵与激活形状。</p></div>
+        <div><code>num_hidden_layers</code><strong>block 堆叠次数 L</strong><p>参数量、激活与 KV 层数都按 L 增长。</p></div>
+        <div><code>num_attention_heads</code><strong>query heads</strong><p>决定并行 head 数和 Q/O 投影宽度。</p></div>
+        <div><code>num_key_value_heads</code><strong>KV heads</strong><p>决定 K/V 投影和推理 KV Cache 大小。</p></div>
+        <div><code>intermediate_size</code><strong>FFN 宽度</strong><p>dense 或每 expert MLP 的中间维度。</p></div>
+        <div><code>vocab_size</code><strong>词表大小</strong><p>embedding 行数、LM head 宽度和 softmax 成本。</p></div>
+        <div><code>rope_theta</code><strong>RoPE 频率尺度</strong><p>影响位置旋转的频率尺度及长上下文行为。</p></div>
+        <div><code>tie_word_embeddings</code><strong>输入/输出共享</strong><p>省参数，但输入查表与输出预测统计互相耦合。</p></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="checkpoint-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">03</span>
+          <h2 id="checkpoint-title">推理加载与训练恢复各需要什么</h2>
+        </div>
+        <p class="section-note">文本推理需要结构、权重及匹配的 tokenizer/模板；恢复原训练轨迹还依赖优化器、调度器、随机数和数据位置。</p>
+      </div>
+
+      <div class="resume-vs-deploy">
+        <article>
+          <span>DEPLOYMENT BUNDLE</span>
+          <h3>推理所需</h3>
+          <ul>
+            <li>config + architecture code</li>
+            <li>tokenizer / chat template / special tokens</li>
+            <li>safetensors shards + index</li>
+            <li>generation config / stopping</li>
+            <li>precision / quantization metadata</li>
+          </ul>
+        </article>
+        <article>
+          <span>TRAINING CHECKPOINT</span>
+          <h3>继续训练还要</h3>
+          <ul>
+            <li>模型权重与 optimizer state</li>
+            <li>scheduler / step / grad accumulation</li>
+            <li>RNG / data sampler cursor</li>
+            <li>data mixture / tokenizer / shard hashes</li>
+            <li>parallelism / precision / kernel config</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout">
+        <p><strong>恢复要和未中断基线比较：</strong>从同一 checkpoint、数据位置与随机状态各走相同步数，比较 loss、grad norm、LR 与参数差异。改变硬件、并行切分或非确定性 kernel 后，不一定逐位一致，需声明数值容差。优先在 optimizer step 边界保存；在累积中途保存还必须包含已累积梯度及进度。</p>
+      </div>
+    </section>
+
+    <div class="modern-page">
+    <section class="section" aria-labelledby="checkpoint-replay"><div class="section-heading"><span class="section-number">EXPERIMENT / RESUME</span><h2 id="checkpoint-replay">恢复之后，能否继续同一条参数轨迹？</h2><p>运行八步小型 Transformer 训练，在指定更新边界保存状态。完整恢复与遗漏状态各自从保存点继续；对照连续运行的相同步数，观察第一次偏差。</p></div>
+      <div class="prose"><p>模型复用<a href="backpropagation.html">整层反传页</a>的两位置、hidden=2、FFN=3、三类词表 block，训练全部权重和两个 RMSNorm 的缩放参数。四个固定样本按顺序循环，每次输入加入 [−0.05,0.05) 的小扰动；随机源使用明确的整数状态。</p><p>优化器为 AdamW：β₁=0.9、β₂=0.99、ε=10⁻⁸、衰减 0.01；η=0.015/(1+0.15u)，u 是此前完成的更新数。只有末位置监督，输入本身不作为可训练参数。所有读数来自实际前向、解析反传与更新。</p></div>
+      <details><summary>四个训练样本与输入扰动规则</summary><div class="compare-wrap"><table class="chain-table"><thead><tr><th>样本</th><th>两位置输入（扰动前）</th><th>末位置目标 ID</th></tr></thead><tbody data-cr-data></tbody></table></div><p>初始随机状态 s=20261027。每次更新状态为 s′=(1664525×s+1013904223) mod 2³²，得到均匀数 u=s′/2³²，再用 0.05×(2u−1) 扰动一个输入元素。按矩阵行顺序消费四个随机数，保存时记录最后的整数状态；样本顺序为 A→B→C→D→A。</p></details>
+      <div class="experiment"><div class="experiment-head"><h3>连续训练与断点恢复</h3><span class="assumption">真实小模型更新 · 双精度 · 固定数据</span></div><div class="experiment-body"><div class="experiment-controls recipe-controls"><label><span>保存点：完成几次更新</span><select data-cr-cut><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label><label><span>恢复方式</span><select data-cr-omission><option value="none">完整恢复</option><option value="optimizer">遗漏 Adam 状态</option><option value="scheduler">遗漏学习率计数</option><option value="rng">遗漏随机状态</option><option value="data">遗漏数据游标</option><option value="weights-only">仅恢复权重</option></select></label><p class="experiment-note">保存发生在 optimizer step 完成后，没有待累积梯度。RNG 使用 32 位线性同余状态，每条样本消费四个随机数；不复现 PyTorch RNG。</p></div><div class="experiment-view" aria-live="polite"><div class="metric-row chain-metrics"><div><span>保存边界</span><strong data-cr-saved></strong></div><div><span>首次参数偏差（容差 10⁻¹²）</span><strong data-cr-first></strong></div><div><span>恢复后各步的最大参数差</span><strong data-cr-error></strong></div></div><div class="compare-wrap"><table><thead><tr><th>总步数</th><th>样本：基线 / 恢复</th><th>LR：基线 / 恢复</th><th>Loss：基线 / 恢复</th><th>梯度范数：基线 / 恢复</th><th>更新后参数差</th></tr></thead><tbody data-cr-rows></tbody></table></div><details><summary>保存状态与恢复瞬间的状态</summary><div class="compare-wrap"><table class="chain-table"><thead><tr><th>状态</th><th>保存值</th><th>恢复值</th></tr></thead><tbody data-cr-state-rows></tbody></table></div></details><p class="experiment-note" data-cr-note></p></div></div><p class="experiment-caption">权重经 JSON 序列化再恢复；Adam m/v 与步数同时保存。相同运行环境下完整恢复逐值一致。遗漏数据游标若刚好落在循环边界，本例可能仍一致；这只反映四样本顺序循环的条件。</p></div>
+      <div class="concept-pairs"><div><h3>相同 loss 只验证了当前前向</h3><p>清空 Adam 状态时，第一次恢复前向仍可能得到相同 loss 和梯度。动量与偏置校正不同会改变随后的参数更新，偏差从更新后开始显现。</p></div><div><h3>随机状态需要与消费位置一致</h3><p>相同种子能重建随机序列，恢复训练还需要回到该序列的正确位置。本例保存 RNG 整数状态；真实数据 worker、设备和随机算子可能拥有不同随机源。</p></div><div><h3>数据游标与采样器各有职责</h3><p>本例无 shuffle，仅记录已读样本数。实际训练还可能需要 epoch、采样器置换、worker 进度、数据版本和累积窗口位置，才能解释后续读取的样本。</p></div><div><h3>比较读数必须使用同一时点</h3><p>表格先记录输入、学习率、loss 与梯度范数，再执行更新，最后比较参数。恢复瞬间的参数相同只是起点，应继续比较后续轨迹。</p></div></div>
+    </section>
+    <section class="section" aria-labelledby="cpu-training-lab"><div class="section-heading"><span class="section-number">CPU LAB / REPRODUCIBLE RUN</span><h2 id="cpu-training-lab">在本机运行同一训练与恢复实验</h2><p>项目提供零额外依赖的 Node CPU 实验。它运行连续基线，写出 checkpoint，再为每种恢复方式启动一个新进程，与页面使用的计算逐项核对。</p></div>
+      <pre class="chain-code"><code>npm run lab:cpu
+# 可指定一份新的输出目录
+npm run lab:cpu -- --out-dir /tmp/embedding-cpu-lab</code></pre>
+      <div class="prose"><p>输出包含 checkpoint.json、uninterrupted.json、六种 resume-*.json 和 report.json，记录输入、随机状态、loss、梯度范数、参数、运行环境与首次偏差。默认每次创建新的时间戳目录。完整恢复断言失败会以非零状态退出。</p><p>这个实验使用本站的 JavaScript 小模型和解析梯度，主要验证计算与状态恢复。它不下载预训练模型，也不代表 PyTorch、CUDA AMP 或真实分布式训练的性能与泛化结果。缓存对照另用位置页的四维 Attention 配置。</p></div>
+      <div class="reading-links"><a href="backpropagation.html#gradient-check">解析梯度与有限差分</a><a href="numerical-computing.html#mixed-precision-update">混合精度的更新状态</a><a href="finetuning-recipe.html#sample-delivery">样本分发与数据游标</a><a href="position-cache.html">位置与缓存一致性</a></div>
+    </section>
+    </div>
+    <!-- learning-dynamics contextual links -->
+<div class="modern-page"><p>带完整序列任务的工件对照见<a href="learning-run.html">小模型学习与恢复实验</a>；同 checkpoint、输入与 RNG 的定向回放见<a href="training-failures.html">真实故障实验</a>。</p></div>
+    <section class="section" aria-labelledby="provenance-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-number">04</span>
+          <h2 id="provenance-title">工件链的最小版本清单</h2>
+        </div>
+        <p class="section-note">数据顺序、tokenizer、并行和精度设置都会影响复现，需要与代码版本一同保存。</p>
+      </div>
+
+      <div class="provenance-flow">
+        <div><span>DATA</span><strong>shard + mixture + cursor</strong><p>内容哈希、采样顺序与已消费位置。</p></div>
+        <div><span>TOKEN</span><strong>tokenizer + template</strong><p>vocab、normalization、special tokens、EOS。</p></div>
+        <div><span>MODEL</span><strong>config + init + revision</strong><p>结构、初始化来源、代码 commit。</p></div>
+        <div><span>RUN</span><strong>seed + precision + optimizer</strong><p>学习率、accumulation、并行、kernel。</p></div>
+        <div><span>EVAL</span><strong>suite + contamination</strong><p>测试版本、切片、judge 与指标。</p></div>
+        <div><span>EXPORT</span><strong>quantization + index</strong><p>合并/转换、归一化、服务与回滚点。</p></div>
+      </div>
+    </section>
+
+    <section class="section next-lesson">
+      <div>
+        <p class="eyebrow">NEXT / RUN IT ACROSS DEVICES</p>
+        <h2>当一张卡放不下：并行、精度、activation 与通信如何组合？</h2>
+      </div>
+      <a class="button button-primary" href="training-systems-deep.html">进入训练系统深入 →</a>
+    </section>

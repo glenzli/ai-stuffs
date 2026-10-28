@@ -1,0 +1,13 @@
+{
+  "steps": 16,
+  "seed": 11,
+  "batch": 2,
+  "input_limit": 48,
+  "same_initial_weights": true,
+  "cases": [
+    "repeat-float32",
+    "cast-float64",
+    "changed-data-order"
+  ],
+  "historical_cause": "unresolved; old complete checkpoint/trace artifacts unavailable"
+}

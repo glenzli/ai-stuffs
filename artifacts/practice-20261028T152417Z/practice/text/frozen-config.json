@@ -1,0 +1,26 @@
+{
+  "seeds": [
+    11,
+    29,
+    47
+  ],
+  "training": {
+    "updates": 800,
+    "batch_size": 8,
+    "context": 96,
+    "lr": 0.002,
+    "weight_decay": 0.01,
+    "clip_norm": 1.0,
+    "eval_every": 100,
+    "dropout": 0,
+    "selection": "final fixed budget; no early stopping, test selection or after-test tuning"
+  },
+  "bpe_merges": 128,
+  "prompts": [
+    "模型训练",
+    "梯度",
+    "数据"
+  ],
+  "corpus_sha256": "00cddb385b14e2f707da2ca45cc77ac13192f3580be592763cafceda952b4096",
+  "no_downloads": true
+}

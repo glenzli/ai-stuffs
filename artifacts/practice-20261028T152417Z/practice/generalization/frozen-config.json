@@ -1,0 +1,16 @@
+{
+  "seeds": [
+    11,
+    29,
+    47
+  ],
+  "updates": 1200,
+  "batch_size": 64,
+  "lr": 0.003,
+  "weight_decay": 0.01,
+  "clip_norm": 1.0,
+  "checkpoint_selection": "final fixed budget; no held-out tuning or early stopping",
+  "support_intervention": "append disjoint training groups at lengths 6..8; identical optimizer-update budget, NOT identical token/FLOP budget",
+  "eos_probe": "suppress EOS before record target length; task-aware diagnostic policy, not the original model's unconstrained generation",
+  "position_probe": "shift fixed sinusoidal position signals by +4 at inference; input perturbation, not retraining a different positional architecture"
+}
