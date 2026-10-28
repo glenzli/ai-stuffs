@@ -1,0 +1,57 @@
+{
+  "schema": "experiment-candidate-v1",
+  "base_manifest_sha256": "f368e820f57318ec40cd735bb5cffd0110f572e00f8c807f5b60092b3950d8e4",
+  "bundle_root": "artifacts/extension-20261029T022617Z/retrieval",
+  "entry": {
+    "id": "retrieval",
+    "title": "真实中文文档、Embedding 与索引检索实战",
+    "pages": [
+      "retrieval-project"
+    ],
+    "schema": "wiki-retrieval-v1",
+    "status": "passed",
+    "runtime": {
+      "python": "3.12.13",
+      "platform": "macOS-27.0.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "device": "cpu",
+      "threads": 1,
+      "torch": "2.9.0",
+      "numpy": "2.3.4",
+      "faiss-cpu": "1.12.0",
+      "transformers": "4.57.1",
+      "tokenizers": "0.22.1",
+      "safetensors": "0.6.2",
+      "huggingface-hub": "0.36.0"
+    },
+    "created_at": "2026-10-29T02:31:24.191Z",
+    "command": "node scripts/run-evidence-extension.mjs --out-dir artifacts/extension-my-run",
+    "report": {
+      "path": "artifacts/extension-20261029T022617Z/retrieval/retrieval/report.json",
+      "bytes": 865324,
+      "sha256": "c741220f4cf52778aef2f03a264cf3777fa20d4b6de10d349173f05b22bffef0"
+    },
+    "archive": {
+      "path": "artifacts/extension-20261029T022617Z/retrieval/downloads/retrieval-sources.tar.gz",
+      "bytes": 62080496,
+      "sha256": "8ee54cc6defe3bc416b95b2f0180591b37c4a3664e62dc01c5e73ccc8c600c8e"
+    },
+    "checksums": {
+      "path": "artifacts/extension-20261029T022617Z/retrieval/retrieval/SHA256SUMS",
+      "bytes": 2051,
+      "sha256": "eb85ba0a3f6106cc8bf6e286e48c45fcfcaaa9d6f417acc7e1a595055ced83bb"
+    },
+    "source": {
+      "path": "artifacts/extension-20261029T022617Z/retrieval/SOURCE-SHA256SUMS",
+      "bytes": 527,
+      "sha256": "18e3c0c15143b07fef61c814157ca979a31ceb86b5b025fc37f10106fa7165eb"
+    },
+    "bundle_root": "artifacts/extension-20261029T022617Z/retrieval"
+  },
+  "projection": {
+    "path": "artifacts/extension-20261029T022617Z/retrieval/retrieval/page-data.js",
+    "bytes": 627305,
+    "sha256": "e4d748b729f95b821812d5017e5b782b534879a2cf82f008db15d861d58a06b8",
+    "target": "src/scripts/features/retrieval-data.js"
+  }
+}

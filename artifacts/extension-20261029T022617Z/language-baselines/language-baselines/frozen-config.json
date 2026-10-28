@@ -1,0 +1,14 @@
+{
+  "models": [
+    "unigram",
+    "bigram"
+  ],
+  "alpha_candidates": [
+    0.01,
+    0.1,
+    1.0
+  ],
+  "selection": "validation CE only; tie selects first candidate",
+  "target": "same saved 387-token vocabulary and every shifted non-padding label, including document EOS",
+  "test_policy": "evaluate only after alpha selection; no outcome-driven adjustment"
+}

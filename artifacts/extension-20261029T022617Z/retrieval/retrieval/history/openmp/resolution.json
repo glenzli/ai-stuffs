@@ -1,0 +1,6 @@
+{
+  "failure": "two OpenMP runtimes in one Python process",
+  "resolution": "separate encoder process from Faiss/NumPy indexing process",
+  "unsafe_override_used": false,
+  "measurements_before_failure": false
+}

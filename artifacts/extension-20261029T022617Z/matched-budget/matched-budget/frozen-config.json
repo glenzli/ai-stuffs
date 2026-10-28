@@ -1,0 +1,20 @@
+{
+  "seeds": [
+    11,
+    29,
+    47
+  ],
+  "supervised_token_budget": 410000,
+  "batch_size": 64,
+  "lr": 0.003,
+  "weight_decay": 0.01,
+  "clip_norm": 1.0,
+  "support": [
+    "short-2-5",
+    "extended-2-8"
+  ],
+  "selection": "final fixed consumed-label budget, no test tuning",
+  "final_batch": "keep row-major labels until the exact remaining budget, set all other labels to -100; log discarded labels",
+  "matched": "supervised labels and initial weights",
+  "not_matched": "optimizer updates, input/padding positions, FLOPs, length distribution and unique groups"
+}

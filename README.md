@@ -1,10 +1,12 @@
 # 模型工程 Wiki
 
-当前五个实测页面的完整来源登记在 `src/experiment-sources.json`。学习、故障回放、
+当前八组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
 初始化/宽度/Batch、分块交叉熵已重新运行，报告与原始工件保存在
 `artifacts/reproduced-20261028T115030Z/`。页面提供完整报告、源码与原始工件包、
 SHA-256 校验表；构建前核对这些文件，缺失或被修改时停止构建。
 来源迁移、当前结果和验证步骤见 [实验来源核验记录](docs/experiment-reproduction-2026-10-28.md)。
+新增语言基线、同监督 token 预算训练与真实中文检索的证据保存在
+`artifacts/extension-20261029T022617Z/`，见 [五项扩展与核验](docs/evidence-extension-2026-10-29.md)。
 
 ```sh
 npm run check
@@ -100,7 +102,7 @@ src/
 
 ## 页面地图
 
-目前共 65 页，页面正文、目录、搜索与适用范围逐页对应。
+目前共 66 页，页面正文、目录、搜索与适用范围逐页对应。
 
 - `training-engineer-guide.html`：建议的总入口、七个工程契约、生命周期和问题雷达
 - `index.html`：Embedding 与训练全局路径
@@ -366,7 +368,7 @@ checkpoint 和输入的实际事件及修复比较。尺度与 batch 报告分�
 所有新验收记录放入独立 `artifacts/learning-dynamics-qa/`，保留已有轮次；最终结果与
 已覆盖范围见 `docs/learning-dynamics-acceptance-2026-10-28.md`。
 
-## 四项可运行实战
+## 五项可运行实战
 
 沿六步学习路线进入以下实测专题，页面均链接到同一份完整来源包：
 
@@ -374,6 +376,10 @@ checkpoint 和输入的实际事件及修复比较。尺度与 batch 报告分�
 - `text-training-project.html`：38 篇本站中文文档、训练集专用 byte BPE、约 30 万参数 decoder；训练、完整评估、原始生成、保存与新进程恢复。
 - `reproducibility-lab.html`：对齐初值和输入，记录精度及数据顺序变化后的首个可观察差异；历史 seed 47 变化仍未定位原因。
 - `training-step-profile.html`：同一模型的完整 step 阶段计时、保存引用与精确分块 CE 对照，先核验数值再解释性能。
+- `retrieval-project.html`：877 个真实段落、36 个预先标注的问题、固定 BGE 编码器、BM25、真实 Flat/IVF 索引与候选内 RRF 排名融合。
+
+文本项目另提供同 tokenizer 的 unigram/bigram 基线；泛化页另提供三 seed、每次恰好
+410,000 个监督 token 的长度支持对照。五页均有预测题、返回主线和可复制的实验选项链接。
 
 ```bash
 npm run test:practice
@@ -383,8 +389,16 @@ npm run lab:practice -- --out-dir artifacts/practice-my-run
 沿用固定的 `.venv-framework` 环境；重跑包含三 seed 的两组训练，需要数分钟。
 输出目录必须尚不存在。runner 复用保存的语料和原始 HTML，避免 Wiki 后续文案变化改变训练输入；
 `export-text-corpus.mjs` 可单独导出当前页面，但那是另一份数据，不能替代本轮冻结来源。
-实验脚本不会下载外部语料、预训练模型或 tokenizer。再次运行会生成新报告和页面数据，
-并更新对应来源清单；旧工件保留。复制到新项目时，需要一并保留原反转实验的完整来源。
+这四项原始实战的脚本不会下载外部语料、预训练模型或 tokenizer。再次运行只生成新报告、
+页面数据候选和 `candidate.json`，不修改当前来源清单或页面默认值。检查后显式采纳：
+
+```bash
+npm run accept:experiment -- --candidate artifacts/practice-my-run/candidate.json
+```
+
+采纳会一起更新来源清单、页面投影和工件保留规则；写入失败会回滚，进程中断可用
+`npm run accept:experiment -- --recover` 恢复。旧工件保留；采纳本地结果不执行 Git 提交。
+复制到新项目时，需要一并保留原反转实验的完整来源。
 
 加载已保存文本模型：
 
@@ -401,6 +415,28 @@ CLI 按同一包的 `SHA256SUMS` 核对权重与 tokenizer 身份，再用固定
 不会重新训练 800/1,200 步。报告的通过状态表示声明的链路核验通过，语言生成仍不连贯，
 长度 9–10 的外推仍失败，CPU double 时间也不代表 GPU 性能。
 实现和验证范围见 [四项实战说明](docs/practice-expansion-2026-10-28.md)。
+
+### 新增实验证据
+
+语言基线和等预算训练沿用 `.venv-framework`；中文检索使用单独的可选环境：
+
+```bash
+python3.12 -m venv .venv-retrieval
+.venv-retrieval/bin/python -m pip install -r scripts/retrieval-requirements.txt
+npm run test:evidence
+npm run lab:evidence -- --out-dir artifacts/extension-my-run
+```
+
+固定版本是本轮复现参考。检索默认使用已保存来源包中的 BGE 权重与 tokenizer，离线运行；
+需要另取原始模型时，可用 `scripts/download-retrieval-model.py --out-dir <新模型目录>`，
+它只下载固定提交并校验发布者提供的权重哈希。`RETRIEVAL_PYTHON` 可指定兼容 Python，
+runner 的 `--model-directory` 可指定另一份相同版本的本地模型。
+
+`lab:evidence` 支持 `--only language-baselines`、`--only matched-budget` 或 `--only retrieval`。
+每个子目录分别生成候选；核对后可把多个 `candidate.json` 一起传给 `accept:experiment`。
+重跑不覆盖已有目录，也不自动采纳。`test:evidence` 从完整报告和保存的概率计数、权重、
+向量、模型、索引独立复算，不重新训练全部模型；它会抽样重新编码真实输入。
+详细命令、结论边界和失败记录见 [五项扩展与核验](docs/evidence-extension-2026-10-29.md)。
 
 ## 内容质量约定
 

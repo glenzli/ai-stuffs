@@ -14,6 +14,10 @@ const root = process.cwd();
 const outDir = path.join(root, "dist");
 const globalStyles = ["tokens", "layout", "shared", "reading"];
 const featureExports = {
+  "language-baselines": "initLanguageBaselines",
+  "matched-budget": "initMatchedBudget",
+  "retrieval-project": "initRetrievalProject",
+  "experiment-check": "initExperimentCheck",
   "practice-reports": "initPracticeReports",
   "home": "initHome",
   "representation": "initRepresentation",
@@ -167,6 +171,12 @@ const searchName = `search-index.${hash(searchSource)}.js`;
 await writeFile(path.join(outDir, "assets/js/data", searchName), searchSource);
 const featureNames = new Map();
 const pendingFeatures = new Set();
+const reportSharedNames = new Map();
+for (const slug of ["experiment-ui", "experiment-view"]) {
+  const source = await read(`src/scripts/${slug}.js`), name = `${slug}.${hash(source)}.js`;
+  reportSharedNames.set(slug, name);
+  await writeFile(path.join(outDir, "assets/js", name), source);
+}
 async function writeFeature(slug) {
   if (featureNames.has(slug)) return featureNames.get(slug);
   if (pendingFeatures.has(slug)) throw new Error(`Circular feature dependency: ${slug}`);
@@ -174,8 +184,11 @@ async function writeFeature(slug) {
   let versioned = (await read(`src/scripts/features/${slug}.js`))
     .replaceAll('from "../core.js"', `from "../${coreName}"`)
     .replaceAll('from "../data/search-index.js"', `from "../data/${searchName}"`);
-  for (const match of [...versioned.matchAll(/from "\.\/([\w-]+)\.js"/g)]) {
-    const dependency = await writeFeature(match[1]);
+  for (const [shared, name] of reportSharedNames) {
+    for (const quote of ['"', "'"]) versioned = versioned.replaceAll(`from ${quote}../${shared}.js${quote}`, `from "../${name}"`);
+  }
+  for (const match of [...versioned.matchAll(/from (["'])\.\/([\w-]+)\.js\1/g)]) {
+    const dependency = await writeFeature(match[2]);
     versioned = versioned.replaceAll(match[0], `from "./${dependency}"`);
   }
   const name = `${slug}.${hash(versioned)}.js`;

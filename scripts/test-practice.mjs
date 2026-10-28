@@ -115,11 +115,11 @@ test("four report pages have unique topics, evidence downloads, search entries a
   assert.equal(learningPath.length, 6);
   const route = await readFile("dist/deep-dive.html", "utf8");
   for (const slug of entry.pages) {
-    const page = pages.find(p => p.slug === slug); assert.ok(page); assert.deepEqual(page.features, ["practice-reports"]);
+    const page = pages.find(p => p.slug === slug); assert.ok(page); assert.ok(page.features.includes("practice-reports")); assert.ok(page.features.includes("experiment-check"));
     assert.equal(readingProfile(slug).format, "实测报告");
     const html = await readFile(`dist/${slug}.html`, "utf8");
     assert.ok(html.includes('data-practice-kind=')); assert.ok(html.includes('本页实测结果的完整来源'));
-    assert.equal((html.match(/download>/g) || []).length, 3);
+    assert.equal((html.match(/download>/g) || []).length, 3 * Object.values(manifest.experiments).filter(e => e.pages.includes(slug)).length);
     assert.ok(route.includes(`href="${slug}.html"`));
   }
 });

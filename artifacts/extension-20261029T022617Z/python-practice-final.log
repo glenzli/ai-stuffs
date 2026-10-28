@@ -1,0 +1,19 @@
+test_every_length_summary_recomputes_from_all_raw_predictions (__main__.GeneralizationEvidence.test_every_length_summary_recomputes_from_all_raw_predictions) ... ok
+test_group_isolation_and_training_budget_from_all_trace_rows (__main__.GeneralizationEvidence.test_group_isolation_and_training_budget_from_all_trace_rows) ... ok
+test_saved_short_and_extended_weights_match_cached_generation_at_every_length (__main__.GeneralizationEvidence.test_saved_short_and_extended_weights_match_cached_generation_at_every_length) ... ok
+test_first_difference_is_verified_from_actual_saved_boundary_tensors (__main__.ReproductionAndProfile.test_first_difference_is_verified_from_actual_saved_boundary_tensors) ... ok
+test_full_model_dense_and_chunked_loss_hidden_and_parameter_gradients (__main__.ReproductionAndProfile.test_full_model_dense_and_chunked_loss_hidden_and_parameter_gradients) ... ok
+test_delivery_cli_matches_the_saved_sample_and_checks_bundle_identity (__main__.TextContracts.test_delivery_cli_matches_the_saved_sample_and_checks_bundle_identity) ... ok
+test_delivery_rejects_a_different_tokenizer_with_the_same_vocabulary_size (__main__.TextContracts.test_delivery_rejects_a_different_tokenizer_with_the_same_vocabulary_size) ... ok
+test_document_and_exact_paragraph_isolation (__main__.TextContracts.test_document_and_exact_paragraph_isolation) ... ok
+test_every_paragraph_and_unseen_unicode_roundtrip (__main__.TextContracts.test_every_paragraph_and_unseen_unicode_roundtrip) ... ok
+test_midpoint_resumes_all_saved_states_and_sixteen_step_trace (__main__.TextContracts.test_midpoint_resumes_all_saved_states_and_sixteen_step_trace) ... ok
+test_padding_and_future_tokens_cannot_change_valid_prefix_logits (__main__.TextContracts.test_padding_and_future_tokens_cannot_change_valid_prefix_logits) ... ok
+test_saved_checkpoints_reproduce_complete_split_metrics_and_all_generations (__main__.TextContracts.test_saved_checkpoints_reproduce_complete_split_metrics_and_all_generations) ... ok
+test_train_only_fitting_reproduces_saved_tokenizer (__main__.TextContracts.test_train_only_fitting_reproduces_saved_tokenizer) ... ok
+test_window_targets_cover_each_document_once_without_cross_document_context (__main__.TextContracts.test_window_targets_cover_each_document_once_without_cross_document_context) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 15.623s
+
+OK

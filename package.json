@@ -5,6 +5,9 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "lab:practice": "node scripts/run-practice-labs.mjs",
+    "lab:evidence": "node scripts/run-evidence-extension.mjs",
+    "accept:experiment": "node scripts/accept-experiment.mjs",
+    "test:evidence": "node --test scripts/test-experiment-workflow.mjs scripts/test-evidence-extension.mjs && .venv-framework/bin/python scripts/test-evidence-extension.py && .venv-retrieval/bin/python scripts/test-retrieval-index.py && .venv-retrieval/bin/python scripts/test-retrieval-encoder.py",
     "test:practice": "node --test scripts/test-practice.mjs && .venv-framework/bin/python scripts/test-practice.py",
     "serve": "python3 -m http.server 4173 --bind 127.0.0.1 --directory dist",
     "check": "node scripts/check-source.mjs && node scripts/build.mjs",

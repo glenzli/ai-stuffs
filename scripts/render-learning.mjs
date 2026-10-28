@@ -1,4 +1,4 @@
-import { learningPath, learningBranches, readingProfile } from "../src/learning.mjs";
+import { learningPath, learningBranches, readingProfile, learningAttachments } from "../src/learning.mjs";
 import { wikiGroups } from "../src/wiki.mjs";
 
 const esc = value => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
@@ -20,11 +20,17 @@ export function renderLearningBranches() {
 export function renderReadingContext(slug) {
   const group = wikiGroups.find(item => item.pages.some(([id]) => id === slug));
   if (!group) throw new Error(`Missing reading topic: ${slug}`);
-  const profile = readingProfile(slug), index = learningPath.findIndex(step => step.href === `${slug}.html`);
-  return `<div class="reading-context" aria-label="阅读定位" data-reading-topic="${esc(group.title)}"><span>${esc(group.title)}</span><span class="reading-tag">${esc(profile.level)}</span><span class="reading-tag">${esc(profile.format)}</span>${index < 0 ? "" : `<a href="deep-dive.html#learn-${learningPath[index].id}">学习主线 ${index + 1} / ${learningPath.length}</a>`}</div>`;
+  const profile = readingProfile(slug), extension = learningAttachments[slug];
+  const index = learningPath.findIndex(step => extension ? step.id === extension.stage : step.href === `${slug}.html`);
+  return `<div class="reading-context" aria-label="阅读定位" data-reading-topic="${esc(group.title)}"><span>${esc(group.title)}</span><span class="reading-tag">${esc(profile.level)}</span><span class="reading-tag">${esc(profile.format)}</span>${index < 0 ? "" : `<a href="deep-dive.html#learn-${learningPath[index].id}">学习主线 ${index + 1} / ${learningPath.length}${extension ? " · 实战延伸" : ""}</a>`}</div>`;
 }
 
 export function renderLearningContinuation(slug) {
+  const extension = learningAttachments[slug];
+  if (extension) {
+    const step = learningPath.find(row => row.id === extension.stage), next = extension.next && wikiGroups.flatMap(group => group.pages).find(([id]) => id === extension.next);
+    return `<nav class="learning-continuation" aria-label="实战与学习主线的连接"><div><span>实战延伸 · ${esc(step.title)}</span><p>${esc(extension.checkpoint)}</p></div><div class="learning-continuation-links"><a href="${esc(step.href)}">← 回到${esc(step.title)}</a><a href="deep-dive.html#learn-${esc(step.id)}">返回这一步的完整路线</a>${next ? `<a href="${esc(next[0])}.html">下一项实战：${esc(next[1])} →</a>` : '<a href="deep-dive.html#learning-branches">继续选择任务分支 →</a>'}</div></nav>`;
+  }
   const index = learningPath.findIndex(step => step.href === `${slug}.html`);
   if (index < 0) return "";
   const step = learningPath[index], next = learningPath[index + 1], previous = learningPath[index - 1];

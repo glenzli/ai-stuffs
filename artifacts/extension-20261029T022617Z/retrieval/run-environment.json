@@ -1,0 +1,30 @@
+{
+  "started_at": "2026-10-29T02:31:24.191Z",
+  "runtime": {
+    "python": "3.12.13",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "device": "cpu",
+    "threads": 1,
+    "torch": "2.9.0",
+    "numpy": "2.3.4",
+    "faiss-cpu": "1.12.0",
+    "transformers": "4.57.1",
+    "tokenizers": "0.22.1",
+    "safetensors": "0.6.2",
+    "huggingface-hub": "0.36.0"
+  },
+  "base_manifest_sha256": "f368e820f57318ec40cd735bb5cffd0110f572e00f8c807f5b60092b3950d8e4",
+  "source_sha256": {
+    "scripts/retrieval_lab.py": "31937267f6b2ab6216985c7129844765f6363bb35b19486097985d3de366d0b2",
+    "scripts/retrieval_index.py": "38eb12e4229f12ab10ce689aa881155102b9d43246fb6aa61287a0d89ce3546d",
+    "scripts/download-retrieval-model.py": "3a8ac8b7265d4c7a4cd4f2aeaefeef6b347b92df89732a046cd31e6123603203",
+    "scripts/retrieval-requirements.txt": "94aeecea22c32069430ae7913dce5cbb114df2cd7aa68c187f1f1cf6bdad158d",
+    "src/experiments/retrieval-queries.json": "d284d214c7b5f76c6b1793622a33ea0c3ba5856fb85754e853be64be8860bc5b"
+  },
+  "resolved_failure": {
+    "source": "retrieval-openmp-failed/retrieval.log",
+    "cause": "PyTorch and Faiss loaded different OpenMP libraries in one process",
+    "fix": "encoder and Faiss run in separate processes, no unsafe OpenMP override"
+  }
+}

@@ -1,13 +1,16 @@
-import { readFile, mkdir, copyFile } from "node:fs/promises";
+import { readFile, mkdir, copyFile, access } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import path from "node:path";
 
 const sha = bytes => createHash("sha256").update(bytes).digest("hex");
 const esc = value => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
-const owners = { learning: ["learning-run"], failures: ["training-failures"], dynamics: ["initialization-width", "batch-noise"], output: ["chunked-cross-entropy"], practice: ["generalization-analysis", "text-training-project", "reproducibility-lab", "training-step-profile"] };
+export const experimentOwners = { learning: ["learning-run"], failures: ["training-failures"], dynamics: ["initialization-width", "batch-noise"], output: ["chunked-cross-entropy"], practice: ["generalization-analysis", "text-training-project", "reproducibility-lab", "training-step-profile"], "language-baselines": ["text-training-project"], "matched-budget": ["generalization-analysis"], retrieval: ["retrieval-project"] };
+const owners = experimentOwners;
 
 // Validate before replacing dist: an absent or modified source must fail the build.
 export async function verifyExperimentSources({ root = process.cwd(), manifest } = {}) {
+  try { await access(path.join(root, ".cache/experiment-adoption.lock")); throw new Error("An experiment adoption is incomplete. Finish or recover it before building."); }
+  catch (error) { if (error.code !== "ENOENT") throw error; }
   manifest ??= JSON.parse(await readFile(path.join(root, "src/experiment-sources.json"), "utf8"));
   if (manifest?.schema !== "model-engineering-experiments-v1" || JSON.stringify(Object.keys(manifest.experiments || {}).sort()) !== JSON.stringify(Object.keys(owners).sort())) throw new Error("Incomplete experiment source manifest");
   const experiments = [];
@@ -26,6 +29,13 @@ export async function verifyExperimentSources({ root = process.cwd(), manifest }
       }
       const extension = kind === "report" ? "json" : kind === "archive" ? "tar.gz" : "txt";
       assets[kind] = { ...file, href: `assets/experiments/${id}-${kind}.${file.sha256.slice(0, 10)}.${extension}` };
+    }
+    if (entry.projection) {
+      for (const file of [entry.projection.path, entry.projection.target]) {
+        if (file.split("/").includes("..") || path.isAbsolute(file)) throw new Error("Invalid projection path");
+        const bytes = await readFile(path.join(root, file));
+        if (sha(bytes) !== entry.projection.sha256 || bytes.length !== entry.projection.bytes) throw new Error(`Display projection does not match accepted evidence: ${file}`);
+      }
     }
     experiments.push({ ...entry, assets, reportData });
   }
@@ -55,11 +65,12 @@ export async function copyExperimentSources(experiments, outDir, root = process.
 }
 
 export function renderExperimentSources(slug, experiments) {
-  const experiment = experiments.find(item => item.pages.includes(slug));
-  if (!experiment) return "";
+  return experiments.filter(item => item.pages.includes(slug)).map(experiment => renderSource(experiment)).join("\n");
+}
+function renderSource(experiment) {
   const { assets, runtime } = experiment;
   return `<aside class="experiment-source" aria-label="本页实测结果的完整来源">
-    <p><strong>核验本页实测结果</strong></p>
+    <p><strong>核验：${esc(experiment.title)}</strong></p>
     <p>图表与表格取自本次保存的完整报告。工件包同时提供运行时源码、配置、环境及对应的 checkpoint、张量或固定输入。</p>
     <div class="step-actions"><a class="button secondary" href="${assets.report.href}" download>下载完整报告</a><a class="button secondary" href="${assets.archive.href}" download>下载源码与原始工件 · ${(assets.archive.bytes / 1048576).toFixed(1)} MiB</a><a href="${assets.checksums.href}" download>文件校验表</a></div>
     <details><summary>报告身份与复现实验</summary>

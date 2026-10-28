@@ -1,0 +1,451 @@
+{
+  "interactions": [
+    {
+      "page": "retrieval-project",
+      "restored": [
+        "pad-gradient-paraphrase",
+        "rrf-rerank",
+        "test",
+        "paraphrase"
+      ],
+      "url": "http://127.0.0.1:4173/retrieval-project.html?query=pad-gradient-paraphrase&kind=paraphrase&method=rrf-rerank"
+    },
+    {
+      "quiz": "retrieval-wrong",
+      "text": "先做一个判断，再看结果\n\n相关证据没有进入召回的前 10 条，随后只重排这 10 条能找回它吗？\n能，重排会搜索整个语料库\n不能，候选集的覆盖率限制了重排上限\n只要换成神经网络重排就能保证找回\n查看判断依据重新作答\n再核对比较条件。\n\n重排改变候选的次序，不产生候选集外的新文档。本实验保存 RRF 前后的完整候选 ID，可以直接验证这个边界。"
+    },
+    {
+      "quiz": "retrieval-correct",
+      "text": "先做一个判断，再看结果\n\n相关证据没有进入召回的前 10 条，随后只重排这 10 条能找回它吗？\n能，重排会搜索整个语料库\n不能，候选集的覆盖率限制了重排上限\n只要换成神经网络重排就能保证找回\n查看判断依据重新作答\n这项判断正确。\n\n重排改变候选的次序，不产生候选集外的新文档。本实验保存 RRF 前后的完整候选 ID，可以直接验证这个边界。"
+    },
+    {
+      "page": "text-training-project",
+      "url": "http://127.0.0.1:4173/text-training-project.html?baseline_split=validation&seed=47&split=train&prompt=2",
+      "quiz": "先做一个判断，再看结果\n\n测试 CE 优于 bigram 基线，这份结果能直接支持哪项判断？\n模型已能流畅、可靠地写中文\n在同一 tokenizer 和测试标签上，预测损失更低\n模型已经通过指令微调评估\n查看判断依据重新作答\n这项判断正确。\n\n比较固定了预测单位和评估集，支持下一 token 预测更好。自由生成、事实可靠性和指令遵循仍需各自的证据。"
+    },
+    {
+      "page": "text-training-project-reload",
+      "selected": [
+        "validation",
+        "47",
+        "train",
+        "2"
+      ],
+      "url": "http://127.0.0.1:4173/text-training-project.html?baseline_split=validation&seed=47&split=train&prompt=2"
+    },
+    {
+      "quiz": "eos",
+      "text": "先做一个判断，再看结果\n\n如果只禁止提前输出 EOS，是否就能保证更长输入的答案正确？\n能，输出长度正确就等于内容正确\n不能，内容与顺序仍可能错误\n能直接证明位置编码是唯一原因\n查看判断依据重新作答\n这项判断正确。\n\n结束策略只约束某个 token 的出现时机。本页保存的诊断消除了提前结束，却没有恢复长序列的完整匹配；还需要检查内容和训练支持。"
+    },
+    {
+      "quiz": "budget",
+      "text": "先做一个判断，再看结果\n\n两次训练都使用 410,000 个监督 token，能否称为相同计算预算？\n能，所有 token 的计算成本相同\n能，只要 seed 也相同\n不能，还要核对上下文长度、padding 和更新次数\n查看判断依据重新作答\n这项判断正确。\n\n标签数量只固定了监督分母。本页同时保存更新数、有效输入和含 padding 的计算位置；这些量仍不同，也不能据它们直接当作相同 FLOPs。"
+    },
+    {
+      "page": "generalization-analysis-reload",
+      "selected": [
+        "47",
+        "extended",
+        "10",
+        "29"
+      ],
+      "url": "http://127.0.0.1:4173/generalization-analysis.html?seed=47&policy=extended&length=10&budget_seed=29"
+    },
+    {
+      "page": "reproducibility-lab",
+      "url": "http://127.0.0.1:4173/reproducibility-lab.html?case=changed-data-order",
+      "quiz": "先做一个判断，再看结果\n\n初始化 seed 相同，但数据顺序变了，还应要求逐步参数完全一致吗？\n不应该，先对齐实际输入和已保存状态\n应该，seed 决定全部后续状态\n只要最终 loss 接近就算逐值复现\n查看判断依据重新作答\n这项判断正确。\n\n实际输入已经是不同的计算条件。应先对齐初值、数据和优化器状态，再逐边界比较；最终指标接近也不等于相同数值轨迹。"
+    },
+    {
+      "page": "reproducibility-reload",
+      "selected": [
+        "changed-data-order"
+      ]
+    },
+    {
+      "page": "training-step-profile",
+      "url": "http://127.0.0.1:4173/training-step-profile.html?method=chunked-exact&iteration=12",
+      "quiz": "先做一个判断，再看结果\n\n某个算法减少反向图保存的引用，能否据此断言完整 step 更快？\n不能，要实测整步并检查数值目标一致\n能，少保存一定减少总时间\n能，把局部阶段的中位数相加即可\n查看判断依据重新作答\n这项判断正确。\n\n保存引用、物理内存峰值和时间是不同指标。重算、循环与其他阶段仍有成本；同一次 step 的阶段可相加，来自不同样本的中位数不必相加。"
+    },
+    {
+      "page": "training-step-profile-reload",
+      "selected": [
+        "chunked-exact",
+        "12"
+      ]
+    },
+    {
+      "page": "retrieval-invalid-url",
+      "status": "复制当前实验链接\n链接含不支持的选项，已使用默认值。",
+      "selected": [
+        "pad-gradient-keyword",
+        "bm25",
+        "test",
+        "all"
+      ]
+    },
+    {
+      "page": "retrieval-method",
+      "method": "flat",
+      "candidateRows": 10,
+      "metrics": "指定证据 Hit@5命中本题 MRR@100.5Flat 近邻 Recall@10不适用"
+    },
+    {
+      "page": "retrieval-method",
+      "method": "ivf-1",
+      "candidateRows": 10,
+      "metrics": "指定证据 Hit@5命中本题 MRR@101Flat 近邻 Recall@1080.00%"
+    },
+    {
+      "page": "retrieval-method",
+      "method": "ivf-4",
+      "candidateRows": 10,
+      "metrics": "指定证据 Hit@5命中本题 MRR@100.5Flat 近邻 Recall@10100.00%"
+    },
+    {
+      "page": "retrieval-method",
+      "method": "ivf-16",
+      "candidateRows": 10,
+      "metrics": "指定证据 Hit@5命中本题 MRR@100.5Flat 近邻 Recall@10100.00%"
+    },
+    {
+      "page": "retrieval-method",
+      "method": "rrf-rerank",
+      "candidateRows": 10,
+      "metrics": "指定证据 Hit@5命中本题 MRR@101Flat 近邻 Recall@10不适用"
+    },
+    {
+      "page": "retrieval-method",
+      "method": "bm25",
+      "candidateRows": 10,
+      "metrics": "指定证据 Hit@5命中本题 MRR@101Flat 近邻 Recall@10不适用"
+    },
+    {
+      "page": "share-link",
+      "status": "复制当前实验链接\n链接已复制，包含当前选项。",
+      "clipboard_bridge_text": "",
+      "clipboard_scope": "Automation clipboard bridge did not expose the native clipboard. The displayed URL is checked separately."
+    },
+    {
+      "page": "retrieval-final-layout",
+      "expandedDetails": 4,
+      "passageFourthCellMin": "260px",
+      "scrollWidth": 390,
+      "summaryFourthCellMin": "0px",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "retrieval-final-layout",
+      "expandedDetails": 4,
+      "passageFourthCellMin": "260px",
+      "scrollWidth": 768,
+      "summaryFourthCellMin": "0px",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "retrieval-final-layout",
+      "expandedDetails": 4,
+      "passageFourthCellMin": "260px",
+      "scrollWidth": 1440,
+      "summaryFourthCellMin": "0px",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "page": "final-mobile-share",
+      "slug": "generalization-analysis",
+      "links": [
+        {
+          "readonly": true,
+          "value": "http://127.0.0.1:4173/generalization-analysis.html",
+          "visible": true
+        },
+        {
+          "readonly": true,
+          "value": "http://127.0.0.1:4173/generalization-analysis.html",
+          "visible": true
+        }
+      ],
+      "scrollWidth": 390,
+      "statuses": [
+        "链接已复制，也可从输入框复制。",
+        "链接已复制，也可从输入框复制。"
+      ],
+      "width": 390
+    },
+    {
+      "page": "final-mobile-share",
+      "slug": "text-training-project",
+      "links": [
+        {
+          "readonly": true,
+          "value": "http://127.0.0.1:4173/text-training-project.html",
+          "visible": true
+        },
+        {
+          "readonly": true,
+          "value": "http://127.0.0.1:4173/text-training-project.html",
+          "visible": true
+        }
+      ],
+      "scrollWidth": 390,
+      "statuses": [
+        "链接已复制，也可从输入框复制。",
+        "链接已复制，也可从输入框复制。"
+      ],
+      "width": 390
+    },
+    {
+      "page": "final-mobile-share",
+      "slug": "reproducibility-lab",
+      "links": [
+        {
+          "readonly": true,
+          "value": "http://127.0.0.1:4173/reproducibility-lab.html",
+          "visible": true
+        }
+      ],
+      "scrollWidth": 390,
+      "statuses": [
+        "链接已复制，也可从输入框复制。"
+      ],
+      "width": 390
+    },
+    {
+      "page": "final-mobile-share",
+      "slug": "training-step-profile",
+      "links": [
+        {
+          "readonly": true,
+          "value": "http://127.0.0.1:4173/training-step-profile.html",
+          "visible": true
+        }
+      ],
+      "scrollWidth": 390,
+      "statuses": [
+        "链接已复制，也可从输入框复制。"
+      ],
+      "width": 390
+    },
+    {
+      "page": "final-mobile-share",
+      "slug": "retrieval-project",
+      "links": [
+        {
+          "readonly": true,
+          "value": "http://127.0.0.1:4173/retrieval-project.html",
+          "visible": true
+        }
+      ],
+      "scrollWidth": 390,
+      "statuses": [
+        "链接已复制，也可从输入框复制。"
+      ],
+      "width": 390
+    },
+    {
+      "page": "final-shared-options",
+      "link": "http://127.0.0.1:4173/retrieval-project.html?method=flat#retrieval-results",
+      "method": "flat",
+      "url": "http://127.0.0.1:4173/retrieval-project.html?method=flat#retrieval-results",
+      "visible": true
+    },
+    {
+      "page": "back-restores-options-and-hides-old-link",
+      "method": "flat",
+      "oldLinkHidden": true,
+      "url": "http://127.0.0.1:4173/retrieval-project.html?method=flat#retrieval-results"
+    }
+  ],
+  "viewports": [
+    {
+      "page": "generalization-analysis",
+      "downloads": 6,
+      "duplicates": [],
+      "scrollWidth": 768,
+      "selectCount": 4,
+      "theme": "light",
+      "wide": [],
+      "width": 768
+    },
+    {
+      "page": "text-training-project",
+      "downloads": 6,
+      "duplicates": [],
+      "scrollWidth": 768,
+      "selectCount": 4,
+      "theme": "light",
+      "wide": [],
+      "width": 768
+    },
+    {
+      "page": "reproducibility-lab",
+      "downloads": 3,
+      "duplicates": [],
+      "scrollWidth": 768,
+      "selectCount": 1,
+      "theme": "light",
+      "wide": [],
+      "width": 768
+    },
+    {
+      "page": "training-step-profile",
+      "downloads": 3,
+      "duplicates": [],
+      "scrollWidth": 768,
+      "selectCount": 2,
+      "theme": "light",
+      "wide": [],
+      "width": 768
+    },
+    {
+      "page": "retrieval-project",
+      "downloads": 3,
+      "duplicates": [],
+      "scrollWidth": 768,
+      "selectCount": 4,
+      "theme": "light",
+      "wide": [],
+      "width": 768
+    },
+    {
+      "page": "deep-dive",
+      "downloads": 0,
+      "duplicates": [],
+      "scrollWidth": 768,
+      "selectCount": 0,
+      "theme": "light",
+      "wide": [],
+      "width": 768
+    },
+    {
+      "page": "generalization-analysis",
+      "downloads": 6,
+      "duplicates": [],
+      "scrollWidth": 1440,
+      "selectCount": 4,
+      "theme": "dark",
+      "wide": [],
+      "width": 1440
+    },
+    {
+      "page": "text-training-project",
+      "downloads": 6,
+      "duplicates": [],
+      "scrollWidth": 1440,
+      "selectCount": 4,
+      "theme": "dark",
+      "wide": [],
+      "width": 1440
+    },
+    {
+      "page": "reproducibility-lab",
+      "downloads": 3,
+      "duplicates": [],
+      "scrollWidth": 1440,
+      "selectCount": 1,
+      "theme": "dark",
+      "wide": [],
+      "width": 1440
+    },
+    {
+      "page": "training-step-profile",
+      "downloads": 3,
+      "duplicates": [],
+      "scrollWidth": 1440,
+      "selectCount": 2,
+      "theme": "dark",
+      "wide": [],
+      "width": 1440
+    },
+    {
+      "page": "retrieval-project",
+      "downloads": 3,
+      "duplicates": [],
+      "scrollWidth": 1440,
+      "selectCount": 4,
+      "theme": "dark",
+      "wide": [],
+      "width": 1440
+    },
+    {
+      "page": "deep-dive",
+      "downloads": 0,
+      "duplicates": [],
+      "scrollWidth": 1440,
+      "selectCount": 0,
+      "theme": "dark",
+      "wide": [],
+      "width": 1440
+    },
+    {
+      "page": "generalization-analysis",
+      "downloads": 6,
+      "duplicates": [],
+      "expandedDetails": 5,
+      "scrollWidth": 390,
+      "selectCount": 4,
+      "theme": "light",
+      "wide": [],
+      "width": 390
+    },
+    {
+      "page": "text-training-project",
+      "downloads": 6,
+      "duplicates": [],
+      "expandedDetails": 6,
+      "scrollWidth": 390,
+      "selectCount": 4,
+      "theme": "light",
+      "wide": [],
+      "width": 390
+    },
+    {
+      "page": "reproducibility-lab",
+      "downloads": 3,
+      "duplicates": [],
+      "expandedDetails": 3,
+      "scrollWidth": 390,
+      "selectCount": 1,
+      "theme": "light",
+      "wide": [],
+      "width": 390
+    },
+    {
+      "page": "training-step-profile",
+      "downloads": 3,
+      "duplicates": [],
+      "expandedDetails": 4,
+      "scrollWidth": 390,
+      "selectCount": 2,
+      "theme": "light",
+      "wide": [],
+      "width": 390
+    },
+    {
+      "page": "retrieval-project",
+      "downloads": 3,
+      "duplicates": [],
+      "expandedDetails": 4,
+      "scrollWidth": 390,
+      "selectCount": 4,
+      "theme": "light",
+      "wide": [],
+      "width": 390
+    },
+    {
+      "page": "deep-dive",
+      "downloads": 0,
+      "duplicates": [],
+      "expandedDetails": 2,
+      "scrollWidth": 390,
+      "selectCount": 0,
+      "theme": "light",
+      "wide": [],
+      "width": 390
+    }
+  ],
+  "console": []
+}

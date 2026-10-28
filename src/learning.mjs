@@ -53,7 +53,7 @@ export const learningPath = [
 
 export const learningBranches = [
   { title: "微调与后训练", href: "posttraining.html", description: "沿 SFT、LoRA、偏好优化、RL 与蒸馏继续改变模型。", links: [["finetuning-recipe.html", "拆解微调配方"], ["rl-posttraining.html", "RL 后训练"]] },
-  { title: "生成与检索服务", href: "inference-engine.html", description: "沿 prefill、decode、缓存、解码与检索组织运行过程。", links: [["lab.html", "检索沙盘"], ["efficient-inference.html", "量化与投机解码"]] },
+  { title: "生成与检索服务", href: "inference-engine.html", description: "沿 prefill、decode、缓存、解码与检索组织运行过程。", links: [["retrieval-project.html", "真实中文检索实战"], ["lab.html", "检索沙盘"], ["efficient-inference.html", "量化与投机解码"]] },
   { title: "模型能力与应用", href: "frontier.html", description: "按生成机制、多模态、推理解题或 Agent 的具体问题选读。", links: [["reasoning-compute.html", "推理计算"], ["multimodal.html", "多模态"], ["agents-context.html", "工具与上下文"]] },
 ];
 
@@ -61,7 +61,7 @@ const introductory = new Set([
   "training-engineer-guide", "deep-dive", "index", "engineering-check", "representation", "training",
   "transformer-lab", "posttraining", "engineering", "model-artifacts", "model-evaluation", "lab", "frontier", "learning-run",
 ]);
-const reportPages = new Set(["learning-run", "training-failures", "initialization-width", "batch-noise", "chunked-cross-entropy", "generalization-analysis", "text-training-project", "reproducibility-lab", "training-step-profile"]);
+const reportPages = new Set(["retrieval-project","learning-run", "training-failures", "initialization-width", "batch-noise", "chunked-cross-entropy", "generalization-analysis", "text-training-project", "reproducibility-lab", "training-step-profile"]);
 const navigationPages = new Set(["training-engineer-guide", "deep-dive", "frontier", "transformer-lab"]);
 const calculationPages = new Set([
   "representation-deep", "training-deep", "backpropagation", "numerical-computing", "tensor-layout",
@@ -76,3 +76,12 @@ export function readingProfile(slug) {
     format: reportPages.has(slug) ? "实测报告" : navigationPages.has(slug) ? "阅读导航" : calculationPages.has(slug) ? "计算演示" : "专题讲解",
   };
 }
+
+// Extensions have a primary learning stage and an optional next practical task.
+export const learningAttachments = {
+  "generalization-analysis": { stage: "evidence", next: "text-training-project", checkpoint: "能区分训练长度覆盖与真正的新长度外推。" },
+  "text-training-project": { stage: "evidence", next: "reproducibility-lab", checkpoint: "能用简单基线、完整评估和实际生成分别判断学习结果。" },
+  "reproducibility-lab": { stage: "reproduce", next: "training-step-profile", checkpoint: "能先对齐输入与状态，再定位首次可观察差异。" },
+  "training-step-profile": { stage: "systems", next: "retrieval-project", checkpoint: "能在相同目标下分别解释整步耗时与保存引用。" },
+  "retrieval-project": { stage: "systems", checkpoint: "能区分指定证据命中、近邻近似误差与候选集重排。" },
+};

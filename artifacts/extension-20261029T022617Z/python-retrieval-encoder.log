@@ -1,0 +1,8 @@
+test_actual_pinned_encoder_reproduces_saved_vectors_with_declared_float_tolerance (__main__.EncoderEvidence.test_actual_pinned_encoder_reproduces_saved_vectors_with_declared_float_tolerance) ... ok
+test_all_saved_token_ids_and_truncation_counts_are_reproducible (__main__.EncoderEvidence.test_all_saved_token_ids_and_truncation_counts_are_reproducible) ... ok
+test_every_model_file_matches_recorded_and_publisher_weight_identity (__main__.EncoderEvidence.test_every_model_file_matches_recorded_and_publisher_weight_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.357s
+
+OK

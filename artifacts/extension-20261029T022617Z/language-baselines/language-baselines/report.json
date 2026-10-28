@@ -1,0 +1,2478 @@
+{
+  "schema": "language-baselines-v1",
+  "status": "passed",
+  "frozen": {
+    "models": [
+      "unigram",
+      "bigram"
+    ],
+    "alpha_candidates": [
+      0.01,
+      0.1,
+      1.0
+    ],
+    "selection": "validation CE only; tie selects first candidate",
+    "target": "same saved 387-token vocabulary and every shifted non-padding label, including document EOS",
+    "test_policy": "evaluate only after alpha selection; no outcome-driven adjustment"
+  },
+  "vocab_size": 387,
+  "train_supervised_tokens": 62977,
+  "source": {
+    "windows.json": {
+      "path": "artifacts/practice-20261028T152417Z/practice/text/windows.json",
+      "sha256": "1c9071101288fc14cd4ef7cb0c35fe780aff792eec3eb1afd502a9513ef6257f"
+    },
+    "tokenizer.json": {
+      "path": "artifacts/practice-20261028T152417Z/practice/text/tokenizer.json",
+      "sha256": "677b04b0d407a93057f4bfdb5622c793376ff3b2b718245ec56c619536ec9ec0"
+    },
+    "report.json": {
+      "path": "artifacts/practice-20261028T152417Z/practice/text/report.json",
+      "sha256": "5045eec0a4fb838a01016bf307366cff645a723475e88e25b56262507f27d8dd"
+    }
+  },
+  "models": [
+    {
+      "model": "unigram",
+      "selected_alpha": 1.0,
+      "selection_trace": [
+        {
+          "alpha": 0.01,
+          "validation": {
+            "ce_nats_per_token": 5.280256910829656,
+            "teacher_forced_accuracy": 0.0320390040048755,
+            "supervised_tokens": 11486,
+            "documents": {
+              "inference-engine": {
+                "loss_sum": 16893.30504788249,
+                "correct": 138,
+                "tokens": 3240,
+                "ce_nats_per_token": 5.2139830394699045
+              },
+              "position-cache": {
+                "loss_sum": 7472.915579028363,
+                "correct": 53,
+                "tokens": 1396,
+                "ce_nats_per_token": 5.3530913889887985
+              },
+              "decoding-algorithms": {
+                "loss_sum": 7198.18579563745,
+                "correct": 32,
+                "tokens": 1349,
+                "ce_nats_per_token": 5.335942027900259
+              },
+              "efficient-inference": {
+                "loss_sum": 13998.948873919195,
+                "correct": 70,
+                "tokens": 2643,
+                "ce_nats_per_token": 5.296613270495344
+              },
+              "quantized-linear": {
+                "loss_sum": 7433.141368198399,
+                "correct": 50,
+                "tokens": 1393,
+                "ce_nats_per_token": 5.3360670267038035
+              },
+              "lab": {
+                "loss_sum": 7652.534213122665,
+                "correct": 25,
+                "tokens": 1465,
+                "ce_nats_per_token": 5.223572841721956
+              }
+            }
+          }
+        },
+        {
+          "alpha": 0.1,
+          "validation": {
+            "ce_nats_per_token": 5.275165429945807,
+            "teacher_forced_accuracy": 0.0320390040048755,
+            "supervised_tokens": 11486,
+            "documents": {
+              "inference-engine": {
+                "loss_sum": 16886.98900473402,
+                "correct": 138,
+                "tokens": 3240,
+                "ce_nats_per_token": 5.212033643436426
+              },
+              "position-cache": {
+                "loss_sum": 7472.980438826018,
+                "correct": 53,
+                "tokens": 1396,
+                "ce_nats_per_token": 5.353137850161904
+              },
+              "decoding-algorithms": {
+                "loss_sum": 7161.558513577245,
+                "correct": 32,
+                "tokens": 1349,
+                "ce_nats_per_token": 5.308790595683651
+              },
+              "efficient-inference": {
+                "loss_sum": 13992.234304356794,
+                "correct": 70,
+                "tokens": 2643,
+                "ce_nats_per_token": 5.294072759877713
+              },
+              "quantized-linear": {
+                "loss_sum": 7423.990237568815,
+                "correct": 50,
+                "tokens": 1393,
+                "ce_nats_per_token": 5.32949765798192
+              },
+              "lab": {
+                "loss_sum": 7652.797629295321,
+                "correct": 25,
+                "tokens": 1465,
+                "ce_nats_per_token": 5.223752647983154
+              }
+            }
+          }
+        },
+        {
+          "alpha": 1.0,
+          "validation": {
+            "ce_nats_per_token": 5.271214804361646,
+            "teacher_forced_accuracy": 0.0320390040048755,
+            "supervised_tokens": 11486,
+            "documents": {
+              "inference-engine": {
+                "loss_sum": 16886.004913611912,
+                "correct": 138,
+                "tokens": 3240,
+                "ce_nats_per_token": 5.211729911608615
+              },
+              "position-cache": {
+                "loss_sum": 7473.697763333705,
+                "correct": 53,
+                "tokens": 1396,
+                "ce_nats_per_token": 5.353651692932453
+              },
+              "decoding-algorithms": {
+                "loss_sum": 7126.904005133698,
+                "correct": 32,
+                "tokens": 1349,
+                "ce_nats_per_token": 5.283101560514231
+              },
+              "efficient-inference": {
+                "loss_sum": 13987.608014298401,
+                "correct": 70,
+                "tokens": 2643,
+                "ce_nats_per_token": 5.292322366363376
+              },
+              "quantized-linear": {
+                "loss_sum": 7415.512199134036,
+                "correct": 50,
+                "tokens": 1393,
+                "ce_nats_per_token": 5.323411485379782
+              },
+              "lab": {
+                "loss_sum": 7655.446347385819,
+                "correct": 25,
+                "tokens": 1465,
+                "ce_nats_per_token": 5.22556064667974
+              }
+            }
+          }
+        }
+      ],
+      "evaluation": {
+        "train": {
+          "ce_nats_per_token": 5.237924467988011,
+          "teacher_forced_accuracy": 0.03612429934738079,
+          "supervised_tokens": 62977,
+          "documents": {
+            "index": {
+              "loss_sum": 5643.532002950365,
+              "correct": 30,
+              "tokens": 1077,
+              "ce_nats_per_token": 5.240048285004981
+            },
+            "training": {
+              "loss_sum": 11674.377001806788,
+              "correct": 90,
+              "tokens": 2223,
+              "ce_nats_per_token": 5.251631579760138
+            },
+            "training-deep": {
+              "loss_sum": 19197.486335320657,
+              "correct": 164,
+              "tokens": 3667,
+              "ce_nats_per_token": 5.2352021639816355
+            },
+            "transformer-anatomy": {
+              "loss_sum": 20250.16509004735,
+              "correct": 216,
+              "tokens": 3853,
+              "ce_nats_per_token": 5.25568779912986
+            },
+            "transformer-evolution": {
+              "loss_sum": 13731.347694364127,
+              "correct": 146,
+              "tokens": 2601,
+              "ce_nats_per_token": 5.2792570912587955
+            },
+            "architecture-variants": {
+              "loss_sum": 15517.472968163635,
+              "correct": 103,
+              "tokens": 2970,
+              "ce_nats_per_token": 5.224738373119068
+            },
+            "data-tokenizer": {
+              "loss_sum": 23015.02457293835,
+              "correct": 94,
+              "tokens": 4431,
+              "ce_nats_per_token": 5.194092659205224
+            },
+            "packing-correctness": {
+              "loss_sum": 8657.799069460472,
+              "correct": 66,
+              "tokens": 1655,
+              "ce_nats_per_token": 5.231298531396056
+            },
+            "representation": {
+              "loss_sum": 11567.78557801766,
+              "correct": 43,
+              "tokens": 2211,
+              "ce_nats_per_token": 5.231924729994419
+            },
+            "representation-deep": {
+              "loss_sum": 10521.14270267128,
+              "correct": 62,
+              "tokens": 2008,
+              "ce_nats_per_token": 5.239612899736693
+            },
+            "backpropagation": {
+              "loss_sum": 9143.646810731863,
+              "correct": 70,
+              "tokens": 1733,
+              "ce_nats_per_token": 5.2761955053271
+            },
+            "numerical-computing": {
+              "loss_sum": 11741.054258449607,
+              "correct": 71,
+              "tokens": 2241,
+              "ce_nats_per_token": 5.239203149687464
+            },
+            "tensor-layout": {
+              "loss_sum": 5430.160545873934,
+              "correct": 26,
+              "tokens": 1039,
+              "ce_nats_per_token": 5.22633353789599
+            },
+            "optimization-dynamics": {
+              "loss_sum": 16165.205680954537,
+              "correct": 85,
+              "tokens": 3078,
+              "ce_nats_per_token": 5.251853697516094
+            },
+            "initialization-width": {
+              "loss_sum": 17194.40090683439,
+              "correct": 163,
+              "tokens": 3276,
+              "ce_nats_per_token": 5.248596125407324
+            },
+            "batch-noise": {
+              "loss_sum": 14079.14308774794,
+              "correct": 102,
+              "tokens": 2693,
+              "ce_nats_per_token": 5.228051647882636
+            },
+            "scaling-laws": {
+              "loss_sum": 15641.377564574079,
+              "correct": 115,
+              "tokens": 2989,
+              "ce_nats_per_token": 5.232980115280722
+            },
+            "continual-learning": {
+              "loss_sum": 6267.107081364949,
+              "correct": 15,
+              "tokens": 1193,
+              "ce_nats_per_token": 5.253233094186881
+            },
+            "posttraining": {
+              "loss_sum": 11590.832381253362,
+              "correct": 54,
+              "tokens": 2227,
+              "ce_nats_per_token": 5.204684499889251
+            },
+            "posttraining-deep": {
+              "loss_sum": 20283.92255093673,
+              "correct": 171,
+              "tokens": 3910,
+              "ce_nats_per_token": 5.187703977221671
+            },
+            "finetuning-recipe": {
+              "loss_sum": 22325.13131146439,
+              "correct": 140,
+              "tokens": 4267,
+              "ce_nats_per_token": 5.232043897694958
+            },
+            "lora-mechanics": {
+              "loss_sum": 6858.431586418776,
+              "correct": 56,
+              "tokens": 1277,
+              "ce_nats_per_token": 5.370737342536238
+            },
+            "distillation-data": {
+              "loss_sum": 15970.540206105068,
+              "correct": 69,
+              "tokens": 3051,
+              "ce_nats_per_token": 5.234526452345155
+            },
+            "model-artifacts": {
+              "loss_sum": 17401.682232052113,
+              "correct": 124,
+              "tokens": 3307,
+              "ce_nats_per_token": 5.262075062610255
+            }
+          }
+        },
+        "validation": {
+          "ce_nats_per_token": 5.271214804361646,
+          "teacher_forced_accuracy": 0.0320390040048755,
+          "supervised_tokens": 11486,
+          "documents": {
+            "inference-engine": {
+              "loss_sum": 16886.004913611912,
+              "correct": 138,
+              "tokens": 3240,
+              "ce_nats_per_token": 5.211729911608615
+            },
+            "position-cache": {
+              "loss_sum": 7473.697763333705,
+              "correct": 53,
+              "tokens": 1396,
+              "ce_nats_per_token": 5.353651692932453
+            },
+            "decoding-algorithms": {
+              "loss_sum": 7126.904005133698,
+              "correct": 32,
+              "tokens": 1349,
+              "ce_nats_per_token": 5.283101560514231
+            },
+            "efficient-inference": {
+              "loss_sum": 13987.608014298401,
+              "correct": 70,
+              "tokens": 2643,
+              "ce_nats_per_token": 5.292322366363376
+            },
+            "quantized-linear": {
+              "loss_sum": 7415.512199134036,
+              "correct": 50,
+              "tokens": 1393,
+              "ce_nats_per_token": 5.323411485379782
+            },
+            "lab": {
+              "loss_sum": 7655.446347385819,
+              "correct": 25,
+              "tokens": 1465,
+              "ce_nats_per_token": 5.22556064667974
+            }
+          }
+        },
+        "test": {
+          "ce_nats_per_token": 5.195480986790592,
+          "teacher_forced_accuracy": 0.01759711407329198,
+          "supervised_tokens": 22731,
+          "documents": {
+            "model-evaluation": {
+              "loss_sum": 25260.075265739826,
+              "correct": 88,
+              "tokens": 4866,
+              "ce_nats_per_token": 5.191137539198484
+            },
+            "paired-evaluation": {
+              "loss_sum": 11883.896720358924,
+              "correct": 73,
+              "tokens": 2293,
+              "ce_nats_per_token": 5.182685006698178
+            },
+            "uncertainty-calibration": {
+              "loss_sum": 7433.974924929698,
+              "correct": 7,
+              "tokens": 1426,
+              "ce_nats_per_token": 5.213166146514515
+            },
+            "agents-context": {
+              "loss_sum": 17095.424660257933,
+              "correct": 23,
+              "tokens": 3297,
+              "ce_nats_per_token": 5.18514548385136
+            },
+            "training-environments": {
+              "loss_sum": 8512.015347583492,
+              "correct": 25,
+              "tokens": 1649,
+              "ce_nats_per_token": 5.161925620123403
+            },
+            "multimodal": {
+              "loss_sum": 15315.57346184548,
+              "correct": 58,
+              "tokens": 2920,
+              "ce_nats_per_token": 5.245059404741603
+            },
+            "reasoning-compute": {
+              "loss_sum": 21569.018506273518,
+              "correct": 73,
+              "tokens": 4153,
+              "ce_nats_per_token": 5.193599447694081
+            },
+            "learning-mechanisms": {
+              "loss_sum": 11028.499423751278,
+              "correct": 53,
+              "tokens": 2127,
+              "ce_nats_per_token": 5.185002079807841
+            }
+          }
+        }
+      }
+    },
+    {
+      "model": "bigram",
+      "selected_alpha": 0.1,
+      "selection_trace": [
+        {
+          "alpha": 0.01,
+          "validation": {
+            "ce_nats_per_token": 3.5204166227050293,
+            "teacher_forced_accuracy": 0.18761971095246388,
+            "supervised_tokens": 11486,
+            "documents": {
+              "inference-engine": {
+                "loss_sum": 11234.610915286601,
+                "correct": 571,
+                "tokens": 3240,
+                "ce_nats_per_token": 3.4674725047180868
+              },
+              "position-cache": {
+                "loss_sum": 4585.131741633351,
+                "correct": 340,
+                "tokens": 1396,
+                "ce_nats_per_token": 3.2844783249522576
+              },
+              "decoding-algorithms": {
+                "loss_sum": 4693.8946828260805,
+                "correct": 250,
+                "tokens": 1349,
+                "ce_nats_per_token": 3.479536458729489
+              },
+              "efficient-inference": {
+                "loss_sum": 9757.627621761298,
+                "correct": 452,
+                "tokens": 2643,
+                "ce_nats_per_token": 3.6918757554904644
+              },
+              "quantized-linear": {
+                "loss_sum": 4974.222119513463,
+                "correct": 279,
+                "tokens": 1393,
+                "ce_nats_per_token": 3.570870150404496
+              },
+              "lab": {
+                "loss_sum": 5190.018247369434,
+                "correct": 263,
+                "tokens": 1465,
+                "ce_nats_per_token": 3.5426745715832313
+              }
+            }
+          }
+        },
+        {
+          "alpha": 0.1,
+          "validation": {
+            "ce_nats_per_token": 3.4764895009381434,
+            "teacher_forced_accuracy": 0.18761971095246388,
+            "supervised_tokens": 11486,
+            "documents": {
+              "inference-engine": {
+                "loss_sum": 11142.556695137844,
+                "correct": 571,
+                "tokens": 3240,
+                "ce_nats_per_token": 3.439060708375878
+              },
+              "position-cache": {
+                "loss_sum": 4594.15583166959,
+                "correct": 340,
+                "tokens": 1396,
+                "ce_nats_per_token": 3.2909425728292194
+              },
+              "decoding-algorithms": {
+                "loss_sum": 4644.581561830852,
+                "correct": 250,
+                "tokens": 1349,
+                "ce_nats_per_token": 3.4429811429435517
+              },
+              "efficient-inference": {
+                "loss_sum": 9511.48071241533,
+                "correct": 452,
+                "tokens": 2643,
+                "ce_nats_per_token": 3.59874412123168
+              },
+              "quantized-linear": {
+                "loss_sum": 4903.275484139633,
+                "correct": 279,
+                "tokens": 1393,
+                "ce_nats_per_token": 3.519939328169155
+              },
+              "lab": {
+                "loss_sum": 5134.9081225825785,
+                "correct": 263,
+                "tokens": 1465,
+                "ce_nats_per_token": 3.5050567389642175
+              }
+            }
+          }
+        },
+        {
+          "alpha": 1.0,
+          "validation": {
+            "ce_nats_per_token": 3.920167477676149,
+            "teacher_forced_accuracy": 0.18761971095246388,
+            "supervised_tokens": 11486,
+            "documents": {
+              "inference-engine": {
+                "loss_sum": 12601.725559636905,
+                "correct": 571,
+                "tokens": 3240,
+                "ce_nats_per_token": 3.8894214690237363
+              },
+              "position-cache": {
+                "loss_sum": 5324.271465187509,
+                "correct": 340,
+                "tokens": 1396,
+                "ce_nats_per_token": 3.8139480409652644
+              },
+              "decoding-algorithms": {
+                "loss_sum": 5238.469669363643,
+                "correct": 250,
+                "tokens": 1349,
+                "ce_nats_per_token": 3.883224365725458
+              },
+              "efficient-inference": {
+                "loss_sum": 10569.293943331484,
+                "correct": 452,
+                "tokens": 2643,
+                "ce_nats_per_token": 3.998976142009642
+              },
+              "quantized-linear": {
+                "loss_sum": 5522.234061691119,
+                "correct": 279,
+                "tokens": 1393,
+                "ce_nats_per_token": 3.964274272570796
+              },
+              "lab": {
+                "loss_sum": 5771.048949377711,
+                "correct": 263,
+                "tokens": 1465,
+                "ce_nats_per_token": 3.939282559302192
+              }
+            }
+          }
+        }
+      ],
+      "evaluation": {
+        "train": {
+          "ce_nats_per_token": 3.1397918885539147,
+          "teacher_forced_accuracy": 0.20477317115772425,
+          "supervised_tokens": 62977,
+          "documents": {
+            "index": {
+              "loss_sum": 3281.8708011047192,
+              "correct": 272,
+              "tokens": 1077,
+              "ce_nats_per_token": 3.0472337986116242
+            },
+            "training": {
+              "loss_sum": 6802.857885014686,
+              "correct": 517,
+              "tokens": 2223,
+              "ce_nats_per_token": 3.0602149730160533
+            },
+            "training-deep": {
+              "loss_sum": 11369.497186275292,
+              "correct": 821,
+              "tokens": 3667,
+              "ce_nats_per_token": 3.1004900971571563
+            },
+            "transformer-anatomy": {
+              "loss_sum": 12166.851903266686,
+              "correct": 749,
+              "tokens": 3853,
+              "ce_nats_per_token": 3.157760680837448
+            },
+            "transformer-evolution": {
+              "loss_sum": 8097.380285804316,
+              "correct": 541,
+              "tokens": 2601,
+              "ce_nats_per_token": 3.11317965621081
+            },
+            "architecture-variants": {
+              "loss_sum": 9188.613886415182,
+              "correct": 588,
+              "tokens": 2970,
+              "ce_nats_per_token": 3.093809389365381
+            },
+            "data-tokenizer": {
+              "loss_sum": 14241.486707523238,
+              "correct": 842,
+              "tokens": 4431,
+              "ce_nats_per_token": 3.2140570317136623
+            },
+            "packing-correctness": {
+              "loss_sum": 5147.588631227056,
+              "correct": 350,
+              "tokens": 1655,
+              "ce_nats_per_token": 3.110325456934777
+            },
+            "representation": {
+              "loss_sum": 7035.528862841408,
+              "correct": 435,
+              "tokens": 2211,
+              "ce_nats_per_token": 3.182057378037724
+            },
+            "representation-deep": {
+              "loss_sum": 6248.574023773837,
+              "correct": 404,
+              "tokens": 2008,
+              "ce_nats_per_token": 3.1118396532738233
+            },
+            "backpropagation": {
+              "loss_sum": 5390.701341256402,
+              "correct": 350,
+              "tokens": 1733,
+              "ce_nats_per_token": 3.110618200378766
+            },
+            "numerical-computing": {
+              "loss_sum": 7085.718247968271,
+              "correct": 435,
+              "tokens": 2241,
+              "ce_nats_per_token": 3.16185553233747
+            },
+            "tensor-layout": {
+              "loss_sum": 3357.1505745167856,
+              "correct": 157,
+              "tokens": 1039,
+              "ce_nats_per_token": 3.2311362603626423
+            },
+            "optimization-dynamics": {
+              "loss_sum": 9676.011116986334,
+              "correct": 587,
+              "tokens": 3078,
+              "ce_nats_per_token": 3.143603351847412
+            },
+            "initialization-width": {
+              "loss_sum": 10368.91055381592,
+              "correct": 649,
+              "tokens": 3276,
+              "ce_nats_per_token": 3.165113111665421
+            },
+            "batch-noise": {
+              "loss_sum": 8542.794861171,
+              "correct": 526,
+              "tokens": 2693,
+              "ce_nats_per_token": 3.17222237696658
+            },
+            "scaling-laws": {
+              "loss_sum": 9426.976584162929,
+              "correct": 615,
+              "tokens": 2989,
+              "ce_nats_per_token": 3.153889790619916
+            },
+            "continual-learning": {
+              "loss_sum": 3798.7364210703536,
+              "correct": 263,
+              "tokens": 1193,
+              "ce_nats_per_token": 3.1841881148955187
+            },
+            "posttraining": {
+              "loss_sum": 6990.559074159258,
+              "correct": 499,
+              "tokens": 2227,
+              "ce_nats_per_token": 3.139002727507525
+            },
+            "posttraining-deep": {
+              "loss_sum": 12233.792969847238,
+              "correct": 801,
+              "tokens": 3910,
+              "ce_nats_per_token": 3.128847306866301
+            },
+            "finetuning-recipe": {
+              "loss_sum": 13473.595900637425,
+              "correct": 848,
+              "tokens": 4267,
+              "ce_nats_per_token": 3.1576273495752107
+            },
+            "lora-mechanics": {
+              "loss_sum": 4102.303860140262,
+              "correct": 245,
+              "tokens": 1277,
+              "ce_nats_per_token": 3.2124540799845436
+            },
+            "distillation-data": {
+              "loss_sum": 9540.144114447508,
+              "correct": 626,
+              "tokens": 3051,
+              "ce_nats_per_token": 3.1268908929687016
+            },
+            "model-artifacts": {
+              "loss_sum": 10167.027972034102,
+              "correct": 776,
+              "tokens": 3307,
+              "ce_nats_per_token": 3.074396120965861
+            }
+          }
+        },
+        "validation": {
+          "ce_nats_per_token": 3.4764895009381434,
+          "teacher_forced_accuracy": 0.18761971095246388,
+          "supervised_tokens": 11486,
+          "documents": {
+            "inference-engine": {
+              "loss_sum": 11142.556695137844,
+              "correct": 571,
+              "tokens": 3240,
+              "ce_nats_per_token": 3.439060708375878
+            },
+            "position-cache": {
+              "loss_sum": 4594.15583166959,
+              "correct": 340,
+              "tokens": 1396,
+              "ce_nats_per_token": 3.2909425728292194
+            },
+            "decoding-algorithms": {
+              "loss_sum": 4644.581561830852,
+              "correct": 250,
+              "tokens": 1349,
+              "ce_nats_per_token": 3.4429811429435517
+            },
+            "efficient-inference": {
+              "loss_sum": 9511.48071241533,
+              "correct": 452,
+              "tokens": 2643,
+              "ce_nats_per_token": 3.59874412123168
+            },
+            "quantized-linear": {
+              "loss_sum": 4903.275484139633,
+              "correct": 279,
+              "tokens": 1393,
+              "ce_nats_per_token": 3.519939328169155
+            },
+            "lab": {
+              "loss_sum": 5134.9081225825785,
+              "correct": 263,
+              "tokens": 1465,
+              "ce_nats_per_token": 3.5050567389642175
+            }
+          }
+        },
+        "test": {
+          "ce_nats_per_token": 3.5062741965359887,
+          "teacher_forced_accuracy": 0.18322995028815275,
+          "supervised_tokens": 22731,
+          "documents": {
+            "model-evaluation": {
+              "loss_sum": 16908.48377927975,
+              "correct": 893,
+              "tokens": 4866,
+              "ce_nats_per_token": 3.474821985055436
+            },
+            "paired-evaluation": {
+              "loss_sum": 8020.314541324999,
+              "correct": 413,
+              "tokens": 2293,
+              "ce_nats_per_token": 3.497738570137374
+            },
+            "uncertainty-calibration": {
+              "loss_sum": 4938.488329115191,
+              "correct": 265,
+              "tokens": 1426,
+              "ce_nats_per_token": 3.463175546364089
+            },
+            "agents-context": {
+              "loss_sum": 11597.699642937629,
+              "correct": 606,
+              "tokens": 3297,
+              "ce_nats_per_token": 3.5176523029838123
+            },
+            "training-environments": {
+              "loss_sum": 5799.066180333196,
+              "correct": 269,
+              "tokens": 1649,
+              "ce_nats_per_token": 3.5167169074185542
+            },
+            "multimodal": {
+              "loss_sum": 10893.80240966879,
+              "correct": 490,
+              "tokens": 2920,
+              "ce_nats_per_token": 3.7307542498865716
+            },
+            "reasoning-compute": {
+              "loss_sum": 14312.431965805124,
+              "correct": 796,
+              "tokens": 4153,
+              "ce_nats_per_token": 3.4462874947760955
+            },
+            "learning-mechanisms": {
+              "loss_sum": 7230.831912993852,
+              "correct": 433,
+              "tokens": 2127,
+              "ce_nats_per_token": 3.3995448580130945
+            }
+          }
+        }
+      }
+    }
+  ],
+  "transformer": [
+    {
+      "seed": 11,
+      "curve": [
+        {
+          "update": 0,
+          "supervised_tokens": 0,
+          "train": {
+            "ce_nats_per_token": 5.985935667113589,
+            "teacher_forced_accuracy": 0.002969338012290201,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 5.99161768266803,
+            "teacher_forced_accuracy": 0.0022636252829531605,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 100,
+          "supervised_tokens": 74962,
+          "train": {
+            "ce_nats_per_token": 5.251896277609286,
+            "teacher_forced_accuracy": 0.03612429934738079,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 5.285916856662459,
+            "teacher_forced_accuracy": 0.0320390040048755,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 200,
+          "supervised_tokens": 149644,
+          "train": {
+            "ce_nats_per_token": 3.846359102951276,
+            "teacher_forced_accuracy": 0.1719993013322324,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.9716920581985677,
+            "teacher_forced_accuracy": 0.15810551976318998,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 300,
+          "supervised_tokens": 224705,
+          "train": {
+            "ce_nats_per_token": 3.226007400581264,
+            "teacher_forced_accuracy": 0.22331962462486304,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.4107099981771287,
+            "teacher_forced_accuracy": 0.2028556503569563,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 400,
+          "supervised_tokens": 300224,
+          "train": {
+            "ce_nats_per_token": 3.044831936411309,
+            "teacher_forced_accuracy": 0.2470584499102847,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.305666315582557,
+            "teacher_forced_accuracy": 0.21391258923907366,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 500,
+          "supervised_tokens": 374790,
+          "train": {
+            "ce_nats_per_token": 2.92570423620677,
+            "teacher_forced_accuracy": 0.2664147228353208,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.2524243593423514,
+            "teacher_forced_accuracy": 0.21704683963085494,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 600,
+          "supervised_tokens": 449777,
+          "train": {
+            "ce_nats_per_token": 2.7845143443365235,
+            "teacher_forced_accuracy": 0.2986010765835146,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.2058126299135905,
+            "teacher_forced_accuracy": 0.23593940449242556,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 700,
+          "supervised_tokens": 524883,
+          "train": {
+            "ce_nats_per_token": 2.6682440434913244,
+            "teacher_forced_accuracy": 0.3248805119329279,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.189116522968179,
+            "teacher_forced_accuracy": 0.24107609263451157,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 800,
+          "supervised_tokens": 599591,
+          "train": {
+            "ce_nats_per_token": 2.53777083455319,
+            "teacher_forced_accuracy": 0.35465328612032965,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.1514937427221184,
+            "teacher_forced_accuracy": 0.2562249695281212,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        }
+      ],
+      "evaluation": {
+        "initial": {
+          "train": {
+            "ce_nats_per_token": 5.985935667113589,
+            "teacher_forced_accuracy": 0.002969338012290201,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 5.99161768266803,
+            "teacher_forced_accuracy": 0.0022636252829531605,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "test": {
+            "ce_nats_per_token": 5.995628579126158,
+            "teacher_forced_accuracy": 0.002683559896177027,
+            "supervised_tokens": 22731,
+            "windows": 241,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        "learned": {
+          "train": {
+            "ce_nats_per_token": 2.53777083455319,
+            "teacher_forced_accuracy": 0.35465328612032965,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.1514937427221184,
+            "teacher_forced_accuracy": 0.2562249695281212,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "test": {
+            "ce_nats_per_token": 3.171642573907369,
+            "teacher_forced_accuracy": 0.24715146715938585,
+            "supervised_tokens": 22731,
+            "windows": 241,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        }
+      },
+      "generations": {
+        "initial": [
+          {
+            "prompt": "模型训练",
+            "tokens": [
+              264,
+              359,
+              359,
+              52,
+              111,
+              176,
+              74,
+              74,
+              74,
+              74,
+              266,
+              118,
+              118,
+              118,
+              118,
+              118,
+              118,
+              118,
+              73,
+              73,
+              22,
+              22,
+              288,
+              288,
+              288,
+              204,
+              204,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              194,
+              194,
+              147,
+              166,
+              166,
+              166
+            ],
+            "text": "，��1l�GGGG�sssssssFF\u0013\u0013；；；��999999999999999������",
+            "replacement_characters": 12,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "梯度",
+            "tokens": [
+              169,
+              264,
+              264,
+              359,
+              359,
+              52,
+              111,
+              176,
+              74,
+              74,
+              74,
+              74,
+              266,
+              118,
+              118,
+              118,
+              118,
+              118,
+              118,
+              118,
+              73,
+              73,
+              22,
+              22,
+              288,
+              288,
+              288,
+              204,
+              204,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              194,
+              194,
+              147,
+              166
+            ],
+            "text": "�，，��1l�GGGG�sssssssFF\u0013\u0013；；；��999999999999999����",
+            "replacement_characters": 11,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "数据",
+            "tokens": [
+              264,
+              264,
+              359,
+              359,
+              52,
+              111,
+              176,
+              74,
+              74,
+              74,
+              74,
+              266,
+              118,
+              118,
+              118,
+              118,
+              118,
+              118,
+              118,
+              73,
+              73,
+              22,
+              22,
+              288,
+              288,
+              288,
+              204,
+              204,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              194,
+              194,
+              147,
+              166,
+              166
+            ],
+            "text": "，，��1l�GGGG�sssssssFF\u0013\u0013；；；��999999999999999�����",
+            "replacement_characters": 11,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          }
+        ],
+        "learned": [
+          {
+            "prompt": "模型训练",
+            "tokens": [
+              287,
+              177,
+              332,
+              234,
+              176,
+              151,
+              268,
+              233,
+              166,
+              131,
+              234,
+              145,
+              178,
+              232,
+              145,
+              162,
+              262,
+              13,
+              282,
+              156,
+              296,
+              158,
+              234,
+              180,
+              190,
+              269,
+              174,
+              35,
+              111,
+              114,
+              118,
+              118,
+              35,
+              289,
+              35,
+              118,
+              114,
+              105,
+              119,
+              112,
+              100,
+              119,
+              119,
+              35,
+              289,
+              35,
+              111,
+              114
+            ],
+            "text": "目标答的检环原。\n这些类别 loss 与 softmatt 与 lo",
+            "replacement_characters": 0,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "梯度",
+            "tokens": [
+              268,
+              35,
+              117,
+              114,
+              120,
+              119,
+              299,
+              119,
+              108,
+              114,
+              113,
+              35,
+              289,
+              35,
+              289,
+              35,
+              117,
+              114,
+              117,
+              112,
+              35,
+              289,
+              35,
+              289,
+              35,
+              117,
+              104,
+              102,
+              114,
+              113,
+              119,
+              35,
+              289,
+              35,
+              117,
+              114,
+              113,
+              118,
+              35,
+              289,
+              35,
+              102,
+              114,
+              115,
+              119,
+              104,
+              35,
+              289
+            ],
+            "text": "的 routention 与 与 rorm 与 与 recont 与 rons 与 copte 与",
+            "replacement_characters": 0,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "数据",
+            "tokens": [
+              233,
+              140,
+              131,
+              354,
+              281,
+              337,
+              348,
+              268,
+              35,
+              104,
+              112,
+              101,
+              100,
+              119,
+              119,
+              108,
+              114,
+              113,
+              35,
+              289,
+              35,
+              289,
+              35,
+              111,
+              114,
+              118,
+              118,
+              35,
+              289,
+              35,
+              289,
+              35,
+              111,
+              114,
+              118,
+              118,
+              35,
+              289,
+              35,
+              289,
+              35,
+              101,
+              100,
+              119,
+              102,
+              107,
+              104,
+              103
+            ],
+            "text": "所有位置的 embattion 与 与 loss 与 与 loss 与 与 batched",
+            "replacement_characters": 0,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          }
+        ]
+      },
+      "updates": 800,
+      "supervised_tokens": 599591,
+      "elapsed_seconds_including_eval": 16.88591045816429,
+      "checkpoint": "artifacts/practice-20261028T152417Z/practice/text/seed-11-final.pt",
+      "checkpoint_sha256": "7ecb13176989f58b9aad9def43693c731538b32f176efe33f345abefb4f78691"
+    },
+    {
+      "seed": 29,
+      "curve": [
+        {
+          "update": 0,
+          "supervised_tokens": 0,
+          "train": {
+            "ce_nats_per_token": 5.979597896355019,
+            "teacher_forced_accuracy": 0.002858186321990568,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 5.975961522111157,
+            "teacher_forced_accuracy": 0.0036566254570781823,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 100,
+          "supervised_tokens": 75175,
+          "train": {
+            "ce_nats_per_token": 5.26277227977327,
+            "teacher_forced_accuracy": 0.03612429934738079,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 5.288598450015236,
+            "teacher_forced_accuracy": 0.0320390040048755,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 200,
+          "supervised_tokens": 150055,
+          "train": {
+            "ce_nats_per_token": 4.094267464771365,
+            "teacher_forced_accuracy": 0.140908585674135,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 4.208945392420664,
+            "teacher_forced_accuracy": 0.13285739160717394,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 300,
+          "supervised_tokens": 225131,
+          "train": {
+            "ce_nats_per_token": 3.2598231004101694,
+            "teacher_forced_accuracy": 0.22192228908966766,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.444588410279362,
+            "teacher_forced_accuracy": 0.19815427476928435,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 400,
+          "supervised_tokens": 299568,
+          "train": {
+            "ce_nats_per_token": 3.07152996611114,
+            "teacher_forced_accuracy": 0.23943661971830985,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.3124939846946826,
+            "teacher_forced_accuracy": 0.20677346334668292,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 500,
+          "supervised_tokens": 374888,
+          "train": {
+            "ce_nats_per_token": 2.937742717889567,
+            "teacher_forced_accuracy": 0.2626038077393334,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.2372040639827833,
+            "teacher_forced_accuracy": 0.2230541528817691,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 600,
+          "supervised_tokens": 449889,
+          "train": {
+            "ce_nats_per_token": 2.8189693330811743,
+            "teacher_forced_accuracy": 0.2877876049986503,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.2011318934123607,
+            "teacher_forced_accuracy": 0.2300191537523942,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 700,
+          "supervised_tokens": 524663,
+          "train": {
+            "ce_nats_per_token": 2.6992291084443525,
+            "teacher_forced_accuracy": 0.31132000571637264,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.1876869633412417,
+            "teacher_forced_accuracy": 0.24403621800452724,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 800,
+          "supervised_tokens": 599606,
+          "train": {
+            "ce_nats_per_token": 2.568162897950343,
+            "teacher_forced_accuracy": 0.3429506010130683,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.159442277895373,
+            "teacher_forced_accuracy": 0.24786696848337106,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        }
+      ],
+      "evaluation": {
+        "initial": {
+          "train": {
+            "ce_nats_per_token": 5.979597896355019,
+            "teacher_forced_accuracy": 0.002858186321990568,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 5.975961522111157,
+            "teacher_forced_accuracy": 0.0036566254570781823,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "test": {
+            "ce_nats_per_token": 5.976650321107592,
+            "teacher_forced_accuracy": 0.0019796753332453477,
+            "supervised_tokens": 22731,
+            "windows": 241,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        "learned": {
+          "train": {
+            "ce_nats_per_token": 2.568162897950343,
+            "teacher_forced_accuracy": 0.3429506010130683,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.159442277895373,
+            "teacher_forced_accuracy": 0.24786696848337106,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "test": {
+            "ce_nats_per_token": 3.170037575736383,
+            "teacher_forced_accuracy": 0.24904315692226475,
+            "supervised_tokens": 22731,
+            "windows": 241,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        }
+      },
+      "generations": {
+        "initial": [
+          {
+            "prompt": "模型训练",
+            "tokens": [
+              226,
+              226,
+              308,
+              380,
+              380,
+              208,
+              168,
+              168,
+              168,
+              247,
+              247,
+              247,
+              208,
+              208,
+              208,
+              87,
+              87,
+              87,
+              276,
+              276,
+              26,
+              26,
+              2
+            ],
+            "text": "��戞���ͥ��������TTT��\u0017\u0017",
+            "replacement_characters": 15,
+            "special_non_eos": 0,
+            "terminated": true,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "梯度",
+            "tokens": [
+              271,
+              271,
+              226,
+              226,
+              308,
+              380,
+              380,
+              208,
+              168,
+              168,
+              168,
+              247,
+              247,
+              247,
+              208,
+              208,
+              208,
+              87,
+              87,
+              87,
+              276,
+              276,
+              26,
+              26,
+              2
+            ],
+            "text": "����戞���ͥ��������TTT��\u0017\u0017",
+            "replacement_characters": 17,
+            "special_non_eos": 0,
+            "terminated": true,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "数据",
+            "tokens": [
+              271,
+              226,
+              226,
+              308,
+              380,
+              380,
+              208,
+              168,
+              168,
+              168,
+              247,
+              247,
+              247,
+              208,
+              208,
+              208,
+              87,
+              87,
+              87,
+              276,
+              276,
+              26,
+              26,
+              2
+            ],
+            "text": "���戞���ͥ��������TTT��\u0017\u0017",
+            "replacement_characters": 16,
+            "special_non_eos": 0,
+            "terminated": true,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          }
+        ],
+        "learned": [
+          {
+            "prompt": "模型训练",
+            "tokens": [
+              35,
+              76,
+              81,
+              35,
+              50,
+              35,
+              68,
+              85,
+              68,
+              85,
+              68,
+              86,
+              76,
+              81,
+              87,
+              76,
+              81,
+              87,
+              76,
+              81,
+              74,
+              72,
+              82,
+              86,
+              76,
+              81,
+              87,
+              76,
+              82,
+              81,
+              13,
+              13,
+              282,
+              156,
+              279,
+              143,
+              35,
+              69,
+              72,
+              35,
+              260,
+              141,
+              260,
+              142,
+              283,
+              138,
+              262,
+              13
+            ],
+            "text": " IN / ARARASINTINTINGEOSINTION\n\n这里 BE 上下文。\n",
+            "replacement_characters": 0,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "梯度",
+            "tokens": [
+              260,
+              142,
+              283,
+              138,
+              234,
+              162,
+              172,
+              236,
+              157,
+              146,
+              320,
+              35,
+              72,
+              85,
+              68,
+              35,
+              68,
+              35,
+              233,
+              184,
+              142,
+              35,
+              68,
+              103,
+              35,
+              292,
+              35,
+              76,
+              71,
+              264,
+              236,
+              157,
+              193,
+              35,
+              76,
+              71,
+              35,
+              292,
+              35,
+              72,
+              82,
+              86,
+              2
+            ],
+            "text": "下文矩随个 ERA A 测 Ad 和 ID，难 ID 和 EOS",
+            "replacement_characters": 0,
+            "special_non_eos": 0,
+            "terminated": true,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "数据",
+            "tokens": [
+              35,
+              90,
+              35,
+              76,
+              81,
+              35,
+              50,
+              35,
+              68,
+              81,
+              74,
+              72,
+              85,
+              68,
+              76,
+              81,
+              87,
+              76,
+              81,
+              87,
+              82,
+              81,
+              74,
+              72,
+              81,
+              87,
+              76,
+              81,
+              87,
+              76,
+              81,
+              13,
+              13,
+              282,
+              156,
+              279,
+              143,
+              35,
+              68,
+              35,
+              68,
+              35,
+              260,
+              189,
+              35,
+              52,
+              51,
+              51
+            ],
+            "text": " W IN / ANGERAINTINTONGENTINTIN\n\n这里 A A 为 100",
+            "replacement_characters": 0,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          }
+        ]
+      },
+      "updates": 800,
+      "supervised_tokens": 599606,
+      "elapsed_seconds_including_eval": 16.862828416982666,
+      "checkpoint": "artifacts/practice-20261028T152417Z/practice/text/seed-29-final.pt",
+      "checkpoint_sha256": "3791b579bf5d56ac31c8b3e777f09d71a296ae6b9816201ac2b50e7921cf9ad6"
+    },
+    {
+      "seed": 47,
+      "curve": [
+        {
+          "update": 0,
+          "supervised_tokens": 0,
+          "train": {
+            "ce_nats_per_token": 5.983842237915231,
+            "teacher_forced_accuracy": 0.002223033805992664,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 5.982464938634533,
+            "teacher_forced_accuracy": 0.001915375239421905,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 100,
+          "supervised_tokens": 75017,
+          "train": {
+            "ce_nats_per_token": 5.250595874163385,
+            "teacher_forced_accuracy": 0.03612429934738079,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 5.284577037738877,
+            "teacher_forced_accuracy": 0.0320390040048755,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 200,
+          "supervised_tokens": 149590,
+          "train": {
+            "ce_nats_per_token": 4.055751357204317,
+            "teacher_forced_accuracy": 0.13879670355844198,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 4.159869109506954,
+            "teacher_forced_accuracy": 0.13181264147658017,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 300,
+          "supervised_tokens": 225161,
+          "train": {
+            "ce_nats_per_token": 3.2704895534158305,
+            "teacher_forced_accuracy": 0.21801610111628056,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.4437216111597815,
+            "teacher_forced_accuracy": 0.19232108654013583,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 400,
+          "supervised_tokens": 299926,
+          "train": {
+            "ce_nats_per_token": 3.0706943203223003,
+            "teacher_forced_accuracy": 0.23900789177001128,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.304846618641716,
+            "teacher_forced_accuracy": 0.20842765105345637,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 500,
+          "supervised_tokens": 374790,
+          "train": {
+            "ce_nats_per_token": 2.9323977295902672,
+            "teacher_forced_accuracy": 0.26609714657732186,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.2284365970665374,
+            "teacher_forced_accuracy": 0.22470834058854258,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 600,
+          "supervised_tokens": 449729,
+          "train": {
+            "ce_nats_per_token": 2.7969360768303804,
+            "teacher_forced_accuracy": 0.29477428267462724,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.1866342849107063,
+            "teacher_forced_accuracy": 0.23846421730802717,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 700,
+          "supervised_tokens": 524651,
+          "train": {
+            "ce_nats_per_token": 2.679608524615137,
+            "teacher_forced_accuracy": 0.321831779856138,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.178443628384555,
+            "teacher_forced_accuracy": 0.2505659063207383,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        {
+          "update": 800,
+          "supervised_tokens": 599753,
+          "train": {
+            "ce_nats_per_token": 2.5468878666455113,
+            "teacher_forced_accuracy": 0.3526684345078362,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.1535372248348534,
+            "teacher_forced_accuracy": 0.25970746996343375,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        }
+      ],
+      "evaluation": {
+        "initial": {
+          "train": {
+            "ce_nats_per_token": 5.983842237915231,
+            "teacher_forced_accuracy": 0.002223033805992664,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 5.982464938634533,
+            "teacher_forced_accuracy": 0.001915375239421905,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "test": {
+            "ce_nats_per_token": 5.984249832417132,
+            "teacher_forced_accuracy": 0.0016277330517795081,
+            "supervised_tokens": 22731,
+            "windows": 241,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        },
+        "learned": {
+          "train": {
+            "ce_nats_per_token": 2.5468878666455113,
+            "teacher_forced_accuracy": 0.3526684345078362,
+            "supervised_tokens": 62977,
+            "windows": 672,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "validation": {
+            "ce_nats_per_token": 3.1535372248348534,
+            "teacher_forced_accuracy": 0.25970746996343375,
+            "supervised_tokens": 11486,
+            "windows": 123,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          },
+          "test": {
+            "ce_nats_per_token": 3.149951788476148,
+            "teacher_forced_accuracy": 0.25814966345519336,
+            "supervised_tokens": 22731,
+            "windows": 241,
+            "scope": "next-token teacher forcing; does not score instruction following or factual correctness"
+          }
+        }
+      },
+      "generations": {
+        "initial": [
+          {
+            "prompt": "模型训练",
+            "tokens": [
+              252,
+              127,
+              8,
+              8,
+              8,
+              116,
+              116,
+              116,
+              16,
+              16,
+              9,
+              9,
+              175,
+              50,
+              50,
+              301,
+              100,
+              100,
+              100,
+              205,
+              205,
+              205,
+              382,
+              382,
+              382,
+              325,
+              325,
+              325,
+              205,
+              382,
+              382,
+              382,
+              270,
+              297,
+              297,
+              205,
+              269,
+              50,
+              50,
+              50,
+              297,
+              297,
+              297,
+              288,
+              288,
+              50,
+              50,
+              50
+            ],
+            "text": "�|\u0005\u0005\u0005qqq\r\r\u0006\u0006�//�aaa������模模模���������///���；；///",
+            "replacement_characters": 21,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "梯度",
+            "tokens": [
+              317,
+              322,
+              78,
+              127,
+              8,
+              8,
+              8,
+              116,
+              116,
+              116,
+              16,
+              16,
+              9,
+              9,
+              175,
+              50,
+              50,
+              301,
+              100,
+              100,
+              100,
+              205,
+              205,
+              205,
+              382,
+              382,
+              382,
+              325,
+              325,
+              325,
+              205,
+              382,
+              382,
+              382,
+              270,
+              297,
+              297,
+              205,
+              269,
+              50,
+              50,
+              50,
+              297,
+              297,
+              297,
+              288,
+              288,
+              50
+            ],
+            "text": "er��K|\u0005\u0005\u0005qqq\r\r\u0006\u0006�//�aaa������模模模���������///���；；/",
+            "replacement_characters": 22,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "数据",
+            "tokens": [
+              288,
+              252,
+              127,
+              8,
+              8,
+              8,
+              116,
+              116,
+              116,
+              16,
+              16,
+              9,
+              9,
+              175,
+              50,
+              50,
+              301,
+              100,
+              100,
+              100,
+              205,
+              205,
+              205,
+              382,
+              382,
+              382,
+              325,
+              325,
+              325,
+              205,
+              382,
+              382,
+              382,
+              270,
+              297,
+              297,
+              205,
+              269,
+              50,
+              50,
+              50,
+              297,
+              297,
+              297,
+              288,
+              288,
+              50,
+              50
+            ],
+            "text": "；�|\u0005\u0005\u0005qqq\r\r\u0006\u0006�//�aaa������模模模���������///���；；//",
+            "replacement_characters": 21,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          }
+        ],
+        "learned": [
+          {
+            "prompt": "模型训练",
+            "tokens": [
+              35,
+              79,
+              35,
+              50,
+              35,
+              50,
+              35,
+              72,
+              85,
+              72,
+              85,
+              72,
+              86,
+              35,
+              50,
+              35,
+              76,
+              82,
+              81,
+              35,
+              41,
+              35,
+              41,
+              35,
+              41,
+              35,
+              79,
+              76,
+              81,
+              87,
+              76,
+              71,
+              72,
+              81,
+              72,
+              86,
+              72,
+              85,
+              72,
+              85,
+              72,
+              35,
+              50,
+              35,
+              50,
+              35,
+              76,
+              81
+            ],
+            "text": " L / / ERERES / ION & & & LINTIDENESERERE / / IN",
+            "replacement_characters": 0,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "梯度",
+            "tokens": [
+              326,
+              35,
+              115,
+              117,
+              114,
+              103,
+              317,
+              35,
+              289,
+              35,
+              117,
+              114,
+              117,
+              112,
+              35,
+              234,
+              159,
+              132,
+              234,
+              176,
+              153,
+              234,
+              145,
+              179,
+              262,
+              13,
+              233,
+              187,
+              147,
+              320,
+              35,
+              114,
+              118,
+              118,
+              35,
+              289,
+              35,
+              103,
+              104,
+              102,
+              114,
+              103,
+              104,
+              35,
+              289,
+              35,
+              117,
+              114
+            ],
+            "text": "是 proder 与 rorm 省策现。\n渐个 oss 与 decode 与 ro",
+            "replacement_characters": 0,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          },
+          {
+            "prompt": "数据",
+            "tokens": [
+              265,
+              236,
+              173,
+              143,
+              284,
+              132,
+              234,
+              159,
+              142,
+              233,
+              182,
+              152,
+              234,
+              176,
+              193,
+              234,
+              176,
+              193,
+              234,
+              176,
+              153,
+              236,
+              173,
+              143,
+              284,
+              132,
+              236,
+              152,
+              194,
+              286,
+              262,
+              13,
+              233,
+              182,
+              171,
+              234,
+              176,
+              151,
+              234,
+              176,
+              151,
+              234,
+              176,
+              151,
+              234,
+              176,
+              151,
+              234
+            ],
+            "text": "、验证看法签签策验证长度。\n注答答答答�",
+            "replacement_characters": 1,
+            "special_non_eos": 0,
+            "terminated": false,
+            "policy": "unmasked greedy; 48-token cap; sliding 96-token context resets local positions when cropped; special tokens and invalid UTF-8 replacements are reported"
+          }
+        ]
+      },
+      "updates": 800,
+      "supervised_tokens": 599753,
+      "elapsed_seconds_including_eval": 16.823252541013062,
+      "checkpoint": "artifacts/practice-20261028T152417Z/practice/text/seed-47-final.pt",
+      "checkpoint_sha256": "99b1352215a42f5ad3f91c5d3ec104ec4c202acf42c7001c1e250ba48ed0f2a6"
+    }
+  ],
+  "limits": [
+    "same-tokenizer next-token prediction; no claim of fluent generation",
+    "count models use only training labels; alpha selection uses validation labels",
+    "document-level slices are descriptive; this small domain collection is not a broad Chinese benchmark"
+  ]
+}

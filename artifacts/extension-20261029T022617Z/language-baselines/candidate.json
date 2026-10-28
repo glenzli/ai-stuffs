@@ -1,0 +1,55 @@
+{
+  "schema": "experiment-candidate-v1",
+  "base_manifest_sha256": "f368e820f57318ec40cd735bb5cffd0110f572e00f8c807f5b60092b3950d8e4",
+  "bundle_root": "artifacts/extension-20261029T022617Z/language-baselines",
+  "entry": {
+    "id": "language-baselines",
+    "title": "自然语言模型的词频与相邻统计基线",
+    "pages": [
+      "text-training-project"
+    ],
+    "schema": "language-baselines-v1",
+    "status": "passed",
+    "runtime": {
+      "python": "3.12.13",
+      "torch": "2.9.0",
+      "numpy": "2.3.4",
+      "platform": "macOS-27.0.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "device": "cpu",
+      "dtype": "float32",
+      "threads": 1,
+      "deterministic_algorithms": true,
+      "torch_build": "PyTorch built with:\n  - GCC 4.2\n  - C++ Version: 201703\n  - clang 15.0.0\n  - OpenMP 201811\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: DEFAULT\n  - Build settings: BLAS_INFO=accelerate, BUILD_TYPE=Release, COMMIT_SHA=0fabc3ba44823f257e70ce397d989c8de5e362c1, CXX_COMPILER=/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_PYTORCH_QNNPACK -DAT_BUILD_ARM_VEC256_WITH_SLEEF -DUSE_XNNPACK -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DUSE_COREML_DELEGATE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=braced-scalar-init -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wvla-extension -Wsuggest-override -Wnewline-eof -Winconsistent-missing-override -Winconsistent-missing-destructor-override -Wno-pass-failed -Wno-error=old-style-cast -Wconstant-conversion -Qunused-arguments -faligned-new -fno-math-errno -fno-trapping-math -Werror=format -DUSE_MPS -Wno-missing-braces, LAPACK_INFO=accelerate, TORCH_VERSION=2.9.0, USE_CUDA=OFF, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_EIGEN_FOR_BLAS=ON, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=OFF, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n"
+    },
+    "created_at": "2026-10-29T02:26:18.646Z",
+    "command": "node scripts/run-evidence-extension.mjs --out-dir artifacts/extension-my-run",
+    "report": {
+      "path": "artifacts/extension-20261029T022617Z/language-baselines/language-baselines/report.json",
+      "bytes": 78932,
+      "sha256": "d7827dee2a83ebfaa37d38833b3af03c94588495b0a17259991776cab9946d46"
+    },
+    "archive": {
+      "path": "artifacts/extension-20261029T022617Z/language-baselines/downloads/language-baselines-sources.tar.gz",
+      "bytes": 227501,
+      "sha256": "c02df09b334e73da78acd2b546c79244c093bc1bab68d6f0142172e06f72f86c"
+    },
+    "checksums": {
+      "path": "artifacts/extension-20261029T022617Z/language-baselines/language-baselines/SHA256SUMS",
+      "bytes": 666,
+      "sha256": "c47f20bcff8a74385136b9fee5726956a3f27c2ce371fa232dbcd4a7dce8cea0"
+    },
+    "source": {
+      "path": "artifacts/extension-20261029T022617Z/language-baselines/SOURCE-SHA256SUMS",
+      "bytes": 103,
+      "sha256": "f41cbbb83c2e3f95a82061e4db08465c4ab58a236f6792548dedca404cb98edd"
+    },
+    "bundle_root": "artifacts/extension-20261029T022617Z/language-baselines"
+  },
+  "projection": {
+    "path": "artifacts/extension-20261029T022617Z/language-baselines/language-baselines/page-data.js",
+    "bytes": 22509,
+    "sha256": "d96b6e810e2d462087ef09a05280bb9cc19bc8a51560e916dc3591f2fd4fda47",
+    "target": "src/scripts/features/language-baselines-data.js"
+  }
+}

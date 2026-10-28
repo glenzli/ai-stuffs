@@ -1,0 +1,77 @@
+{
+  "downloads": [
+    {
+      "experiment": "language-baselines",
+      "kind": "report",
+      "status": 200,
+      "bytes": 78932,
+      "sha256": "d7827dee2a83ebfaa37d38833b3af03c94588495b0a17259991776cab9946d46",
+      "href": "assets/experiments/language-baselines-report.d7827dee2a.json"
+    },
+    {
+      "experiment": "language-baselines",
+      "kind": "archive",
+      "status": 200,
+      "bytes": 227501,
+      "sha256": "c02df09b334e73da78acd2b546c79244c093bc1bab68d6f0142172e06f72f86c",
+      "href": "assets/experiments/language-baselines-archive.c02df09b33.tar.gz"
+    },
+    {
+      "experiment": "language-baselines",
+      "kind": "checksums",
+      "status": 200,
+      "bytes": 666,
+      "sha256": "c47f20bcff8a74385136b9fee5726956a3f27c2ce371fa232dbcd4a7dce8cea0",
+      "href": "assets/experiments/language-baselines-checksums.c47f20bcff.txt"
+    },
+    {
+      "experiment": "matched-budget",
+      "kind": "report",
+      "status": 200,
+      "bytes": 1892839,
+      "sha256": "1e69736057b1abef1f3a259a01c0ed96578081d10641ba0366e594bb743c6556",
+      "href": "assets/experiments/matched-budget-report.1e69736057.json"
+    },
+    {
+      "experiment": "matched-budget",
+      "kind": "archive",
+      "status": 200,
+      "bytes": 8352864,
+      "sha256": "6afd0e0fc7f854567d413d5c06ac6cdaffa46da44d4ae24e6399f2cad7298938",
+      "href": "assets/experiments/matched-budget-archive.6afd0e0fc7.tar.gz"
+    },
+    {
+      "experiment": "matched-budget",
+      "kind": "checksums",
+      "status": 200,
+      "bytes": 1517,
+      "sha256": "1af764062b6f2960d76d540948cadee720a8109a099b02d3545c9bfb335d64b3",
+      "href": "assets/experiments/matched-budget-checksums.1af764062b.txt"
+    },
+    {
+      "experiment": "retrieval",
+      "kind": "report",
+      "status": 200,
+      "bytes": 865324,
+      "sha256": "c741220f4cf52778aef2f03a264cf3777fa20d4b6de10d349173f05b22bffef0",
+      "href": "assets/experiments/retrieval-report.c741220f4c.json"
+    },
+    {
+      "experiment": "retrieval",
+      "kind": "archive",
+      "status": 200,
+      "bytes": 62080496,
+      "sha256": "8ee54cc6defe3bc416b95b2f0180591b37c4a3664e62dc01c5e73ccc8c600c8e",
+      "href": "assets/experiments/retrieval-archive.8ee54cc6de.tar.gz"
+    },
+    {
+      "experiment": "retrieval",
+      "kind": "checksums",
+      "status": 200,
+      "bytes": 2051,
+      "sha256": "eb85ba0a3f6106cc8bf6e286e48c45fcfcaaa9d6f417acc7e1a595055ced83bb",
+      "href": "assets/experiments/retrieval-checksums.eb85ba0a3f.txt"
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,16 @@
+✔ accepted display projections preserve complete reports and all executed source identities (19.761084ms)
+✔ baseline and matched-budget views expose all seeds and guard invalid choices (1.127875ms)
+✔ all retrieval view methods retain real candidate evidence and invalid names cannot enter the view (8.7085ms)
+✔ URL state survives a reload, keeps anchors and unrelated widgets, and rejects unsupported values (0.369125ms)
+✔ separate-widget URL prefixes preserve the other panel and defaults remain shareable (0.102ms)
+✔ each prediction question gives distinct feedback and rejects impossible answers (0.153417ms)
+✔ all practical attachments have a route back, a prediction and an accepted source card (21.366042ms)
+✔ every emitted static JavaScript import resolves, including shared presentation and URL state (17.956208ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 144.879791

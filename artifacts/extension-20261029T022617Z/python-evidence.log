@@ -1,0 +1,15 @@
+test_all_step_inputs_reproduce_exact_consumption_and_computed_position_counts (__main__.BudgetEvidence.test_all_step_inputs_reproduce_exact_consumption_and_computed_position_counts) ... ok
+test_group_isolation_and_initial_identity_are_true_for_every_seed (__main__.BudgetEvidence.test_group_isolation_and_initial_identity_are_true_for_every_seed) ... ok
+test_last_batch_truncates_labels_once_in_order_without_changing_input (__main__.BudgetEvidence.test_last_batch_truncates_labels_once_in_order_without_changing_input) ... ok
+test_length_summaries_recompute_without_omitting_failed_seeds (__main__.BudgetEvidence.test_length_summaries_recompute_without_omitting_failed_seeds) ... ok
+test_saved_final_weights_reproduce_every_unconstrained_prediction_using_kv_cache (__main__.BudgetEvidence.test_saved_final_weights_reproduce_every_unconstrained_prediction_using_kv_cache) ... ok
+test_all_baseline_documents_and_sums_match_the_global_denominator (__main__.CountEvidence.test_all_baseline_documents_and_sums_match_the_global_denominator) ... ok
+test_alpha_is_selected_from_validation_without_reading_test_metrics (__main__.CountEvidence.test_alpha_is_selected_from_validation_without_reading_test_metrics) ... ok
+test_count_matrices_are_exactly_train_only (__main__.CountEvidence.test_count_matrices_are_exactly_train_only) ... ok
+test_numpy_probability_matrices_reproduce_all_split_losses_and_accuracies (__main__.CountEvidence.test_numpy_probability_matrices_reproduce_all_split_losses_and_accuracies) ... ok
+test_transformer_comparator_is_the_unchanged_complete_prior_report (__main__.CountEvidence.test_transformer_comparator_is_the_unchanged_complete_prior_report) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.630s
+
+OK

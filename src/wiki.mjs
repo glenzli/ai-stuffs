@@ -28,7 +28,7 @@ export const wikiGroups = [
   ] },
   { title: "生成与检索服务", shortTitle: "生成与检索", nav: "inference-engine.html", pages: [
     ["inference-engine", "生成执行与 KV Cache"], ["position-cache", "位置与缓存一致性"], ["decoding-algorithms", "采样与约束解码"],
-    ["efficient-inference", "量化与投机解码"], ["quantized-linear", "量化矩阵乘"], ["lab", "检索沙盘"], ["ann-index", "ANN 索引与召回"],
+    ["efficient-inference", "量化与投机解码"], ["quantized-linear", "量化矩阵乘"], ["lab", "检索沙盘"], ["retrieval-project", "真实中文检索实战"], ["ann-index", "ANN 索引与召回"],
   ] },
   { title: "评估、诊断与复现", shortTitle: "评估与复现", nav: "model-evaluation.html", pages: [
     ["model-evaluation", "模型评估"], ["paired-evaluation", "配对统计与结果导入"], ["uncertainty-calibration", "不确定性与校准"],

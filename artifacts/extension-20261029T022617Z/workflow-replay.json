@@ -1,0 +1,7 @@
+{
+  "output": "artifacts/workflow-replay-20261029T025928Z",
+  "accepted_sources_unchanged": true,
+  "candidate": "artifacts/workflow-replay-20261029T025928Z/language-baselines/candidate.json",
+  "stdout": "language-baselines: complete candidate, 0.2 MiB; page sources unchanged\nAll requested candidates are complete under artifacts/workflow-replay-20261029T025928Z. Inspect them before adopting; no page source was changed.\n",
+  "stderr": ""
+}

@@ -604,6 +604,13 @@ for (const [slug, title, description] of [
   bodyPage: slug, features: ["practice-reports"], styles: ["modern", "exact-mechanics", "practice"],
   footer: [title, "从保存的输入、权重和逐步记录，核验页面上的每项结论。"] });
 pages.find(page => page.slug === "deep-dive").styles.push("practice");
+pages.push({ slug: "retrieval-project", file: "retrieval-project.html", title: "真实中文检索实战 · 模型工程 Wiki",
+  description: "877 段真实中文文档、固定 BGE 模型、BM25、Flat/IVF 与 RRF 重排；完整问题、指定证据、权重和索引可核验。",
+  bodyPage: "retrieval-project", features: ["retrieval-project", "experiment-check"], styles: ["modern", "exact-mechanics", "practice"],
+  footer: ["真实中文检索实战", "区分指定证据命中、向量近邻近似与候选内重排。"] });
+for (const slug of ["generalization-analysis", "text-training-project", "reproducibility-lab", "training-step-profile"]) pages.find(page => page.slug === slug).features.push("experiment-check");
+pages.find(page => page.slug === "text-training-project").features.push("language-baselines");
+pages.find(page => page.slug === "generalization-analysis").features.push("matched-budget");
 
 // Topic ownership determines both header navigation and the knowledge directory.
 const pageTopics = new Map(wikiGroups.flatMap(group => group.pages.map(([slug]) => [slug, group])));

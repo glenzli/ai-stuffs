@@ -211,6 +211,158 @@
         "bytes": 722,
         "sha256": "653e4ec50ab16c3ab75a2ccf719a6d85abf144713092c6949e0ddb92c6ed0e6f"
       }
+    },
+    "language-baselines": {
+      "id": "language-baselines",
+      "title": "自然语言模型的词频与相邻统计基线",
+      "pages": [
+        "text-training-project"
+      ],
+      "schema": "language-baselines-v1",
+      "status": "passed",
+      "runtime": {
+        "python": "3.12.13",
+        "torch": "2.9.0",
+        "numpy": "2.3.4",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "machine": "arm64",
+        "device": "cpu",
+        "dtype": "float32",
+        "threads": 1,
+        "deterministic_algorithms": true,
+        "torch_build": "PyTorch built with:\n  - GCC 4.2\n  - C++ Version: 201703\n  - clang 15.0.0\n  - OpenMP 201811\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: DEFAULT\n  - Build settings: BLAS_INFO=accelerate, BUILD_TYPE=Release, COMMIT_SHA=0fabc3ba44823f257e70ce397d989c8de5e362c1, CXX_COMPILER=/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_PYTORCH_QNNPACK -DAT_BUILD_ARM_VEC256_WITH_SLEEF -DUSE_XNNPACK -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DUSE_COREML_DELEGATE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=braced-scalar-init -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wvla-extension -Wsuggest-override -Wnewline-eof -Winconsistent-missing-override -Winconsistent-missing-destructor-override -Wno-pass-failed -Wno-error=old-style-cast -Wconstant-conversion -Qunused-arguments -faligned-new -fno-math-errno -fno-trapping-math -Werror=format -DUSE_MPS -Wno-missing-braces, LAPACK_INFO=accelerate, TORCH_VERSION=2.9.0, USE_CUDA=OFF, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_EIGEN_FOR_BLAS=ON, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=OFF, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n"
+      },
+      "created_at": "2026-10-29T02:26:18.646Z",
+      "command": "node scripts/run-evidence-extension.mjs --out-dir artifacts/extension-my-run",
+      "report": {
+        "path": "artifacts/extension-20261029T022617Z/language-baselines/language-baselines/report.json",
+        "bytes": 78932,
+        "sha256": "d7827dee2a83ebfaa37d38833b3af03c94588495b0a17259991776cab9946d46"
+      },
+      "archive": {
+        "path": "artifacts/extension-20261029T022617Z/language-baselines/downloads/language-baselines-sources.tar.gz",
+        "bytes": 227501,
+        "sha256": "c02df09b334e73da78acd2b546c79244c093bc1bab68d6f0142172e06f72f86c"
+      },
+      "checksums": {
+        "path": "artifacts/extension-20261029T022617Z/language-baselines/language-baselines/SHA256SUMS",
+        "bytes": 666,
+        "sha256": "c47f20bcff8a74385136b9fee5726956a3f27c2ce371fa232dbcd4a7dce8cea0"
+      },
+      "source": {
+        "path": "artifacts/extension-20261029T022617Z/language-baselines/SOURCE-SHA256SUMS",
+        "bytes": 103,
+        "sha256": "f41cbbb83c2e3f95a82061e4db08465c4ab58a236f6792548dedca404cb98edd"
+      },
+      "bundle_root": "artifacts/extension-20261029T022617Z/language-baselines",
+      "projection": {
+        "path": "artifacts/extension-20261029T022617Z/language-baselines/language-baselines/page-data.js",
+        "bytes": 22509,
+        "sha256": "d96b6e810e2d462087ef09a05280bb9cc19bc8a51560e916dc3591f2fd4fda47",
+        "target": "src/scripts/features/language-baselines-data.js"
+      }
+    },
+    "matched-budget": {
+      "id": "matched-budget",
+      "title": "相同监督 token 预算的长度支持对照",
+      "pages": [
+        "generalization-analysis"
+      ],
+      "schema": "matched-budget-v1",
+      "status": "passed",
+      "runtime": {
+        "python": "3.12.13",
+        "torch": "2.9.0",
+        "numpy": "2.3.4",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "machine": "arm64",
+        "device": "cpu",
+        "dtype": "float32",
+        "threads": 1,
+        "deterministic_algorithms": true,
+        "torch_build": "PyTorch built with:\n  - GCC 4.2\n  - C++ Version: 201703\n  - clang 15.0.0\n  - OpenMP 201811\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: DEFAULT\n  - Build settings: BLAS_INFO=accelerate, BUILD_TYPE=Release, COMMIT_SHA=0fabc3ba44823f257e70ce397d989c8de5e362c1, CXX_COMPILER=/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_PYTORCH_QNNPACK -DAT_BUILD_ARM_VEC256_WITH_SLEEF -DUSE_XNNPACK -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DUSE_COREML_DELEGATE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=braced-scalar-init -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wvla-extension -Wsuggest-override -Wnewline-eof -Winconsistent-missing-override -Winconsistent-missing-destructor-override -Wno-pass-failed -Wno-error=old-style-cast -Wconstant-conversion -Qunused-arguments -faligned-new -fno-math-errno -fno-trapping-math -Werror=format -DUSE_MPS -Wno-missing-braces, LAPACK_INFO=accelerate, TORCH_VERSION=2.9.0, USE_CUDA=OFF, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_EIGEN_FOR_BLAS=ON, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=OFF, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n"
+      },
+      "created_at": "2026-10-29T02:26:19.684Z",
+      "command": "node scripts/run-evidence-extension.mjs --out-dir artifacts/extension-my-run",
+      "report": {
+        "path": "artifacts/extension-20261029T022617Z/matched-budget/matched-budget/report.json",
+        "bytes": 1892839,
+        "sha256": "1e69736057b1abef1f3a259a01c0ed96578081d10641ba0366e594bb743c6556"
+      },
+      "archive": {
+        "path": "artifacts/extension-20261029T022617Z/matched-budget/downloads/matched-budget-sources.tar.gz",
+        "bytes": 8352864,
+        "sha256": "6afd0e0fc7f854567d413d5c06ac6cdaffa46da44d4ae24e6399f2cad7298938"
+      },
+      "checksums": {
+        "path": "artifacts/extension-20261029T022617Z/matched-budget/matched-budget/SHA256SUMS",
+        "bytes": 1517,
+        "sha256": "1af764062b6f2960d76d540948cadee720a8109a099b02d3545c9bfb335d64b3"
+      },
+      "source": {
+        "path": "artifacts/extension-20261029T022617Z/matched-budget/SOURCE-SHA256SUMS",
+        "bytes": 412,
+        "sha256": "ad49956d0f26a030bd046aecef4055f816dc6a56d5e41e37291ce2b378534efb"
+      },
+      "bundle_root": "artifacts/extension-20261029T022617Z/matched-budget",
+      "projection": {
+        "path": "artifacts/extension-20261029T022617Z/matched-budget/matched-budget/page-data.js",
+        "bytes": 120471,
+        "sha256": "ec92405b9265b66f0548bf5bc785475cea4f0fb7437e913adeb6cbe66df40f01",
+        "target": "src/scripts/features/matched-budget-data.js"
+      }
+    },
+    "retrieval": {
+      "id": "retrieval",
+      "title": "真实中文文档、Embedding 与索引检索实战",
+      "pages": [
+        "retrieval-project"
+      ],
+      "schema": "wiki-retrieval-v1",
+      "status": "passed",
+      "runtime": {
+        "python": "3.12.13",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "machine": "arm64",
+        "device": "cpu",
+        "threads": 1,
+        "torch": "2.9.0",
+        "numpy": "2.3.4",
+        "faiss-cpu": "1.12.0",
+        "transformers": "4.57.1",
+        "tokenizers": "0.22.1",
+        "safetensors": "0.6.2",
+        "huggingface-hub": "0.36.0"
+      },
+      "created_at": "2026-10-29T02:31:24.191Z",
+      "command": "node scripts/run-evidence-extension.mjs --out-dir artifacts/extension-my-run",
+      "report": {
+        "path": "artifacts/extension-20261029T022617Z/retrieval/retrieval/report.json",
+        "bytes": 865324,
+        "sha256": "c741220f4cf52778aef2f03a264cf3777fa20d4b6de10d349173f05b22bffef0"
+      },
+      "archive": {
+        "path": "artifacts/extension-20261029T022617Z/retrieval/downloads/retrieval-sources.tar.gz",
+        "bytes": 62080496,
+        "sha256": "8ee54cc6defe3bc416b95b2f0180591b37c4a3664e62dc01c5e73ccc8c600c8e"
+      },
+      "checksums": {
+        "path": "artifacts/extension-20261029T022617Z/retrieval/retrieval/SHA256SUMS",
+        "bytes": 2051,
+        "sha256": "eb85ba0a3f6106cc8bf6e286e48c45fcfcaaa9d6f417acc7e1a595055ced83bb"
+      },
+      "source": {
+        "path": "artifacts/extension-20261029T022617Z/retrieval/SOURCE-SHA256SUMS",
+        "bytes": 527,
+        "sha256": "18e3c0c15143b07fef61c814157ca979a31ceb86b5b025fc37f10106fa7165eb"
+      },
+      "bundle_root": "artifacts/extension-20261029T022617Z/retrieval",
+      "projection": {
+        "path": "artifacts/extension-20261029T022617Z/retrieval/retrieval/page-data.js",
+        "bytes": 627305,
+        "sha256": "e4d748b729f95b821812d5017e5b782b534879a2cf82f008db15d861d58a06b8",
+        "target": "src/scripts/features/retrieval-data.js"
+      }
     }
   }
 }

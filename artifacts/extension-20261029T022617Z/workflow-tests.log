@@ -1,0 +1,17 @@
+✔ successful adoption updates projection, manifest and inclusion rules as one owned operation (50.129458ms)
+✔ an interrupted multi-file write restores every previous file (42.613917ms)
+✔ repeat adoption after a lost acknowledgement is idempotent (61.932625ms)
+✔ stale candidates cannot replace newer accepted state (16.58825ms)
+✔ changed loose evidence, projection or archive cannot be adopted (54.41525ms)
+✔ an archive containing different raw bytes fails even with its own new archive hash (48.283625ms)
+✔ active adoption blocks build input reads before dist can change (40.674709ms)
+✔ a crashed writer is recoverable and readers never accept a half update (80.786084ms)
+✔ packaging failure never mutates any accepted source or invents failure history (340.983625ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 787.01375

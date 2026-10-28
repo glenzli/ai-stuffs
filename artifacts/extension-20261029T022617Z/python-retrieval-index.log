@@ -1,0 +1,11 @@
+test_all_metrics_and_slice_summaries_recompute_from_complete_candidate_ids (__main__.RetrievalIndexEvidence.test_all_metrics_and_slice_summaries_recompute_from_complete_candidate_ids) ... ok
+test_bm25_known_tiny_reference_and_saved_complete_score_matrix (__main__.RetrievalIndexEvidence.test_bm25_known_tiny_reference_and_saved_complete_score_matrix) ... ok
+test_designated_evidence_and_query_group_isolation (__main__.RetrievalIndexEvidence.test_designated_evidence_and_query_group_isolation) ... ok
+test_each_actual_ivf_probe_and_complete_probe_match_saved_results (__main__.RetrievalIndexEvidence.test_each_actual_ivf_probe_and_complete_probe_match_saved_results) ... ok
+test_flat_index_matches_normalized_numpy_dot_products_and_every_saved_ranking (__main__.RetrievalIndexEvidence.test_flat_index_matches_normalized_numpy_dot_products_and_every_saved_ranking) ... ok
+test_rrf_recomputes_from_ranks_and_never_adds_a_new_candidate (__main__.RetrievalIndexEvidence.test_rrf_recomputes_from_ranks_and_never_adds_a_new_candidate) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.167s
+
+OK

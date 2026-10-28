@@ -1,0 +1,105 @@
+{
+  "model_id": "BAAI/bge-small-zh-v1.5",
+  "revision": "7999e1d3359715c523056ef9478215996d62a620",
+  "max_length": 512,
+  "pooling": "last_hidden_state[:,0] (CLS), then L2 normalize",
+  "device": "cpu",
+  "dtype": "float32",
+  "attention": "eager",
+  "threads": 1,
+  "passage_batch": 16,
+  "query_batch": 8,
+  "query_instruction": "为这个句子生成表示以用于检索相关文章：",
+  "document_instruction": "none",
+  "bm25": {
+    "k1": 1.2,
+    "b": 0.75,
+    "tokenizer": "lowercase Latin words/numbers and individual CJK characters; no learned segmenter"
+  },
+  "ivf": {
+    "nlist": 16,
+    "nprobe": [
+      1,
+      4,
+      16
+    ],
+    "training_seed": 20261029
+  },
+  "k": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "stored_top_k": 10,
+  "reranking": "RRF(c=60) of Flat rank and global BM25 rank, restricted to the same Flat top-10 candidates; no cross-encoder",
+  "selection": "all parameters and questions frozen before ranking; no validation or test parameter search",
+  "frozen_at": "2026-10-29T02:31:27.279154+00:00",
+  "runtime": {
+    "python": "3.12.13",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "device": "cpu",
+    "threads": 1,
+    "torch": "2.9.0",
+    "numpy": "2.3.4",
+    "transformers": "4.57.1",
+    "tokenizers": "0.22.1",
+    "safetensors": "0.6.2",
+    "huggingface-hub": "0.36.0",
+    "faiss-cpu": "1.12.0"
+  },
+  "corpus_sha256": "00cddb385b14e2f707da2ca45cc77ac13192f3580be592763cafceda952b4096",
+  "queries_sha256": "d284d214c7b5f76c6b1793622a33ea0c3ba5856fb85754e853be64be8860bc5b",
+  "model_identity": {
+    "model_id": "BAAI/bge-small-zh-v1.5",
+    "revision": "7999e1d3359715c523056ef9478215996d62a620",
+    "license": "MIT",
+    "source": "https://huggingface.co/BAAI/bge-small-zh-v1.5/tree/7999e1d3359715c523056ef9478215996d62a620",
+    "files": [
+      {
+        "file": "config.json",
+        "bytes": 776,
+        "sha256": "3853a7979202c348751b753e36f579c41d8da7d36af617d3d907e1fc9b441f2a",
+        "publisher_lfs_sha256": null
+      },
+      {
+        "file": "model.safetensors",
+        "bytes": 95827648,
+        "sha256": "354763b9b1357bc9c44f62c6be2276321081ed2567773608c0d0785b61d5a026",
+        "publisher_lfs_sha256": "354763b9b1357bc9c44f62c6be2276321081ed2567773608c0d0785b61d5a026"
+      },
+      {
+        "file": "tokenizer.json",
+        "bytes": 439125,
+        "sha256": "48cea5d44424912a6fd1ea647bf4fe50b55ab8b1e5879c3275f80e339e8fae26",
+        "publisher_lfs_sha256": null
+      },
+      {
+        "file": "tokenizer_config.json",
+        "bytes": 367,
+        "sha256": "e6f3b96db926a37d4039995fbf5ad17de158dfb8f6343d607e4dbaad18d75f5a",
+        "publisher_lfs_sha256": null
+      },
+      {
+        "file": "special_tokens_map.json",
+        "bytes": 125,
+        "sha256": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+        "publisher_lfs_sha256": null
+      },
+      {
+        "file": "vocab.txt",
+        "bytes": 109540,
+        "sha256": "45bbac6b341c319adc98a532532882e91a9cefc0329aa57bac9ae761c27b291c",
+        "publisher_lfs_sha256": null
+      },
+      {
+        "file": "README.md",
+        "bytes": 27670,
+        "sha256": "c48a4eeea77f6b1d38b48ec1c5b8d4f86d5550cc43fa345a0db1b2ca1d082369",
+        "publisher_lfs_sha256": null
+      }
+    ],
+    "policy": "public pinned weights; no trust_remote_code, no service inference, no API key"
+  }
+}

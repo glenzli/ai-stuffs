@@ -1,4 +1,5 @@
 export const searchMetadata = {
+  "retrieval-project.html": { summary: "真实中文段落、预先标注证据、固定 BGE、BM25、Faiss Flat/IVF 和 RRF 候选内重排的完整对照", terms: "真实 检索 实战 中文 embedding BGE BM25 RRF 证据 相关性 语义 召回 重排 Flat IVF 检索闭环 retrieval project", priority: 10 },
   "generalization-analysis.html": { summary: "同权重的 EOS 约束与位置扰动、长度支持扩展训练、三 seed 逐题预测与预算混杂", terms: "长度泛化 失败诊断 EOS 位置 外推 长序列 训练支持 generalization length position probe", priority: 10 },
   "text-training-project.html": { summary: "38 篇中文文档的 byte BPE、小模型从零训练、完整评估、原始生成和新进程恢复", terms: "自然语言 中文 小模型 项目 从零训练 tokenizer BPE 数据 划分 损失 生成 交付 text project language model resume", priority: 10 },
   "reproducibility-lab.html": { summary: "同 seed 同初值与输入的精度和顺序对照，定位首个可观察差异，保留历史未知原因", terms: "复现 差异 定位 seed 精度 浮点 数据顺序 reproducibility randomness divergence float32 float64", priority: 10 },
