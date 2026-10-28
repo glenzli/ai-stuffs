@@ -1,0 +1,357 @@
+{
+  "createdAt": "2026-10-29T12:01:56.567Z",
+  "checks": [
+    {
+      "action": "search",
+      "count": "显示 1 / 13 组",
+      "empty": false,
+      "query": "ＰＡＤＤＩＮＧ",
+      "url": "http://127.0.0.1:4173/deep-dive.html?verify=%EF%BC%B0%EF%BC%A1%EF%BC%A4%EF%BC%A4%EF%BC%A9%EF%BC%AE%EF%BC%A7#verified-experiments",
+      "visible": [
+        "padding-inference"
+      ],
+      "expected": [
+        "padding-inference"
+      ]
+    },
+    {
+      "action": "search",
+      "count": "显示 1 / 13 组",
+      "empty": false,
+      "query": "ddp",
+      "url": "http://127.0.0.1:4173/deep-dive.html?verify=ddp#verified-experiments",
+      "visible": [
+        "accumulation"
+      ],
+      "expected": [
+        "accumulation"
+      ]
+    },
+    {
+      "action": "search",
+      "count": "显示 1 / 13 组",
+      "empty": false,
+      "query": "检索　过滤",
+      "url": "http://127.0.0.1:4173/deep-dive.html?verify=%E6%A3%80%E7%B4%A2%E3%80%80%E8%BF%87%E6%BB%A4#verified-experiments",
+      "visible": [
+        "retrieval-filtering"
+      ],
+      "expected": [
+        "retrieval-filtering"
+      ]
+    },
+    {
+      "action": "search",
+      "count": "显示 0 / 13 组",
+      "empty": true,
+      "query": "不存在的症状",
+      "url": "http://127.0.0.1:4173/deep-dive.html?verify=%E4%B8%8D%E5%AD%98%E5%9C%A8%E7%9A%84%E7%97%87%E7%8A%B6#verified-experiments",
+      "visible": [],
+      "expected": []
+    },
+    {
+      "action": "clear",
+      "query": "",
+      "visible": 13
+    },
+    {
+      "action": "reload-restores",
+      "count": "显示 1 / 13 组",
+      "open": true,
+      "query": "过滤"
+    },
+    {
+      "action": "numpy-source",
+      "recipe": "node scripts/run-retrieval-filtering.mjs --out-dir artifacts/retrieval-filtering-verify-run",
+      "registered": "node scripts/run-retrieval-filtering.mjs --out-dir artifacts/filtering-my-run",
+      "text": "核验：真实向量的来源过滤、候选深度与可用证据\n\n图表与表格取自本次保存的完整报告。工件包同时提供运行时源码、配置、环境及对应的 checkpoint、张量或固定输入。\n\n下载完整报告下载源码与原始工件 · 2.5 MiB文件校验表\n报告身份与复现实验\n\n2026-10-29T07:11:09.067Z · Python 3.12.13 / NumPy 2.3.4 / 设备 cpu / 系统 macOS-27.0.1-arm64-arm-64bit\n\n报告 SHA-256：216e439c436742a16626f061b8bebefcc812b6eeaa2b7c241fe514540a22bd4f\n工件包 SHA-256：99ceb8305e7cccc89d7bc1689147bdd91cd45fc6554e6e2131dc19f25a380abc\n\n在仓库根目录准备对应的固定依赖与输入。将下面的输出路径改为一个尚不存在的新目录，独立重跑后另行核验与采纳：\n\nnode scripts/run-retrieval-filtering.mjs --out-dir artifacts/retrieval-filtering-verify-run\n登记的复现命令（原文）\n\n解压工件包后，可在实验目录运行 shasum -a 256 -c SHA256SUMS；在解压根目录运行 shasum -a 256 -c SOURCE-SHA256SUMS 核对运行时源码。相同配置在不同系统上可能产生不同浮点轨迹，CPU 耗时也只描述本次环境。",
+      "undefined": false
+    },
+    {
+      "action": "scoped-baseline-replay",
+      "recipe": "node scripts/run-evidence-extension.mjs --out-dir artifacts/language-baselines-verify-run --only language-baselines"
+    },
+    {
+      "action": "dynamics-replay",
+      "recipe": "node scripts/run-dynamics-lab.mjs --out-dir artifacts/dynamics-verify-run",
+      "registered": "node scripts/run-dynamics-lab.mjs --out-dir artifacts/dynamics-my-run --write-page-data"
+    },
+    {
+      "action": "check-entry",
+      "open": true,
+      "url": "http://127.0.0.1:4173/deep-dive.html#verified-experiments"
+    },
+    {
+      "action": "study-owner",
+      "heading": "完整模型中，左右填充与缓存续算还能保持同一条前向吗？",
+      "url": "http://127.0.0.1:4173/position-cache.html#padding-real"
+    },
+    {
+      "action": "back-restores-query",
+      "count": "显示 1 / 13 组",
+      "query": "padding",
+      "url": "http://127.0.0.1:4173/deep-dive.html?verify=padding#verified-experiments"
+    },
+    {
+      "action": "guide-entry",
+      "count": "显示 13 / 13 组",
+      "open": true,
+      "url": "http://127.0.0.1:4173/deep-dive.html#verified-experiments"
+    }
+  ],
+  "layouts": [
+    {
+      "commands": [
+        {
+          "scrollWidth": 603,
+          "visible": true,
+          "width": 288
+        },
+        {
+          "scrollWidth": 713,
+          "visible": true,
+          "width": 288
+        }
+      ],
+      "duplicateIds": [],
+      "entryLinks": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 603,
+          "visible": true,
+          "width": 288
+        },
+        {
+          "scrollWidth": 713,
+          "visible": true,
+          "width": 288
+        }
+      ],
+      "duplicateIds": [],
+      "entryLinks": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 634,
+          "visible": true,
+          "width": 634
+        },
+        {
+          "scrollWidth": 713,
+          "visible": true,
+          "width": 634
+        }
+      ],
+      "duplicateIds": [],
+      "entryLinks": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 634,
+          "visible": true,
+          "width": 634
+        },
+        {
+          "scrollWidth": 713,
+          "visible": true,
+          "width": 634
+        }
+      ],
+      "duplicateIds": [],
+      "entryLinks": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 1070,
+          "visible": true,
+          "width": 1070
+        },
+        {
+          "scrollWidth": 1070,
+          "visible": true,
+          "width": 1070
+        }
+      ],
+      "duplicateIds": [],
+      "entryLinks": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "light",
+      "width": 1440
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 1070,
+          "visible": true,
+          "width": 1070
+        },
+        {
+          "scrollWidth": 1070,
+          "visible": true,
+          "width": 1070
+        }
+      ],
+      "duplicateIds": [],
+      "entryLinks": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测"
+      ],
+      "overflow": 0,
+      "page": "/training-engineer-guide.html",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测"
+      ],
+      "overflow": 0,
+      "page": "/training-engineer-guide.html",
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测"
+      ],
+      "overflow": 0,
+      "page": "/training-engineer-guide.html",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测"
+      ],
+      "overflow": 0,
+      "page": "/training-engineer-guide.html",
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测"
+      ],
+      "overflow": 0,
+      "page": "/training-engineer-guide.html",
+      "theme": "light",
+      "width": 1440
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测"
+      ],
+      "overflow": 0,
+      "page": "/training-engineer-guide.html",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测与重跑条件"
+      ],
+      "overflow": 0,
+      "page": "/engineering-check.html",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测与重跑条件"
+      ],
+      "overflow": 0,
+      "page": "/engineering-check.html",
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测与重跑条件"
+      ],
+      "overflow": 0,
+      "page": "/engineering-check.html",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测与重跑条件"
+      ],
+      "overflow": 0,
+      "page": "/engineering-check.html",
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测与重跑条件"
+      ],
+      "overflow": 0,
+      "page": "/engineering-check.html",
+      "theme": "light",
+      "width": 1440
+    },
+    {
+      "commands": [],
+      "duplicateIds": [],
+      "entryLinks": [
+        "按症状找实测与重跑条件"
+      ],
+      "overflow": 0,
+      "page": "/engineering-check.html",
+      "theme": "dark",
+      "width": 1440
+    }
+  ],
+  "console": []
+}

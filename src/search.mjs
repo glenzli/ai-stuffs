@@ -156,8 +156,8 @@ export const searchMetadata = {
     "priority": 7
   },
   "deep-dive.html": {
-    "summary": "输入、模型、更新、学习与泛化、复现和系统扩展的六步路线",
-    "terms": "learning map deep dive 学习路径 六步 主线 前置 自检 复现 泛化",
+    "summary": "六步学习路线，以及按症状查找十三组实测、来源和独立重跑条件",
+    "terms": "learning map deep dive 学习路径 六步 主线 前置 自检 复现 泛化 实测 实验 来源 核验 重跑 padding ddp 检索过滤",
     "priority": 10
   },
   "simulator.html": {

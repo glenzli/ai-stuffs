@@ -1,0 +1,184 @@
+
+> test:experiment-navigation
+> node --test scripts/test-experiment-navigation.mjs
+
+✔ navigation covers every accepted source exactly once and enforces ownership (1.294541ms)
+✔ all primary study links resolve to an owning page and an actual anchor (52.448375ms)
+✔ static fallback contains all thirteen studies and exactly thirty-nine pinned downloads (2.677125ms)
+✔ environment labels omit absent packages while retaining recorded values (0.2675ms)
+✔ replay recipes use separate output folders, preserve numeric settings and keep original provenance (178.162208ms)
+✔ unreviewed or ambiguous commands receive no automatic replay recipe (0.173708ms)
+✔ symptom search normalizes width and case, requires all terms and treats punctuation literally (0.812792ms)
+✖ rendered source details distinguish independent recipes from immutable historical commands (1.894458ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 753.726625
+
+✖ failing tests:
+
+test at scripts/test-experiment-navigation.mjs:99:1
+✖ rendered source details distinguish independent recipes from immutable historical commands (1.894458ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /experiment-navigator\.[a-f0-9]{10}\.js/. Input:
+  
+  '<!doctype html>\n' +
+    '<html lang="zh-CN">\n' +
+    '<head>\n' +
+    '  <meta charset="utf-8">\n' +
+    '  <meta name="viewport" content="width=device-width, initial-scale=1">\n' +
+    '  <meta name="description" content="从输入、模型、损失到真实学习、复现和系统扩展的六步路线，附前置、自检与选读。">\n' +
+    '  <title>六步学习路线 · 模型工程 Wiki</title>\n' +
+    '  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">\n' +
+    '  \n' +
+    '  <link rel="stylesheet" href="assets/deep-dive.3631d1e955.css">\n' +
+    '  <script type="module" src="assets/deep-dive.0e8d3725db.js"></script>\n' +
+    '</head>\n' +
+    '<body data-page="deep">\n' +
+    '  <a class="skip-link" href="#main">跳到正文</a>\n' +
+    '  <header class="site-header">\n' +
+    '    <a class="brand" href="training-engineer-guide.html" aria-label="模型工程 Wiki 首页">\n' +
+    '      <span class="brand-mark" aria-hidden="true">AI</span>\n' +
+    '      <span>模型工程 <small>WIKI</small></span>\n' +
+    '    </a>\n' +
+    '    <nav class="site-nav" aria-label="学习页导航">\n' +
+    '<a href="training-engineer-guide.html" aria-current="page">指南</a>\n' +
+    '<a href="data-tokenizer.html">数据与表示</a>\n' +
+    '<a href="transformer-lab.html">模型结构</a>\n' +
+    '<a href="training.html">目标与优化</a>\n' +
+    '<a href="engineering.html">系统与性能</a>\n' +
+    '<a href="posttraining.html">后训练</a>\n' +
+    '<a href="inference-engine.html">生成与检索</a>\n' +
+    '<a href="model-evaluation.html">评估与复现</a>\n' +
+    '<a href="frontier.html">能力与应用</a>\n' +
+    '    </nav>\n' +
+    '    <div class="wiki-header-tools">\n' +
+    '      <button class="wiki-icon-button wiki-menu-button" type="button" data-open-library aria-label="打开知识目录" title="知识目录"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg></button>\n' +
+    '      <button class="wiki-search-button" type="button" data-open-search aria-label="搜索全部专题" title="搜索全部专题"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg><span>搜索知识库</span></button>\n' +
+    '      <button class="wiki-icon-button theme-toggle" type="button" data-theme-toggle aria-label="切换明暗主题" title="切换明暗主题"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v2"/><path d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715"/><path d="M16 12a4 4 0 0 0-4-4"/><path d="m19 5-1.256 1.256"/><path d="M20 12h2"/></svg><span class="sr-only" data-theme-label>深色</span></button>\n' +
+    '    </div>\n' +
+    '  </header>\n' +
+    '\n' +
+    '  <div class="wiki-workspace">\n' +
+    '    <aside class="wiki-library" aria-label="知识库目录">\n' +
+    '      <div class="wiki-library-title">知识库 <span>66 篇</span></div>\n' +
+    '      <nav aria-label="全部专题"><div class="wiki-nav-group"><h2>从这里开始</h2><a href="training-engineer-guide.html">学习指南与问题定位</a>\n' +
+    '<a href="deep-dive.html" aria-current="page">六步学习路线</a>\n' +
+    '<a href="index.html">一次学习的全貌</a>\n' +
+    '<a href="engineering-check.html">自测与定位</a></div>\n' +
+    '<div class="wiki-nav-group"><h2>数据与表示</h2><a href="data-tokenizer.html">数据与 Tokenizer</a>\n' +
+    '<a href="packing-correctness.html">样本打包与监督边界</a>\n' +
+    '<a href="representation-deep.html">表示几何</a>\n' +
+    '<a href="representation.html">Embedding 演化</a></div>\n' +
+    '<div class="wiki-nav-group"><h2>模型结构</h2><a href="transformer-lab.html">从 token 到 logits</a>\n' +
+    '<a href="transformer-anatomy.html">权重与参数</a>\n' +
+    '<a href="architecture-variants.html">架构变体</a>\n' +
+    '<a href="transformer-evolution.html">Transformer 演化</a>\n' +
+    '<a href="model-case-studies.html">公开模型案例</a></div>\n' +
+    '<div class="wiki-nav-group"><h2>训练目标与优化</h2><a href="training.html">训练回路</a>\n' +
+    '<a href="learning-run.html">小模型学习与泛化</a>\n' +
+    '<a href="generalization-analysis.html">长度泛化失败诊断</a>\n' +
+    '<a href="text-training-project.html">自然语言小模型项目</a>\n' +
+    '<a href="training-deep.html">损失与梯度</a>\n' +
+    '<a href="backpropagation.html">整层反向传播</a>\n' +
+    '<a href="optimization-dynamics.html">优化与训练稳定性</a>\n' +
+    '<a href="initialization-width.html">初始化与宽度迁移</a>\n' +
+    '<a href="batch-noise.html">Batch 与梯度噪声</a>\n' +
+    '<a href="simulator.html">对比学习二维模拟</a>\n' +
+    '<a href="continual-learning.html">持续学习与任务干扰</a>\n' +
+    '<a href="scaling-laws.html">Scaling 与预算</a></div>\n' +
+    '<div class="wiki-nav-group"><h2>训练系统与性能</h2><a href="engineering.html">工程全流程</a>\n' +
+    '<a href="numerical-computing.html">浮点与数值稳定</a>\n' +
+    '<a href="tensor-layout.html">张量布局与存储视图</a>\n' +
+    '<a href="training-systems-deep.html">并行与数值精度</a>\n' +
+    '<a href="distributed-execution.html">多卡张量与通信</a>\n' +
+    '<a href="parallel-correctness.html">并行计算正确性</a>\n' +
+    '<a href="context-parallel.html">上下文并行与梯度归还</a>\n' +
+    '<a href="attention-kernels.html">分块 Attention 与反传</a>\n' +
+    '<a href="activation-checkpointing.html">激活重算与梯度缓存</a>\n' +
+    '<a href="chunked-cross-entropy.html">分块输出投影与交叉熵</a>\n' +
+    '<a href="performance-analysis.html">性能与瓶颈分析</a>\n' +
+    '<a href="training-step-profile.html">完整训练 step 实测</a></div>\n' +
+    '<div class="wiki-nav-group"><h2>微调与后训练</h2><a href="posttraining.html">后训练概览</a>\n' +
+    '<a href="finetuning-recipe.html">开源模型微调配方</a>\n' +
+    '<a href="posttraining-deep.html">后训练目标</a>\n' +
+    '<a href="lora-mechanics.html">LoRA 梯度与合并</a>\n' +
+    '<a href="rl-posttraining.html">RL 后训练</a>\n' +
+    '<a href="rl-update.html">RL 参数更新</a>\n' +
+    '<a href="distillation-data.html">蒸馏与合成数据</a></div>\n' +
+    '<div class="wiki-nav-group"><h2>生成与检索服务</h2><a href="inference-engine.html">生成执行与 KV Cache</a>\n' +
+    '<a href="position-cache.html">位置与缓存一致性</a>\n' +
+    '<a href="decoding-algorithms.html">采样与约束解码</a>\n' +
+    '<a href="efficient-inference.html">量化与投机解码</a>\n' +
+    '<a href="quantized-linear.html">量化矩阵乘</a>\n' +
+    '<a href="lab.html">检索沙盘</a>\n' +
+    '<a href="retrieval-project.html">真实中文检索实战</a>\n' +
+    '<a href="ann-index.html">ANN 索引与召回</a></div>\n' +
+    '<div class="wiki-nav-group"><h2>评估、诊断与复现</h2><a href="model-evaluation.html">模型评估</a>\n' +
+    '<a href="paired-evaluation.html">配对统计与结果导入</a>\n' +
+    '<a href="uncertainty-calibration.html">不确定性与校准</a>\n' +
+    '<a href="model-artifacts.html">工件与恢复</a>\n' +
+    '<a href="reproducibility-lab.html">复现差异定位</a>\n' +
+    '<a href="training-failures.html">训练故障与确定性回放</a>\n' +
+    '<a href="engineering-cases.html">工程诊断案例</a></div>\n' +
+    '<div class="wiki-nav-group"><h2>模型能力与应用</h2><a href="frontier.html">能力与应用导航</a>\n' +
+    '<a href="generation-mechanisms.html">自回归、扩散与潜在空间</a>\n' +
+    '<a href="multimodal.html">多模态模型工程</a>\n' +
+    '<a href="reasoning-compute.html">CoT 与推理计算</a>\n' +
+    '<a href="agents-context.html">工具、Agent 与上下文</a>\n' +
+    '<a href="training-environments.html">训练环境与验证器</a>\n' +
+    '<a href="learning-mechanisms.html">上下文学习与机制解释</a></div></nav>\n' +
+    '    </aside>\n' +
+    '    <main id="main">\n' +
+    '      <div class="wiki-breadcrumb"><a href="training-engineer-guide.html">模型工程</a><span>/</span><span>六步学习路线</span><a href="#page-evidence" class="wiki-evidence-link">资料与边界</a></div>\n' +
+    '      <div class="reading-context" aria-label="阅读定位" data-reading-topic="从这里开始"><span>从这里开始</span><span class="reading-tag">入门</span><span class="reading-tag">阅读导航</span></div>\n' +
+    '      <details class="wiki-toc" data-wiki-toc hidden><summary>本页章节 <span data-toc-count></span></summary><nav aria-label="本页章节" data-toc-links></nav></details>\n' +
+    '<section class="page-intro">\n' +
+    '  <div><p class="eyebrow">学习路线 / 从输入到可复现的训练</p><h1>六步主线：<span class="accent-text">先看一次学习，再逐层深入</span></h1><p class="lede">先知道模型收到什么、怎样计算和更新，再用小模型的实际结果区分拟合与泛化。完成这些以后，进入稳定性、复现和资源扩展。</p></div>\n' +
+    '  <aside class="intro-aside"><p class="micro-label">怎么使用这条路线</p><p>每步先读“先读”范围，再做一句自检。已有基础可以跳到对应步骤；公式推导和额外对照都在“按需深入”中。</p></aside>\n' +
+    '</section>\n' +
+    '<section class="section compact" aria-labelledby="deep-routes-title">\n' +
+    '  <div class="section-heading"><div><span class="section-number">01—06</span><h2 id="deep-routes-title">从一个问题走到下一份证据</h2></div><p class="section-note">先完成前四步即可建立学习闭环；第五、六步处理接续运行与扩大规模。</p></div>\n' +
+    '  <p class="learning-route-note">主线中的生成任务采用已有的四符号反转实验。各计算专题仍使用自己明确声明的小模型、维度与假设，数值不能直接跨示例拼接。</p>\n' +
+    '  <ol class="learning-path learning-path-detailed"><li id="learn-inputs">\n' +
+    '    <span class="learning-path-number">01</span>\n' +
+    '    <div><h3><a href="index.html">输入与监督</a></h3><p>模型收到什么，又被要求预测什么？</p>\n' +
+    '    <p class="learning-path-focus"><strong>先读：</strong>先看六步训练回路，分清 token ID、向量、预测与目标。</p><p><strong>前置：</strong>从一个输入和预期答案开始。</p><p class="learning-path-check"><strong>读完自检：</strong>能指出输入、监督目标和一次参数更新各是什么。</p><div class="learning-path-further"><span>按需深入</span><a href="data-tokenizer.html#tokenizer-title">Tokenizer 与输入单位</a><a href="packing-correctness.html">监督位置与样本隔离</a></div>\n' +
+    '    </div>\n' +
+    '  </li><li id="learn-forward">\n' +
+    '    <span class="learning-path-number">02</span>\n' +
+    '    <div><h3><a href="transformer-lab.html">模型前向</a></h3><p>输入怎样经过模型变成预测？</p>\n' +
+    '    <p class="learning-path-focus"><strong>先读：</strong>先读计算路径和一个 decoder block，再按需展开权重与结构变体。</p><p><strong>前置：</strong>知道 token ID、向量和目标的区别。</p><p class="learning-path-check"><strong>读完自检：</strong>能沿 Embedding、Attention、MLP 和输出头说清张量的去向。</p><div class="learning-path-further"><span>按需深入</span><a href="transformer-anatomy.html">权重与形状</a><a href="architecture-variants.html">结构变体</a></div>\n' +
+    '    </div>\n' +
+    '  </li><li id="learn-update">\n' +
+    '    <span class="learning-path-number">03</span>\n' +
+    '    <div><h3><a href="training.html">损失与更新</a></h3><p>预测误差怎样改变下一次计算？</p>\n' +
+    '    <p class="learning-path-focus"><strong>先读：</strong>先走下一词预测的六个步骤，再比较掩码预测与对比学习。</p><p><strong>前置：</strong>能追踪一次前向的输入和输出。</p><p class="learning-path-check"><strong>读完自检：</strong>能区分 loss、梯度与优化器更新，并说明 labels 和 mask 的作用。</p><div class="learning-path-further"><span>按需深入</span><a href="training-deep.html#tie-title">词表交叉熵与梯度</a><a href="backpropagation.html">整层反向传播核验</a></div>\n' +
+    '    </div>\n' +
+    '  </li><li id="learn-evidence">\n' +
+    '    <span class="learning-path-number">04</span>\n' +
+    '    <div><h3><a href="learning-run.html">学习与泛化</a></h3><p>loss 下降之后，模型真的会做题了吗？</p>\n' +
+    '    <p class="learning-path-focus"><strong>先读：</strong>先比较同一道题训练前后的生成，再看学习曲线、独立测试与未见长度。</p><p><strong>前置：</strong>知道模型按监督目标更新参数。</p><p class="learning-path-check"><strong>读完自检：</strong>能分别解释 teacher-forced loss、自由生成和长度外推的结果。</p><div class="learning-path-further"><span>按需深入</span><a href="generalization-analysis.html">诊断长度外推失败</a><a href="text-training-project.html">完成自然语言小模型项目</a><a href="model-evaluation.html#generalization">训练、验证与泛化</a><a href="paired-evaluation.html">配对比较结果</a></div>\n' +
+    '    </div>\n' +
+    '  </li><li id="learn-reproduce">\n' +
+    '    <span class="learning-path-number">05</span>\n' +
+    '    <div><h3><a href="model-artifacts.html">稳定与复现</a></h3><p>怎样让一次训练能够被检查和接续？</p>\n' +
+    '    <p class="'... 43819 more characters
+  
+      at TestContext.<anonymous> (file:///Users/g4i/lab/ai-stuffs/scripts/test-experiment-navigation.mjs:109:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1106:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:788:18)
+      at Test.postRun (node:internal/test_runner/test:1235:19)
+      at Test.run (node:internal/test_runner/test:1163:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<!doctype html>\n<html lang="zh-CN">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <meta name="description" content="从输入、模型、损失到真实学习、复现和系统扩展的六步路线，附前置、自检与选读。">\n  <title>六步学习路线 · 模型工程 Wiki</title>\n  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">\n  \n  <link rel="stylesheet" href="assets/deep-dive.3631d1e955.css">\n  <script type="module" src="assets/deep-dive.0e8d3725db.js"></script>\n</head>\n<body data-page="deep">\n  <a class="skip-link" href="#main">跳到正文</a>\n  <header class="site-header">\n    <a class="brand" href="training-engineer-guide.html" aria-label="模型工程 Wiki 首页">\n      <span class="brand-mark" aria-hidden="true">AI</span>\n      <span>模型工程 <small>WIKI</small></span>\n    </a>\n    <nav class="site-nav" aria-label="学习页导航">\n<a href="training-engineer-guide.html" aria-current="page">指南</a>\n<a href="data-tokenizer.html">数据与表示</a>\n<a href="transformer-lab.html">模型结构</a>\n<a href="training.html">目标与优化</a>\n<a href="engineering.html">系统与性能</a>\n<a href="posttraining.html">后训练</a>\n<a href="inference-engine.html">生成与检索</a>\n<a href="model-evaluation.html">评估与复现</a>\n<a href="frontier.html">能力与应用</a>\n    </nav>\n    <div class="wiki-header-tools">\n      <button class="wiki-icon-button wiki-menu-button" type="button" data-open-library aria-label="打开知识目录" title="知识目录"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg></button>\n      <button class="wiki-search-button" type="button" data-open-search aria-label="搜索全部专题" title="搜索全部专题"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg><span>搜索知识库</span></button>\n      <button class="wiki-icon-button theme-toggle" type="button" data-theme-toggle aria-label="切换明暗主题" title="切换明暗主题"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v2"/><path d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715"/><path d="M16 12a4 4 0 0 0-4-4"/><path d="m19 5-1.256 1.256"/><path d="M20 12h2"/></svg><span class="sr-only" data-theme-label>深色</span></button>\n    </div>\n  </header>\n\n  <div class="wiki-workspace">\n    <aside class="wiki-library" aria-label="知识库目录">\n      <div class="wiki-library-title">知识库 <span>66 篇</span></div>\n      <nav aria-label="全部专题"><div class="wiki-nav-group"><h2>从这里开始</h2><a href="training-engineer-guide.html">学习指南与问题定位</a>\n<a href="deep-dive.html" aria-current="page">六步学习路线</a>\n<a href="index.html">一次学习的全貌</a>\n<a href="engineering-check.html">自测与定位</a></div>\n<div class="wiki-nav-group"><h2>数据与表示</h2><a href="data-tokenizer.html">数据与 Tokenizer</a>\n<a href="packing-correctness.html">样本打包与监督边界</a>\n<a href="representation-deep.html">表示几何</a>\n<a href="representation.html">Embedding 演化</a></div>\n<div class="wiki-nav-group"><h2>模型结构</h2><a href="transformer-lab.html">从 token 到 logits</a>\n<a href="transformer-anatomy.html">权重与参数</a>\n<a href="architecture-variants.html">架构变体</a>\n<a href="transformer-evolution.html">Transformer 演化</a>\n<a href="model-case-studies.html">公开模型案例</a></div>\n<div class="wiki-nav-group"><h2>训练目标与优化</h2><a href="training.html">训练回路</a>\n<a href="learning-run.html">小模型学习与泛化</a>\n<a href="generalization-analysis.html">长度泛化失败诊断</a>\n<a href="text-training-project.html">自然语言小模型项目</a>\n<a href="training-deep.html">损失与梯度</a>\n<a href="backpropagation.html">整层反向传播</a>\n<a href="optimization-dynamics.html">优化与训练稳定性</a>\n<a href="initialization-width.html">初始化与宽度迁移</a>\n<a href="batch-noise.html">Batch 与梯度噪声</a>\n<a href="simulator.html">对比学习二维模拟</a>\n<a href="continual-learning.html">持续学习与任务干扰</a>\n<a href="scaling-laws.html">Scaling 与预算</a></div>\n<div class="wiki-nav-group"><h2>训练系统与性能</h2><a href="engineering.html">工程全流程</a>\n<a href="numerical-computing.html">浮点与数值稳定</a>\n<a href="tensor-layout.html">张量布局与存储视图</a>\n<a href="training-systems-deep.html">并行与数值精度</a>\n<a href="distributed-execution.html">多卡张量与通信</a>\n<a href="parallel-correctness.html">并行计算正确性</a>\n<a href="context-parallel.html">上下文并行与梯度归还</a>\n<a href="attention-kernels.html">分块 Attention 与反传</a>\n<a href="activation-checkpointing.html">激活重算与梯度缓存</a>\n<a href="chunked-cross-entropy.html">分块输出投影与交叉熵</a>\n<a href="performance-analysis.html">性能与瓶颈分析</a>\n<a href="training-step-profile.html">完整训练 step 实测</a></div>\n<div class="wiki-nav-group"><h2>微调与后训练</h2><a href="posttraining.html">后训练概览</a>\n<a href="finetuning-recipe.html">开源模型微调配方</a>\n<a href="posttraining-deep.html">后训练目标</a>\n<a href="lora-mechanics.html">LoRA 梯度与合并</a>\n<a href="rl-posttraining.html">RL 后训练</a>\n<a href="rl-update.html">RL 参数更新</a>\n<a href="distillation-data.html">蒸馏与合成数据</a></div>\n<div class="wiki-nav-group"><h2>生成与检索服务</h2><a href="inference-engine.html">生成执行与 KV Cache</a>\n<a href="position-cache.html">位置与缓存一致性</a>\n<a href="decoding-algorithms.html">采样与约束解码</a>\n<a href="efficient-inference.html">量化与投机解码</a>\n<a href="quantized-linear.html">量化矩阵乘</a>\n<a href="lab.html">检索沙盘</a>\n<a href="retrieval-project.html">真实中文检索实战</a>\n<a href="ann-index.html">ANN 索引与召回</a></div>\n<div class="wiki-nav-group"><h2>评估、诊断与复现</h2><a href="model-evaluation.html">模型评估</a>\n<a href="paired-evaluation.html">配对统计与结果导入</a>\n<a href="uncertainty-calibration.html">不确定性与校准</a>\n<a href="model-artifacts.html">工件与恢复</a>\n<a href="reproducibility-lab.html">复现差异定位</a>\n<a href="training-failures.html">训练故障与确定性回放</a>\n<a href="engineering-cases.html">工程诊断案例</a></div>\n<div class="wiki-nav-group"><h2>模型能力与应用</h2><a href="frontier.html">能力与应用导航</a>\n<a href="generation-mechanisms.html">自回归、扩散与潜在空间</a>\n<a href="multimodal.html">多模态模型工程</a>\n<a href="reasoning-compute.html">CoT 与推理计算</a>\n<a href="agents-context.html">工具、Agent 与上下文</a>\n<a href="training-environments.html">训练环境与验证器</a>\n<a href="learning-mechanisms.html">上下文学习与机制解释</a></div></nav>\n    </aside>\n    <main id="main">\n      <div class="wiki-breadcrumb"><a href="training-engineer-guide.html">模型工程</a><span>/</span><span>六步学习路线</span><a href="#page-evidence" class="wiki-evidence-link">资料与边界</a></div>\n      <div class="reading-context" aria-label="阅读定位" data-reading-topic="从这里开始"><span>从这里开始</span><span class="reading-tag">入门</span><span class="reading-tag">阅读导航</span></div>\n      <details class="wiki-toc" data-wiki-toc hidden><summary>本页章节 <span data-toc-count></span></summary><nav aria-label="本页章节" data-toc-links></nav></details>\n<section class="page-intro">\n  <div><p class="eyebrow">学习路线 / 从输入到可复现的训练</p><h1>六步主线：<span class="accent-text">先看一次学习，再逐层深入</span></h1><p class="lede">先知道模型收到什么、怎样计算和更新，再用小模型的实际结果区分拟合与泛化。完成这些以后，进入稳定性、复现和资源扩展。</p></div>\n  <aside class="intro-aside"><p class="micro-label">怎么使用这条路线</p><p>每步先读“先读”范围，再做一句自检。已有基础可以跳到对应步骤；公式推导和额外对照都在“按需深入”中。</p></aside>\n</section>\n<section class="section compact" aria-labelledby="deep-routes-title">\n  <div class="section-heading"><div><span class="section-number">01—06</span><h2 id="deep-routes-title">从一个问题走到下一份证据</h2></div><p class="section-note">先完成前四步即可建立学习闭环；第五、六步处理接续运行与扩大规模。</p></div>\n  <p class="learning-route-note">主线中的生成任务采用已有的四符号反转实验。各计算专题仍使用自己明确声明的小模型、维度与假设，数值不能直接跨示例拼接。</p>\n  <ol class="learning-path learning-path-detailed"><li id="learn-inputs">\n    <span class="learning-path-number">01</span>\n    <div><h3><a href="index.html">输入与监督</a></h3><p>模型收到什么，又被要求预测什么？</p>\n    <p class="learning-path-focus"><strong>先读：</strong>先看六步训练回路，分清 token ID、向量、预测与目标。</p><p><strong>前置：</strong>从一个输入和预期答案开始。</p><p class="learning-path-check"><strong>读完自检：</strong>能指出输入、监督目标和一次参数更新各是什么。</p><div class="learning-path-further"><span>按需深入</span><a href="data-tokenizer.html#tokenizer-title">Tokenizer 与输入单位</a><a href="packing-correctness.html">监督位置与样本隔离</a></div>\n    </div>\n  </li><li id="learn-forward">\n    <span class="learning-path-number">02</span>\n    <div><h3><a href="transformer-lab.html">模型前向</a></h3><p>输入怎样经过模型变成预测？</p>\n    <p class="learning-path-focus"><strong>先读：</strong>先读计算路径和一个 decoder block，再按需展开权重与结构变体。</p><p><strong>前置：</strong>知道 token ID、向量和目标的区别。</p><p class="learning-path-check"><strong>读完自检：</strong>能沿 Embedding、Attention、MLP 和输出头说清张量的去向。</p><div class="learning-path-further"><span>按需深入</span><a href="transformer-anatomy.html">权重与形状</a><a href="architecture-variants.html">结构变体</a></div>\n    </div>\n  </li><li id="learn-update">\n    <span class="learning-path-number">03</span>\n    <div><h3><a href="training.html">损失与更新</a></h3><p>预测误差怎样改变下一次计算？</p>\n    <p class="learning-path-focus"><strong>先读：</strong>先走下一词预测的六个步骤，再比较掩码预测与对比学习。</p><p><strong>前置：</strong>能追踪一次前向的输入和输出。</p><p class="learning-path-check"><strong>读完自检：</strong>能区分 loss、梯度与优化器更新，并说明 labels 和 mask 的作用。</p><div class="learning-path-further"><span>按需深入</span><a href="training-deep.html#tie-title">词表交叉熵与梯度</a><a href="backpropagation.html">整层反向传播核验</a></div>\n    </div>\n  </li><li id="learn-evidence">\n    <span class="learning-path-number">04</span>\n    <div><h3><a href="learning-run.html">学习与泛化</a></h3><p>loss 下降之后，模型真的会做题了吗？</p>\n    <p class="learning-path-focus"><strong>先读：</strong>先比较同一道题训练前后的生成，再看学习曲线、独立测试与未见长度。</p><p><strong>前置：</strong>知道模型按监督目标更新参数。</p><p class="learning-path-check"><strong>读完自检：</strong>能分别解释 teacher-forced loss、自由生成和长度外推的结果。</p><div class="learning-path-further"><span>按需深入</span><a href="generalization-analysis.html">诊断长度外推失败</a><a href="text-training-project.html">完成自然语言小模型项目</a><a href="model-evaluation.html#generalization">训练、验证与泛化</a><a href="paired-evaluation.html">配对比较结果</a></div>\n    </div>\n  </li><li id="learn-reproduce">\n    <span class="learning-path-number">05</span>\n    <div><h3><a href="model-artifacts.html">稳定与复现</a></h3><p>怎样让一次训练能够被检查和接续？</p>\n    <p class="'... 43819 more characters,
+    expected: /experiment-navigator\.[a-f0-9]{10}\.js/,
+    operator: 'match',
+    diff: 'simple'
+  }

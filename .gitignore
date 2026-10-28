@@ -118,3 +118,6 @@ __pycache__/
 !/artifacts/evidence-audit-20261029034521Z/node-focused.log
 !/artifacts/evidence-audit-20261029034521Z/node-initial-float-tolerance.log
 !/artifacts/evidence-audit-20261029034521Z/python-audit.log
+# Reviewed experiment navigation and publication verification.
+!/artifacts/navigation-20261029114242Z/
+!/artifacts/navigation-20261029114242Z/**

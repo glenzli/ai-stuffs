@@ -188,6 +188,6 @@ export const pageEvidence = {
   frontier: { scope: "本页按研究问题导航。预算、RL 与模型案例页分别介绍机制、实验结论和适用条件，具名研究附版本及一手资料。", refs: ["scaling", "grpo", "deepseek"] },
   lab: { scope: "检索沙盘使用手工低维特征和规则重排，演示候选集与排序的关系。bi-encoder 和 cross-encoder 的模型质量需在实际检索任务上评估。", refs: ["simcse", "mrl"] },
   simulator: { scope: "这里真实更新二维可学习坐标，目标为简化 InfoNCE；没有 tokenizer、Transformer、AdamW 和多卡。训练动态不能外推成大模型收敛结论。", refs: ["ce", "simcse"] },
-  "deep-dive": { scope: "此页只负责学习路径。表示、梯度、结构和系统各有专页，遇到重复概念应沿链接找到负责公式或边界的页面。", refs: ["attention", "ce", "dpo"] },
+  "deep-dive": { scope: "本页组织学习路径，并按症状索引已登记的实测来源。每项结论以所属页面、固定报告和声明边界为准；输入条件与任务不同的数值不能直接比较。", refs: ["attention", "ce", "dpo"] },
   "training-engineer-guide": { scope: "本页组织六步阅读主线、七个工程契约和问题查阅入口。阅读顺序不代表数学依赖；问题雷达列出候选原因和后续检查，根因判断需要结合观测与验证实验。", refs: ["zero", "eval", "artifacts"] },
 };

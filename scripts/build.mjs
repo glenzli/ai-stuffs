@@ -9,11 +9,13 @@ import { renderMath } from "./render-math.mjs";
 import katex from "katex";
 import { renderLearningPath, renderLearningBranches, renderReadingContext, renderLearningContinuation } from "./render-learning.mjs";
 import { verifyExperimentSources, copyExperimentSources, renderExperimentSources, learningRunSummaries } from "./experiment-sources.mjs";
+import { renderExperimentNavigator } from "./render-experiment-navigator.mjs";
 
 const root = process.cwd();
 const outDir = path.join(root, "dist");
 const globalStyles = ["tokens", "layout", "shared", "reading"];
 const featureExports = {
+  "experiment-navigator": "initExperimentNavigator",
   "padding-inference": "initPaddingInference",
   "retrieval-filtering": "initRetrievalFiltering",
   "accumulation": "initAccumulation",
@@ -145,6 +147,7 @@ for (const page of pages) {
 // Validate authored formulas before replacing the currently served output.
 const experimentSources = await verifyExperimentSources();
 const learningSummaries = learningRunSummaries(experimentSources);
+const experimentNavigator = renderExperimentNavigator(experimentSources);
 await rm(outDir, { recursive: true, force: true });
 await mkdir(path.join(outDir, "assets/js/features"), { recursive: true });
 await mkdir(path.join(outDir, "assets/js/data"), { recursive: true });
@@ -211,6 +214,7 @@ for (const page of pages) {
     .replaceAll("{{learningPath}}", renderLearningPath())
     .replaceAll("{{learningPathDetailed}}", renderLearningPath(true))
     .replaceAll("{{learningBranches}}", renderLearningBranches())
+    .replaceAll("{{experimentNavigator}}", experimentNavigator)
     .replaceAll("{{experimentSources}}", renderExperimentSources(page.slug, experimentSources))
     .replaceAll("{{learningRunSummary}}", escapeHtml(learningSummaries.intro))
     .replaceAll("{{learningRunLimitSummary}}", escapeHtml(learningSummaries.limits))

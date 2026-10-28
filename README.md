@@ -1,5 +1,11 @@
 # 模型工程 Wiki
 
+从 `deep-dive.html#verified-experiments` 可按症状查找当前十三组实测来源，
+查看参考对象、结论边界、运行条件和完整下载。支持用 `?verify=padding` 等链接
+保存搜索条件；关闭 JavaScript 后仍可展开阅读全部来源。
+独立重跑命令输出到新目录，来源清单登记的复现示例另行保留原文。
+导航与命令检查见 [实测导航核验](docs/experiment-navigation-2026-10-29.md)。
+
 当前十三组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
 初始化/宽度/Batch、分块交叉熵已重新运行，报告与原始工件保存在
 `artifacts/reproduced-20261028T115030Z/`。页面提供完整报告、源码与原始工件包、

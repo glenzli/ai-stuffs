@@ -1,0 +1,6 @@
+
+> check
+> node scripts/check-source.mjs && node scripts/build.mjs
+
+Source check passed: 66 pages, 113 scripts, 43 styles.
+Built 66 pages and 143 equations into dist/.

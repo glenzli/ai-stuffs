@@ -1,0 +1,20 @@
+
+> test:experiment-navigation
+> node --test scripts/test-experiment-navigation.mjs
+
+✔ navigation covers every accepted source exactly once and enforces ownership (1.77625ms)
+✔ all primary study links resolve to an owning page and an actual anchor (54.117583ms)
+✔ static fallback contains all thirteen studies and exactly thirty-nine pinned downloads (2.494584ms)
+✔ environment labels omit absent packages while retaining recorded values (0.246458ms)
+✔ replay recipes use separate output folders, preserve numeric settings and keep original provenance (180.279834ms)
+✔ unreviewed or ambiguous commands receive no automatic replay recipe (0.168958ms)
+✔ symptom search normalizes width and case, requires all terms and treats punctuation literally (0.8245ms)
+✔ rendered source details distinguish independent recipes from immutable historical commands (2.864792ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 767.942958

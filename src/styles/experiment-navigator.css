@@ -1,0 +1,27 @@
+.experiment-navigator { min-width: 0; border: 1px solid var(--line); padding: 20px; background: var(--surface-strong); }
+.experiment-navigator > summary { font-weight: 650; cursor: pointer; }
+.experiment-navigator [hidden] { display: none !important; }
+.experiment-navigator-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin-block: 24px; }
+.experiment-navigator-controls label { display: grid; gap: 8px; flex: 1 1 260px; min-width: 0; }
+.experiment-navigator-controls input { width: 100%; min-width: 0; border: 1px solid var(--line-strong); padding: 10px; background: var(--bg); color: var(--ink); font: inherit; }
+.experiment-navigator-controls button { padding: 10px 16px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); color: var(--ink); font: inherit; cursor: pointer; }
+.experiment-navigator-controls p { flex-basis: 100%; margin: 0; color: var(--ink-soft); font-size: 14px; }
+.experiment-navigator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 18px; }
+.experiment-study { min-width: 0; border: 1px solid var(--line); padding: 20px; overflow-wrap: anywhere; }
+.experiment-study h3 { font-size: 18px; margin: 0 0 20px; }
+.experiment-study h3 a { color: var(--ink); }
+.experiment-study dl { margin: 0; }
+.experiment-study dl > div { margin-block: 14px; }
+.experiment-study dt { color: var(--ink-faint); font-size: 12px; }
+.experiment-study dd { margin: 4px 0 0; color: var(--ink-soft); font-size: 14px; }
+.experiment-study-links { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 13px; margin-block: 18px; }
+.experiment-study-links a:first-child { color: var(--blue); font-weight: 600; }
+.experiment-study-source { border-top: 1px solid var(--line); padding-top: 14px; font-size: 13px; }
+.experiment-study-source > summary { cursor: pointer; }
+.experiment-study .experiment-source { margin: 16px 0 0; padding: 0; border: 0; background: none; }
+.experiment-study .experiment-source .button { white-space: normal; }
+.experiment-study .decision-code { min-width: 0; white-space: pre; overflow-x: auto; }
+.experiment-navigator-empty, .experiment-navigator-note { padding: 14px; background: var(--surface); color: var(--ink-soft); font-size: 14px; }
+@media (max-width: 600px) {
+  .experiment-navigator, .experiment-study { padding: 16px; }
+}

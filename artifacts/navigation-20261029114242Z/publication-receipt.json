@@ -1,0 +1,24 @@
+{
+  "recordedAt": "2026-10-29T11:58:26.289Z",
+  "head": "b1578054263e3606bf5f319d65531a27ba89381c",
+  "tree": "8e898350f8e5684ff7849559238f9d52b7f0ceb4",
+  "parent": "78ef25b2745d549069c9dc29a8d149cf05fd15ed",
+  "authorDate": "2026-10-29T03:57:41+08:00",
+  "committerDate": "2026-10-29T03:57:41+08:00",
+  "subject": "Add full-model padded inference and cache replay evidence",
+  "offsetSeconds": 1817,
+  "changedPathsInCommit": 91,
+  "remote": "git@github.com:glenzli/ai-stuffs.git",
+  "branch": "main",
+  "pushExitCode": 0,
+  "verifiedRemoteHead": "b1578054263e3606bf5f319d65531a27ba89381c",
+  "pushedCommits": [
+    "d4f380b",
+    "1bc2c88",
+    "7d097b8",
+    "78ef25b",
+    "b157805"
+  ],
+  "followupCommitted": false,
+  "followupPushed": false
+}

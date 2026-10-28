@@ -1,0 +1,75 @@
+{
+  "schema": "experiment-navigation-verification-v1",
+  "status": "passed",
+  "createdAt": "2026-10-29T12:02:17.910Z",
+  "baseCommit": "b1578054263e3606bf5f319d65531a27ba89381c",
+  "followupCommitted": false,
+  "followupPushed": false,
+  "sourceGroups": 13,
+  "sourceAssets": 39,
+  "manifestSha256": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+  "manifestChanged": false,
+  "numericalExperimentsRerun": false,
+  "sourceCheck": {
+    "pages": 66,
+    "scripts": 113,
+    "styles": 43,
+    "equations": 143
+  },
+  "node": {
+    "files": 36,
+    "passed": 464,
+    "failed": 0,
+    "newContractTests": 8
+  },
+  "browser": {
+    "checks": 13,
+    "layouts": 18,
+    "widths": [
+      390,
+      768,
+      1440
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "consoleErrors": 0,
+    "horizontalOverflow": 0
+  },
+  "http": {
+    "downloads": 3,
+    "hashesMatch": true
+  },
+  "screenshots": [
+    "navigator-desktop.png",
+    "command-mobile.png"
+  ],
+  "evidence": [
+    "publication-receipt.json",
+    "build.log",
+    "node-result.json",
+    "node-final.log",
+    "browser-audit.json",
+    "source-and-download-audit.json"
+  ],
+  "inputs": {
+    ".gitignore": "287502a0d2ee7cb72f67ce2159f802e4db5fdadbc470d94a83fef089dbcbd7d5",
+    "README.md": "33f08211661b3b87d0d70212a061279367723d1ee1b6ae3a2ddfeba3edc880b0",
+    "package.json": "59b02e151d8054d82413f88da9316edda2ccc06720f2f76570fb657dc59174f0",
+    "scripts/build.mjs": "658a8e05f2aee366ffe7465ca8b7484cad56a6836f6f126958fc9cd5829df725",
+    "scripts/experiment-sources.mjs": "61c99b867e6749f6c7be951c68840369fae081f36b7c4e2a1fb9f3b8fe6ccceb",
+    "scripts/render-experiment-navigator.mjs": "dd03ff9bcf9e9e6534a9e2060258ef8dbf9ad0c334035e1cf96a9ff1b6a48518",
+    "scripts/test-experiment-navigation.mjs": "46dfaa462e74d409543b06e4eda7e9934b703615903901d79c0b74aac1f0473c",
+    "src/experiment-navigation.mjs": "fd622d15f67e6b9087a9456899723056c6381aa07dee44780a9eb2c11f9fdf7b",
+    "src/scripts/features/experiment-navigator.js": "a0b6c163e79b41a1abbcbd37afe1217166930b1d30595d9aaef85ac67c13f6bb",
+    "src/styles/experiment-navigator.css": "eefdda030347bbecdf15d8903c6b770fc6ff637e3bf53b26c194e0534cff35de",
+    "src/content/deep-dive.html": "2f51effcfcd43ae22d503848c6408585116d228bd74d134f7c42d9cfeec3edec",
+    "src/content/training-engineer-guide.html": "174e36b406bc19feafc6862a7ced9cddc206dd6e3f2133e707f067084ab09318",
+    "src/content/engineering-check.html": "4446b075d3c50273bfbcfa119ebfd2555cd29a73f97fb78df12d330597897fb1",
+    "src/pages.mjs": "45526c47cc93afae693f838d3f2b91f4714ebf8b667dbe8d90184897bdcd3828",
+    "src/search.mjs": "fe5090b542ebb7a1b88f515053232ab2cc00165643cc56ad82ae7b633cb189a4",
+    "src/references.mjs": "75bd8910f15a25967957d7e65be0c1277f4e59357ef6071b1922fe41b1370aee",
+    "docs/experiment-navigation-2026-10-29.md": "6f9565aa5631bd6767f57f674a62b43fad431df264fdfc86132d24a4c5c21180"
+  }
+}

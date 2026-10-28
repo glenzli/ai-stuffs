@@ -603,7 +603,8 @@ for (const [slug, title, description] of [
 ]) pages.push({ slug, file: `${slug}.html`, title: `${title} · 模型工程 Wiki`, description,
   bodyPage: slug, features: ["practice-reports"], styles: ["modern", "exact-mechanics", "practice"],
   footer: [title, "从保存的输入、权重和逐步记录，核验页面上的每项结论。"] });
-pages.find(page => page.slug === "deep-dive").styles.push("practice");
+pages.find(page => page.slug === "deep-dive").styles.push("practice", "experiment-navigator");
+pages.find(page => page.slug === "deep-dive").features.push("experiment-navigator");
 pages.push({ slug: "retrieval-project", file: "retrieval-project.html", title: "真实中文检索实战 · 模型工程 Wiki",
   description: "877 段真实中文文档、固定 BGE 模型、BM25、Flat/IVF 与 RRF 重排；完整问题、指定证据、权重和索引可核验。",
   bodyPage: "retrieval-project", features: ["retrieval-project", "experiment-check"], styles: ["modern", "exact-mechanics", "practice"],

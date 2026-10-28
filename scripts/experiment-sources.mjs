@@ -67,18 +67,64 @@ export async function copyExperimentSources(experiments, outDir, root = process.
 }
 
 export function renderExperimentSources(slug, experiments) {
-  return experiments.filter(item => item.pages.includes(slug)).map(experiment => renderSource(experiment)).join("\n");
+  return experiments.filter(item => item.pages.includes(slug)).map(renderExperimentSource).join("\n");
 }
-function renderSource(experiment) {
-  const { assets, runtime } = experiment;
+
+export function experimentRuntime(runtime = {}) {
+  const labels = { python: "Python", torch: "PyTorch", numpy: "NumPy", mup: "μP", pyyaml: "PyYAML", "faiss-cpu": "Faiss CPU", transformers: "Transformers", tokenizers: "Tokenizers", safetensors: "Safetensors", "huggingface-hub": "Hugging Face Hub", device: "设备", dtype: "精度", threads: "线程", platform: "系统" };
+  return Object.entries(labels).filter(([key]) => runtime?.[key] !== undefined && runtime[key] !== null && String(runtime[key]).trim() !== "")
+    .map(([key, label]) => `${label} ${runtime[key]}`).join(" / ") || "运行环境未记录";
+}
+
+// Derive a repository replay recipe only for reviewed producer CLIs. The frozen
+// command stays intact as provenance; this function never executes a command.
+export function experimentReplayPlan(experiment) {
+  const rules = {
+    learning: ["run-learning-lab", "--steps", "--seeds", "--batch-size", "--lr", "--threads"],
+    failures: ["run-failure-lab"], dynamics: ["run-dynamics-lab"], output: ["run-output-lab"],
+    practice: ["run-practice-labs"], "language-baselines": ["run-evidence-extension", "--only"],
+    "matched-budget": ["run-evidence-extension", "--only"], retrieval: ["run-evidence-extension", "--only"],
+    "retrieval-comparison": ["run-evidence-audit", "--only"], "text-evaluation-audit": ["run-evidence-audit", "--only"],
+    accumulation: ["run-accumulation-lab"], "retrieval-filtering": ["run-retrieval-filtering"], "padding-inference": ["run-padding-inference"],
+  };
+  const rule = rules[experiment.id], original = experiment.command;
+  const manual = { command: null, original, note: "该运行记录不符合已核对的独立重跑格式，请先检查脚本参数与输出路径。" };
+  if (!rule || typeof original !== "string" || !/^[\w./, -]+$/.test(original)) return manual;
+  const tokens = original.trim().split(/ +/), args = [], seen = new Set();
+  if (tokens.shift() !== "node" || tokens.shift() !== `scripts/${rule[0]}.mjs`) return manual;
+  for (let i = 0; i < tokens.length; i++) {
+    const flag = tokens[i];
+    if (seen.has(flag)) return manual;
+    seen.add(flag);
+    if (flag === "--write-page-data" && experiment.id === "dynamics") continue;
+    const value = tokens[++i];
+    if (!["--out-dir", ...rule.slice(1)].includes(flag) || !value || value.startsWith("--")) return manual;
+    if (flag === "--out-dir") {
+      if (!/^artifacts\/[\w-]+$/.test(value)) return manual;
+      args.push(flag, `artifacts/${experiment.id}-verify-run`);
+    } else {
+      if (flag === "--only" && value !== experiment.id) return manual;
+      args.push(flag, value);
+    }
+  }
+  if (!seen.has("--out-dir")) return manual;
+  if (rule.includes("--only") && !seen.has("--only")) args.push("--only", experiment.id);
+  return { command: ["node", `scripts/${rule[0]}.mjs`, ...args].join(" "), original,
+    note: experiment.id === "dynamics" ? "独立重跑已移除更新页面数据的选项。" : rule[0] === "run-evidence-extension" ? "已限定为当前来源组。" : "" };
+}
+
+export function renderExperimentSource(experiment) {
+  const { assets, runtime } = experiment, replay = experimentReplayPlan(experiment);
   return `<aside class="experiment-source" aria-label="本页实测结果的完整来源">
     <p><strong>核验：${esc(experiment.title)}</strong></p>
     <p>图表与表格取自本次保存的完整报告。工件包同时提供运行时源码、配置、环境及对应的 checkpoint、张量或固定输入。</p>
     <div class="step-actions"><a class="button secondary" href="${assets.report.href}" download>下载完整报告</a><a class="button secondary" href="${assets.archive.href}" download>下载源码与原始工件 · ${(assets.archive.bytes / 1048576).toFixed(1)} MiB</a><a href="${assets.checksums.href}" download>文件校验表</a></div>
     <details><summary>报告身份与复现实验</summary>
-    <p>${esc(experiment.created_at)} · Python ${esc(runtime.python)} / PyTorch ${esc(runtime.torch)} / NumPy ${esc(runtime.numpy)} · ${esc(runtime.platform)}</p>
+    <p>${esc(experiment.created_at)} · ${esc(experimentRuntime(runtime))}</p>
     <p>报告 SHA-256：<code>${assets.report.sha256}</code><br>工件包 SHA-256：<code>${assets.archive.sha256}</code></p>
-    <p>在仓库根目录使用固定依赖环境，输出到一个尚不存在的新目录：</p><pre class="decision-code" tabindex="0" aria-label="复现实验命令"><code>${esc(experiment.command)}</code></pre>
+    ${replay.command ? `<p>在仓库根目录准备对应的固定依赖与输入。将下面的输出路径改为一个尚不存在的新目录，独立重跑后另行核验与采纳：</p><pre class="decision-code" tabindex="0" aria-label="独立重跑命令"><code>${esc(replay.command)}</code></pre>` : ""}
+    ${replay.note ? `<p>${esc(replay.note)}</p>` : ""}
+    <details><summary>登记的复现命令（原文）</summary><p>这是来源清单登记的复现示例，保留原文用于核对。它可能包含生成页面数据的选项或运行多个来源组的范围，直接复制前需检查。</p><pre class="decision-code" tabindex="0" aria-label="登记的复现命令"><code>${esc(replay.original)}</code></pre></details>
     <p>解压工件包后，可在实验目录运行 <code>shasum -a 256 -c SHA256SUMS</code>；在解压根目录运行 <code>shasum -a 256 -c SOURCE-SHA256SUMS</code> 核对运行时源码。相同配置在不同系统上可能产生不同浮点轨迹，CPU 耗时也只描述本次环境。</p>
     </details>
   </aside>`;
