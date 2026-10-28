@@ -1,0 +1,564 @@
+{
+  "name": "all-local-environments",
+  "args": [
+    "--json"
+  ],
+  "exit": 0,
+  "stderr": "",
+  "report": {
+    "schema": "experiment-preflight-v1",
+    "created_at": "2026-10-29T12:18:25.604Z",
+    "manifest_sha256": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+    "status": "ready",
+    "studies": [
+      {
+        "id": "learning",
+        "title": "小模型学习与泛化",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "learning 固定来源",
+            "detail": "51 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "failures",
+        "title": "故障与确定性回放",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "failures 固定来源",
+            "detail": "64 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "dynamics",
+        "title": "初始化、宽度与 Batch",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/dynamics-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "mup 版本与导入",
+            "detail": "1.0.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "PyYAML 版本与导入",
+            "detail": "6.0.3"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "dynamics 固定来源",
+            "detail": "333 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "output",
+        "title": "分块交叉熵与 CPU 测量",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "output 固定来源",
+            "detail": "5 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "practice",
+        "title": "从诊断到自然语言项目的四项实战",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "practice 固定来源",
+            "detail": "85 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "learning 固定来源",
+            "detail": "51 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "language-baselines",
+        "title": "自然语言模型的词频与相邻统计基线",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "language-baselines 固定来源",
+            "detail": "8 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "practice 固定来源",
+            "detail": "85 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "matched-budget",
+        "title": "相同监督 token 预算的长度支持对照",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "matched-budget 固定来源",
+            "detail": "17 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "practice 固定来源",
+            "detail": "85 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "learning 固定来源",
+            "detail": "51 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "retrieval",
+        "title": "真实中文文档、Embedding 与索引检索实战",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-retrieval/bin/python",
+        "requirements": "scripts/retrieval-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-retrieval/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "transformers 版本与导入",
+            "detail": "4.57.1"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "tokenizers 版本与导入",
+            "detail": "0.22.1"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "safetensors 版本与导入",
+            "detail": "0.6.2"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "huggingface-hub 版本与导入",
+            "detail": "0.36.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "faiss-cpu 版本与导入",
+            "detail": "1.12.0"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "retrieval 固定来源",
+            "detail": "24 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.queries",
+            "label": "检索问题身份",
+            "detail": "d284d214c7b5f76c6b1793622a33ea0c3ba5856fb85754e853be64be8860bc5b"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "practice 固定来源",
+            "detail": "85 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "retrieval-comparison",
+        "title": "混合召回、候选覆盖与来源组配对评估",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "retrieval-comparison 固定来源",
+            "detail": "14 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "retrieval 固定来源",
+            "detail": "24 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "text-evaluation-audit",
+        "title": "固定文本模型的逐文档误差与加权评估",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "text-evaluation-audit 固定来源",
+            "detail": "13 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "practice 固定来源",
+            "detail": "85 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "language-baselines 固定来源",
+            "detail": "8 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "accumulation",
+        "title": "完整 Transformer 的监督分母、累积与双进程 DDP 更新",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "gloo.build",
+            "label": "Gloo 构建支持",
+            "detail": "构建可用；本检查不启动双进程或绑定端口。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "accumulation 固定来源",
+            "detail": "40 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "practice 固定来源",
+            "detail": "85 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "retrieval-filtering",
+        "title": "真实向量的来源过滤、候选深度与可用证据",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/retrieval-filtering-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "retrieval-filtering 固定来源",
+            "detail": "10 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "retrieval 固定来源",
+            "detail": "24 个清单文件与报告哈希一致。"
+          }
+        ]
+      },
+      {
+        "id": "padding-inference",
+        "title": "完整 Transformer 的变长填充、下一位置 logits 与缓存续算",
+        "python": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "ready",
+        "checks": [
+          {
+            "status": "passed",
+            "code": "python.available",
+            "label": "Python 可启动",
+            "detail": "/Users/g4i/lab/ai-stuffs/.venv-framework/bin/python · 3.12.13"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "torch 版本与导入",
+            "detail": "2.9.0"
+          },
+          {
+            "status": "passed",
+            "code": "package.available",
+            "label": "numpy 版本与导入",
+            "detail": "2.3.4"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "padding-inference 固定来源",
+            "detail": "46 个清单文件与报告哈希一致。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "practice 固定来源",
+            "detail": "85 个清单文件与报告哈希一致。"
+          }
+        ]
+      }
+    ],
+    "limits": [
+      "仅检查列出的固定依赖、模块导入、登记报告与原始文件清单；不展开下载压缩包，不检查所有系统库或当前源码与历史源码的逐字节一致性。",
+      "不启动训练、不下载模型、不创建实验输出目录。通过预检不等于数值复现、Gloo 通信或性能测试通过。",
+      "输入检查覆盖所选组与其直接依赖的完整来源组，可能包含本次重跑不会直接读取的文件。"
+    ]
+  }
+}

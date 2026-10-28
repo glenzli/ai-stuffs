@@ -1,0 +1,96 @@
+{
+  "schema": "experiment-preflight-verification-v1",
+  "status": "passed",
+  "created_at": "2026-10-29T12:29:11.823Z",
+  "baseCommit": "85cab85d14006692c998e206358cca28d6a59156",
+  "followupCommitted": false,
+  "followupPushed": false,
+  "sourceManifestSha256": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+  "sourceManifestUnchanged": true,
+  "numericalExperimentsRerun": false,
+  "build": {
+    "pages": 66,
+    "scripts": 113,
+    "styles": 43,
+    "equations": 143
+  },
+  "node": {
+    "command": "node --test scripts/test-experiment-preflight.mjs scripts/test-experiment-navigation.mjs scripts/test-experiment-sources.mjs",
+    "passed": 28,
+    "failed": 0,
+    "newTests": 13
+  },
+  "actualPreflight": {
+    "groups": 13,
+    "status": "ready",
+    "cases": [
+      {
+        "name": "all-local-environments",
+        "exit": 0,
+        "status": "ready",
+        "groups": 13
+      },
+      {
+        "name": "existing-output",
+        "exit": 1,
+        "status": "blocked",
+        "groups": 1
+      },
+      {
+        "name": "missing-interpreter",
+        "exit": 1,
+        "status": "blocked",
+        "groups": 1
+      },
+      {
+        "name": "unknown-study",
+        "exit": 2
+      }
+    ]
+  },
+  "browser": {
+    "views": 3,
+    "layouts": 18,
+    "viewports": [
+      390,
+      768,
+      1440
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "maxPageOverflow": 0,
+    "consoleErrors": 0
+  },
+  "evidence": [
+    "build.log",
+    "node-final.log",
+    "all-local-environments.json",
+    "cli-cases.json",
+    "browser-audit.json",
+    "existing-output.json",
+    "missing-interpreter.json",
+    "unknown-study.json",
+    "publication-receipt.json"
+  ],
+  "screenshots": [
+    "preflight-desktop.png",
+    "preflight-mobile.png"
+  ],
+  "inputs": {
+    ".gitignore": "19bb0423a1e2f39c53e5ffac92bc44c7e086e8b8fd057f84956da7d7dfc0a23c",
+    "README.md": "b2f12f4ee7c6ec5ac1084aedd72d1f0adbf32ec878e2ad2b94f788b570bc3af9",
+    "package.json": "8c5d476987125b2364a8f34c71cb28819c61bb28aac23448b3a4cc09bf3a0bb4",
+    "scripts/experiment-sources.mjs": "52d85ecea7874a158e51aa514fb4bd83934d40945b47d30350c141675be7471c",
+    "docs/experiment-preflight-2026-10-29.md": "f28047d315246b92c822a7a03cb2319dd22c92fbb41103e2724346fa2c96e3dd",
+    "scripts/check-experiment.mjs": "01c81ce3409a4654d84405f0e238fc477b9a5a6cf96aa933cc881b1683ba3890",
+    "scripts/experiment-preflight.mjs": "a5070ce1701f9ef07de7a163d491b7f9a47cf42908a62b7e61db48530ebd70db",
+    "scripts/test-experiment-preflight.mjs": "b5492d4bdabe36c8d50341ef496a45ceb3ca7fb3b78ba1eae0edd1490987c8e8"
+  },
+  "built": {
+    "dist/deep-dive.html": "61554cad15fe85695f394e52c520f7c5b2c62983938c760fabee4610b9958e01",
+    "dist/training-failures.html": "c95dc6da5ef98f5c915e58aca7a1c15b0e1844e4ad27e97056ed6ce5193291ae",
+    "dist/ann-index.html": "65256073e48ac85c8c43fea73db365824a427241c530d5e39e593243323508b8"
+  }
+}

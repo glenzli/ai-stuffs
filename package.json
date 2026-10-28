@@ -47,7 +47,9 @@
     "test:retrieval-filtering": "node --test scripts/test-retrieval-filtering.mjs && .venv-framework/bin/python scripts/test-retrieval-filtering.py",
     "lab:padding-inference": "node scripts/run-padding-inference.mjs",
     "test:padding-inference": "node --test scripts/test-padding-inference.mjs && .venv-framework/bin/python scripts/test-padding-inference.py",
-    "test:experiment-navigation": "node --test scripts/test-experiment-navigation.mjs"
+    "test:experiment-navigation": "node --test scripts/test-experiment-navigation.mjs",
+    "check:experiment": "node scripts/check-experiment.mjs",
+    "test:experiment-preflight": "node --test scripts/test-experiment-preflight.mjs"
   },
   "devDependencies": {
     "katex": "0.19.1",

@@ -1,0 +1,24 @@
+
+> test:experiment-preflight
+> node --test scripts/test-experiment-preflight.mjs
+
+✔ preflight covers thirteen source groups and identifies actual upstream inputs (0.888792ms)
+✔ CLI rejects unknown, ambiguous and unsafe requests before any probing (0.325791ms)
+✔ a ready check preserves reference files and does not create its output directory (9.719958ms)
+✔ missing, mismatched and unloadable packages receive distinct blocking diagnostics (6.272ms)
+✔ Python reference differences are warnings; failed interpreters block readiness (4.975125ms)
+✔ altered, absent and traversing raw input files cannot pass a preflight (5.733ms)
+✔ existing files, directories and dangling links are not available output locations (6.123625ms)
+✔ NumPy-only filtering does not request Torch; Gloo capability and environment overrides are explicit (311.528084ms)
+✔ bulk inspection reuses equal probes and checks each source without changing any manifest (831.488791ms)
+✔ every source card exposes a preflight for the same source group and output as its replay (8.676583ms)
+✔ requirement pins reject unsupported syntax rather than silently skipping a dependency (4.458917ms)
+✔ real CLI returns structured failure for a missing interpreter without writing outputs (52.912166ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1310.674959

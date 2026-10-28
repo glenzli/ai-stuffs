@@ -6,6 +6,16 @@
 独立重跑命令输出到新目录，来源清单登记的复现示例另行保留原文。
 导航与命令检查见 [实测导航核验](docs/experiment-navigation-2026-10-29.md)。
 
+重跑前可先执行下面的检查，按来源组核对固定依赖与模块导入、已登记报告和原始文件、
+输出目录冲突。检查不会启动训练、下载模型或创建实验输出目录；通过预检仍需实际核验结果。
+
+```sh
+npm run check:experiment -- --only padding-inference --out-dir artifacts/padding-inference-verify-run
+```
+
+省略 `--only` 检查全部十三组；`node scripts/check-experiment.mjs --json` 提供机器可读结果。
+环境准备、退出码与检查边界见 [复现前检查](docs/experiment-preflight-2026-10-29.md)。
+
 当前十三组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
 初始化/宽度/Batch、分块交叉熵已重新运行，报告与原始工件保存在
 `artifacts/reproduced-20261028T115030Z/`。页面提供完整报告、源码与原始工件包、

@@ -1,0 +1,36 @@
+✔ navigation covers every accepted source exactly once and enforces ownership (2.180375ms)
+✔ all primary study links resolve to an owning page and an actual anchor (68.705875ms)
+✔ static fallback contains all thirteen studies and exactly thirty-nine pinned downloads (3.418666ms)
+✔ environment labels omit absent packages while retaining recorded values (0.385833ms)
+✔ replay recipes use separate output folders, preserve numeric settings and keep original provenance (220.548791ms)
+✔ unreviewed or ambiguous commands receive no automatic replay recipe (0.243708ms)
+✔ symptom search normalizes width and case, requires all terms and treats punctuation literally (1.049167ms)
+✔ rendered source details distinguish independent recipes from immutable registered examples (5.495791ms)
+✔ preflight covers thirteen source groups and identifies actual upstream inputs (0.914416ms)
+✔ CLI rejects unknown, ambiguous and unsafe requests before any probing (0.32375ms)
+✔ a ready check preserves reference files and does not create its output directory (13.781958ms)
+✔ missing, mismatched and unloadable packages receive distinct blocking diagnostics (6.993125ms)
+✔ Python reference differences are warnings; failed interpreters block readiness (5.859667ms)
+✔ altered, absent and traversing raw input files cannot pass a preflight (6.838667ms)
+✔ existing files, directories and dangling links are not available output locations (7.752875ms)
+✔ missing upstream inputs and changed retrieval questions remain blockers even when the selected report is intact (10.221125ms)
+✔ NumPy-only filtering does not request Torch; Gloo capability and environment overrides are explicit (708.55625ms)
+✔ bulk inspection reuses equal probes and checks each source without changing any manifest (980.477833ms)
+✔ every source card exposes a preflight for the same source group and output as its replay (11.055333ms)
+✔ requirement pins reject unsupported syntax rather than silently skipping a dependency (5.226833ms)
+✔ real CLI returns structured failure for a missing interpreter without writing outputs (54.557791ms)
+✔ all five page snapshots are faithful projections of their pinned complete reports (20.4135ms)
+✔ modified measurements cannot satisfy the projection contract (1.670042ms)
+✔ missing files, changed hashes and wrong page ownership reject the build inputs (8.374583ms)
+✔ raw artifact checksum lists still match every saved file (840.691042ms)
+✔ download archives unpack into fully checksummed raw runs and run-time source (6239.691041ms)
+✔ built pages expose byte-identical full reports, source archives and checksums (353.901417ms)
+✔ learning prose is generated from this report's capability results (14.58925ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8408.698291

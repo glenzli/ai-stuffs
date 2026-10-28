@@ -1,0 +1,11 @@
+{
+  "name": "unknown-study",
+  "args": [
+    "--only",
+    "not-a-source",
+    "--json"
+  ],
+  "exit": 2,
+  "stderr": "未知来源组：not-a-source\n",
+  "stdout": ""
+}

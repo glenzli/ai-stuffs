@@ -121,3 +121,7 @@ __pycache__/
 # Reviewed experiment navigation and publication verification.
 !/artifacts/navigation-20261029114242Z/
 !/artifacts/navigation-20261029114242Z/**
+
+# Reviewed readiness diagnostics; no numerical experiment output is added here.
+!/artifacts/preflight-20261029121035Z/
+!/artifacts/preflight-20261029121035Z/**

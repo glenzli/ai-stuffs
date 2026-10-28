@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-10-29T12:18:26.016Z",
+  "cases": [
+    {
+      "name": "all-local-environments",
+      "exit": 0,
+      "status": "ready",
+      "groups": 13
+    },
+    {
+      "name": "existing-output",
+      "exit": 1,
+      "status": "blocked",
+      "groups": 1
+    },
+    {
+      "name": "missing-interpreter",
+      "exit": 1,
+      "status": "blocked",
+      "groups": 1
+    },
+    {
+      "name": "unknown-study",
+      "exit": 2
+    }
+  ],
+  "manifestUnchanged": true
+}

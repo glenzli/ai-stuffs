@@ -1,0 +1,45 @@
+{
+  "name": "missing-interpreter",
+  "args": [
+    "--only",
+    "learning",
+    "--json"
+  ],
+  "exit": 1,
+  "stderr": "",
+  "report": {
+    "schema": "experiment-preflight-v1",
+    "created_at": "2026-10-29T12:18:25.970Z",
+    "manifest_sha256": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+    "status": "blocked",
+    "studies": [
+      {
+        "id": "learning",
+        "title": "小模型学习与泛化",
+        "python": "/private/tmp/ai-stuffs-python-does-not-exist",
+        "requirements": "scripts/framework-requirements.txt",
+        "status": "blocked",
+        "checks": [
+          {
+            "status": "failed",
+            "code": "python.probe",
+            "label": "环境探测失败",
+            "detail": "找不到 /private/tmp/ai-stuffs-python-does-not-exist",
+            "hint": "准备 scripts/framework-requirements.txt，或设置 FRAMEWORK_PYTHON 为对应 Python 程序的路径。"
+          },
+          {
+            "status": "passed",
+            "code": "input.source",
+            "label": "learning 固定来源",
+            "detail": "51 个清单文件与报告哈希一致。"
+          }
+        ]
+      }
+    ],
+    "limits": [
+      "仅检查列出的固定依赖、模块导入、登记报告与原始文件清单；不展开下载压缩包，不检查所有系统库或当前源码与历史源码的逐字节一致性。",
+      "不启动训练、不下载模型、不创建实验输出目录。通过预检不等于数值复现、Gloo 通信或性能测试通过。",
+      "输入检查覆盖所选组与其直接依赖的完整来源组，可能包含本次重跑不会直接读取的文件。"
+    ]
+  }
+}

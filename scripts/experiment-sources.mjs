@@ -88,6 +88,7 @@ export function experimentReplayPlan(experiment) {
     accumulation: ["run-accumulation-lab"], "retrieval-filtering": ["run-retrieval-filtering"], "padding-inference": ["run-padding-inference"],
   };
   const rule = rules[experiment.id], original = experiment.command;
+  const outDir = `artifacts/${experiment.id}-verify-run`;
   const manual = { command: null, original, note: "该运行记录不符合已核对的独立重跑格式，请先检查脚本参数与输出路径。" };
   if (!rule || typeof original !== "string" || !/^[\w./, -]+$/.test(original)) return manual;
   const tokens = original.trim().split(/ +/), args = [], seen = new Set();
@@ -101,7 +102,7 @@ export function experimentReplayPlan(experiment) {
     if (!["--out-dir", ...rule.slice(1)].includes(flag) || !value || value.startsWith("--")) return manual;
     if (flag === "--out-dir") {
       if (!/^artifacts\/[\w-]+$/.test(value)) return manual;
-      args.push(flag, `artifacts/${experiment.id}-verify-run`);
+      args.push(flag, outDir);
     } else {
       if (flag === "--only" && value !== experiment.id) return manual;
       args.push(flag, value);
@@ -109,7 +110,8 @@ export function experimentReplayPlan(experiment) {
   }
   if (!seen.has("--out-dir")) return manual;
   if (rule.includes("--only") && !seen.has("--only")) args.push("--only", experiment.id);
-  return { command: ["node", `scripts/${rule[0]}.mjs`, ...args].join(" "), original,
+  return { command: ["node", `scripts/${rule[0]}.mjs`, ...args].join(" "), original, outDir,
+    preflightCommand: `node scripts/check-experiment.mjs --only ${experiment.id} --out-dir ${outDir}`,
     note: experiment.id === "dynamics" ? "独立重跑已移除更新页面数据的选项。" : rule[0] === "run-evidence-extension" ? "已限定为当前来源组。" : "" };
 }
 
@@ -122,7 +124,7 @@ export function renderExperimentSource(experiment) {
     <details><summary>报告身份与复现实验</summary>
     <p>${esc(experiment.created_at)} · ${esc(experimentRuntime(runtime))}</p>
     <p>报告 SHA-256：<code>${assets.report.sha256}</code><br>工件包 SHA-256：<code>${assets.archive.sha256}</code></p>
-    ${replay.command ? `<p>在仓库根目录准备对应的固定依赖与输入。将下面的输出路径改为一个尚不存在的新目录，独立重跑后另行核验与采纳：</p><pre class="decision-code" tabindex="0" aria-label="独立重跑命令"><code>${esc(replay.command)}</code></pre>` : ""}
+    ${replay.command ? `<p>在仓库根目录准备对应的固定依赖与输入。预检与重跑应使用同一个尚不存在的新目录，先检查环境、固定来源与输出位置：</p><pre class="decision-code" tabindex="0" aria-label="复现前检查命令"><code>${esc(replay.preflightCommand)}</code></pre><p>预检不运行训练或下载模型。通过后再独立重跑，数值结果与实际通信仍需另行核验，采纳后才更新页面：</p><pre class="decision-code" tabindex="0" aria-label="独立重跑命令"><code>${esc(replay.command)}</code></pre>` : ""}
     ${replay.note ? `<p>${esc(replay.note)}</p>` : ""}
     <details><summary>登记的复现命令（原文）</summary><p>这是来源清单登记的复现示例，保留原文用于核对。它可能包含生成页面数据的选项或运行多个来源组的范围，直接复制前需检查。</p><pre class="decision-code" tabindex="0" aria-label="登记的复现命令"><code>${esc(replay.original)}</code></pre></details>
     <p>解压工件包后，可在实验目录运行 <code>shasum -a 256 -c SHA256SUMS</code>；在解压根目录运行 <code>shasum -a 256 -c SOURCE-SHA256SUMS</code> 核对运行时源码。相同配置在不同系统上可能产生不同浮点轨迹，CPU 耗时也只描述本次环境。</p>

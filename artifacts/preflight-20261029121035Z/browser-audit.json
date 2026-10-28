@@ -1,0 +1,277 @@
+{
+  "created_at": "2026-10-29T12:28:06.686Z",
+  "views": [
+    {
+      "explanation": true,
+      "id": "padding-inference",
+      "overflow": 0,
+      "preflight": "node scripts/check-experiment.mjs --only padding-inference --out-dir artifacts/padding-inference-verify-run",
+      "replay": "node scripts/run-padding-inference.mjs --out-dir artifacts/padding-inference-verify-run"
+    },
+    {
+      "page": "/training-failures.html",
+      "preflight": "node scripts/check-experiment.mjs --only failures --out-dir artifacts/failures-verify-run",
+      "replay": "node scripts/run-failure-lab.mjs --out-dir artifacts/failures-verify-run"
+    },
+    {
+      "page": "/ann-index.html",
+      "preflight": "node scripts/check-experiment.mjs --only retrieval-filtering --out-dir artifacts/retrieval-filtering-verify-run",
+      "replay": "node scripts/run-retrieval-filtering.mjs --out-dir artifacts/retrieval-filtering-verify-run"
+    }
+  ],
+  "layouts": [
+    {
+      "commands": [
+        {
+          "scrollWidth": 869,
+          "text": "node scripts/check-experiment.mjs --only padding-inference --out-dir artifacts/padding-inference-verify-run",
+          "width": 288
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 869,
+          "text": "node scripts/check-experiment.mjs --only padding-inference --out-dir artifacts/padding-inference-verify-run",
+          "width": 288
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 869,
+          "text": "node scripts/check-experiment.mjs --only padding-inference --out-dir artifacts/padding-inference-verify-run",
+          "width": 634
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 869,
+          "text": "node scripts/check-experiment.mjs --only padding-inference --out-dir artifacts/padding-inference-verify-run",
+          "width": 634
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 1070,
+          "text": "node scripts/check-experiment.mjs --only padding-inference --out-dir artifacts/padding-inference-verify-run",
+          "width": 1070
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "light",
+      "width": 1440
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 1070,
+          "text": "node scripts/check-experiment.mjs --only padding-inference --out-dir artifacts/padding-inference-verify-run",
+          "width": 1070
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/deep-dive.html",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 679,
+          "text": "node scripts/check-experiment.mjs --only failures --out-dir artifacts/failures-verify-run",
+          "width": 314
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/training-failures.html",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 679,
+          "text": "node scripts/check-experiment.mjs --only failures --out-dir artifacts/failures-verify-run",
+          "width": 314
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/training-failures.html",
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 679,
+          "text": "node scripts/check-experiment.mjs --only failures --out-dir artifacts/failures-verify-run",
+          "width": 676
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/training-failures.html",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 679,
+          "text": "node scripts/check-experiment.mjs --only failures --out-dir artifacts/failures-verify-run",
+          "width": 676
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/training-failures.html",
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 1112,
+          "text": "node scripts/check-experiment.mjs --only failures --out-dir artifacts/failures-verify-run",
+          "width": 1112
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/training-failures.html",
+      "theme": "light",
+      "width": 1440
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 1112,
+          "text": "node scripts/check-experiment.mjs --only failures --out-dir artifacts/failures-verify-run",
+          "width": 1112
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/training-failures.html",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 838,
+          "text": "node scripts/check-experiment.mjs --only retrieval-filtering --out-dir artifacts/retrieval-filtering-verify-run",
+          "width": 314
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/ann-index.html",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 838,
+          "text": "node scripts/check-experiment.mjs --only retrieval-filtering --out-dir artifacts/retrieval-filtering-verify-run",
+          "width": 314
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/ann-index.html",
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 838,
+          "text": "node scripts/check-experiment.mjs --only retrieval-filtering --out-dir artifacts/retrieval-filtering-verify-run",
+          "width": 676
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/ann-index.html",
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 838,
+          "text": "node scripts/check-experiment.mjs --only retrieval-filtering --out-dir artifacts/retrieval-filtering-verify-run",
+          "width": 676
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/ann-index.html",
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 1112,
+          "text": "node scripts/check-experiment.mjs --only retrieval-filtering --out-dir artifacts/retrieval-filtering-verify-run",
+          "width": 1112
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/ann-index.html",
+      "theme": "light",
+      "width": 1440
+    },
+    {
+      "commands": [
+        {
+          "scrollWidth": 1112,
+          "text": "node scripts/check-experiment.mjs --only retrieval-filtering --out-dir artifacts/retrieval-filtering-verify-run",
+          "width": 1112
+        }
+      ],
+      "duplicateIds": [],
+      "overflow": 0,
+      "page": "/ann-index.html",
+      "theme": "dark",
+      "width": 1440
+    }
+  ],
+  "console": []
+}
