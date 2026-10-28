@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "preserved_prior_experiments": [
+    "learning",
+    "failures",
+    "dynamics",
+    "output",
+    "practice",
+    "language-baselines",
+    "matched-budget",
+    "retrieval",
+    "retrieval-comparison",
+    "text-evaluation-audit"
+  ],
+  "captured_numeric_sources": [
+    "scripts/accumulation_lab.py",
+    "scripts/text_training_core.py",
+    "scripts/learning_core.py",
+    "scripts/framework-requirements.txt",
+    "scripts/run-accumulation-lab.mjs",
+    "scripts/experiment-bundles.mjs"
+  ],
+  "accepted_files": 63,
+  "untracked_files": 70,
+  "largest_new_files": [
+    {
+      "path": "artifacts/accumulation-20261029060154Z/downloads/accumulation-sources.tar.gz",
+      "bytes": 77201905
+    }
+  ],
+  "oversize_run_ignored": "artifacts/accumulation-20261029060009Z/downloads/accumulation-sources.tar.gz",
+  "head": "1bc2c88cca757b4c1748f8d29b1eacc8ad0fca87",
+  "index_empty": true
+}

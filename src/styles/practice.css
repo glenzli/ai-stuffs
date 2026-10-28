@@ -55,3 +55,8 @@
 .audit-positive{color:var(--blue)}
 .audit-negative{color:var(--yellow)}
 [data-retrieval-comparison] .practice-scroll details{min-width:220px;max-width:480px;white-space:normal}
+.accumulation-masks{display:grid;gap:12px;margin-block:24px;color:var(--ink-soft);font-size:13px}
+.accumulation-mask{display:flex;justify-content:flex-end;height:10px;margin-top:7px;background:var(--line)}
+.accumulation-mask i{display:block;background:var(--blue);height:100%}
+.accumulation-match{color:var(--blue)}
+.accumulation-warning{color:var(--yellow)}

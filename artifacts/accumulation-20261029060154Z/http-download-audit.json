@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-29T06:30:18.877Z",
+  "downloads": [
+    {
+      "kind": "report",
+      "href": "assets/experiments/accumulation-report.370c20d0ae.json",
+      "status": 200,
+      "bytes": 75101,
+      "sha256": "370c20d0ae562efd9dd27bfc887d56da6df140bb76fbde84923616259dbd7ed9",
+      "match": true
+    },
+    {
+      "kind": "archive",
+      "href": "assets/experiments/accumulation-archive.0c4ada7f1e.tar.gz",
+      "status": 200,
+      "bytes": 77201905,
+      "sha256": "0c4ada7f1ea851df99e6380a89fbb9889d99b6b565f2d2e5073c2f6db37d75e3",
+      "match": true
+    },
+    {
+      "kind": "checksums",
+      "href": "assets/experiments/accumulation-checksums.dea1d19a63.txt",
+      "status": 200,
+      "bytes": 3967,
+      "sha256": "dea1d19a635db16c4b17773239828dd32aec001f96b99a877ca32e232679789f",
+      "match": true
+    }
+  ]
+}

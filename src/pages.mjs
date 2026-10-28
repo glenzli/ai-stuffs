@@ -612,6 +612,8 @@ for (const slug of ["generalization-analysis", "text-training-project", "reprodu
 pages.find(page => page.slug === "text-training-project").features.push("language-baselines");
 pages.find(page => page.slug === "text-training-project").features.push("text-evaluation-audit");
 pages.find(page => page.slug === "retrieval-project").features.push("retrieval-comparison");
+pages.find(page => page.slug === "parallel-correctness").features.push("accumulation");
+pages.find(page => page.slug === "parallel-correctness").styles.push("practice");
 pages.find(page => page.slug === "generalization-analysis").features.push("matched-budget");
 
 // Topic ownership determines both header navigation and the knowledge directory.

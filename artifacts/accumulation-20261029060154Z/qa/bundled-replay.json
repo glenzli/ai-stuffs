@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "archive_sha256": "0c4ada7f1ea851df99e6380a89fbb9889d99b6b565f2d2e5073c2f6db37d75e3",
+  "mode": "Only extracted source and inputs; working directory outside repository; PYTHONPATH cleared",
+  "rows": 34,
+  "metric_comparisons": 102,
+  "identical_parameter_hashes": 34,
+  "identical_gradient_files": 34,
+  "distinct_worker_pids": 2,
+  "note": "Replay temporary tensors removed after comparisons; complete original inputs and tensors remain in the accepted archive."
+}

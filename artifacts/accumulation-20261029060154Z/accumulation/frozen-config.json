@@ -1,0 +1,159 @@
+{
+  "model": {
+    "vocab_size": 387,
+    "width": 96,
+    "depth": 2,
+    "heads": 4,
+    "context": 96
+  },
+  "parameter_count": 298176,
+  "checkpoint": "unchanged seed 11 final step 800",
+  "dtype": "float64; original float32 model and AdamW state cast consistently",
+  "device": "cpu",
+  "threads": 1,
+  "cases": [
+    {
+      "id": "ragged",
+      "title": "不等量监督",
+      "keep": [
+        4,
+        8,
+        40,
+        96
+      ],
+      "chunks": [
+        [
+          0,
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ],
+      "planned": 3,
+      "wrong": "micro-means",
+      "ddp": true
+    },
+    {
+      "id": "balanced",
+      "title": "等量监督的对照",
+      "keep": [
+        16,
+        16,
+        16,
+        16
+      ],
+      "chunks": [
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ],
+      "planned": 4,
+      "wrong": "micro-means",
+      "ddp": false
+    },
+    {
+      "id": "tail",
+      "title": "只剩三个微批的尾窗口",
+      "keep": [
+        16,
+        16,
+        16
+      ],
+      "chunks": [
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ]
+      ],
+      "planned": 4,
+      "wrong": "planned-divisor",
+      "ddp": false
+    },
+    {
+      "id": "empty",
+      "title": "整个窗口没有监督",
+      "keep": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunks": [
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ],
+      "planned": 4,
+      "wrong": "zero-step",
+      "ddp": false
+    },
+    {
+      "id": "rank-empty",
+      "title": "一个副本没有监督",
+      "keep": [
+        0,
+        8,
+        0,
+        96
+      ],
+      "chunks": [
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ],
+      "planned": 4,
+      "wrong": null,
+      "ddp": true
+    }
+  ],
+  "supervision": "keep the declared suffix of each saved shifted target; all other targets are -100; not a chat template or SFT quality evaluation",
+  "objective": "sum of cross-entropies / total nonignored labels in this update",
+  "ddp": "two CPU Gloo ranks; default DDP gradient average; no_sync includes forward and backward",
+  "adamw": "restore the same saved optimizer state at step 800, lr=.002 and weight_decay=.01",
+  "sgd": "fresh SGD, lr=.01, weight_decay=.01, momentum=0",
+  "empty_policy": "global N=0: mean undefined, skip backward and optimizer update; a zero-step negative control is separately retained",
+  "tolerance": 2e-10,
+  "excluded": [
+    "dropout",
+    "gradient clipping",
+    "AMP",
+    "GPU/NCCL",
+    "performance or learning-quality claims"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "existing_directory_rejected": true,
+  "exit_code": 1,
+  "accepted_files_before": {
+    "src/experiment-sources.json": "4a193c39671457827f622e82cb41ae660aab90ce5017100f2c7821838965d1f9",
+    "src/scripts/features/accumulation-data.js": "234f698cf8934c36087e21c85632ebb7cbf0389454aaba3c7aeff6a49d9190b0",
+    ".gitignore": "940905408c9205658fee38d59ba9492e86e0e802f5abe2ad81916f5018084392"
+  },
+  "accepted_files_after": {
+    "src/experiment-sources.json": "4a193c39671457827f622e82cb41ae660aab90ce5017100f2c7821838965d1f9",
+    "src/scripts/features/accumulation-data.js": "234f698cf8934c36087e21c85632ebb7cbf0389454aaba3c7aeff6a49d9190b0",
+    ".gitignore": "940905408c9205658fee38d59ba9492e86e0e802f5abe2ad81916f5018084392"
+  }
+}

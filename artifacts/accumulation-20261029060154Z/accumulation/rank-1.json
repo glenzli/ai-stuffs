@@ -1,0 +1,436 @@
+{
+  "rank": 1,
+  "world_size": 2,
+  "backend": "gloo",
+  "pid": 4328,
+  "runtime": {
+    "python": "3.12.13",
+    "torch": "2.9.0",
+    "numpy": "2.3.4",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "device": "cpu",
+    "dtype": "float32",
+    "threads": 1,
+    "deterministic_algorithms": true,
+    "torch_build": "PyTorch built with:\n  - GCC 4.2\n  - C++ Version: 201703\n  - clang 15.0.0\n  - OpenMP 201811\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: DEFAULT\n  - Build settings: BLAS_INFO=accelerate, BUILD_TYPE=Release, COMMIT_SHA=0fabc3ba44823f257e70ce397d989c8de5e362c1, CXX_COMPILER=/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_PYTORCH_QNNPACK -DAT_BUILD_ARM_VEC256_WITH_SLEEF -DUSE_XNNPACK -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DUSE_COREML_DELEGATE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=braced-scalar-init -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wvla-extension -Wsuggest-override -Wnewline-eof -Winconsistent-missing-override -Winconsistent-missing-destructor-override -Wno-pass-failed -Wno-error=old-style-cast -Wconstant-conversion -Qunused-arguments -faligned-new -fno-math-errno -fno-trapping-math -Werror=format -DUSE_MPS -Wno-missing-braces, LAPACK_INFO=accelerate, TORCH_VERSION=2.9.0, USE_CUDA=OFF, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_EIGEN_FOR_BLAS=ON, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=OFF, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n"
+  },
+  "rows": [
+    {
+      "case": "ragged",
+      "optimizer": "adamw",
+      "execution": "ddp",
+      "method": "ddp-global",
+      "rank": 1,
+      "local_labels": 104,
+      "global_labels": 148,
+      "micro_counts": [
+        8,
+        96
+      ],
+      "loss_scales": [
+        0.013513513513513514,
+        0.013513513513513514
+      ],
+      "local_scaled_loss": 3.7130390873249532,
+      "global_mean_defined": true,
+      "contexts": [
+        "no_sync: forward and backward",
+        "synchronize"
+      ],
+      "backward_calls": 2,
+      "optimizer_step": true,
+      "adam_step_before": 800.0,
+      "adam_step_after": 801.0,
+      "initial_state_sha256": "ff170ecda23ce7c5e25d8df13c8883cedc24e4384a166509a798d38a13c849b4",
+      "final_state_sha256": "100da7f877f1d602dfc5bb45c1db61fa64e7f1216bcc4102a574a19eca978f50",
+      "parameters_sha256": "f72a6ae3b393a407cb16ce5fd00ab7ab0eb9d28fe565c2390d52fae6cc8ebd09",
+      "gradient": {
+        "file": "gradients/rank1-ragged-ddp-global.npy",
+        "sha256": "876cf6a8ba3a5eff5c9c4bc30a8129002169f98b3341558dc67ccb32c1766ae8",
+        "values": 298176,
+        "dtype": "float64"
+      },
+      "replica_digests": [
+        {
+          "rank": 0,
+          "gradient": "bc5b1c7142cee936e537707cb584ba198706eadea4de5f7c211a5808288ecf56",
+          "parameters": "f72a6ae3b393a407cb16ce5fd00ab7ab0eb9d28fe565c2390d52fae6cc8ebd09",
+          "optimizer": "100da7f877f1d602dfc5bb45c1db61fa64e7f1216bcc4102a574a19eca978f50"
+        },
+        {
+          "rank": 1,
+          "gradient": "bc5b1c7142cee936e537707cb584ba198706eadea4de5f7c211a5808288ecf56",
+          "parameters": "f72a6ae3b393a407cb16ce5fd00ab7ab0eb9d28fe565c2390d52fae6cc8ebd09",
+          "optimizer": "100da7f877f1d602dfc5bb45c1db61fa64e7f1216bcc4102a574a19eca978f50"
+        }
+      ],
+      "update_file": "rank0-ragged-adamw-ddp-global.pt",
+      "update_sha256": "531e9b1ccfc27d87c43d918cee519b6588d1e3031cc77a1c5dc3ee36f985b8dd"
+    },
+    {
+      "case": "ragged",
+      "optimizer": "adamw",
+      "execution": "ddp",
+      "method": "ddp-local-mean",
+      "rank": 1,
+      "local_labels": 104,
+      "global_labels": 148,
+      "micro_counts": [
+        8,
+        96
+      ],
+      "loss_scales": [
+        0.009615384615384616,
+        0.009615384615384616
+      ],
+      "local_scaled_loss": 2.6419701198273704,
+      "global_mean_defined": true,
+      "contexts": [
+        "no_sync: forward and backward",
+        "synchronize"
+      ],
+      "backward_calls": 2,
+      "optimizer_step": true,
+      "adam_step_before": 800.0,
+      "adam_step_after": 801.0,
+      "initial_state_sha256": "ff170ecda23ce7c5e25d8df13c8883cedc24e4384a166509a798d38a13c849b4",
+      "final_state_sha256": "50067ad79c1d6d827094c5445451b564be6c04f0c5c0fb779e566b78b0127220",
+      "parameters_sha256": "d12e5a4c4a458782b4a03dc94d215c443dfa2af28a12043c1269e154031e2c57",
+      "gradient": {
+        "file": "gradients/rank1-ragged-ddp-local-mean.npy",
+        "sha256": "745448e6bfefbefc1e567a143b3ca2d03771b94f24cb8f62b6e2ebd17598401d",
+        "values": 298176,
+        "dtype": "float64"
+      },
+      "replica_digests": [
+        {
+          "rank": 0,
+          "gradient": "e66369b4151023aaa422d9dd56d1163631d79bda0be0b9d6d62bd04d2159ea76",
+          "parameters": "d12e5a4c4a458782b4a03dc94d215c443dfa2af28a12043c1269e154031e2c57",
+          "optimizer": "50067ad79c1d6d827094c5445451b564be6c04f0c5c0fb779e566b78b0127220"
+        },
+        {
+          "rank": 1,
+          "gradient": "e66369b4151023aaa422d9dd56d1163631d79bda0be0b9d6d62bd04d2159ea76",
+          "parameters": "d12e5a4c4a458782b4a03dc94d215c443dfa2af28a12043c1269e154031e2c57",
+          "optimizer": "50067ad79c1d6d827094c5445451b564be6c04f0c5c0fb779e566b78b0127220"
+        }
+      ],
+      "update_file": "rank0-ragged-adamw-ddp-local-mean.pt",
+      "update_sha256": "8a5f6706cc9a53c41cd73005dbfb2bca18a968582ceab63bff5b113d6249f4c8"
+    },
+    {
+      "case": "ragged",
+      "optimizer": "sgd",
+      "execution": "ddp",
+      "method": "ddp-global",
+      "rank": 1,
+      "local_labels": 104,
+      "global_labels": 148,
+      "micro_counts": [
+        8,
+        96
+      ],
+      "loss_scales": [
+        0.013513513513513514,
+        0.013513513513513514
+      ],
+      "local_scaled_loss": 3.7130390873249532,
+      "global_mean_defined": true,
+      "contexts": [
+        "no_sync: forward and backward",
+        "synchronize"
+      ],
+      "backward_calls": 2,
+      "optimizer_step": true,
+      "adam_step_before": null,
+      "adam_step_after": null,
+      "initial_state_sha256": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5",
+      "final_state_sha256": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5",
+      "parameters_sha256": "963b7d658d11ee5587e0c717921f19012636cf16407bf17f0640c6343b17bab7",
+      "gradient": {
+        "file": "gradients/rank1-ragged-ddp-global.npy",
+        "sha256": "876cf6a8ba3a5eff5c9c4bc30a8129002169f98b3341558dc67ccb32c1766ae8",
+        "values": 298176,
+        "dtype": "float64"
+      },
+      "replica_digests": [
+        {
+          "rank": 0,
+          "gradient": "bc5b1c7142cee936e537707cb584ba198706eadea4de5f7c211a5808288ecf56",
+          "parameters": "963b7d658d11ee5587e0c717921f19012636cf16407bf17f0640c6343b17bab7",
+          "optimizer": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5"
+        },
+        {
+          "rank": 1,
+          "gradient": "bc5b1c7142cee936e537707cb584ba198706eadea4de5f7c211a5808288ecf56",
+          "parameters": "963b7d658d11ee5587e0c717921f19012636cf16407bf17f0640c6343b17bab7",
+          "optimizer": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5"
+        }
+      ],
+      "update_file": "rank0-ragged-sgd-ddp-global.pt",
+      "update_sha256": "ff5e2697ae16da44fac9d0d858a09a1b9bf8957a489b3f6b377fca2ebf9bbcda"
+    },
+    {
+      "case": "ragged",
+      "optimizer": "sgd",
+      "execution": "ddp",
+      "method": "ddp-local-mean",
+      "rank": 1,
+      "local_labels": 104,
+      "global_labels": 148,
+      "micro_counts": [
+        8,
+        96
+      ],
+      "loss_scales": [
+        0.009615384615384616,
+        0.009615384615384616
+      ],
+      "local_scaled_loss": 2.6419701198273704,
+      "global_mean_defined": true,
+      "contexts": [
+        "no_sync: forward and backward",
+        "synchronize"
+      ],
+      "backward_calls": 2,
+      "optimizer_step": true,
+      "adam_step_before": null,
+      "adam_step_after": null,
+      "initial_state_sha256": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5",
+      "final_state_sha256": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5",
+      "parameters_sha256": "0405b23b7ed39390fcbc56120533efe6645149b46221e7752c777c8633267914",
+      "gradient": {
+        "file": "gradients/rank1-ragged-ddp-local-mean.npy",
+        "sha256": "745448e6bfefbefc1e567a143b3ca2d03771b94f24cb8f62b6e2ebd17598401d",
+        "values": 298176,
+        "dtype": "float64"
+      },
+      "replica_digests": [
+        {
+          "rank": 0,
+          "gradient": "e66369b4151023aaa422d9dd56d1163631d79bda0be0b9d6d62bd04d2159ea76",
+          "parameters": "0405b23b7ed39390fcbc56120533efe6645149b46221e7752c777c8633267914",
+          "optimizer": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5"
+        },
+        {
+          "rank": 1,
+          "gradient": "e66369b4151023aaa422d9dd56d1163631d79bda0be0b9d6d62bd04d2159ea76",
+          "parameters": "0405b23b7ed39390fcbc56120533efe6645149b46221e7752c777c8633267914",
+          "optimizer": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5"
+        }
+      ],
+      "update_file": "rank0-ragged-sgd-ddp-local-mean.pt",
+      "update_sha256": "1845cc05a817696e5c054e1dfc5f142113adfd75d484164c7f0e03dc6107fb14"
+    },
+    {
+      "case": "rank-empty",
+      "optimizer": "adamw",
+      "execution": "ddp",
+      "method": "ddp-global",
+      "rank": 1,
+      "local_labels": 104,
+      "global_labels": 104,
+      "micro_counts": [
+        8,
+        96
+      ],
+      "loss_scales": [
+        0.019230769230769232,
+        0.019230769230769232
+      ],
+      "local_scaled_loss": 5.283940239654741,
+      "global_mean_defined": true,
+      "contexts": [
+        "no_sync: forward and backward",
+        "synchronize"
+      ],
+      "backward_calls": 2,
+      "optimizer_step": true,
+      "adam_step_before": 800.0,
+      "adam_step_after": 801.0,
+      "initial_state_sha256": "ff170ecda23ce7c5e25d8df13c8883cedc24e4384a166509a798d38a13c849b4",
+      "final_state_sha256": "225d8ca331208bd8942e6dc29381b35e273d8d49f72b98f1164c79fa19c0b515",
+      "parameters_sha256": "73259c07ea437dc956d951f10f5d61e8c45bdb7d928d4c69f6d117b7383a95e1",
+      "gradient": {
+        "file": "gradients/rank1-rank-empty-ddp-global.npy",
+        "sha256": "7fbfba4cb89db7ea18170d54f9cdcca89225b2270b1dbc3bf7831edb426b0579",
+        "values": 298176,
+        "dtype": "float64"
+      },
+      "replica_digests": [
+        {
+          "rank": 0,
+          "gradient": "7fac329d484fc4304d057ed032b36d8cce4d7fe1b4355c094ea13288fe84d6d1",
+          "parameters": "73259c07ea437dc956d951f10f5d61e8c45bdb7d928d4c69f6d117b7383a95e1",
+          "optimizer": "225d8ca331208bd8942e6dc29381b35e273d8d49f72b98f1164c79fa19c0b515"
+        },
+        {
+          "rank": 1,
+          "gradient": "7fac329d484fc4304d057ed032b36d8cce4d7fe1b4355c094ea13288fe84d6d1",
+          "parameters": "73259c07ea437dc956d951f10f5d61e8c45bdb7d928d4c69f6d117b7383a95e1",
+          "optimizer": "225d8ca331208bd8942e6dc29381b35e273d8d49f72b98f1164c79fa19c0b515"
+        }
+      ],
+      "update_file": "rank0-rank-empty-adamw-ddp-global.pt",
+      "update_sha256": "6ba6ef730a9f79c2d817de22d284e6f55b4e75d066d9cf9f2d12067cbc03cfc5"
+    },
+    {
+      "case": "rank-empty",
+      "optimizer": "adamw",
+      "execution": "ddp",
+      "method": "ddp-local-mean",
+      "rank": 1,
+      "local_labels": 104,
+      "global_labels": 104,
+      "micro_counts": [
+        8,
+        96
+      ],
+      "loss_scales": [
+        0.009615384615384616,
+        0.009615384615384616
+      ],
+      "local_scaled_loss": 2.6419701198273704,
+      "global_mean_defined": true,
+      "contexts": [
+        "no_sync: forward and backward",
+        "synchronize"
+      ],
+      "backward_calls": 2,
+      "optimizer_step": true,
+      "adam_step_before": 800.0,
+      "adam_step_after": 801.0,
+      "initial_state_sha256": "ff170ecda23ce7c5e25d8df13c8883cedc24e4384a166509a798d38a13c849b4",
+      "final_state_sha256": "e04c2ea22b27030e2fa13986ec55578e8b00367e9c79c07de371e94c8118df39",
+      "parameters_sha256": "564d2cb9b3b1123935c135dce0b5a7bf3747f8f3f582fb4a66230e6cd98516da",
+      "gradient": {
+        "file": "gradients/rank1-rank-empty-ddp-local-mean.npy",
+        "sha256": "71de1aebd57819857e0dd424a1505054dcbeb7cf427c8c2852821c56ee6e033c",
+        "values": 298176,
+        "dtype": "float64"
+      },
+      "replica_digests": [
+        {
+          "rank": 0,
+          "gradient": "c113303b37632097c3bbf1d478eb6164d5c27cdc7d0a41fcfe7f291f73d3f65a",
+          "parameters": "564d2cb9b3b1123935c135dce0b5a7bf3747f8f3f582fb4a66230e6cd98516da",
+          "optimizer": "e04c2ea22b27030e2fa13986ec55578e8b00367e9c79c07de371e94c8118df39"
+        },
+        {
+          "rank": 1,
+          "gradient": "c113303b37632097c3bbf1d478eb6164d5c27cdc7d0a41fcfe7f291f73d3f65a",
+          "parameters": "564d2cb9b3b1123935c135dce0b5a7bf3747f8f3f582fb4a66230e6cd98516da",
+          "optimizer": "e04c2ea22b27030e2fa13986ec55578e8b00367e9c79c07de371e94c8118df39"
+        }
+      ],
+      "update_file": "rank0-rank-empty-adamw-ddp-local-mean.pt",
+      "update_sha256": "8c80427a1edd3102c1a268c58a3655bad451db8b76f8d6036fedb9f0d85d698d"
+    },
+    {
+      "case": "rank-empty",
+      "optimizer": "sgd",
+      "execution": "ddp",
+      "method": "ddp-global",
+      "rank": 1,
+      "local_labels": 104,
+      "global_labels": 104,
+      "micro_counts": [
+        8,
+        96
+      ],
+      "loss_scales": [
+        0.019230769230769232,
+        0.019230769230769232
+      ],
+      "local_scaled_loss": 5.283940239654741,
+      "global_mean_defined": true,
+      "contexts": [
+        "no_sync: forward and backward",
+        "synchronize"
+      ],
+      "backward_calls": 2,
+      "optimizer_step": true,
+      "adam_step_before": null,
+      "adam_step_after": null,
+      "initial_state_sha256": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5",
+      "final_state_sha256": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5",
+      "parameters_sha256": "560652c2c697163982438678b9d58beafe576ed7efa398212f0ca7bc30e0aed2",
+      "gradient": {
+        "file": "gradients/rank1-rank-empty-ddp-global.npy",
+        "sha256": "7fbfba4cb89db7ea18170d54f9cdcca89225b2270b1dbc3bf7831edb426b0579",
+        "values": 298176,
+        "dtype": "float64"
+      },
+      "replica_digests": [
+        {
+          "rank": 0,
+          "gradient": "7fac329d484fc4304d057ed032b36d8cce4d7fe1b4355c094ea13288fe84d6d1",
+          "parameters": "560652c2c697163982438678b9d58beafe576ed7efa398212f0ca7bc30e0aed2",
+          "optimizer": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5"
+        },
+        {
+          "rank": 1,
+          "gradient": "7fac329d484fc4304d057ed032b36d8cce4d7fe1b4355c094ea13288fe84d6d1",
+          "parameters": "560652c2c697163982438678b9d58beafe576ed7efa398212f0ca7bc30e0aed2",
+          "optimizer": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5"
+        }
+      ],
+      "update_file": "rank0-rank-empty-sgd-ddp-global.pt",
+      "update_sha256": "dd14fc7961a83ccac1745d7c686875366f88bf289d5553a676a347fdde11f546"
+    },
+    {
+      "case": "rank-empty",
+      "optimizer": "sgd",
+      "execution": "ddp",
+      "method": "ddp-local-mean",
+      "rank": 1,
+      "local_labels": 104,
+      "global_labels": 104,
+      "micro_counts": [
+        8,
+        96
+      ],
+      "loss_scales": [
+        0.009615384615384616,
+        0.009615384615384616
+      ],
+      "local_scaled_loss": 2.6419701198273704,
+      "global_mean_defined": true,
+      "contexts": [
+        "no_sync: forward and backward",
+        "synchronize"
+      ],
+      "backward_calls": 2,
+      "optimizer_step": true,
+      "adam_step_before": null,
+      "adam_step_after": null,
+      "initial_state_sha256": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5",
+      "final_state_sha256": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5",
+      "parameters_sha256": "bba420e8f4a110307fc84c423f9d805ca6735093453e70c7e0b56cfdad0405b6",
+      "gradient": {
+        "file": "gradients/rank1-rank-empty-ddp-local-mean.npy",
+        "sha256": "71de1aebd57819857e0dd424a1505054dcbeb7cf427c8c2852821c56ee6e033c",
+        "values": 298176,
+        "dtype": "float64"
+      },
+      "replica_digests": [
+        {
+          "rank": 0,
+          "gradient": "c113303b37632097c3bbf1d478eb6164d5c27cdc7d0a41fcfe7f291f73d3f65a",
+          "parameters": "bba420e8f4a110307fc84c423f9d805ca6735093453e70c7e0b56cfdad0405b6",
+          "optimizer": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5"
+        },
+        {
+          "rank": 1,
+          "gradient": "c113303b37632097c3bbf1d478eb6164d5c27cdc7d0a41fcfe7f291f73d3f65a",
+          "parameters": "bba420e8f4a110307fc84c423f9d805ca6735093453e70c7e0b56cfdad0405b6",
+          "optimizer": "253bb6f21fe3149ec1794d0a2eae7ad953882fa0ee3539b7a8076efbd9b71ec5"
+        }
+      ],
+      "update_file": "rank0-rank-empty-sgd-ddp-local-mean.pt",
+      "update_sha256": "b283f644bf0d2fd1cfea61ddf14b4b255baaa81072628cc6264f31e86534255e"
+    }
+  ]
+}

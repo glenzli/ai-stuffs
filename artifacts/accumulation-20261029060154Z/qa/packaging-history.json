@@ -1,0 +1,11 @@
+{
+  "previous_bundle": "artifacts/accumulation-20261029060009Z",
+  "previous_report": {
+    "path": "artifacts/accumulation-20261029060009Z/accumulation/report.json",
+    "bytes": 69797,
+    "sha256": "28a4d9aa07cc099d8cca9c1deda7da20365fb8f25a725301664a24b3afd25553"
+  },
+  "previous_archive_bytes": 112814996,
+  "current_archive_bytes": 77201905,
+  "reason": "The first complete archive exceeded 100 MiB. Both ranks now independently exchange output digests; identical parameter and optimizer-state output is stored once. All per-rank gradient vectors and digest witnesses remain. Mathematical workload unchanged; the source was captured and the experiment rerun."
+}

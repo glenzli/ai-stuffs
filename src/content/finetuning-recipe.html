@@ -42,7 +42,7 @@
     </div></div><p class="experiment-caption">packing 保持每条记录完整并隔离 attention，不跨记录预测。槽位填充率按固定长度与尾批空位计算，并非实测 GPU 利用率。变长 kernel、分布式 sampler 补样、drop_last、流式采样和 max_steps 会改变账本。</p></div>
     <figure class="math-block"><div class="math-display" data-math>\begin{aligned}B_{\mathrm{seq}}&amp;=b_{\mathrm{micro}}\cdot P_{\mathrm{DP}}\cdot A,\\U&amp;=E\left\lceil\frac{\left\lceil S/(b_{\mathrm{micro}}P_{\mathrm{DP}})\right\rceil}{A}\right\rceil.\end{aligned}</div><figcaption>S 是每 epoch 打包后的序列数，E 是轮数，A 是累积步数。尾窗口可能较小；TP/PP/CP 协作处理同一序列，不计为额外 DP 副本。</figcaption></figure>
     <div class="prose"><p>默认设置中，10,000 条记录读三遍，共处理 3,000 万非 padding token，其中 1,200 万是回答监督；每轮 157 个更新窗口，共 471 个。开启整条 packing 后，每完整序列放两条记录，更新窗口变成 237 个，监督总量保持不变。</p><p>这个差异说明：固定“每 batch 序列数”时，packing 会改变一次更新包含的原始样本量。比较训练效果时需要同时记录 token batch、学习率日程和更新次数。填充减少也不保证相同比例提速，实际执行还受 kernel、padding 消除和 attention 形状影响。</p></div>
-    <div class="reading-links"><a href="packing-correctness.html">逐 token 核对模板、packing 与梯度</a></div>
+    <div class="reading-links"><a href="packing-correctness.html">逐 token 核对模板、packing 与梯度</a><a href="parallel-correctness.html#accumulation-real">完整 Transformer 的尾窗口、空监督与真实 DDP 更新对照</a></div>
   </section>
 
   <section class="section" aria-labelledby="recipe-lora"><div class="section-heading"><span class="section-number">04 / TRAINABLE PARAMETERS</span><h2 id="recipe-lora">LoRA 的 rank 和 target modules 决定什么？</h2></div>

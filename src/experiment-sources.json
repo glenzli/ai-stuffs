@@ -464,6 +464,56 @@
         "sha256": "c904049e312c1ddd375e5f332b1a2f613708f862f7387bb3553b36ab0b378583",
         "target": "src/scripts/features/text-evaluation-audit-data.js"
       }
+    },
+    "accumulation": {
+      "id": "accumulation",
+      "title": "完整 Transformer 的监督分母、累积与双进程 DDP 更新",
+      "pages": [
+        "parallel-correctness"
+      ],
+      "schema": "accumulation-equivalence-v1",
+      "status": "passed",
+      "runtime": {
+        "python": "3.12.13",
+        "torch": "2.9.0",
+        "numpy": "2.3.4",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "machine": "arm64",
+        "device": "cpu",
+        "dtype": "float32",
+        "threads": 1,
+        "deterministic_algorithms": true,
+        "torch_build": "PyTorch built with:\n  - GCC 4.2\n  - C++ Version: 201703\n  - clang 15.0.0\n  - OpenMP 201811\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: DEFAULT\n  - Build settings: BLAS_INFO=accelerate, BUILD_TYPE=Release, COMMIT_SHA=0fabc3ba44823f257e70ce397d989c8de5e362c1, CXX_COMPILER=/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_PYTORCH_QNNPACK -DAT_BUILD_ARM_VEC256_WITH_SLEEF -DUSE_XNNPACK -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DUSE_COREML_DELEGATE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=braced-scalar-init -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wvla-extension -Wsuggest-override -Wnewline-eof -Winconsistent-missing-override -Winconsistent-missing-destructor-override -Wno-pass-failed -Wno-error=old-style-cast -Wconstant-conversion -Qunused-arguments -faligned-new -fno-math-errno -fno-trapping-math -Werror=format -DUSE_MPS -Wno-missing-braces, LAPACK_INFO=accelerate, TORCH_VERSION=2.9.0, USE_CUDA=OFF, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_EIGEN_FOR_BLAS=ON, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=OFF, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n"
+      },
+      "created_at": "2026-10-29T06:01:59.370Z",
+      "command": "node scripts/run-accumulation-lab.mjs --out-dir artifacts/accumulation-my-run",
+      "report": {
+        "path": "artifacts/accumulation-20261029060154Z/accumulation/report.json",
+        "bytes": 75101,
+        "sha256": "370c20d0ae562efd9dd27bfc887d56da6df140bb76fbde84923616259dbd7ed9"
+      },
+      "archive": {
+        "path": "artifacts/accumulation-20261029060154Z/downloads/accumulation-sources.tar.gz",
+        "bytes": 77201905,
+        "sha256": "0c4ada7f1ea851df99e6380a89fbb9889d99b6b565f2d2e5073c2f6db37d75e3"
+      },
+      "checksums": {
+        "path": "artifacts/accumulation-20261029060154Z/accumulation/SHA256SUMS",
+        "bytes": 3967,
+        "sha256": "dea1d19a635db16c4b17773239828dd32aec001f96b99a877ca32e232679789f"
+      },
+      "source": {
+        "path": "artifacts/accumulation-20261029060154Z/SOURCE-SHA256SUMS",
+        "bytes": 620,
+        "sha256": "dca3938a51dab19f820cc77de6c4783fc203023dbab492954a22da04f07a8a9b"
+      },
+      "bundle_root": "artifacts/accumulation-20261029060154Z",
+      "projection": {
+        "path": "artifacts/accumulation-20261029060154Z/accumulation/page-data.js",
+        "bytes": 54051,
+        "sha256": "234f698cf8934c36087e21c85632ebb7cbf0389454aaba3c7aeff6a49d9190b0",
+        "target": "src/scripts/features/accumulation-data.js"
+      }
     }
   }
 }

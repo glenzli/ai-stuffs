@@ -1,0 +1,11 @@
+test_all_saved_gradients_match_independently_weighted_per_record_autograd (__main__.AccumulationEvidence.test_all_saved_gradients_match_independently_weighted_per_record_autograd) ... ok
+test_both_actual_gloo_ranks_preserve_the_same_gradients_outputs_and_collective_counts (__main__.AccumulationEvidence.test_both_actual_gloo_ranks_preserve_the_same_gradients_outputs_and_collective_counts) ... ok
+test_every_parameter_and_optimizer_state_hash_replays_from_saved_actual_gradients (__main__.AccumulationEvidence.test_every_parameter_and_optimizer_state_hash_replays_from_saved_actual_gradients) ... ok
+test_frozen_inputs_match_original_full_windows_and_checkpoint_bytes (__main__.AccumulationEvidence.test_frozen_inputs_match_original_full_windows_and_checkpoint_bytes) ... ok
+test_loss_scalars_and_counts_match_the_declared_objective_including_the_tail (__main__.AccumulationEvidence.test_loss_scalars_and_counts_match_the_declared_objective_including_the_tail) ... ok
+test_sgd_parameter_changes_follow_the_independent_linear_update_formula (__main__.AccumulationEvidence.test_sgd_parameter_changes_follow_the_independent_linear_update_formula) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.698s
+
+OK

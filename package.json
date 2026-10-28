@@ -7,6 +7,8 @@
     "lab:practice": "node scripts/run-practice-labs.mjs",
     "lab:evidence": "node scripts/run-evidence-extension.mjs",
     "lab:audit": "node scripts/run-evidence-audit.mjs",
+    "lab:accumulation": "node scripts/run-accumulation-lab.mjs",
+    "test:accumulation": "node --test scripts/test-accumulation.mjs && .venv-framework/bin/python scripts/test-accumulation.py",
     "test:evidence-audit": "node --test scripts/test-evidence-audit.mjs && .venv-framework/bin/python scripts/test-evidence-audit.py",
     "accept:experiment": "node scripts/accept-experiment.mjs",
     "test:evidence": "node --test scripts/test-experiment-workflow.mjs scripts/test-evidence-extension.mjs && .venv-framework/bin/python scripts/test-evidence-extension.py && .venv-retrieval/bin/python scripts/test-retrieval-index.py && .venv-retrieval/bin/python scripts/test-retrieval-encoder.py",

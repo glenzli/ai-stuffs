@@ -155,7 +155,7 @@ export const pageEvidence = {
   "training-environments": { scope: "预留库存的轨迹和状态均为预设，每次从相同快照开始；没有真实工具或学习策略。公式说明部分可观测任务结构，环境与验证器的真实可靠性需独立评估。", refs: ["sweGym", "react", "agentEvals", "indirectInjection"] },
   "finetuning-recipe": { scope: "预算使用等长记录和固定长度槽；样本分发另行展示 sampler 补齐/丢尾与 loader 丢尾。教学 shuffle 不复现 PyTorch RNG。LoRA 使用假设配置，槽位填充率不代表 GPU 利用率。", refs: ["sft", "lora", "peft", "qlora", "lima", "ce", "dataLoading"] },
   "optimization-dynamics": { scope: "标量交互使用人为梯度和显式衰减。矩阵对照采用已知 SVD 的满秩 2×2 矩阵，将各方向归一；没有实现完整 Muon。实际配方的收敛、精度与成本需独立验证。", refs: ["adamw", "amp", "mup", "muon"] },
-  "parallel-correctness": { scope: "token 目标与对比学习分别声明归约。裁剪用同步后梯度、独立元素拥有者、统一 L2 系数及协调非有限跳步，Gloo 实验实际验证此协议；不调用 FSDP API，不模拟完整 scaler。", refs: ["ddp", "torch29DDP", "contrastiveLosses", "fsdpClip29", "ce", "amp", "zero"] },
+  "parallel-correctness": { scope: "token 目标、对比学习和裁剪分别声明归约。新增固定 298,176 参数 Transformer 的 CPU float64 累积、两进程 Gloo/DDP、SGD 与保存 AdamW 状态的一步更新，保留尾窗口、空监督和错误归一化。监督后缀人工指定以隔离分母，不评估聊天模板、训练质量或 GPU 性能。裁剪另用独立元素拥有者和协调跳步协议，不调用 FSDP API 或完整 scaler。", refs: ["ddp", "torch29DDP", "contrastiveLosses", "fsdpClip29", "ce", "amp", "zero"] },
   "performance-analysis": { scope: "Roofline 采用假设参数。lab:memory 实测固定 PyTorch 2.9.0 CPU float64；耗时排除 profiler/hooks，保存 storage 引用峰值区别于物理内存峰值。本地报告展示文件结果，裁剪计时不含通信。", refs: ["roofline", "flash", "gradCache", "profiler29", "torch29Autograd"] },
   "engineering-cases": { scope: "案例、数值与后续记录均为人为构造，用于练习提出假设和设计区分实验。结论适用于案例中给出的证据，真实模型需另行测量。", refs: ["ddp", "roofline", "doremi", "switch", "eval"] },
   "generation-mechanisms": { scope: "本页按网络骨干、学习目标和采样器展开。自回归与离散去噪交互采用预设状态；DDPM 公式使用常见噪声预测参数化，其他扩散与流匹配方法需查看各自定义。", refs: ["attention", "ddpm", "flow", "llada", "jepa", "jspace"] },

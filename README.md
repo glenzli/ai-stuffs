@@ -1,6 +1,6 @@
 # 模型工程 Wiki
 
-当前十组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
+当前十一组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
 初始化/宽度/Batch、分块交叉熵已重新运行，报告与原始工件保存在
 `artifacts/reproduced-20261028T115030Z/`。页面提供完整报告、源码与原始工件包、
 SHA-256 校验表；构建前核对这些文件，缺失或被修改时停止构建。
@@ -458,6 +458,22 @@ npm run test:evidence-audit
 `--only retrieval-comparison` 或 `--only text-evaluation-audit`，仍由 `accept:experiment`
 显式采纳。新结论使用已查看的数据集，标为探索性比较；区间不消除标注与数据复用偏差。
 完整输入、逐位置分数、权重、实际候选和重采样分布见 [误差与评估深化](docs/evidence-audit-2026-10-29.md)。
+
+### 完整模型的梯度累积与双进程更新
+
+并行正确性页增加同一份 298,176 参数模型的真实更新对照：不等量监督、均匀对照、
+不完整尾窗口、全局空监督及一个副本空监督。比较完整 batch、累积、两个 CPU Gloo
+进程与默认 DDP 平均；SGD 和恢复第 800 步状态的 AdamW 分别与自己的参考比较。
+
+```bash
+npm run lab:accumulation -- --out-dir artifacts/accumulation-my-run
+npm run test:accumulation
+```
+
+沿用固定 `.venv-framework`；需要本机 loopback 通信，不下载模型。runner 只准备候选，
+核对后用 `npm run accept:experiment -- --candidate artifacts/accumulation-my-run/candidate.json`
+显式采纳。工件保留完整梯度、独立副本哈希及一次更新状态；下载包中的源码和输入还通过了
+离开仓库目录的独立重放。结果和边界见 [完整模型更新核验](docs/accumulation-equivalence-2026-10-29.md)。
 
 ## 内容质量约定
 

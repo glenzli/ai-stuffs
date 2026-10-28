@@ -1,0 +1,5 @@
+
+> lab:accumulation
+> node scripts/run-accumulation-lab.mjs --out-dir artifacts/accumulation-20261029060154Z
+
+Prepared accumulation candidate: 73.63 MiB; accepted sources unchanged.

@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "completed_at": "2026-10-29T06:33:58.220Z",
+  "previous_round_commit": {
+    "head": "1bc2c88cca757b4c1748f8d29b1eacc8ad0fca87",
+    "parent": "d4f380b65291c93e410843e1f0fe337f0469c73b",
+    "authorDate": "2026-10-29T02:17:43+08:00",
+    "commitDate": "2026-10-29T02:17:43+08:00",
+    "offset_seconds": 3790,
+    "origin_main": "5ec1e58de6032d3cfb1c24df02bf2037d812b1be",
+    "push_performed": false
+  },
+  "new_changes": {
+    "committed": false,
+    "index_empty": true
+  },
+  "build": {
+    "pages": 66,
+    "equations": 143,
+    "log": "build.log"
+  },
+  "checks": {
+    "registered_node_tests": 444,
+    "python_evidence_tests": 6,
+    "complete_model_rows": 34,
+    "actual_gloo_ranks": 2,
+    "packaged_consumer": {
+      "passed": true,
+      "archive_sha256": "0c4ada7f1ea851df99e6380a89fbb9889d99b6b565f2d2e5073c2f6db37d75e3",
+      "mode": "Only extracted source and inputs; working directory outside repository; PYTHONPATH cleared",
+      "rows": 34,
+      "metric_comparisons": 102,
+      "identical_parameter_hashes": 34,
+      "identical_gradient_files": 34,
+      "distinct_worker_pids": 2,
+      "note": "Replay temporary tensors removed after comparisons; complete original inputs and tensors remain in the accepted archive."
+    },
+    "browser_conditions": 10,
+    "browser_layouts": 6,
+    "http_downloads": 3,
+    "producer_existing_directory_guard": true,
+    "old_sources_preserved": 10
+  },
+  "accepted_identity": {
+    "report_sha256": "370c20d0ae562efd9dd27bfc887d56da6df140bb76fbde84923616259dbd7ed9",
+    "archive_sha256": "0c4ada7f1ea851df99e6380a89fbb9889d99b6b565f2d2e5073c2f6db37d75e3",
+    "archive_bytes": 77201905,
+    "manifest_sha256": "4a193c39671457827f622e82cb41ae660aab90ce5017100f2c7821838965d1f9"
+  },
+  "current_source_sha256": {
+    ".gitignore": "940905408c9205658fee38d59ba9492e86e0e802f5abe2ad81916f5018084392",
+    "README.md": "f13c81cc8eba79da65c908562801f111d3b3a8702b7764cb34b7fc01e5666000",
+    "package.json": "121f3ced7fa6f973b96d78223f51d1854861840c7cedebb9606765ec5dda3be3",
+    "scripts/build.mjs": "23093b6c27e11ede61a5f9eebe112902ef28bccec5428de04eed21e13023630c",
+    "scripts/experiment-sources.mjs": "e6a1a58dd0552d4faf9c5366efc6f745345f058325b1d21809d082a27edf3e1a",
+    "src/content/finetuning-recipe.html": "bf3a6444e8323614d1a4b46dbcb37c60fdcaccc8e706bf40e4eb6b71cf048854",
+    "src/content/parallel-correctness.html": "45e7a12f1b0c98c974abe8c12aff4960fd5502937160f7e4857ff6e56732e26d",
+    "src/experiment-sources.json": "4a193c39671457827f622e82cb41ae660aab90ce5017100f2c7821838965d1f9",
+    "src/pages.mjs": "9d8b4159aef5e7cc771286a3a7e61c117c64ebbf821502b80531f51b086981ad",
+    "src/references.mjs": "1c166e67c34475707e9152526b98477d37a873884df1bfc236af737aa528d5f5",
+    "src/search.mjs": "e80a24c51942d67acf3a9479763a2a8b32eb07b738baff1b700035cd5cb06a2c",
+    "src/styles/practice.css": "42ee711284b001e978b829e28f4f9e72fcaa3545e70e789ea54ebe386582c251",
+    "docs/accumulation-equivalence-2026-10-29.md": "b15663627bc0aae6b02fd618487e2e59aa9f838a8b09151f25fa6d7c173a6a47",
+    "scripts/accumulation_lab.py": "f88c61215e3450bbee71057db2ea07d05e7c2fc83e2299fff90e04f51e8dfdbc",
+    "scripts/run-accumulation-lab.mjs": "e123e3e5e56d8666ea7c30a045bc674eab837411ea42624ab965a79977a4bb27",
+    "scripts/test-accumulation.mjs": "5a1e308faa7d5eddee05eaba9e196a6c7bdcd53325a5f777acb5fad962d2bf9b",
+    "scripts/test-accumulation.py": "5c852bdc64e602ca62b40bee59faab4a03c9ccffe517ec5bdaaa2a7b1e14bead",
+    "src/scripts/features/accumulation-data.js": "234f698cf8934c36087e21c85632ebb7cbf0389454aaba3c7aeff6a49d9190b0",
+    "src/scripts/features/accumulation.js": "90fb582d4dbca6be0b845d1e7d83cb282d64e84041f2442665e8e05b451a03a7"
+  },
+  "validation_logs": {
+    "node": {
+      "path": "node-final.log",
+      "sha256": "cbe00cf72cdfa255ee9d7710ad180ee9c5b639833002b3e26e94d19b1f4b6d7d"
+    },
+    "python": {
+      "path": "python-checks.log",
+      "sha256": "63599c5143ebfdf384f15b93508a735222d8a0ea151838bdbeb4443786e8a985"
+    }
+  },
+  "evidence": [
+    "qa/browser.json",
+    "qa/accumulation-final.png",
+    "qa/accumulation-mobile.png",
+    "http-download-audit.json",
+    "qa/bundled-replay.json",
+    "qa/producer-guard.json",
+    "qa/integrity.json"
+  ],
+  "scope": "CPU float64 full Transformer, no dropout/AMP/clipping; exact declared supervised suffixes; SGD and restored AdamW separately compared to full-batch references. No GPU performance or model-quality claim."
+}

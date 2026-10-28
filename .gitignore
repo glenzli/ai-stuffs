@@ -70,6 +70,8 @@ __pycache__/
 !/artifacts/practice-20261028T152417Z/build.log
 
 # Accepted experiment bundles (managed by accept-experiment.mjs)
+!/artifacts/accumulation-20261029060154Z/
+!/artifacts/accumulation-20261029060154Z/**
 !/artifacts/evidence-audit-20261029034521Z/
 /artifacts/evidence-audit-20261029034521Z/*
 !/artifacts/evidence-audit-20261029034521Z/retrieval-comparison/
