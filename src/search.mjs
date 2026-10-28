@@ -13,7 +13,7 @@ export const searchMetadata = {
   "rl-update.html": { summary: "rollout 到参数梯度：行为策略、精确 KL、裁剪、mask、长度归一化和连续更新", terms: "PPO GRPO RL policy gradient old reference logprob logits clip KL detach reward rollout SGD 策略梯度 参数更新 裁剪 行为概率 长度", priority: 10 },
   "quantized-linear.html": { summary: "W8A8 整数矩阵乘、零点、scale、INT32 bias、饱和和整层输出误差", terms: "quantization W8A8 W4A16 int8 int32 int4 GEMM zero point bias requantization scale 量化 矩阵乘 零点 整数 累加 校准 重定标", priority: 10 },
   "paired-evaluation.html": { summary: "逐题配对 JSON、按组重采样、差值区间、精确置换和 checkpoint 选择偏差", terms: "paired bootstrap permutation seed JSON confidence interval p-value selection 评估 配对 统计 重采样 置信区间 置换 导入 选择偏差", priority: 10 },
-  "ann-index.html": { summary: "IVF 候选列表、Flat 精确参考、nprobe、近邻召回与编码版本检查", terms: "ANN IVF Faiss Flat HNSW nprobe efSearch recall L2 index 索引 近似检索 候选 列表 质心 召回 版本 重建", priority: 10 },
+  "ann-index.html": { summary: "IVF 候选列表、Flat 精确参考、编码版本与真实向量的来源过滤前后对照", terms: "ANN IVF Faiss Flat HNSW nprobe efSearch recall L2 index 索引 近似检索 候选 列表 质心 召回 版本 重建 metadata filter 过滤 后过滤 预过滤 来源 候选不足 空范围 min(10,M)", priority: 10 },
   "position-cache.html": { summary: "RoPE 旋转、相对点积、位置与 mask、缓存增量前向和完整 logits 一致性", terms: "rope rotary position cache position_ids cache_position KV mask padding prefill decode logits 位置 旋转 相对位置 缓存 增量 一致性 后缀 偏移", priority: 10 },
   "tensor-layout.html": {summary:"地址、stride、offset、视图共享、复制与无拷贝展平",terms:"tensor layout stride offset storage view reshape contiguous transpose slice 内存 布局 张量 步长 视图 转置 拷贝 连续 共享",priority:10},
   "engineering-check.html": {summary:"固定配置下核对数据、监督、形状、词表分片和 KV",terms:"quiz check exercise 练习 综合 理解检查 数据 监督 梯度 形状 缓存 通信 自测",priority:10},

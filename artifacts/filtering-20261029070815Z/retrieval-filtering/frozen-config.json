@@ -1,0 +1,50 @@
+{
+  "k": 10,
+  "pool_depths": [
+    10,
+    30,
+    100,
+    877
+  ],
+  "score": "float64 inner product of the saved, already normalized float32 vectors",
+  "tie_break": "descending score, then ascending full passage SHA-256",
+  "filters": [
+    {
+      "id": "all",
+      "title": "全部原始段落",
+      "sources": null
+    },
+    {
+      "id": "artifacts",
+      "title": "仅工件与恢复文档",
+      "sources": [
+        "model-artifacts"
+      ]
+    },
+    {
+      "id": "training",
+      "title": "仅三篇训练与优化文档",
+      "sources": [
+        "training",
+        "training-deep",
+        "optimization-dynamics"
+      ]
+    },
+    {
+      "id": "small",
+      "title": "仅工件文档的前三段",
+      "sources": [
+        "model-artifacts"
+      ],
+      "paragraph_lt": 3
+    },
+    {
+      "id": "empty",
+      "title": "不存在的来源（空范围）",
+      "sources": [
+        "__missing_source__"
+      ]
+    }
+  ],
+  "selection": "Explicit synthetic source predicates, shared by all 36 queries, frozen before scoring; exploratory follow-up to already inspected data. No query-specific label-based filter or parameter selection."
+}

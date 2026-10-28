@@ -1,0 +1,512 @@
+{
+  "schema": "wiki-retrieval-queries-v1",
+  "corpus_path": "artifacts/practice-20261028T152417Z/practice/corpus.json",
+  "corpus_sha256": "00cddb385b14e2f707da2ca45cc77ac13192f3580be592763cafceda952b4096",
+  "annotation_policy": "Repository-authored teaching questions with one designated direct-evidence paragraph per question; labels are not exhaustive relevance judgements or a blinded human benchmark. Unlabelled passages are not asserted irrelevant. Validation/test source-document groups are disjoint. All questions and labels frozen before encoder inference or ranking.",
+  "queries": [
+    {
+      "id": "dedup-keyword",
+      "split": "validation",
+      "group": "data-tokenizer",
+      "kind": "keyword",
+      "query": "训练内去重与训练评估去污染的目标有什么区别？",
+      "gold": [
+        {
+          "passage_id": "f36f0fb9df41fe88d9d1b52b79a04cba86e6486693a8ee386cbe58001dea51f6",
+          "evidence": "训练内去重改变“看多少遍”；训练/评估去污染保护“指标可信”。两者规则和目标不同。",
+          "source_document": "data-tokenizer"
+        }
+      ]
+    },
+    {
+      "id": "dedup-paraphrase",
+      "split": "validation",
+      "group": "data-tokenizer",
+      "kind": "paraphrase",
+      "query": "删除语料里反复出现的段落，与排除考试题泄漏，分别保护什么？",
+      "gold": [
+        {
+          "passage_id": "f36f0fb9df41fe88d9d1b52b79a04cba86e6486693a8ee386cbe58001dea51f6",
+          "evidence": "训练内去重改变“看多少遍”；训练/评估去污染保护“指标可信”。两者规则和目标不同。",
+          "source_document": "data-tokenizer"
+        }
+      ]
+    },
+    {
+      "id": "packing-keyword",
+      "split": "validation",
+      "group": "packing-correctness",
+      "kind": "keyword",
+      "query": "labels 数量相同能证明 packing 监督正确吗？",
+      "gold": [
+        {
+          "passage_id": "d4ac55dd1b52d4a362a33309088c2f64caf474ffb8b4e1c695311f4aa3ded114",
+          "evidence": "默认三种正确布局各有 9 个监督标签。重复 shift 的故障也可能保留相同标签数量，因此标签计数相同还不足以证明监督一致。错误的跨样本 Attention 则在前向阶段就能影响 B。",
+          "source_document": "packing-correctness"
+        }
+      ]
+    },
+    {
+      "id": "packing-paraphrase",
+      "split": "validation",
+      "group": "packing-correctness",
+      "kind": "paraphrase",
+      "query": "把两篇样本拼起来后，监督位置数没变，就可以排除串题和重复移位了吗？",
+      "gold": [
+        {
+          "passage_id": "d4ac55dd1b52d4a362a33309088c2f64caf474ffb8b4e1c695311f4aa3ded114",
+          "evidence": "默认三种正确布局各有 9 个监督标签。重复 shift 的故障也可能保留相同标签数量，因此标签计数相同还不足以证明监督一致。错误的跨样本 Attention 则在前向阶段就能影响 B。",
+          "source_document": "packing-correctness"
+        }
+      ]
+    },
+    {
+      "id": "gradients-keyword",
+      "split": "validation",
+      "group": "backpropagation",
+      "kind": "keyword",
+      "query": "Transformer 局部导数怎样用有限差分复核？",
+      "gold": [
+        {
+          "passage_id": "672fc66083421175d4cfd27a0487d47c139cc8cd52af42dbe49cd8581889f3ac",
+          "evidence": "沿一层带 RMSNorm、因果 Attention、残差和 SwiGLU 的小型 Transformer，逐项查看局部导数、分支汇合与权重梯度。每个数字都可以用有限差分复核。",
+          "source_document": "backpropagation"
+        }
+      ]
+    },
+    {
+      "id": "gradients-paraphrase",
+      "split": "validation",
+      "group": "backpropagation",
+      "kind": "paraphrase",
+      "query": "不用相信手写反向传播，怎样直接扰动数值检查一层网络的导数？",
+      "gold": [
+        {
+          "passage_id": "672fc66083421175d4cfd27a0487d47c139cc8cd52af42dbe49cd8581889f3ac",
+          "evidence": "沿一层带 RMSNorm、因果 Attention、残差和 SwiGLU 的小型 Transformer，逐项查看局部导数、分支汇合与权重梯度。每个数字都可以用有限差分复核。",
+          "source_document": "backpropagation"
+        }
+      ]
+    },
+    {
+      "id": "resume-keyword",
+      "split": "validation",
+      "group": "model-artifacts",
+      "kind": "keyword",
+      "query": "恢复训练轨迹除了权重还需要保存什么？",
+      "gold": [
+        {
+          "passage_id": "f938b3d4907afd5f07d9986668ce082113c5e227da7ecf5ea26c3e73cfa681b2",
+          "evidence": "文本推理需要结构、权重及匹配的 tokenizer/模板；恢复原训练轨迹还依赖优化器、调度器、随机数和数据位置。",
+          "source_document": "model-artifacts"
+        }
+      ]
+    },
+    {
+      "id": "resume-paraphrase",
+      "split": "validation",
+      "group": "model-artifacts",
+      "kind": "paraphrase",
+      "query": "把模型重新加载后，想接着走同一条优化路径，还缺哪些运行状态？",
+      "gold": [
+        {
+          "passage_id": "f938b3d4907afd5f07d9986668ce082113c5e227da7ecf5ea26c3e73cfa681b2",
+          "evidence": "文本推理需要结构、权重及匹配的 tokenizer/模板；恢复原训练轨迹还依赖优化器、调度器、随机数和数据位置。",
+          "source_document": "model-artifacts"
+        }
+      ]
+    },
+    {
+      "id": "chunks-keyword",
+      "split": "validation",
+      "group": "lab",
+      "kind": "keyword",
+      "query": "检索分块为什么要考虑标题、段落和代码边界？",
+      "gold": [
+        {
+          "passage_id": "196fea4b79a479856a697f4a17c66f44469ab2d8ecef7b16c567b5bb0a997981",
+          "evidence": "实用原则：先按语义结构分块，再评测。除了 chunk size，标题层级、段落、代码边界、表格行、问题与答案的自然单元，往往比固定窗口更重要。",
+          "source_document": "lab"
+        }
+      ]
+    },
+    {
+      "id": "chunks-paraphrase",
+      "split": "validation",
+      "group": "lab",
+      "kind": "paraphrase",
+      "query": "把资料切成固定大小的块之外，哪些自然结构应该优先保留？",
+      "gold": [
+        {
+          "passage_id": "196fea4b79a479856a697f4a17c66f44469ab2d8ecef7b16c567b5bb0a997981",
+          "evidence": "实用原则：先按语义结构分块，再评测。除了 chunk size，标题层级、段落、代码边界、表格行、问题与答案的自然单元，往往比固定窗口更重要。",
+          "source_document": "lab"
+        }
+      ]
+    },
+    {
+      "id": "positions-keyword",
+      "split": "validation",
+      "group": "position-cache",
+      "kind": "keyword",
+      "query": "RoPE 的逻辑位置与 PAD mask 如何分别处理？",
+      "gold": [
+        {
+          "passage_id": "4be458125f9837044ff071e01b4dfa999e3b4c2b6fea7c5b05bfd87ffd24ad60",
+          "evidence": "示例用独立的有效标记屏蔽 PAD，并用逻辑位置生成旋转角度。框架的 position_ids、cache_position 与 attention_mask 有各自约定；接入具体模型时分别核验。",
+          "source_document": "position-cache"
+        }
+      ]
+    },
+    {
+      "id": "positions-paraphrase",
+      "split": "validation",
+      "group": "position-cache",
+      "kind": "paraphrase",
+      "query": "缓存里有填充槽时，旋转角度和可见位置应该用同一套下标吗？",
+      "gold": [
+        {
+          "passage_id": "4be458125f9837044ff071e01b4dfa999e3b4c2b6fea7c5b05bfd87ffd24ad60",
+          "evidence": "示例用独立的有效标记屏蔽 PAD，并用逻辑位置生成旋转角度。框架的 position_ids、cache_position 与 attention_mask 有各自约定；接入具体模型时分别核验。",
+          "source_document": "position-cache"
+        }
+      ]
+    },
+    {
+      "id": "pad-gradient-keyword",
+      "split": "test",
+      "group": "training-deep",
+      "kind": "keyword",
+      "query": "ignore_index 后，绑定输出 Embedding 的 PAD 行为什么仍有梯度？",
+      "gold": [
+        {
+          "passage_id": "c92d16d0e6e88c3e5ff022fd5f25b898fd9a9c304b7a5f8202c581fd48e16fab",
+          "evidence": "attention mask 排除 PAD 键，loss mask 排除 PAD 标签位置，padding_idx 可阻止 lookup 算子累加该行梯度；三者作用不同。ignore_index 不删除有效位置 softmax 中的 PAD 类别，因此绑定输出表仍可能使 PAD 行收到梯度。PAD 与 EOS 共用 ID 时，尤其不能按 ID 把有效 EOS 标签一并屏蔽。",
+          "source_document": "training-deep"
+        }
+      ]
+    },
+    {
+      "id": "pad-gradient-paraphrase",
+      "split": "test",
+      "group": "training-deep",
+      "kind": "paraphrase",
+      "query": "不对填充标签算损失，为何词表里的填充类别参数还可能被更新？",
+      "gold": [
+        {
+          "passage_id": "c92d16d0e6e88c3e5ff022fd5f25b898fd9a9c304b7a5f8202c581fd48e16fab",
+          "evidence": "attention mask 排除 PAD 键，loss mask 排除 PAD 标签位置，padding_idx 可阻止 lookup 算子累加该行梯度；三者作用不同。ignore_index 不删除有效位置 softmax 中的 PAD 类别，因此绑定输出表仍可能使 PAD 行收到梯度。PAD 与 EOS 共用 ID 时，尤其不能按 ID 把有效 EOS 标签一并屏蔽。",
+          "source_document": "training-deep"
+        }
+      ]
+    },
+    {
+      "id": "weight-decay-keyword",
+      "split": "test",
+      "group": "optimization-dynamics",
+      "kind": "keyword",
+      "query": "Adam 的 loss L2 正则与 AdamW 解耦衰减为什么不同？",
+      "gold": [
+        {
+          "passage_id": "d711150795058e141e16d05b0edc43281603ce8866ec1421f77b6f68f0b216cd",
+          "evidence": "因此更新未必与当前 −g 同向：历史动量可能还在推旧方向。全局 η、batch、损失尺度、ε、初始化与模型结构仍需要一起调节。把 L2 项直接加到 loss 后进入 Adam 的矩估计，通常不等于解耦权重衰减。",
+          "source_document": "optimization-dynamics"
+        }
+      ]
+    },
+    {
+      "id": "weight-decay-paraphrase",
+      "split": "test",
+      "group": "optimization-dynamics",
+      "kind": "paraphrase",
+      "query": "把参数平方惩罚加进目标，与更新时单独缩小权重，会经过相同的历史矩估计吗？",
+      "gold": [
+        {
+          "passage_id": "d711150795058e141e16d05b0edc43281603ce8866ec1421f77b6f68f0b216cd",
+          "evidence": "因此更新未必与当前 −g 同向：历史动量可能还在推旧方向。全局 η、batch、损失尺度、ε、初始化与模型结构仍需要一起调节。把 L2 项直接加到 loss 后进入 Adam 的矩估计，通常不等于解耦权重衰减。",
+          "source_document": "optimization-dynamics"
+        }
+      ]
+    },
+    {
+      "id": "duplicate-batch-keyword",
+      "split": "test",
+      "group": "batch-noise",
+      "kind": "keyword",
+      "query": "数据集重复记录和 batch 内重复同一样本对梯度方差有什么区别？",
+      "gold": [
+        {
+          "passage_id": "a5cee7d3fe7dd7d510afbd775e1daa1eb3c3b49d5b719adf312c16eb3889dc38",
+          "evidence": "人口中出现重复记录与一批内重复同一随机记录需要分开：前者若仍独立抽取索引，按新人口的 Σₙ/B 计算；后者产生交叉协方差，不能把多份复制当成多份独立信息。",
+          "source_document": "batch-noise"
+        }
+      ]
+    },
+    {
+      "id": "duplicate-batch-paraphrase",
+      "split": "test",
+      "group": "batch-noise",
+      "kind": "paraphrase",
+      "query": "复制多份相同记录，能否像多份独立观测一样降低噪声？要看复制发生在哪里？",
+      "gold": [
+        {
+          "passage_id": "a5cee7d3fe7dd7d510afbd775e1daa1eb3c3b49d5b719adf312c16eb3889dc38",
+          "evidence": "人口中出现重复记录与一批内重复同一随机记录需要分开：前者若仍独立抽取索引，按新人口的 Σₙ/B 计算；后者产生交叉协方差，不能把多份复制当成多份独立信息。",
+          "source_document": "batch-noise"
+        }
+      ]
+    },
+    {
+      "id": "prefill-keyword",
+      "split": "test",
+      "group": "inference-engine",
+      "kind": "keyword",
+      "query": "prefill 和 decode 分别怎样处理 token？",
+      "gold": [
+        {
+          "passage_id": "33741d6e2fc71f56e39e8961ef8c3da57058d33c02a56b58cb6fb849ee0357a5",
+          "evidence": "同一组权重，处理 token 的方式不同：prefill 并行吃整段 prompt，decode 逐个追加。",
+          "source_document": "inference-engine"
+        }
+      ]
+    },
+    {
+      "id": "prefill-paraphrase",
+      "split": "test",
+      "group": "inference-engine",
+      "kind": "paraphrase",
+      "query": "同一模型读入整段提问与逐字续写时，为什么执行方式不同？",
+      "gold": [
+        {
+          "passage_id": "33741d6e2fc71f56e39e8961ef8c3da57058d33c02a56b58cb6fb849ee0357a5",
+          "evidence": "同一组权重，处理 token 的方式不同：prefill 并行吃整段 prompt，decode 逐个追加。",
+          "source_document": "inference-engine"
+        }
+      ]
+    },
+    {
+      "id": "grammar-order-keyword",
+      "split": "test",
+      "group": "decoding-algorithms",
+      "kind": "keyword",
+      "query": "Top-k 与语法 mask 的先后顺序为什么重要？",
+      "gold": [
+        {
+          "passage_id": "7bcb827186f9a64e6ee9328dc303d9b8baeb06a7e914788bf09981382024b3c3",
+          "evidence": "先 Top-k 再做语法 mask，可能删掉所有合法候选。本例先约束再筛选；真实引擎的处理链和空候选错误处理应明确记录。",
+          "source_document": "decoding-algorithms"
+        }
+      ]
+    },
+    {
+      "id": "grammar-order-paraphrase",
+      "split": "test",
+      "group": "decoding-algorithms",
+      "kind": "paraphrase",
+      "query": "先只留下高分候选，再检查格式约束，为什么可能一个可选输出都不剩？",
+      "gold": [
+        {
+          "passage_id": "7bcb827186f9a64e6ee9328dc303d9b8baeb06a7e914788bf09981382024b3c3",
+          "evidence": "先 Top-k 再做语法 mask，可能删掉所有合法候选。本例先约束再筛选；真实引擎的处理链和空候选错误处理应明确记录。",
+          "source_document": "decoding-algorithms"
+        }
+      ]
+    },
+    {
+      "id": "speculation-keyword",
+      "split": "test",
+      "group": "efficient-inference",
+      "kind": "keyword",
+      "query": "argmax 一致能证明投机采样保持目标分布吗？",
+      "gold": [
+        {
+          "passage_id": "b383d5aa0923e6857d6b29f4b4923c13bfeeaa3bd3fe43df6b0b258f84c100fe",
+          "evidence": "此处按预设状态展示验收过程。精确随机投机采样需要正确的 p/q、残差采样和一致的目标采样规则；argmax 一致只比较了概率最高的候选。量化后的 target 则是另一个目标分布。",
+          "source_document": "efficient-inference"
+        }
+      ]
+    },
+    {
+      "id": "speculation-paraphrase",
+      "split": "test",
+      "group": "efficient-inference",
+      "kind": "paraphrase",
+      "query": "草稿与大模型最喜欢的字相同，是否足够保证随机生成的概率完全不变？",
+      "gold": [
+        {
+          "passage_id": "b383d5aa0923e6857d6b29f4b4923c13bfeeaa3bd3fe43df6b0b258f84c100fe",
+          "evidence": "此处按预设状态展示验收过程。精确随机投机采样需要正确的 p/q、残差采样和一致的目标采样规则；argmax 一致只比较了概率最高的候选。量化后的 target 则是另一个目标分布。",
+          "source_document": "efficient-inference"
+        }
+      ]
+    },
+    {
+      "id": "quant-reference-keyword",
+      "split": "test",
+      "group": "quantized-linear",
+      "kind": "keyword",
+      "query": "整数累加再恢复应先与哪条量化参考路径比较？",
+      "gold": [
+        {
+          "passage_id": "f1cbdbec45eaa7ce0e6015564d88d421a09e8087bab0be983611280e21838128",
+          "evidence": "恢复后的 X/W/bias 做矩阵乘，与整数累加再恢复应该一致。这个比较可发现零点、轴和单位错误。",
+          "source_document": "quantized-linear"
+        }
+      ]
+    },
+    {
+      "id": "quant-reference-paraphrase",
+      "split": "test",
+      "group": "quantized-linear",
+      "kind": "paraphrase",
+      "query": "排查低位矩阵乘实现错误时，应把它直接对照原始浮点权重，还是先对照恢复后的同一计算？",
+      "gold": [
+        {
+          "passage_id": "f1cbdbec45eaa7ce0e6015564d88d421a09e8087bab0be983611280e21838128",
+          "evidence": "恢复后的 X/W/bias 做矩阵乘，与整数累加再恢复应该一致。这个比较可发现零点、轴和单位错误。",
+          "source_document": "quantized-linear"
+        }
+      ]
+    },
+    {
+      "id": "bootstrap-keyword",
+      "split": "test",
+      "group": "paired-evaluation",
+      "kind": "keyword",
+      "query": "同一文档多道题的 bootstrap 为什么要按组重采样？",
+      "gold": [
+        {
+          "passage_id": "4c8f9b26b549d2dbbbd8ed88f8c572d8865f3a14a01bb6193b4def2ec69b1f42",
+          "evidence": "逐题 bootstrap 在 n 行中有放回抽 n 行，每次重算差值。若一篇文档产生多道题，题目可能相关，应以文档为独立单位：有放回抽相同数量的文档，每次携带整个组，再以抽到的全部题目为分母。",
+          "source_document": "paired-evaluation"
+        }
+      ]
+    },
+    {
+      "id": "bootstrap-paraphrase",
+      "split": "test",
+      "group": "paired-evaluation",
+      "kind": "paraphrase",
+      "query": "一份资料衍生出许多相关问题时，怎样抽样才能保留这些题之间的依赖？",
+      "gold": [
+        {
+          "passage_id": "4c8f9b26b549d2dbbbd8ed88f8c572d8865f3a14a01bb6193b4def2ec69b1f42",
+          "evidence": "逐题 bootstrap 在 n 行中有放回抽 n 行，每次重算差值。若一篇文档产生多道题，题目可能相关，应以文档为独立单位：有放回抽相同数量的文档，每次携带整个组，再以抽到的全部题目为分母。",
+          "source_document": "paired-evaluation"
+        }
+      ]
+    },
+    {
+      "id": "temperature-keyword",
+      "split": "test",
+      "group": "uncertainty-calibration",
+      "kind": "keyword",
+      "query": "分类校准温度与生成采样温度有什么区别？",
+      "gold": [
+        {
+          "passage_id": "6029e2d87a4bf8b8277ff37ad78806a8688a2d546a8a2fc9df456b6d578923c1",
+          "evidence": "两者都可能对 logits 除以温度，但目的不同。分类校准在独立校准集上拟合温度，再检查概率质量；生成温度改变采样分布。开放回答还需要定义答案事件和正确标签，仅把 token 分布变平并不能获得校准的事实正确率。ECE 的分箱选择、样本数量和分布变化也需报告。",
+          "source_document": "uncertainty-calibration"
+        }
+      ]
+    },
+    {
+      "id": "temperature-paraphrase",
+      "split": "test",
+      "group": "uncertainty-calibration",
+      "kind": "paraphrase",
+      "query": "让下一词的概率分布更平，是否就让回答的可信度更准确？",
+      "gold": [
+        {
+          "passage_id": "6029e2d87a4bf8b8277ff37ad78806a8688a2d546a8a2fc9df456b6d578923c1",
+          "evidence": "两者都可能对 logits 除以温度，但目的不同。分类校准在独立校准集上拟合温度，再检查概率质量；生成温度改变采样分布。开放回答还需要定义答案事件和正确标签，仅把 token 分布变平并不能获得校准的事实正确率。ECE 的分箱选择、样本数量和分布变化也需报告。",
+          "source_document": "uncertainty-calibration"
+        }
+      ]
+    },
+    {
+      "id": "external-instructions-keyword",
+      "split": "test",
+      "group": "agents-context",
+      "kind": "keyword",
+      "query": "工具返回和检索文档里的提示注入应如何处理？",
+      "gold": [
+        {
+          "passage_id": "a958279930f3aa8e10a41c6a88232cbb94410064abbcc4fd3cd62cad06da57a0",
+          "evidence": "检索页、邮件、仓库文件和工具返回都可能包含命令式文字。间接提示注入试图让模型把这类外部内容当成更高权限的指令。需要保留内容的来源与信任等级，运行时根据用户目标和工具权限验证动作。",
+          "source_document": "agents-context"
+        }
+      ]
+    },
+    {
+      "id": "external-instructions-paraphrase",
+      "split": "test",
+      "group": "agents-context",
+      "kind": "paraphrase",
+      "query": "从外部页面读到一段命令式文字，运行时为什么不能直接把它当成用户授权？",
+      "gold": [
+        {
+          "passage_id": "a958279930f3aa8e10a41c6a88232cbb94410064abbcc4fd3cd62cad06da57a0",
+          "evidence": "检索页、邮件、仓库文件和工具返回都可能包含命令式文字。间接提示注入试图让模型把这类外部内容当成更高权限的指令。需要保留内容的来源与信任等级，运行时根据用户目标和工具权限验证动作。",
+          "source_document": "agents-context"
+        }
+      ]
+    },
+    {
+      "id": "supervision-units-keyword",
+      "split": "test",
+      "group": "finetuning-recipe",
+      "kind": "keyword",
+      "query": "一行多轮 SFT 数据是否只有一个监督片段？",
+      "gold": [
+        {
+          "passage_id": "192d627ce823f08a559f5776988e26336535ad38994b88424ec8ceaa94ddf12a",
+          "evidence": "多轮对话可能监督每个 assistant 轮次，也可能只监督末轮；工具观测通常作为上下文，工具调用动作可以成为监督目标。带 CoT 的记录还要说明哪些推理 token 被保留、是否计 loss、部署时允许多长输出。数据集有一行，并不代表只有一个监督片段。",
+          "source_document": "finetuning-recipe"
+        }
+      ]
+    },
+    {
+      "id": "supervision-units-paraphrase",
+      "split": "test",
+      "group": "finetuning-recipe",
+      "kind": "paraphrase",
+      "query": "把对话存成一条记录后，回复、工具观察和推理过程都应该一起作为预测目标吗？",
+      "gold": [
+        {
+          "passage_id": "192d627ce823f08a559f5776988e26336535ad38994b88424ec8ceaa94ddf12a",
+          "evidence": "多轮对话可能监督每个 assistant 轮次，也可能只监督末轮；工具观测通常作为上下文，工具调用动作可以成为监督目标。带 CoT 的记录还要说明哪些推理 token 被保留、是否计 loss、部署时允许多长输出。数据集有一行，并不代表只有一个监督片段。",
+          "source_document": "finetuning-recipe"
+        }
+      ]
+    },
+    {
+      "id": "clip-order-keyword",
+      "split": "test",
+      "group": "numerical-computing",
+      "kind": "keyword",
+      "query": "loss scaling 后为什么必须先 unscale 再梯度裁剪？",
+      "gold": [
+        {
+          "passage_id": "f10329de121b5a6e3131405422c0757f2348dee1a6cfe7ad5c56820c427b0421",
+          "evidence": "原梯度 [3,4] 的范数是 5，阈值 1 给出 [0.6,0.8]。若 scale=8 时先裁剪 [24,32]，再除以 8，只得到 [0.075,0.1]。相同阈值被应用到了不同尺度。",
+          "source_document": "numerical-computing"
+        }
+      ]
+    },
+    {
+      "id": "clip-order-paraphrase",
+      "split": "test",
+      "group": "numerical-computing",
+      "kind": "paraphrase",
+      "query": "把放大后的梯度先压到阈值，再除回缩放倍数，为什么会让真正的更新额外缩小？",
+      "gold": [
+        {
+          "passage_id": "f10329de121b5a6e3131405422c0757f2348dee1a6cfe7ad5c56820c427b0421",
+          "evidence": "原梯度 [3,4] 的范数是 5，阈值 1 给出 [0.6,0.8]。若 scale=8 时先裁剪 [24,32]，再除以 8，只得到 [0.075,0.1]。相同阈值被应用到了不同尺度。",
+          "source_document": "numerical-computing"
+        }
+      ]
+    }
+  ]
+}

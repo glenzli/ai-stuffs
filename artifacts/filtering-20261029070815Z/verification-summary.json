@@ -1,0 +1,109 @@
+{
+  "status": "passed",
+  "completed_at": "2026-10-29T07:26:41.091Z",
+  "previous_round_commit": {
+    "head": "7d097b82a621784cb1e0802ba932fec243eac5e3",
+    "parent": "1bc2c88cca757b4c1748f8d29b1eacc8ad0fca87",
+    "authorDate": "2026-10-29T02:50:52+08:00",
+    "commitDate": "2026-10-29T02:50:52+08:00",
+    "offset_seconds": 1989,
+    "committed_paths": 85,
+    "working_tree_clean_immediately_after_commit": true,
+    "origin_main": "5ec1e58de6032d3cfb1c24df02bf2037d812b1be",
+    "push_performed": false
+  },
+  "new_changes": {
+    "committed": false,
+    "index_empty": true
+  },
+  "checks": {
+    "registered_node_tests": 450,
+    "python_evidence_tests": 6,
+    "independent_scalar_inner_products": 31572,
+    "observed_scalar_max_error": "1.33e-15",
+    "filter_requests": 180,
+    "post_filter_outputs": 720,
+    "packaged_replay": {
+      "status": "passed",
+      "archive_sha256": "99ceb8305e7cccc89d7bc1689147bdd91cd45fc6554e6e2131dc19f25a380abc",
+      "mode": "Extracted source and all four inputs only; cwd outside repository; PYTHONPATH cleared",
+      "requests": 180,
+      "post_filter_runs": 720,
+      "complete_report_equal": true,
+      "identical_output_sha256": {
+        "report.json": "216e439c436742a16626f061b8bebefcc812b6eeaa2b7c241fe514540a22bd4f",
+        "all-scores.npy": "22a401fc833f14fdb411cae80314d21fde881905be22811f1385a529b7d65eef",
+        "all-ranks.npy": "16e6d56598b90ae7207dec1d36091df167fc6183250bc6b1fb17d41f50773157"
+      }
+    },
+    "browser_conditions": 20,
+    "browser_layouts": 6,
+    "http_downloads": 3,
+    "producer_existing_directory_guard": true,
+    "preserved_prior_experiments": [
+      "learning",
+      "failures",
+      "dynamics",
+      "output",
+      "practice",
+      "language-baselines",
+      "matched-budget",
+      "retrieval",
+      "retrieval-comparison",
+      "text-evaluation-audit",
+      "accumulation"
+    ]
+  },
+  "build": {
+    "pages": 66,
+    "equations": 143,
+    "log": "build.log"
+  },
+  "current_source_sha256": {
+    ".gitignore": "fd85b8d32bcbfaf1f99817e7df0ddeae8e779bdec3d557e8d20487754f36402c",
+    "README.md": "4fd9160a328b57d98269af5b600cc9bbf9fbee7f0992f4fef6858c6218e176bc",
+    "package.json": "30e03a09f2b805f45a8d5d4a0057a3fda5d09a096cc8e64b514dca2f7853ae79",
+    "scripts/build.mjs": "9a4b5b7048160cb751fd687c30185174ec91f89ee0d79c95ed2c310ef41178a3",
+    "scripts/experiment-sources.mjs": "a9dbe41b38a099331a5cc635ac649f8dab5e64709368e7bb2500783e38b7a540",
+    "src/content/ann-index.html": "a05cf1545200bb829c68fa147ebd9b699b1d1d6917b45d3d8d6c5fc192c7af34",
+    "src/content/retrieval-project.html": "39a1d9770a334cd3a32886bb636af823111d8050b8938d0e63b16aa2d773b997",
+    "src/experiment-sources.json": "787c59da2f54e3be18207e92c41873fa1de3820f8318ae4bcdbc6689633c59a0",
+    "src/pages.mjs": "142fbfc2b3eb0c10230e7886a221c59345e4401f53a9c07b3f5debee17a340f5",
+    "src/references.mjs": "e434dbde955d7728053b54c00d5d1f89b6030e9f9eadb7d148f0d6bb421c629c",
+    "src/search.mjs": "f944909d61d0721c54f6fd960c5b8e5c5ee25a7075b28a5d5a8c9e892a001390",
+    "docs/retrieval-filtering-2026-10-29.md": "911a3d1a20813e31351d16c19d2bf1d3fc16df91e81cf244d728508e59dce52a",
+    "scripts/retrieval-filtering-requirements.txt": "ad237bbde8be900ad7815843fa61edb50434b32110f0099eae89b1532687f66e",
+    "scripts/retrieval_filtering.py": "82912c689fe865d9b9c14f729847e3580d5140774618627887078ad213d22281",
+    "scripts/run-retrieval-filtering.mjs": "549516b08145844047fbec97ec23924375a1c83ccf4a3ad6161c70f4e0d05805",
+    "scripts/test-retrieval-filtering.mjs": "09e3121c15bd6574fe9094918dffba0dc72b6c1fb13f735d47099024c8976be7",
+    "scripts/test-retrieval-filtering.py": "6ce0b71da6ab70603ba868ba569712019054fe4065fed260c06554b12d311b21",
+    "src/scripts/features/retrieval-filtering-data.js": "090c75cdeca6d52767c9c7ce97fbd002e1fb622ba0628ce6ac269522dbd9002e",
+    "src/scripts/features/retrieval-filtering.js": "54a76d2fa435eace6a9a057638553f32b38666fa6fcf4b0a6914f592b7b3e78c"
+  },
+  "accepted_identity": {
+    "manifest_sha256": "787c59da2f54e3be18207e92c41873fa1de3820f8318ae4bcdbc6689633c59a0",
+    "report_sha256": "216e439c436742a16626f061b8bebefcc812b6eeaa2b7c241fe514540a22bd4f",
+    "archive_sha256": "99ceb8305e7cccc89d7bc1689147bdd91cd45fc6554e6e2131dc19f25a380abc",
+    "archive_bytes": 2665658
+  },
+  "validation_logs": {
+    "node": {
+      "path": "node-final.log",
+      "sha256": "a338f53a7fff87b1ace5da5d03a942bdcb1a4524ec7dd02441eb0738608d838c"
+    },
+    "python": {
+      "path": "python-checks.log",
+      "sha256": "09a55c8691e9f44fa6d881f8498801a5ac3e847ca8a517dca50adf591b918514"
+    }
+  },
+  "evidence": [
+    "qa/browser.json",
+    "qa/filtering-final.png",
+    "qa/filtering-mobile.png",
+    "qa/filtering-dark.png",
+    "qa/packaged-replay.json",
+    "qa/producer-guard.json",
+    "http-download-audit.json"
+  ],
+  "scope": "Frozen saved real embeddings and explicit teaching source predicates; float64 exact-order filtering semantics. No new encoding, ANN filtering implementation, latency, access-control or generalization claim."
+}

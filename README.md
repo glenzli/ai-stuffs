@@ -1,6 +1,6 @@
 # 模型工程 Wiki
 
-当前十一组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
+当前十二组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
 初始化/宽度/Batch、分块交叉熵已重新运行，报告与原始工件保存在
 `artifacts/reproduced-20261028T115030Z/`。页面提供完整报告、源码与原始工件包、
 SHA-256 校验表；构建前核对这些文件，缺失或被修改时停止构建。
@@ -507,3 +507,18 @@ TeX 语法或结构错误会使构建失败，并保留此前输出（公式校�
 主验收记录见 `docs/engineering-wiki-acceptance-2026-10-26.md`。
 
 学习动态验证运行 `npm run test:learning`；最终验收见 [learning-dynamics-acceptance-2026-10-28.md](docs/learning-dynamics-acceptance-2026-10-28.md)。
+
+### 真实向量的来源过滤与候选数量
+
+沿用原检索项目的 877 段、36 问和保存向量，对照先限定范围的精确前十与全库前 L 条后过滤。
+五种范围固定用于全部问题，覆盖范围不足十条、空范围，以及指定证据本来已在范围外的情形。
+
+```bash
+npm run lab:retrieval-filtering -- --out-dir artifacts/filtering-my-run
+npm run test:retrieval-filtering
+npm run accept:experiment -- --candidate artifacts/filtering-my-run/candidate.json
+```
+
+只需固定 NumPy 2.3.4，不运行编码器或下载模型。候选包包含输入向量、原文、问题、原始报告、
+全部内积/排序和执行源码，可离开仓库独立重跑。机制与分母边界见
+[来源过滤核验](docs/retrieval-filtering-2026-10-29.md)。

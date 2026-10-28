@@ -1,0 +1,12 @@
+test_all_references_and_720_post_filter_outputs_match_independent_reconstruction (__main__.FilteringEvidence.test_all_references_and_720_post_filter_outputs_match_independent_reconstruction) ... ok
+test_every_saved_inner_product_matches_independent_scalar_summation (__main__.FilteringEvidence.test_every_saved_inner_product_matches_independent_scalar_summation) ... ok
+test_evidence_and_neighbor_denominators_use_the_same_filtered_range (__main__.FilteringEvidence.test_evidence_and_neighbor_denominators_use_the_same_filtered_range) ... ok
+test_input_lineage_and_captured_executed_sources (__main__.FilteringEvidence.test_input_lineage_and_captured_executed_sources) ... ok
+test_observed_controls_distinguish_missing_pool_entries_small_ranges_and_excluded_labels (__main__.FilteringEvidence.test_observed_controls_distinguish_missing_pool_entries_small_ranges_and_excluded_labels) ... ok
+test_summary_eligibility_and_shortfall_counts_recompute_from_all_requests (__main__.FilteringEvidence.test_summary_eligibility_and_shortfall_counts_recompute_from_all_requests) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.818s
+
+OK
+Independent scalar-dot maximum error: 1.33e-15

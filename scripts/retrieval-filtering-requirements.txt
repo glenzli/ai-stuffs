@@ -1,0 +1,2 @@
+# Reference runtime: Python 3.12.13. Only saved vectors are needed; no encoder.
+numpy==2.3.4

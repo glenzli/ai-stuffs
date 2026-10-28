@@ -514,6 +514,50 @@
         "sha256": "234f698cf8934c36087e21c85632ebb7cbf0389454aaba3c7aeff6a49d9190b0",
         "target": "src/scripts/features/accumulation-data.js"
       }
+    },
+    "retrieval-filtering": {
+      "id": "retrieval-filtering",
+      "title": "真实向量的来源过滤、候选深度与可用证据",
+      "pages": [
+        "ann-index"
+      ],
+      "schema": "retrieval-filtering-v1",
+      "status": "passed",
+      "runtime": {
+        "python": "3.12.13",
+        "numpy": "2.3.4",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "device": "cpu"
+      },
+      "created_at": "2026-10-29T07:11:09.067Z",
+      "command": "node scripts/run-retrieval-filtering.mjs --out-dir artifacts/filtering-my-run",
+      "report": {
+        "path": "artifacts/filtering-20261029070815Z/retrieval-filtering/report.json",
+        "bytes": 1048339,
+        "sha256": "216e439c436742a16626f061b8bebefcc812b6eeaa2b7c241fe514540a22bd4f"
+      },
+      "archive": {
+        "path": "artifacts/filtering-20261029070815Z/downloads/retrieval-filtering-sources.tar.gz",
+        "bytes": 2665658,
+        "sha256": "99ceb8305e7cccc89d7bc1689147bdd91cd45fc6554e6e2131dc19f25a380abc"
+      },
+      "checksums": {
+        "path": "artifacts/filtering-20261029070815Z/retrieval-filtering/SHA256SUMS",
+        "bytes": 836,
+        "sha256": "b40ef506d54e02197cd4f74444f12be76a7d2ac93642ffb13141acae1ab81064"
+      },
+      "source": {
+        "path": "artifacts/filtering-20261029070815Z/SOURCE-SHA256SUMS",
+        "bytes": 435,
+        "sha256": "5d6825ef2fd815700cc0f07ebbc3b87df6efc57579354c58b4307ddde64794e1"
+      },
+      "bundle_root": "artifacts/filtering-20261029070815Z",
+      "projection": {
+        "path": "artifacts/filtering-20261029070815Z/retrieval-filtering/page-data.js",
+        "bytes": 623989,
+        "sha256": "090c75cdeca6d52767c9c7ce97fbd002e1fb622ba0628ce6ac269522dbd9002e",
+        "target": "src/scripts/features/retrieval-filtering-data.js"
+      }
     }
   }
 }

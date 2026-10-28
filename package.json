@@ -42,7 +42,9 @@
     "test:layout": "node scripts/check-layout.mjs",
     "test:interactions": "node scripts/test-interactions.mjs",
     "test:audit": "node scripts/audit-site.mjs",
-    "test:learning": "node --test scripts/test-learning-run.mjs scripts/test-failure-replay.mjs scripts/test-training-dynamics.mjs scripts/test-chunked-ce.mjs && .venv-framework/bin/python scripts/test-learning-core.py && .venv-framework/bin/python scripts/test-failure-replay.py && .venv-framework/bin/python scripts/test-training-dynamics.py && .venv-framework/bin/python scripts/test-chunked-ce.py && .venv-framework/bin/python scripts/test-learning-artifacts.py"
+    "test:learning": "node --test scripts/test-learning-run.mjs scripts/test-failure-replay.mjs scripts/test-training-dynamics.mjs scripts/test-chunked-ce.mjs && .venv-framework/bin/python scripts/test-learning-core.py && .venv-framework/bin/python scripts/test-failure-replay.py && .venv-framework/bin/python scripts/test-training-dynamics.py && .venv-framework/bin/python scripts/test-chunked-ce.py && .venv-framework/bin/python scripts/test-learning-artifacts.py",
+    "lab:retrieval-filtering": "node scripts/run-retrieval-filtering.mjs",
+    "test:retrieval-filtering": "node --test scripts/test-retrieval-filtering.mjs && .venv-framework/bin/python scripts/test-retrieval-filtering.py"
   },
   "devDependencies": {
     "katex": "0.19.1",

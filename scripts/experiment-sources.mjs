@@ -5,6 +5,7 @@ import path from "node:path";
 const sha = bytes => createHash("sha256").update(bytes).digest("hex");
 const esc = value => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 export const experimentOwners = { learning: ["learning-run"], failures: ["training-failures"], dynamics: ["initialization-width", "batch-noise"], output: ["chunked-cross-entropy"], practice: ["generalization-analysis", "text-training-project", "reproducibility-lab", "training-step-profile"], "language-baselines": ["text-training-project"], "matched-budget": ["generalization-analysis"], retrieval: ["retrieval-project"], "retrieval-comparison": ["retrieval-project", "paired-evaluation"], "text-evaluation-audit": ["text-training-project"], accumulation: ["parallel-correctness"] };
+experimentOwners["retrieval-filtering"] = ["ann-index"];
 const owners = experimentOwners;
 
 // Validate before replacing dist: an absent or modified source must fail the build.

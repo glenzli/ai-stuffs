@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "archive_sha256": "99ceb8305e7cccc89d7bc1689147bdd91cd45fc6554e6e2131dc19f25a380abc",
+  "mode": "Extracted source and all four inputs only; cwd outside repository; PYTHONPATH cleared",
+  "requests": 180,
+  "post_filter_runs": 720,
+  "complete_report_equal": true,
+  "identical_output_sha256": {
+    "report.json": "216e439c436742a16626f061b8bebefcc812b6eeaa2b7c241fe514540a22bd4f",
+    "all-scores.npy": "22a401fc833f14fdb411cae80314d21fde881905be22811f1385a529b7d65eef",
+    "all-ranks.npy": "16e6d56598b90ae7207dec1d36091df167fc6183250bc6b1fb17d41f50773157"
+  }
+}

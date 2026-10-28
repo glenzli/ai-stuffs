@@ -1,0 +1,16 @@
+{
+  "started_at": "2026-10-29T07:11:09.067Z",
+  "runtime": {
+    "python": "3.12.13",
+    "numpy": "2.3.4",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "device": "cpu"
+  },
+  "source_sha256": {
+    "scripts/retrieval_filtering.py": "82912c689fe865d9b9c14f729847e3580d5140774618627887078ad213d22281",
+    "scripts/retrieval-filtering-requirements.txt": "ad237bbde8be900ad7815843fa61edb50434b32110f0099eae89b1532687f66e",
+    "scripts/run-retrieval-filtering.mjs": "549516b08145844047fbec97ec23924375a1c83ccf4a3ad6161c70f4e0d05805",
+    "scripts/experiment-bundles.mjs": "0a729b6574fa785ddc1565b890a6ff9747a4506d0e06c2f11da20335e94e6284"
+  },
+  "base_manifest_sha256": "4a193c39671457827f622e82cb41ae660aab90ce5017100f2c7821838965d1f9"
+}

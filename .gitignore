@@ -86,6 +86,8 @@ __pycache__/
 !/artifacts/extension-20261029T022617Z/matched-budget/**
 !/artifacts/extension-20261029T022617Z/retrieval/
 !/artifacts/extension-20261029T022617Z/retrieval/**
+!/artifacts/filtering-20261029070815Z/
+!/artifacts/filtering-20261029070815Z/**
 # End accepted experiment bundles
 
 # Reviewed verification evidence; preserve across later experiment adoptions.

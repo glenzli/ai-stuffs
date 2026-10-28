@@ -137,7 +137,7 @@ export const pageEvidence = {
   "rl-update": { scope: "二维特征、三动作、四条固定回答与 2×3 参数，手算 clipped surrogate 加当前位置精确 KL 的梯度。另穷举九条轨迹核对完整期望；独立 autograd 验证，不实现完整 PPO/GRPO 训练器。", refs: ["ppo", "ppoSpinningUp", "torch29Autograd", "grpo"] },
   "quantized-linear": { scope: "2×3 输入和 3×2 权重，uint8 仿射量化与 INT32 范围检查；重定标用实数倍率。W4A16 恢复后使用 binary64 乘加，未运行低位 kernel、QAT 或性能测试。", refs: ["quantInteger", "numericalAccuracy", "awq"] },
   "paired-evaluation": { scope: "固定方案与一次模型运行的逐题平均差；LCG 配对 percentile bootstrap、按组共同抽样和最多 16 单位精确交换。包含模拟示例及真实检索24题/12来源组的独立分布复算；实测复用已查看的数据，属探索性比较。小样本区间与交换检验附带各自假设，导入文件只在浏览器处理。", refs: ["eval", "pairedBootstrap", "pairedPermutation", "rrf"] },
-  "ann-index": { scope: "12 个二维向量与预设质心，平方 L2、固定并列规则的 IVF 模拟；v2 采用共同旋转演示版本契约。可选 Faiss CPU 实验另测真实索引，教学候选数不视为实际耗时。", refs: ["faissIndexes", "eval", "mrl"] },
+  "ann-index": { scope: "12 个二维向量与预设质心，平方 L2、固定并列规则的 IVF 模拟；v2 采用共同旋转演示版本契约。另用原 877 个真实段落和 36 问的保存 BGE 向量，冻结五种来源范围与四种候选深度，对照范围内精确前十、后过滤、可返回数量和可用指定证据；不重新编码或测 ANN 过滤性能。可选 Faiss CPU 实验另测真实索引，教学候选数不视为实际耗时。", refs: ["faissIndexes", "eval", "mrl"] },
   "packing-correctness": { scope: "两条人工多轮记录、12 类符号词表、二维单头 Attention 与加法位置项；右截断，独立样本目标。padding 在页面按逻辑块隔离展开；PyTorch 对照用真实 batch 维度。比较有效位置及参数梯度，不测 GPU 性能。", refs: ["sft", "ce", "torch29Autograd", "attention"] },
   "lora-mechanics": { scope: "二维 Rank-1 线性层，平方损失、SGD、固定输入；冻结底座与切断梯度分别计算。INT4 仅演示低位底座机制，不实现 NF4、分页优化器或完整 QLoRA；合并核对同一个计算底座。", refs: ["lora", "peft", "qlora", "torch29Autograd"] },
   "position-cache": { scope: "固定六个四维输入、单头 Attention、输入残差与三类输出；无 Norm、FFN、dropout。左 PAD 占槽但不可见。两条路径实际计算 logits，旋转使用固定频率，不证明长上下文能力。", refs: ["rope", "cache", "attention", "numericalAccuracy"] },

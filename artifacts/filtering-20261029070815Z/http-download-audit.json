@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-29T07:24:10.931Z",
+  "downloads": [
+    {
+      "kind": "report",
+      "href": "assets/experiments/retrieval-filtering-report.216e439c43.json",
+      "status": 200,
+      "bytes": 1048339,
+      "sha256": "216e439c436742a16626f061b8bebefcc812b6eeaa2b7c241fe514540a22bd4f",
+      "match": true
+    },
+    {
+      "kind": "archive",
+      "href": "assets/experiments/retrieval-filtering-archive.99ceb8305e.tar.gz",
+      "status": 200,
+      "bytes": 2665658,
+      "sha256": "99ceb8305e7cccc89d7bc1689147bdd91cd45fc6554e6e2131dc19f25a380abc",
+      "match": true
+    },
+    {
+      "kind": "checksums",
+      "href": "assets/experiments/retrieval-filtering-checksums.b40ef506d5.txt",
+      "status": 200,
+      "bytes": 836,
+      "sha256": "b40ef506d54e02197cd4f74444f12be76a7d2ac93642ffb13141acae1ab81064",
+      "match": true
+    }
+  ]
+}
