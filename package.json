@@ -49,7 +49,8 @@
     "test:padding-inference": "node --test scripts/test-padding-inference.mjs && .venv-framework/bin/python scripts/test-padding-inference.py",
     "test:experiment-navigation": "node --test scripts/test-experiment-navigation.mjs",
     "check:experiment": "node scripts/check-experiment.mjs",
-    "test:experiment-preflight": "node --test scripts/test-experiment-preflight.mjs"
+    "test:experiment-preflight": "node --test scripts/test-experiment-preflight.mjs",
+    "test:sampling-state": "node --test scripts/test-sampling-state.mjs"
   },
   "devDependencies": {
     "katex": "0.19.1",

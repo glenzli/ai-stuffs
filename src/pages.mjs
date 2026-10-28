@@ -510,6 +510,8 @@ for (const [slug, title, description] of [
     footer: [title, "按声明的算法逐步计算，与参考结果核对。"]});
 }
 for (const slug of ["engineering", "training-engineer-guide"]) pages.find(page => page.slug === slug).styles.push("exact-mechanics");
+pages.find(page => page.slug === "decoding-algorithms").features.push("sampling-state");
+pages.find(page => page.slug === "decoding-algorithms").styles.push("sampling-state");
 
 for (const [slug, title, description] of [
   ["tensor-layout", "张量布局与存储视图", "Shape、stride、offset、转置、切片、展平、共享存储与复制。"],

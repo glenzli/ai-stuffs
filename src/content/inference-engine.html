@@ -78,7 +78,7 @@
             <button class="button" type="button" data-infer-ten>再生成 10 tokens</button>
             <button class="button" type="button" data-infer-reset>重置</button>
           </div>
-          <p>固定等长 batch、无 EOS 提前停止，最多展示 40 个输出。每次 forward 后立刻采样；因此已生成 G 个 token 时，缓存长度是 P+G−1。真实 serving 还需处理分块 prefill、动态批处理与分页。</p>
+          <p>固定等长 batch、无 EOS 提前停止，最多展示 40 个输出。每次 forward 后立刻采样；因此已生成 G 个 token 时，缓存长度是 P+G−1。真实 serving 还需处理分块 prefill、动态批处理与分页。随机采样时还应核对<a href="decoding-algorithms.html#sampling-state">随机流是否跟随请求身份</a>。</p>
         </div>
 
         <div class="prefill-visual">

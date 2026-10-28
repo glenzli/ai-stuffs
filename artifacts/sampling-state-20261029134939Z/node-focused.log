@@ -1,0 +1,41 @@
+✔ 固定 token、logits 与返回字段明确且每次独立 (1.663417ms)
+✔ 全部温度、top-k、top-p 滑块组合与语法下拉状态保持归一化 (1350.782875ms)
+✔ 温度缩放保持排序，升温降低最大概率并提高熵 (2.192708ms)
+✔ top-k 先重归一化，top-p 在精确等号处停止且取最小累计前缀 (5.762042ms)
+✔ 语法在截断前屏蔽，字符拼接只能保留两个固定合法字符串的前缀 (3.106041ms)
+✔ 关闭语法时完全忽略前缀，开启时拒绝语言外前缀与非字符串 (0.4145ms)
+✔ 逆累积分布采样使用原 token 顺序、左闭右开边界并排除零概率 (1.112166ms)
+✔ 结构化采样能完成两个替代字符串，结束前后均通过 JSON.parse (0.153ms)
+✔ 解码参数拒绝越界、非有限数、错误类型和隐式转换 (0.410667ms)
+✔ 采样拒绝非法位置、无候选、未归一化分布和非法概率 (0.349ms)
+✔ 束宽一为贪心 Ax，束宽二保留 B 并选中有限树最优 Bx (0.388833ms)
+✔ 束搜索逐步累计对数概率并做全局截断，等长叶子无需长度归一化 (0.330334ms)
+✔ 主控件缺失时安全返回，解码与束搜索可以分别初始化 (0.552875ms)
+✔ 只有温度控件时使用默认值且输出可缺失 (0.297834ms)
+✔ 只有束宽控件时也可渲染四列表格并响应选择 (3.98675ms)
+✔ 解码六列表格保留字面 token，所有控件更新中文状态且束搜索独立 (4.178042ms)
+✔ topic ownership covers every page once and agrees with header navigation (92.170667ms)
+✔ built reading routes and all local authored links resolve to pages and anchors (582.296292ms)
+✔ guide starts with learning and problem lookup; advanced collections are optional (2.663208ms)
+✔ guide and detailed route share six steps with a real learning result in the first four (5.215708ms)
+✔ before/after examples come from the same saved question across every seed and split (7.872292ms)
+✔ partial or conflicting saved pairs never fabricate a before/after comparison (2.992ms)
+✔ report question identifiers are escaped in the new example (2.796375ms)
+✔ report starts with evidence while failure outcomes and all existing controls remain available (7.744542ms)
+✔ the CBA counterexample follows the published tape and independently hand-calculated CDF intervals (2.339792ms)
+✔ ABC without early completion deliberately aligns all three allocation policies (0.529125ms)
+✔ request-owned tapes preserve every common request step across all permutations and completion budgets (1.588125ms)
+✔ slot compaction moves C onto the B slot while leaving A's path intact (0.230709ms)
+✔ all 288 declared combinations preserve prefixes and recover exact traces from serialized cursors (11.263334ms)
+✔ a reset cursor can first change the uniform while leaving its sampled token unchanged (0.224958ms)
+✔ returned snapshots and rows cannot mutate a later calculation (0.247333ms)
+✔ invalid controls reject calculations and markup marks the no-future-draw boundary (0.720584ms)
+✔ built page preserves static inputs, scopes the optional feature, and links the related lessons (30.503208ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1448.908959

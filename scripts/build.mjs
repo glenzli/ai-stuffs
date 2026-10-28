@@ -15,6 +15,7 @@ const root = process.cwd();
 const outDir = path.join(root, "dist");
 const globalStyles = ["tokens", "layout", "shared", "reading"];
 const featureExports = {
+  "sampling-state": "initSamplingState",
   "experiment-navigator": "initExperimentNavigator",
   "padding-inference": "initPaddingInference",
   "retrieval-filtering": "initRetrievalFiltering",

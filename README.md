@@ -16,6 +16,11 @@ npm run check:experiment -- --only padding-inference --out-dir artifacts/padding
 省略 `--only` 检查全部十三组；`node scripts/check-experiment.mjs --json` 提供机器可读结果。
 环境准备、退出码与检查边界见 [复现前检查](docs/experiment-preflight-2026-10-29.md)。
 
+`decoding-algorithms.html#sampling-state` 提供固定分布的随机流账本：
+比较全局流、批次槽位和请求 ID 的分配，并核对暂停后的游标恢复。
+输入清单全部公开，输出由浏览器直接计算；它是计算演示，独立于十三组模型实测。
+边界与核验见 [随机流与请求身份](docs/sampling-state-2026-10-29.md)。
+
 当前十三组实测来源登记在 `src/experiment-sources.json`。学习、故障回放、
 初始化/宽度/Batch、分块交叉熵已重新运行，报告与原始工件保存在
 `artifacts/reproduced-20261028T115030Z/`。页面提供完整报告、源码与原始工件包、

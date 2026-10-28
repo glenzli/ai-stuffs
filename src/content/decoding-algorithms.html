@@ -15,4 +15,24 @@
     <div class="prose"><p>序列概率衡量模型赋予文本的概率，不直接等于任务正确性。这里宽度 2 能找到小树的最好路径，不能推广为任意规模下的全局最优保证。随机采样、greedy 和搜索有不同目标，评估时应固定预算与任务指标。</p></div>
     <div class="reading-links"><a href="inference-engine.html">Prefill、decode 与 KV</a><a href="efficient-inference.html">投机采样的验收条件</a><a href="uncertainty-calibration.html">概率、正确性与校准</a></div>
   </section>
+  <section class="section" aria-labelledby="sampling-state"><div class="section-heading"><span class="section-number">04 / RANDOM STREAMS</span><h2 id="sampling-state">同一个 seed，为什么请求换个批次就不一样？</h2><p>分布、取数位置与请求身份都需要对齐。先隔离随机数分配，再判断 logits 或数值计算是否发生变化。</p></div>
+    <p>seed 指向生成器初态，已经消费的随机状态还要另外保存。这里用可手算的 u 清单和游标展示分配过程：三个请求的分布始终固定，按 x、y、z 的顺序做上面的逆 CDF 采样；不计算模型 logits。</p>
+    <div class="compare-wrap"><table class="exact-small-table"><thead><tr><th>请求</th><th>p(x), p(y), p(z)</th><th>绑定该请求的三次 u</th></tr></thead><tbody><tr><th scope="row">A</th><td>0.20, 0.30, 0.50</td><td>0.12, 0.66, 0.23</td></tr><tr><th scope="row">B</th><td>0.50, 0.25, 0.25</td><td>0.87, 0.49, 0.72</td></tr><tr><th scope="row">C</th><td>0.10, 0.20, 0.70</td><td>0.34, 0.91, 0.05</td></tr></tbody></table></div>
+    <p>全局 u 清单为 <code>0.12, 0.87, 0.34, 0.66, 0.49, 0.91, 0.23, 0.72, 0.05</code>，特意与 ABC 顺序下的三条请求清单逐轮对齐。按槽位分配时，槽位 0/1/2 分别使用 A/B/C 这一列清单；请求结束后活动批次会紧凑排列。所有清单都为说明机制而指定，不是某个框架 seed 的实际输出，也不用于检验随机性或独立性。</p>
+    <details class="sampling-ledger" data-sampling-state><summary>展开随机流分配与恢复账本 · 固定分布计算演示</summary>
+      <p>先保留全局流并更换请求顺序，再切换到“按请求 ID”。也可以让 B 提前结束，观察槽位压缩；最后比较恢复游标和重置游标。</p>
+      <fieldset data-sampling-controls disabled><legend class="sr-only">随机流与恢复控制</legend>
+        <label>每轮请求顺序<select data-sampling-order><option>ABC</option><option>ACB</option><option>BAC</option><option>BCA</option><option>CAB</option><option selected>CBA</option></select></label>
+        <label>随机流归属<select data-sampling-allocation><option value="global">全局流：按执行顺序取数</option><option value="slot">按批次槽位：随压缩改变归属</option><option value="request">按请求 ID：保留各自游标</option></select></label>
+        <label>B 的输出预算<select data-sampling-finish><option value="3">输出三步</option><option value="1">输出一步后离开</option></select></label>
+        <label>何时暂停<select data-sampling-pause><option value="0">开始前</option><option value="1">已取一个数</option><option value="4" selected>已取四个数</option><option value="end">全部完成后</option></select></label>
+        <label>恢复随机状态<select data-sampling-recovery><option value="state">恢复保存的各流游标</option><option value="reset">重置各流游标，从初态开始</option></select></label>
+        <div class="step-actions"><button type="button" data-sampling-reset>恢复本例初始选项</button></div>
+      </fieldset>
+      <div data-sampling-view aria-live="polite"><p>启用 JavaScript 可切换调度并查看逐项账本；上面的概率和 u 清单也可直接手算。</p></div>
+    </details>
+    <div class="concept-pairs"><div><h3>先声明要复现的层次</h3><p>全局流按不同顺序分配，产生不同样本路径并不直接说明算法错误。若要求同一请求在批次重排后保持相同输出，应同时对齐分布、采样规则、请求到随机流的映射和当前状态。真实浮点计算仍可能受批次形状影响。</p></div><div><h3>接续运行要保存进度和状态</h3><p>重置游标类比从相同 seed 的初态重建生成器；恢复游标类比接续保存的随机状态。本例还保留当前事件位置与已输出前缀。真实引擎需要一起恢复采样器、已接受前缀和对应 KV，且同一请求的流不能被并发消费。</p></div></div>
+    <p>PyTorch 的 <a href="https://docs.pytorch.org/docs/2.9/generated/torch.Generator.html" target="_blank" rel="noopener noreferrer">Generator 文档</a>说明了随机状态的保存与恢复。此处的游标只是固定清单的状态表示；它不替代框架生成器状态，也不保证不同平台或采样器逐值一致。</p>
+    <div class="reading-links"><a href="position-cache.html#padding-real">先核对填充与缓存 logits</a><a href="reproducibility-lab.html">按首次差异定位复现问题</a><a href="model-artifacts.html#checkpoint-replay">恢复状态的职责</a></div>
+  </section>
 </div>

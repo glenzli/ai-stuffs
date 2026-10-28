@@ -1,5 +1,6 @@
 // References describe specific mechanisms; they are not claims of current rankings.
 export const sources = {
+  generator29: { title: "PyTorch 2.9 · Generator", url: "https://docs.pytorch.org/docs/2.9/generated/torch.Generator.html", note: "2026-10-29 核对生成器管理随机算法状态及 get_state/set_state；本站随机流账本采用人为指定的 u 清单，不模拟某个框架 seed 的输出" },
   ngramLM: { title: "Jurafsky & Martin · N-gram Language Models (2026 draft)", url: "https://web.stanford.edu/~jurafsky/slp3/3.pdf", note: "2026-10-29 核对作者教材的计数语言模型、独立验证与预测评价；本站使用相同冻结 BPE 的 unigram/bigram 加法平滑基线" },
   bgeSmallZh: { title: "BAAI · bge-small-zh-v1.5, revision 7999e1d", url: "https://huggingface.co/BAAI/bge-small-zh-v1.5/tree/7999e1d3359715c523056ef9478215996d62a620", note: "固定发布者权重版本与 LFS SHA-256；2026-10-29 核对模型卡的 CLS、L2 归一化和仅查询加检索指令；不引用旧排行榜作为本轮成绩" },
   rrf: { title: "Cormack, Clarke & Büttcher · Reciprocal Rank Fusion (SIGIR 2009)", url: "https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf", note: "2026-10-29 核对名次倒数求和与常数 60；本站只在固定 Flat top-10 内融合排序，不复现论文 TREC 结果" },
@@ -149,7 +150,7 @@ export const pageEvidence = {
   "attention-kernels": { scope: "入门为一行六分数；反向为五位置二维 Q/K/V、固定上游 G，无 dropout。分块重建与完整参考及 PyTorch autograd 核对；全屏蔽行显式取零。账本排除界面快照，不实现 GPU kernel。", refs: ["flash", "numericalAccuracy", "attention", "torch29Autograd"] },
   "distributed-execution": { scope: "两 rank MLP 与六类词表 CE 使用固定数值，输出和梯度与未分片参考核对。集合通信显示逻辑数据排列；不运行通信库或估算网络耗时。", refs: ["megatron", "nccl", "autogradMechanics", "vocabCE"] },
   "activation-checkpointing": { scope: "六层链使用逻辑激活账本。梯度缓存另用 4 对样本、3→4→2 编码器、tanh 与明确伪随机 dropout；与相同分块轨迹的保留图参考比较。Python 另验真实 dropout。隐藏量计数不包含全部物理分配。", refs: ["activationCheckpoint", "gradCache", "torch29Autograd", "numericalAccuracy"] },
-  "decoding-algorithms": { scope: "固定六 token 词表，mask→温度→Top-k→Top-p。语法仅接受两条 JSON 文本的前缀；Beam 为两步等长小树。非完整 grammar 引擎，不预测模型质量。", refs: ["generationStrategies", "xgrammar", "speculative"] },
+  "decoding-algorithms": { scope: "固定六 token 解码词表与两步 Beam 小树；语法仅接受两条 JSON 文本的前缀。随机流账本用三个请求、固定概率和指定 u 清单隔离分配与恢复，不是模型实测，不声明随机性质量或跨框架逐值一致。", refs: ["generationStrategies", "xgrammar", "speculative", "randomness29", "generator29"] },
   "uncertainty-calibration": { scope: "10 条分数与真值、6 条语义输出都为人工设定。阈值只改变回答集合；Brier/ECE 使用全体样本。经验语义熵使用人工簇的次数比例，不复现全部论文估计器。", refs: ["calibration", "semanticEntropy", "agentEvals"] },
   "continual-learning": { scope: "两任务都是二维二次损失，每次从原点更新一步。对称投影是 PCGrad 思路的简例；方向、损失和曲率可精算，不能外推大模型遗忘或长期收敛。", refs: ["pcgrad", "ewc", "opd", "lora"] },
   "learning-mechanisms": { scope: "归纳电路采用固定规则和二分类 logits，未加载或训练 Transformer。特征、SAE 与干预分别介绍方法；手工电路上的消融不能证明真实模型使用相同路径。", refs: ["induction", "superposition", "tracing", "faithful"] },

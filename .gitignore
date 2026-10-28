@@ -125,3 +125,7 @@ __pycache__/
 # Reviewed readiness diagnostics; no numerical experiment output is added here.
 !/artifacts/preflight-20261029121035Z/
 !/artifacts/preflight-20261029121035Z/**
+
+# Fixed-distribution sampling ledger validation, separate from model measurements.
+!/artifacts/sampling-state-20261029134939Z/
+!/artifacts/sampling-state-20261029134939Z/**
