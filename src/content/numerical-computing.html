@@ -32,4 +32,26 @@
     <div class="concept-pairs"><div><h3>裁剪阈值必须对应还原后的梯度</h3><p>原梯度 [3,4] 的范数是 5，阈值 1 给出 [0.6,0.8]。若 scale=8 时先裁剪 [24,32]，再除以 8，只得到 [0.075,0.1]。相同阈值被应用到了不同尺度。</p></div><div><h3>一个累积窗口使用同一 scale</h3><p>若两份贡献分别乘 S₁、S₂，最后统一除以 S₂，第一份贡献会额外乘 S₁/S₂。只有完成当前窗口，才能为后续窗口更改 scale。</p></div><div><h3>跳步与调度器计数一起记录</h3><p>溢出窗口仍消耗数据和计算，但本例不会更新参数或推进学习率计数。实际训练器可能按尝试次数、成功更新或 token 数调度，恢复时应保存相同口径。</p></div><div><h3>还原梯度后仍可能丢失小更新</h3><p>scale 能帮助微小梯度在低精度中存活，参数写回仍受参数格式的间距限制。autocast 管理算子精度，scaler 管理梯度尺度；是否另存 master 权重由训练器决定。</p></div></div>
     <div class="reading-links"><a href="optimization-dynamics.html">AdamW 的状态与位移</a><a href="parallel-correctness.html">全局目标与梯度累积</a><a href="model-artifacts.html#checkpoint-replay">保存与恢复更新状态</a></div>
   </section>
+  <section class="section" aria-labelledby="native-low-precision"><div class="section-heading"><span class="section-number">05 / NATIVE LOW PRECISION</span><h2 id="native-low-precision">FP4 原生训练，要逐项指定哪些计算？</h2></div>
+    <p>Nemotron 3 Super 的公开配方把大部分线性层放入 NVFP4 训练路径，同时让不同部件保留其他精度。读“FP4 训练”时，需要分别查前向乘法、输入梯度、权重梯度、累加、归约、参数写回与优化器状态；模型名称中的位宽不能替代这份账本。</p>
+    <div class="compare-wrap"><table><thead><tr><th>固定版本中的层类型</th><th>报告格式</th><th>需要理解的选择</th></tr></thead><tbody>
+      <tr><td>未另行列出的线性层</td><td>NVFP4</td><td>前向、输入梯度与权重梯度 GEMM 采用低位路径。</td></tr>
+      <tr><td>末段 15%、latent / MTP、QKV / attention 投影与 embedding</td><td>BF16</td><td>按部件保留数值精度，具体名单以配方为准。</td></tr>
+      <tr><td>Mamba 输出投影</td><td>MXFP8</td><td>报告将这一选择与较小规模实验中观察到的下溢联系起来。</td></tr>
+    </tbody></table></div>
+    <p>Transformer Engine 2.16 的 NVFP4 说明使用 E2M1 元素和两层缩放：一维块含 16 个元素，块 scale 为 E4M3，整个张量另有 FP32 scale。其默认权重配方使用 16×16 的二维缩放；激活与梯度的缩放方向需对应 GEMM 的归约轴。</p>
+    <figure class="math-block"><div class="math-display" data-math>\widehat x=e_{\mathrm{E2M1}}\,s_{\mathrm{block}}\,s_{\mathrm{global}}</div><figcaption>元素、局部 scale 与全局 scale 共同决定还原值。E2M1 的非负数值为 0、0.5、1、1.5、2、3、4、6；元数据、对齐与实际 kernel 布局还会影响存储成本。</figcaption></figure>
+    <div class="concept-pairs"><div><h3>前向与反向需要兼容的表示</h3><p>线性层前向、dX 和 dW 使用不同转置与归约方向。报告为权重采用二维缩放来保持相关量化表示的一致性；不能把对一个方向量化后转置，与按另一个方向重新量化视为同一数值操作。</p></div><div><h3>稳定训练还依赖其他配方</h3><p>公开说明还包含随机 Hadamard 变换与梯度随机舍入。应核对它们作用在哪类张量、随机状态怎样保存、缩放状态怎样恢复，再测误差、下溢和独立任务结果。不能从单个张量的 MSE 推出完整模型的训练收益。</p></div></div>
+    <h3>固定 32 个数，只看缩放范围的影响</h3>
+    <p>构造激活 x=[6，15 个 1，16 个 0.1]，固定线性层的 32 个权重全为 1，y=Σwᵢx̂ᵢ。简化计算只做 E2M1 最近值舍入，分别让 32 个数共用 scale，或每 16 个数共用 scale。</p>
+    <figure class="math-block"><div class="math-display" data-math>s_B=\frac{\max_{i\in B}|x_i|}{6},\qquad \widehat x_i=s_B\,\operatorname{RN}_{\mathrm{E2M1}}(x_i/s_B)</div><figcaption>零块取 scale=1；等距时取幅度较小的值。本例使用高精度 scale，不模拟 E4M3 scale 舍入、FP32 全局 scale、二维权重量化、Hadamard 变换或随机舍入，属于缩放教具，非完整 NVFP4 实现。</figcaption></figure>
+    <div class="compare-wrap"><table data-fp4-scaling-example><thead><tr><th>计算方案</th><th>本例 scale</th><th>输出 y</th><th>dW 最大绝对误差</th></tr></thead><tbody>
+      <tr><td>高精度输入参考</td><td>无量化</td><td>22.600000</td><td>0.000000</td></tr>
+      <tr><td>32 个数共用 scale</td><td>1</td><td>21.000000</td><td>0.100000</td></tr>
+      <tr><td>每 16 个数共用 scale</td><td>1 / 0.016667</td><td>22.600000</td><td>0.000000</td></tr>
+    </tbody></table></div>
+    <p class="experiment-note">外部上游梯度固定为 1；量化后的激活作为常量，因此 dWᵢ=x̂ᵢ，可对每个权重做有限差分。这里没有对舍入函数使用直通估计器。分块在这组输入中保留了后 16 个小值，不证明其他数据或模型质量必然改善，也没有测量低位硬件速度。</p>
+    <p class="source-note">一手依据：<a href="https://github.com/NVIDIA-NeMo/Nemotron/blob/99a7e45302f486c7e104647c128c2962ae7695d6/docs/nemotron/super3/pretrain.md">Nemotron 3 Super 固定配方 99a7e45</a>、<a href="https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Super-Technical-Report.pdf">技术报告第 2.2 节与表 3</a>，格式和缩放机制绑定 <a href="https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.16/user-guide/examples/fp8_primer.html">Transformer Engine 2.16</a>。公开配方同时说明部分预训练数据未发布；本站未重建其训练数据链或执行 GPU 训练。</p>
+    <div class="reading-links"><a href="rl-posttraining.html#rollout-correction">重算这组数据与采样校正</a><a href="quantized-linear.html">整数与低位权重的线性层计算</a><a href="model-artifacts.html#checkpoint-replay">精度与恢复状态</a></div>
+  </section>
 </div>

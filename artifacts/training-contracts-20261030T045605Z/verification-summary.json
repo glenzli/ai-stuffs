@@ -1,0 +1,104 @@
+{
+  "baseCommit": "24c679c80e056cbc365c3146ae16953a8abe24c8",
+  "uncommitted": true,
+  "pushed": false,
+  "node": "v24.13.0",
+  "scope": "Three mechanisms integrated into existing topics with manually supplied fixed-input examples; no vendor model training reproduction.",
+  "build": {
+    "pages": 66,
+    "scripts": 114,
+    "styles": 44,
+    "equations": 151,
+    "log": "build.log"
+  },
+  "tests": {
+    "passed": 48,
+    "log": "node-focused.log",
+    "command": "node --test scripts/test-content.mjs scripts/test-reading.mjs scripts/test-policy-workflows.mjs scripts/test-math.mjs"
+  },
+  "arithmetic": {
+    "rlFiniteDifferences": 12,
+    "linearWeightFiniteDifferences": 96,
+    "authoredTables": 3,
+    "script": "check-mechanisms.mjs",
+    "inputs": "inputs.json",
+    "results": "results.json",
+    "boundary": "Manually supplied distributions, activations and rubric judgements. No model, judge API, GPU kernel or vendor training run."
+  },
+  "primarySources": {
+    "entries": 6,
+    "ledger": "primary-sources.json",
+    "checkedAt": "2026-10-30",
+    "method": "Manual source-to-claim review; official repository commits, TE release 2.16 and RaR v2 fixed."
+  },
+  "browser": {
+    "changedPages": 4,
+    "layouts": 24,
+    "widths": [
+      1024,
+      768,
+      390
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "pageOverflows": 0,
+    "mathErrors": 0,
+    "navigationTargets": 3,
+    "searchQueries": 3,
+    "consoleWarningsAndErrors": 0,
+    "mobileTableScroll": {
+      "before": {
+        "clientWidth": 358,
+        "scrollLeft": 0,
+        "scrollWidth": 650,
+        "x": 195,
+        "y": 451.75390625
+      },
+      "after": {
+        "clientWidth": 358,
+        "pageOverflow": 0,
+        "scrollLeft": 292,
+        "scrollWidth": 650
+      }
+    },
+    "themeRestored": "light",
+    "viewportReset": true
+  },
+  "experiments": {
+    "baseCommit": "24c679c80e056cbc365c3146ae16953a8abe24c8",
+    "groups": 13,
+    "pinnedFiles": 57,
+    "manifestSha256": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+    "allPinnedBytesMatch": true,
+    "manifestUnchanged": true
+  },
+  "sourceInputs": {
+    ".gitignore": "d05adbae3266c6ef7c3ad97fdbdad3ab0695fe0b0018396429e857ddcc3ced99",
+    "README.md": "2c91e2085a189d0a0f2b4eee1b498af83a1f0e1b3bac15235889fe11570f14f3",
+    "src/content/posttraining.html": "bfb22f742fc7db6c8e959dbc50c9c38f3536b0c405ecf7701856dd6c47625b34",
+    "src/content/rl-posttraining.html": "678109dbdf7d4686f748483fedc4e7c14f232e3c1c3f52dae01636496846c003",
+    "src/content/numerical-computing.html": "359b62667541442bb37cdfa758849ae5a9b90a0fc6709e8c298af05b75a27b75",
+    "src/content/model-evaluation.html": "5f9a2874bd2daa05bd7993124aba25bf1f281e1b22a43f9d605d5d067e810864",
+    "src/references.mjs": "2ee86a797ea280b34cfd15438ff6a0462026139ff73617b7ebbe99768ec61469",
+    "src/search.mjs": "10c621789576dd316f7be9d6ce77c7c0a3e6a0d63ef99d68bf7b3366870dc190",
+    "docs/training-contracts-2026-10-30.md": "c1c19b1bde3c84ae3fd1c67e7474a5da1f7cce3c9d03509b354f3d88ebb3beaa",
+    "artifacts/training-contracts-20261030T045605Z/inputs.json": "ffaf16e6c002055ab289de80ece7b8a18c91399eb22ad6817b35c2fb892b7f01",
+    "artifacts/training-contracts-20261030T045605Z/check-mechanisms.mjs": "c9822b33541efb0b23c9b6ef72df378bbad2ece06d268e4daf39d1daf59b31b2",
+    "artifacts/training-contracts-20261030T045605Z/primary-sources.json": "8a42fc24afdf0e39c0c40e62aaeb1e767093ea8e971aeb5f6605009f6c4a0e5d"
+  },
+  "builtInputs": {
+    "posttraining.html": "9ea91ebd5cbcca9eca673ce4a4370af8721679ef88d4b038c735d55eb0172c8b",
+    "rl-posttraining.html": "ab6bcc7cef43f082831a38a47c926ecb83402177bd726affeda342bd3080f886",
+    "numerical-computing.html": "b68d3ea9b78595612fd1f6f7762574ef02f7294afe3206d25e37071c6007e1d9",
+    "model-evaluation.html": "f94bd332a1f47b2406299e2ecb8d0ca736ed01030fbb2be30e6501fad12a8186"
+  },
+  "screenshots": [
+    "native-low-precision-desktop.png",
+    "rollout-correction-desktop.png",
+    "rubric-rewards-desktop.png",
+    "rubric-rewards-mobile-dark.png",
+    "rubric-table-mobile.png"
+  ]
+}

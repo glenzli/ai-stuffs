@@ -190,6 +190,29 @@ J(\theta)&amp;=\mathbb E_{y\sim\pi_\theta(\cdot\mid x)}[R(y)]\\
       <div class="reading-links"><a href="distillation-data.html#on-policy-distillation">学生 rollout 与教师信号</a><a href="training-environments.html#harnessed-rl">真实 harness 怎样进入训练</a><a href="agents-context.html#memory-compression">长轨迹的上下文管理</a></div>
     </section></div>
     <div class="modern-page">
+    <section class="section" aria-labelledby="rollout-correction">
+      <div class="section-heading"><span class="section-number">CASE / THREE POLICIES</span><h2 id="rollout-correction">权重相同，采样与训练的概率为什么还会不同？</h2></div>
+      <p>推理引擎与训练器可能使用不同精度、kernel 和概率处理流程。即使 checkpoint 相同，也要核对实际采样分布与训练侧重算的 log-prob；温度、top-p、语法约束和 token 前缀都属于这项检查。只保存权重版本，不能确定采样时的概率。</p>
+      <div class="compare-wrap"><table><thead><tr><th>策略</th><th>本节记号</th><th>在当前批次中的职责</th></tr></thead><tbody>
+        <tr><td>实际采样策略</td><td>q / rollout</td><td>产生动作和观测到的采样 log-prob，更新时固定。</td></tr>
+        <tr><td>裁剪参考策略</td><td>p / proximal</td><td>作为 PPO 比率的参考，当前批次内固定；与用于 KL 的 reference model 分别记录。</td></tr>
+        <tr><td>当前训练策略</td><td>πθ / current</td><td>随参数更新，梯度沿它的概率计算。</td></tr>
+      </tbody></table></div>
+      <figure class="math-block"><div class="math-display" data-math>w(a)=\frac{p(a)}{q(a)},\qquad r_\theta(a)=\frac{\pi_\theta(a)}{p(a)},\qquad J_w(\theta)=\sum_a q(a)w(a)r_\theta(a)A(a)</div><figcaption>先固定一个上下文，令所有动作的 p、q 均为正，A 为外部给定且不对 θ 求导。这里暂不加 PPO 裁剪或 KL；w 固定，r 随 θ 改变。</figcaption></figure>
+      <figure class="math-block"><div class="math-display" data-math>\sum_a q(a)\frac{p(a)}{q(a)}\frac{\pi_\theta(a)}{p(a)}A(a)=\sum_a\pi_\theta(a)A(a)</div><figcaption>逐项约去 p、q，就恢复了这个固定上下文的动作期望。仅做当前 token 的比率校正，不会自动恢复多步轨迹的状态或前缀分布。</figcaption></figure>
+      <p>下面穷举两个动作：q=[0.8,0.2]，p=[0.6,0.4]，πθ=[0.55,0.45]，A=[1,−1]，所以 w=[0.75,2]。θ 是动作 a 的 logit，动作 b 的 logit 固定为 0。对目标求导时，q、p、A 和下表各项权重都保持不变。</p>
+      <div class="compare-wrap"><table data-rollout-correction-example><thead><tr><th>处理方式</th><th>实际使用的权重</th><th>目标 J</th><th>∂J / ∂θ</th></tr></thead><tbody>
+        <tr><td>忽略采样差异</td><td>1 / 1</td><td>0.508333</td><td>0.453750</td></tr>
+        <tr><td>完整比率</td><td>0.75 / 2</td><td>0.100000</td><td>0.495000</td></tr>
+        <tr><td>TIS：权重上限 1.5</td><td>0.75 / 1.5</td><td>0.212500</td><td>0.433125</td></tr>
+        <tr><td>RS：丢弃 w&gt;1.5 的项</td><td>0.75 / 0</td><td>0.550000</td><td>0.247500</td></tr>
+      </tbody></table></div>
+      <p class="experiment-note">TIS 改变权重，RS 改变保留项；这两个阈值只用于本例。RS 行仍按原 q 取期望，保留的概率质量为 0.8，没有按保留项重新归一。四行都没有执行 PPO 裁剪；其对 r 的限制与这里对 w 的处理需要分别理解。</p>
+      <div class="concept-pairs"><div><h3>截断以偏差换取更受控的权重</h3><p>表中完整比率恢复本例的目标和梯度，上限或 mask 则改变了它们。长序列的比率连乘、逐 token 处理和几何均值筛选具有不同含义；需要同时报告权重尾部、有效样本量、拒绝率、回答长度与独立质量。</p></div><div><h3>支持集与概率口径是前提</h3><p>若 q 对目标策略仍可能选择的动作给出零概率，已有样本无法靠除法补回该动作。top-p 等筛选后的采样 log-prob、筛选前模型概率和训练器重算值必须标明，不能混用。两策略 bypass 模式将裁剪参考设为实际采样策略，也应明确记录。</p></div></div>
+      <p class="source-note">机制依据：<a href="https://github.com/verl-project/verl/blob/8acd940f1e2feb3438f01be082881a91a3f4844a/docs/algo/rollout_corr_math.md">verl 固定版本 8acd940 的三策略说明</a>与<a href="https://github.com/verl-project/verl/blob/8acd940f1e2feb3438f01be082881a91a3f4844a/docs/algo/rollout_corr.md">IS / RS 使用文档</a>。本表为人工分布上的精确求和和有限差分核验，未运行 vLLM、FSDP 或模型训练。</p>
+      <details><summary>重算本轮的三个固定输入例子</summary><p>在仓库根目录运行：同时检查这里的梯度、简化 FP4 缩放和人工 rubric 的表格值。</p><pre class="decision-code"><code>node artifacts/training-contracts-20261030T045605Z/check-mechanisms.mjs</code></pre></details>
+      <div class="reading-links"><a href="numerical-computing.html#native-low-precision">低位计算怎样改变数值</a><a href="rl-update.html">PPO 裁剪与 KL 的参数梯度</a><a href="model-evaluation.html#rubric-rewards">评分怎样形成奖励</a></div>
+    </section>
     <section class="section" aria-labelledby="self-feedback">
       <div class="section-heading"><span class="section-number">CASE / FEEDBACK SOURCES</span><h2 id="self-feedback">Self-Feedback RL：模型的反馈怎样进入训练？</h2></div>
       <p class="section-note">先分清反馈来源与参数是否更新，再判断一项公开技术披露到了哪一步。</p>

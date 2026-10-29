@@ -137,3 +137,7 @@ __pycache__/
 # Primary-source audit and fixed-input arithmetic for recent training techniques.
 !/artifacts/training-research-20261030T033831Z/
 !/artifacts/training-research-20261030T033831Z/**
+
+# Fixed-input evidence for rollout correction, FP4 scaling and rubric rewards.
+!/artifacts/training-contracts-20261030T045605Z/
+!/artifacts/training-contracts-20261030T045605Z/**

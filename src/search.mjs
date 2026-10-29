@@ -20,7 +20,7 @@ export const searchMetadata = {
   "backpropagation.html": { summary: "整层计算图、有限差分，以及独立 PyTorch 自动微分、更新与恢复对照", terms: "backprop VJP backward jacobian matrix gradient rmsnorm swiglu attention chain rule pytorch autograd framework cpu gloo 反向传播 梯度 计算图 雅可比 有限差分 整层 框架 对照 实验", priority: 10 },
   "packing-correctness.html": { summary: "多轮对话到 token、labels 与 mask；独立 packing、padding、跨样本泄漏及重复 shift 的数值对照", terms: "sft packing padding labels shift mask position ids chat template assistant eos bos 截断 零标签 多轮 模板 样本隔离 监督 边界", priority: 10 },
   "lora-mechanics.html": { summary: "LoRA 前向、A/B 与输入梯度、零初始化、更新、量化底座和合并输出核验", terms: "lora qlora adapter gradient merge frozen detach no_grad initialization int4 quantization 低秩 冻结 梯度 初始化 合并 底座 量化", priority: 10 },
-  "numerical-computing.html": { summary: "浮点舍入、稳定 softmax，以及梯度缩放、累积、裁剪、溢出跳步的完整更新", terms: "float fp16 bf16 fp32 ULP numerical stable softmax logsumexp AMP scaler unscale clipping overflow accumulation 数值 浮点 舍入 下溢 上溢 累加 NaN 精度 混合精度 梯度缩放 跳步 更新", priority: 10 },
+  "numerical-computing.html": { summary: "浮点舍入、稳定归一化、完整混合精度更新与 NVFP4 原生训练", terms: "float fp16 bf16 fp32 ULP numerical stable softmax logsumexp AMP scaler unscale clipping overflow accumulation 数值 浮点 舍入 下溢 上溢 累加 NaN 精度 混合精度 梯度缩放 跳步 更新 FP4 NVFP4 E2M1 E4M3 MXFP8 原生训练 块缩放 Nemotron Super", priority: 10 },
   "attention-kernels.html": { summary: "在线前向与分块反传：LSE 保存、概率重建、dQ/dK/dV 累加和成本账本", terms: "FlashAttention tile online softmax attention kernel block SRAM HBM backward LSE logsumexp dq dk dv 分块 在线 归一化 反向 重缩放 重算 空行 梯度累加", priority: 10 },
   "distributed-execution.html": { summary: "两卡列行分片的前后向张量和四种集合通信", terms: "TP tensor parallel column row allreduce allgather reducescatter alltoall nccl 张量并行 多卡 分片 行并行 列并行 通信 vocab parallel cross entropy 词表并行 目标token 归约", priority: 10 },
   "activation-checkpointing.html": { summary: "激活重算与全局负例梯度缓存：表示梯度、RNG 重放、参数 VJP 和保存量", terms: "activation checkpointing rematerialization recompute lifetime RNG GradCache gradient cache VJP 激活 重算 检查点 生命周期 峰值 内存 dropout 梯度缓存 全局负例 随机状态", priority: 10 },
@@ -76,8 +76,8 @@ export const searchMetadata = {
     "priority": 8
   },
   "model-evaluation.html": {
-    "summary": "指标、判分器误差，以及公开训练声明的核验",
-    "terms": "eval evaluation metric recall mrr ndcg f1 contamination confidence generalization early stopping 泛化 训练好了 过拟合 停止 评估 judge grader pass^k pass@k 判分器 混淆矩阵 可靠性 harness 训练声明 一手来源 披露边界 复现",
+    "summary": "指标、判分器误差、RaR 奖励聚合与公开训练声明核验",
+    "terms": "eval evaluation metric recall mrr ndcg f1 contamination confidence generalization early stopping 泛化 训练好了 过拟合 停止 评估 judge grader pass^k pass@k 判分器 混淆矩阵 可靠性 harness 训练声明 一手来源 披露边界 复现 Rubrics as Rewards RaR Scale 显式 隐式 评分标准 权重 聚合",
     "priority": 8
   },
   "posttraining.html": {
@@ -86,8 +86,8 @@ export const searchMetadata = {
     "priority": 8
   },
   "rl-posttraining.html": {
-    "summary": "PPO/GRPO、自反馈、GSPO/SAPO 与 QwenGyre 长轨迹训练",
-    "terms": "rlhf ppo grpo rlvr reward hacking verifier rlaif preference dapo areal entropy staleness off-policy old behavior 策略 异步 裁剪 熵 陈旧度 全对 全错 Self-Feedback RLSF 自反馈 DeepSeek GSPO SAPO QwenGyre 门控 弹性 调度",
+    "summary": "PPO/GRPO、自反馈、三策略采样校正、GSPO/SAPO 与长轨迹训练",
+    "terms": "rlhf ppo grpo rlvr reward hacking verifier rlaif preference dapo areal entropy staleness off-policy old behavior 策略 异步 裁剪 熵 陈旧度 全对 全错 Self-Feedback RLSF 自反馈 DeepSeek GSPO SAPO QwenGyre 门控 弹性 调度 rollout correction importance sampling TIS RS verl proximal bypass 采样校正 三策略 分布差异 重要性采样",
     "priority": 8
   },
   "architecture-variants.html": {

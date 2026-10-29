@@ -1,0 +1,67 @@
+{
+  "schema": "training-contracts-primary-sources-v1",
+  "checkedAt": "2026-10-30",
+  "auditMethod": "Manual source-to-claim review. Pinned official documentation or paper versions; arithmetic checks do not establish the truth of vendor training claims.",
+  "sources": [
+    {
+      "id": "rollout-math",
+      "owner": "verl-project/verl",
+      "url": "https://github.com/verl-project/verl/blob/8acd940f1e2feb3438f01be082881a91a3f4844a/docs/algo/rollout_corr_math.md",
+      "version": "8acd940f1e2feb3438f01be082881a91a3f4844a, 2026-02-24",
+      "locator": "Sections 1.3 and 2, three-policy formulation; inspected source lines 105-170",
+      "supports": ["Behavior, proximal and current policies have distinct roles", "The proximal/behavior weight is frozen for a batch", "The current/proximal ratio is the PPO clipping ratio"],
+      "boundary": "The local two-action calculation omits PPO clipping and KL and fixes the context. It does not prove multi-step state or prefix-distribution correction.",
+      "destination": "rl-posttraining.html#rollout-correction"
+    },
+    {
+      "id": "rollout-usage",
+      "owner": "verl-project/verl",
+      "url": "https://github.com/verl-project/verl/blob/8acd940f1e2feb3438f01be082881a91a3f4844a/docs/algo/rollout_corr.md",
+      "version": "8acd940f1e2feb3438f01be082881a91a3f4844a",
+      "locator": "Overview, IS/RS components and decoupled/bypass operation modes",
+      "supports": ["Identical weights may yield different backend or precision probabilities", "IS weights and rejection masks are separate components", "Bypass mode uses the actual rollout policy as proximal policy"],
+      "boundary": "Threshold 1.5 and the displayed distributions are author-supplied. No recommendation of an optimal threshold and no execution of verl, vLLM or FSDP.",
+      "destination": "rl-posttraining.html#rollout-correction"
+    },
+    {
+      "id": "nvfp4-guide",
+      "owner": "NVIDIA Transformer Engine",
+      "url": "https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.16/user-guide/examples/fp8_primer.html",
+      "version": "release 2.16.0",
+      "locator": "Beyond FP8 - training with NVFP4; format and training recipe subsections",
+      "supports": ["E2M1 values, E4M3 block scales and FP32 per-tensor scale", "16-element 1D blocks and 16x16 weight scaling", "Random Hadamard transforms and gradient stochastic rounding"],
+      "boundary": "The local example uses high-precision scales and nearest E2M1 levels only. It is not an NVFP4 encoder, complete training recipe or hardware kernel.",
+      "destination": "numerical-computing.html#native-low-precision"
+    },
+    {
+      "id": "super-recipe",
+      "owner": "NVIDIA-NeMo/Nemotron",
+      "url": "https://github.com/NVIDIA-NeMo/Nemotron/blob/99a7e45302f486c7e104647c128c2962ae7695d6/docs/nemotron/super3/pretrain.md",
+      "version": "99a7e45302f486c7e104647c128c2962ae7695d6",
+      "locator": "NVFP4 Pretraining layer table and Open-source data coverage; inspected source lines 70-155",
+      "supports": ["Default linear layers use NVFP4 with explicit BF16 and MXFP8 exceptions", "The released pretraining data does not cover the complete internal training blend"],
+      "boundary": "This is a versioned model recipe, not a universal precision rule. No full corpus reconstruction or GPU model training was performed.",
+      "destination": "numerical-computing.html#native-low-precision"
+    },
+    {
+      "id": "super-report",
+      "owner": "NVIDIA",
+      "url": "https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Super-Technical-Report.pdf",
+      "version": "PDF header 2026-04-03, checked 2026-10-30; URL is publisher-maintained, not a content-addressed archive",
+      "locator": "Section 2.2, Table 3",
+      "supports": ["Low-precision fprop, dgrad and wgrad GEMMs", "2D weight scaling and 1D activation/gradient scaling", "Random Hadamard transforms on wgrad inputs and stochastic rounding for gradients"],
+      "boundary": "Vendor training findings and performance are not local measurements. The recipe commit and TE release provide fixed companion references.",
+      "destination": "numerical-computing.html#native-low-precision"
+    },
+    {
+      "id": "rubrics-as-rewards",
+      "owner": "Scale AI paper authors",
+      "url": "https://arxiv.org/html/2507.17746v2",
+      "version": "v2, 2025-10-03",
+      "locator": "Sections 2-3, equations 1-2, section 9",
+      "supports": ["Explicit weighted aggregation and holistic implicit judge scoring are distinct", "Reference-guided prompt-specific rubrics feed a GRPO loop", "Medicine and science are the controlled domains; broader agentic validation remains future work"],
+      "boundary": "The local criteria, binary judgements and nonnegative weights are invented teaching inputs. No implicit judge API calls, GRPO run, benchmark replication or claim that explicit aggregation is universally best.",
+      "destination": "model-evaluation.html#rubric-rewards"
+    }
+  ]
+}

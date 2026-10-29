@@ -1,0 +1,20 @@
+[
+  {
+    "from": "posttraining.html#recent-training",
+    "heading": "权重相同，采样与训练的概率为什么还会不同？",
+    "headingTop": 92.015625,
+    "url": "http://127.0.0.1:4173/rl-posttraining.html#rollout-correction"
+  },
+  {
+    "from": "posttraining.html#recent-training",
+    "heading": "FP4 原生训练，要逐项指定哪些计算？",
+    "headingTop": 92.234375,
+    "url": "http://127.0.0.1:4173/numerical-computing.html#native-low-precision"
+  },
+  {
+    "from": "posttraining.html#recent-training",
+    "heading": "评分标准怎样变成 RL 奖励？",
+    "headingTop": 91.9453125,
+    "url": "http://127.0.0.1:4173/model-evaluation.html#rubric-rewards"
+  }
+]

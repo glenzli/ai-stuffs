@@ -1,0 +1,35 @@
+[
+  {
+    "query": "rollout correction",
+    "owner": "rl-posttraining.html",
+    "matches": [
+      {
+        "text": "RL 后训练机制\nPPO/GRPO、自反馈、三策略采样校正、GSPO/SAPO 与长轨迹训练",
+        "href": "rl-posttraining.html"
+      }
+    ],
+    "ownerFound": true
+  },
+  {
+    "query": "NVFP4",
+    "owner": "numerical-computing.html",
+    "matches": [
+      {
+        "text": "浮点数与数值稳定性\n浮点舍入、稳定归一化、完整混合精度更新与 NVFP4 原生训练",
+        "href": "numerical-computing.html"
+      }
+    ],
+    "ownerFound": true
+  },
+  {
+    "query": "Rubrics as Rewards",
+    "owner": "model-evaluation.html",
+    "matches": [
+      {
+        "text": "模型评估方法论\n指标、判分器误差、RaR 奖励聚合与公开训练声明核验",
+        "href": "model-evaluation.html"
+      }
+    ],
+    "ownerFound": true
+  }
+]

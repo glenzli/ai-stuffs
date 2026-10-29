@@ -1,0 +1,36 @@
+{
+  "schema": "training-contracts-inputs-v1",
+  "boundary": "Manually supplied distributions, activations and rubric judgements. No model, judge API, GPU kernel or vendor training run.",
+  "rollout": {
+    "actions": ["a", "b"],
+    "sampling": [0.8, 0.2],
+    "proximal": [0.6, 0.4],
+    "current": [0.55, 0.45],
+    "advantages": [1, -1],
+    "threshold": 1.5,
+    "parameter": "logit(a), with logit(b) fixed at zero",
+    "normalization": "Expectation under the original sampling distribution; no renormalization after masking.",
+    "omitted": ["PPO clipping", "KL penalty", "state-distribution correction", "multi-step prefix correction", "model rollout"]
+  },
+  "fp4": {
+    "activations": [6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+    "weight": 1,
+    "upstreamGradient": 1,
+    "nonnegativeLevels": [0, 0.5, 1, 1.5, 2, 3, 4, 6],
+    "blockSizes": [32, 16],
+    "scale": "max(abs(block))/6; use 1 for a zero block",
+    "tieRule": "Choose smaller magnitude at equal distance.",
+    "omitted": ["E4M3 scale rounding", "FP32 global scale encoding", "2D weight quantization", "Hadamard transforms", "stochastic rounding", "low-precision GEMM", "GPU timings", "straight-through gradient"]
+  },
+  "rubric": {
+    "criteria": ["事实正确", "覆盖需求", "表达清楚"],
+    "schemes": {"A": [4, 2, 1], "B": [1, 2, 2]},
+    "candidates": [
+      {"label": "事实正确但简短", "checks": [1, 0, 0]},
+      {"label": "覆盖与表达好，但事实错误", "checks": [0, 1, 1]},
+      {"label": "三项均满足", "checks": [1, 1, 1]}
+    ],
+    "judgeError": {"candidateIndex": 1, "criterionIndex": 0, "replacement": 1},
+    "boundary": "Nonnegative weights with positive total; all checks supplied by the author, not measured from an LLM judge. No implicit score or GRPO reproduction."
+  }
+}

@@ -1,0 +1,487 @@
+{
+  "schema": "training-contracts-results-v1",
+  "passed": true,
+  "boundary": "Manually supplied distributions, activations and rubric judgements. No model, judge API, GPU kernel or vendor training run.",
+  "rollout": {
+    "inputs": {
+      "actions": [
+        "a",
+        "b"
+      ],
+      "sampling": [
+        0.8,
+        0.2
+      ],
+      "proximal": [
+        0.6,
+        0.4
+      ],
+      "current": [
+        0.55,
+        0.45
+      ],
+      "advantages": [
+        1,
+        -1
+      ],
+      "threshold": 1.5,
+      "parameter": "logit(a), with logit(b) fixed at zero",
+      "normalization": "Expectation under the original sampling distribution; no renormalization after masking.",
+      "omitted": [
+        "PPO clipping",
+        "KL penalty",
+        "state-distribution correction",
+        "multi-step prefix correction",
+        "model rollout"
+      ]
+    },
+    "modes": [
+      {
+        "label": "忽略采样差异",
+        "fixedWeights": [
+          1,
+          1
+        ],
+        "objective": 0.5083333333333334,
+        "derivative": 0.45375000000000004,
+        "retainedSamplingMass": 1
+      },
+      {
+        "label": "完整比率",
+        "fixedWeights": [
+          0.7499999999999999,
+          2
+        ],
+        "objective": 0.10000000000000009,
+        "derivative": 0.495,
+        "retainedSamplingMass": 1
+      },
+      {
+        "label": "TIS：权重上限 1.5",
+        "fixedWeights": [
+          0.7499999999999999,
+          1.5
+        ],
+        "objective": 0.21250000000000008,
+        "derivative": 0.433125,
+        "retainedSamplingMass": 1
+      },
+      {
+        "label": "RS：丢弃 w>1.5 的项",
+        "fixedWeights": [
+          0.7499999999999999,
+          0
+        ],
+        "objective": 0.55,
+        "derivative": 0.2475,
+        "retainedSamplingMass": 0.8
+      }
+    ],
+    "finiteDifferenceChecks": 12,
+    "supportGuardChecked": true
+  },
+  "fp4": {
+    "inputs": {
+      "activations": [
+        6,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "weight": 1,
+      "upstreamGradient": 1,
+      "nonnegativeLevels": [
+        0,
+        0.5,
+        1,
+        1.5,
+        2,
+        3,
+        4,
+        6
+      ],
+      "blockSizes": [
+        32,
+        16
+      ],
+      "scale": "max(abs(block))/6; use 1 for a zero block",
+      "tieRule": "Choose smaller magnitude at equal distance.",
+      "omitted": [
+        "E4M3 scale rounding",
+        "FP32 global scale encoding",
+        "2D weight quantization",
+        "Hadamard transforms",
+        "stochastic rounding",
+        "low-precision GEMM",
+        "GPU timings",
+        "straight-through gradient"
+      ]
+    },
+    "modes": [
+      {
+        "label": "高精度输入参考",
+        "scales": [],
+        "scaleText": "无量化",
+        "quantized": [
+          6,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ],
+        "output": 22.600000000000023,
+        "dW": [
+          6,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ],
+        "gradientMaxAbsoluteError": 0
+      },
+      {
+        "label": "32 个数共用 scale",
+        "scales": [
+          1
+        ],
+        "scaleText": "1",
+        "quantized": [
+          6,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "output": 21,
+        "dW": [
+          6,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "gradientMaxAbsoluteError": 0.1
+      },
+      {
+        "label": "每 16 个数共用 scale",
+        "scales": [
+          1,
+          0.016666666666666666
+        ],
+        "scaleText": "1 / 0.016667",
+        "quantized": [
+          6,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ],
+        "output": 22.600000000000023,
+        "dW": [
+          6,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ],
+        "gradientMaxAbsoluteError": 0
+      }
+    ],
+    "finiteDifferenceChecks": 96,
+    "zeroEmptyNonfiniteAndTieCasesChecked": true
+  },
+  "rubric": {
+    "inputs": {
+      "criteria": [
+        "事实正确",
+        "覆盖需求",
+        "表达清楚"
+      ],
+      "schemes": {
+        "A": [
+          4,
+          2,
+          1
+        ],
+        "B": [
+          1,
+          2,
+          2
+        ]
+      },
+      "candidates": [
+        {
+          "label": "事实正确但简短",
+          "checks": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "覆盖与表达好，但事实错误",
+          "checks": [
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "label": "三项均满足",
+          "checks": [
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "judgeError": {
+        "candidateIndex": 1,
+        "criterionIndex": 0,
+        "replacement": 1
+      },
+      "boundary": "Nonnegative weights with positive total; all checks supplied by the author, not measured from an LLM judge. No implicit score or GRPO reproduction."
+    },
+    "candidates": [
+      {
+        "label": "事实正确但简短",
+        "checks": [
+          1,
+          0,
+          0
+        ],
+        "scores": {
+          "A": 0.5714285714285714,
+          "B": 0.2
+        }
+      },
+      {
+        "label": "覆盖与表达好，但事实错误",
+        "checks": [
+          0,
+          1,
+          1
+        ],
+        "scores": {
+          "A": 0.42857142857142855,
+          "B": 0.8
+        }
+      },
+      {
+        "label": "三项均满足",
+        "checks": [
+          1,
+          1,
+          1
+        ],
+        "scores": {
+          "A": 1,
+          "B": 1
+        }
+      }
+    ],
+    "centeredAdvantages": {
+      "A": [
+        0.0714285714285714,
+        -0.07142857142857145
+      ],
+      "B": [
+        -0.3,
+        0.30000000000000004
+      ]
+    },
+    "afterJudgeError": 1,
+    "zeroDenominatorGuardChecked": true
+  },
+  "authoredTablesMatched": 3
+}

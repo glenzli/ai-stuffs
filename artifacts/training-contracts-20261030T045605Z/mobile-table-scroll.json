@@ -1,0 +1,15 @@
+{
+  "before": {
+    "clientWidth": 358,
+    "scrollLeft": 0,
+    "scrollWidth": 650,
+    "x": 195,
+    "y": 451.75390625
+  },
+  "after": {
+    "clientWidth": 358,
+    "pageOverflow": 0,
+    "scrollLeft": 292,
+    "scrollWidth": 650
+  }
+}

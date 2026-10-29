@@ -209,6 +209,21 @@
     <div class="modern-page"><div class="reading-links"><a href="uncertainty-calibration.html">下一步：置信度、校准与回答门槛</a><a href="continual-learning.html#continual-evaluation">新旧任务的阶段评估矩阵</a><a href="training-environments.html#environment-verifier">可执行环境验证器</a></div></div>
     <div class="modern-page"><div class="reading-links"><a href="engineering-check.html">综合检查：数据、监督与执行是否使用同一口径</a></div></div>
     <div class="modern-page">
+    <section class="section" aria-labelledby="rubric-rewards"><div class="section-heading"><span class="section-number">CASE / RUBRICS AS REWARDS</span><h2 id="rubric-rewards">评分标准怎样变成 RL 奖励？</h2></div>
+      <p>Scale AI 的 Rubrics as Rewards（RaR）把逐题评分标准用于 on-policy 训练：借助参考答案构造标准，由 judge 产生奖励，再用 GRPO 更新策略。它让“事实、覆盖、表达与高风险错误”等条件可以被分别说明；这些条件的判定仍需要校准，不能直接当作可执行正确性证明。</p>
+      <div class="concept-pairs"><div><h3>显式聚合：逐项判定后计算</h3><p>保存各条标准、数值权重、判定值和归一化分母，可以追踪某项错误如何改变总奖励。可解释的是这份计算记录，判定本身仍可能出错。</p></div><div><h3>隐式聚合：连同标准整体评分</h3><p>将完整标准和类别重要性传给 judge，由它给出整体奖励。需要固定模型、提示、参考信息与采样设置；它不等于把逐项分数代入同一个加权公式。论文中的相对收益限定于其模型、领域和评估设置。</p></div></div>
+      <figure class="math-block"><div class="math-display" data-math>R_w(y)=\frac{\sum_{j=1}^{k}w_j c_j(y)}{\sum_{j=1}^{k}w_j},\qquad c_j(y)\in\{0,1\}</div><figcaption>对应论文的显式聚合。下面只取非负权重且总和大于 0，所以分数在 [0,1] 内；带负权重时必须另核分母与范围，不能沿用这一范围结论。</figcaption></figure>
+      <p>人工设定三项判定，顺序为“事实正确 / 覆盖需求 / 表达清楚”。方案 A 使用权重 [4,2,1]，方案 B 使用 [1,2,2]。下表没有运行 judge，判定向量由我们预先给定，也不是论文中的任务或配方。</p>
+      <div class="compare-wrap"><table data-rubric-rewards-example><thead><tr><th>人工回答标签</th><th>固定判定向量</th><th>方案 A 奖励</th><th>方案 B 奖励</th></tr></thead><tbody>
+        <tr><td>事实正确但简短</td><td>1 / 0 / 0</td><td>0.571429</td><td>0.200000</td></tr>
+        <tr><td>覆盖与表达好，但事实错误</td><td>0 / 1 / 1</td><td>0.428571</td><td>0.800000</td></tr>
+        <tr><td>三项均满足</td><td>1 / 1 / 1</td><td>1.000000</td><td>1.000000</td></tr>
+      </tbody></table></div>
+      <p>只对前两条回答做组内去均值，方案 A 给第一条正优势，方案 B 则给第二条正优势。即使判定向量不变，改变权重也会改变策略收到的训练信号。若 judge 又把第二条的事实错误误判为通过，方案 A 的奖励也会变成 1。</p>
+      <div class="practice-verdict"><strong>把评分质量与聚合规则一起验证</strong><p>冻结标准与 judge 版本，用独立复核样本检查事实错误、风格偏差和关键遗漏。对不能被其他优点补偿的必要条件，单独定义是否准入或发布；若把门槛加入训练奖励，也要明确它改变了目标。分数归一化只统一计算尺度，不统一题目难度或评分误差。</p></div>
+      <p class="source-note">一手依据：<a href="https://arxiv.org/html/2507.17746v2">RaR 论文 v2（2025-10-03），第 2–3 节、式 1–2 与第 9 节</a>。论文实验聚焦医学与科学，作者明确将更广的对话与 Agent 任务留待验证；本例不复现隐式 judge、GRPO 训练或论文 benchmark。</p>
+      <div class="reading-links"><a href="rl-posttraining.html#rollout-correction">固定输入的重算命令</a><a href="rl-posttraining.html#reward-title">奖励进入策略更新的路径</a><a href="model-evaluation.html#judge-reliability">判分器的混淆矩阵</a></div>
+    </section>
     <section class="section" aria-labelledby="training-claims"><div class="section-heading"><span class="section-number">SOURCE TO RESULT</span><h2 id="training-claims">怎样核验一项公开训练技术？</h2></div>
       <p>先把“公司采用了”“机制已经说明”“工件足够重跑”“结果得到独立确认”拆开记录。下面四层各有可检查的对象，上一层的证据不能替代下一层。</p>
       <div class="compare-wrap"><table><thead><tr><th>核验层次</th><th>固定什么</th><th>具体检查</th></tr></thead><tbody>
