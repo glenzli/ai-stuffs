@@ -1,0 +1,51 @@
+{
+  "schema": "moe-mhc-inputs-v1",
+  "boundary": "Fixed teaching arrays only. No vendor model, tokenizer, GPU, distributed communication or quality/speed benchmark is executed.",
+  "routing": {
+    "affinities": [[0.9,0.8,0.1],[0.7,0.9,0.2],[0.8,0.65,0.3],[0.65,0.8,0.3]],
+    "initialBias": [0,0,0],
+    "topK": 2,
+    "biasUpdateRate": 0.2,
+    "replays": 3,
+    "expertOutputs": [1,-1,2],
+    "upstream": [0.2,-0.3,0.4,0.1],
+    "tieBreak": "Lower expert index wins equal biased scores. Display selected experts in ascending expert order.",
+    "gate": "Normalize original selected affinities, not biased selection scores; V3-style teaching choice. Affinities are direct inputs, no sigmoid/logit backprop."
+  },
+  "modalities": {
+    "text": [[0.6,0.5],[0.6,0.5],[0.6,0.5],[0.6,0.5]],
+    "image": [[0.5,0.6],[0.5,0.6],[0.5,0.6],[0.5,0.6]],
+    "topK": 1,
+    "biasUpdateRate": 0.2
+  },
+  "causality": {
+    "prefix": [0.6,0.5],
+    "tailA": [[0.9,0.1],[0.9,0.1],[0.9,0.1]],
+    "tailB": [[0.1,0.9],[0.1,0.9],[0.1,0.9]],
+    "historicalBias": [0,0],
+    "biasUpdateRate": 0.2
+  },
+  "sinkhorn": {
+    "initialPositiveMatrix": [[4,1],[1,1]],
+    "readoutIterations": [0,1,2,5,20],
+    "trainingIterations": 20,
+    "linearReadout": [[0.2,-0.3],[0.4,0.8]],
+    "learningRate": 0.1,
+    "normalizationOrder": "Rows, then columns; one iteration means both normalizations. No stabilizing epsilon added to positive denominators."
+  },
+  "composition": {
+    "exactMatrix": [[0.6666666666666666,0.3333333333333333],[0.3333333333333333,0.6666666666666666]],
+    "contrast": [1,-1],
+    "readoutDepths": [1,5,12]
+  },
+  "fullJacobianCounterexample": {"residual":1,"pre":0.5,"post":1,"branchSlope":4,"input":0.7},
+  "singlePass": {
+    "state": [2,1],
+    "residualMatrix": [[0.6666666666666666,0.3333333333333333],[0.3333333333333333,0.6666666666666666]],
+    "currentMixing": [0.6,0.4],
+    "previousMixing": [0.8,0.2],
+    "post": [0.25,0.75],
+    "branchSlope": 2,
+    "boundary": "Compare one transition with explicitly supplied state and coefficients; no coefficient predictor, initial-block policy or fused kernel is implemented."
+  }
+}

@@ -224,6 +224,48 @@ y&amp;=\sum_{e\in\mathcal S}w_e\operatorname{Expert}_e(x).
       <div class="reading-links"><a href="performance-analysis.html#execution-path">通信与关键路径</a><a href="engineering-cases.html#case-board">案例：MoE 更慢</a><a href="parallel-correctness.html#equivalence">分片范数与等价性</a></div>
     </section>
     </div>
+    <div class="modern-page"><section class="section" aria-labelledby="moe-load-control"><div class="section-heading"><span class="section-number">CASE / CONTROL THE LOAD</span><h2 id="moe-load-control">MoE 负载控制：选谁、乘多少、按什么范围计数？</h2></div>
+      <p>辅助 loss 通过反传改变 router；另一条路线是在选专家时加入动态 bias。DeepSeek 的 Loss-Free Balancing 用历史负载调整它，避免直接叠加一项均衡目标的梯度。bias 仍会改变选中的专家与后续训练路径，不能理解成“模型学习完全不受影响”。</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+\mathcal S_t&amp;=\operatorname{TopK}_e(s_{t,e}+b_e),\qquad
+g_{t,e}=\frac{\mathbf1_{\{e\in\mathcal S_t\}}s_{t,e}}{\sum_{j\in\mathcal S_t}s_{t,j}},\\
+y_t&amp;=\sum_e g_{t,e}v_e,\qquad
+b_e^{\mathrm{next}}=b_e+\gamma\,\operatorname{sign}(\overline c-c_e).
+\end{aligned}</div><figcaption>本例采用 V3 风格的选中 affinity 归一化：s 是给定的正分数，v 是固定专家输出，c 是当前回放的分派数。N 为 token 数，E 为专家数，k 为每 token 的分派数，c̄=Nk/E。bias 只用于 Top-k；这次计数产生下一次的 bias。相等负载不更新，空 batch 保持原 bias。</figcaption></figure>
+      <h3>先固定分数，单独观察控制器</h3>
+      <p>三个专家、四个 token、每 token 选两个专家；四行 affinity 为 [0.9,0.8,0.1]、[0.7,0.9,0.2]、[0.8,0.65,0.3]、[0.65,0.8,0.3]。从零 bias 开始，γ=0.2，重复回放同一批分数三次；不更新模型参数。分数相同按较小专家序号优先。</p>
+      <div class="compare-wrap"><table data-moe-control><thead><tr><th>回放</th><th>本次使用的 bias</th><th>E0 / E1 / E2 分派数</th><th>最忙负载 / 均值 − 1</th></tr></thead><tbody>
+        <tr><td>0</td><td>0.0 / 0.0 / 0.0</td><td>4 / 4 / 0</td><td>0.500000</td></tr>
+        <tr><td>1</td><td>−0.2 / −0.2 / 0.2</td><td>3 / 3 / 2</td><td>0.125000</td></tr>
+        <tr><td>2</td><td>−0.4 / −0.4 / 0.4</td><td>2 / 2 / 4</td><td>0.500000</td></tr>
+      </tbody></table></div>
+      <p class="experiment-note">均衡先改善又反弹，说明这组步长与固定回放不构成单调收敛保证。8 次分派不是 8 个不同 token；这里也没有容量丢弃、节点约束、通信或语言模型质量测量。</p>
+      <details><summary>bias 改变选择后，输出权重从哪里来？</summary><p>固定专家输出 v=[1,−1,2]。回放 1 的实际选择和输出如下，权重依旧由原始 s 归一化；表内专家按序号排列。</p>
+        <div class="compare-wrap"><table data-moe-gates><thead><tr><th>Token</th><th>选中专家</th><th>对应门控权重</th><th>合并输出</th></tr></thead><tbody>
+          <tr><td>T0</td><td>E0 / E1</td><td>0.529412 / 0.470588</td><td>0.058824</td></tr>
+          <tr><td>T1</td><td>E0 / E1</td><td>0.437500 / 0.562500</td><td>−0.125000</td></tr>
+          <tr><td>T2</td><td>E0 / E2</td><td>0.727273 / 0.272727</td><td>1.272727</td></tr>
+          <tr><td>T3</td><td>E1 / E2</td><td>0.727273 / 0.272727</td><td>−0.181818</td></tr>
+        </tbody></table></div>
+        <p>若错误地把 T2 的偏置后分数 [0.6,0.5] 也拿来归一化，输出会变为 1.454545。脚本核对这一差异，并在 Top-k 集合不变的邻域对 12 个直接输入 affinity 做有限差分；不把它称为 sigmoid、router 权重或离散排序的完整反传。</p>
+      </details>
+      <h3>总体均匀，也可能掩盖某类 token 的集中</h3>
+      <p>另取两个专家、Top-1：四个文本 token 的分数均为 [0.6,0.5]，四个图像 token 均为 [0.5,0.6]。零 bias 时，合计分派完全均衡，每种模态却各自集中到一个专家。</p>
+      <div class="compare-wrap"><table data-moe-modalities><thead><tr><th>统计范围</th><th>Token 数</th><th>E0 / E1 分派数</th><th>最忙负载 / 均值 − 1</th></tr></thead><tbody>
+        <tr><td>总体</td><td>8</td><td>4 / 4</td><td>0.000000</td></tr>
+        <tr><td>文本</td><td>4</td><td>4 / 0</td><td>1.000000</td></tr>
+        <tr><td>图像</td><td>4</td><td>0 / 4</td><td>1.000000</td></tr>
+      </tbody></table></div>
+      <p>DeepSeek-V4.1-Flash 报告为文本和图像分别维护 correction bias，并在训练步结束后按各自负载更新。本例只演示统计范围的区别；按模态分组本身不保证一步更新后就均衡，也不能凭路由比例认定专家具有人类定义的技能。</p>
+      <details><summary>为什么本轮计数不能倒过来决定同一序列的前面位置？</summary><p>保持前缀分数 [0.6,0.5] 不变。若后面三个 token 都偏向 E0，先统计整条序列再给前缀重路由，γ=0.2 会把前缀改选为 E1；把后面三个 token 改为偏向 E1，前缀又会选 E0。这是明确构造的错误两遍协议：同一前缀读到了未来负载。正确回放先使用已确定的历史 bias，当前计数只影响下一次；脚本同时核对这两种路径。</p></details>
+      <details><summary>一手版本：Loss-Free 不等于整个配方没有辅助项</summary><div class="compare-wrap"><table><thead><tr><th>固定来源</th><th>本节采用的事实</th><th>需要单独保留</th></tr></thead><tbody>
+        <tr><td><a href="https://arxiv.org/html/2408.15664v1">Loss-Free Balancing · v1 · 2024-08-28</a></td><td>第 3 节、算法 1：历史负载控制选路 bias。</td><td>原论文式 3 的门控保留原分数；不能直接替换成本例的选中后归一化。</td></tr>
+        <tr><td><a href="https://arxiv.org/html/2412.19437v1">DeepSeek-V3 · v1 · 2024-12-27</a></td><td>第 2.1.2 节：bias 选路，原始 affinity 归一化后加权。</td><td>仍有很小的序列级辅助均衡项；本例不实现它，也不实现节点限制。</td></tr>
+        <tr><td><a href="https://arxiv.org/html/2609.19969v1">DeepSeek-V4.1-Flash · v1 · 2026-09-17</a></td><td>第 2.1.1 节：文本、图像分别维护 correction bias。</td><td>不据此推定其他模型或后续版本的模态划分、系数和统计窗口。</td></tr>
+      </tbody></table></div><p>实际训练应声明计数跨哪些 rank、microbatch 和模态，何时同步与更新，以及 checkpoint 是否保存 bias 等控制状态。分派数、容量丢弃、每卡耗时与独立质量分别记录。</p></details>
+      <details><summary>离线重算 MoE 控制与 mHC</summary><p>在仓库根目录执行；固定输入、完整输出、梯度和边界反例均随代码保存。</p><div class="compare-wrap" role="region" tabindex="0" aria-label="离线重算命令"><pre class="decision-code"><code>node artifacts/moe-mhc-20261030T065726Z/check-mechanisms.mjs</code></pre></div></details>
+      <div class="reading-links"><a href="architecture-variants.html#mhc-residual">mHC 的残差混合与约束</a><a href="transformer-anatomy.html#moe-dispatch">固定路由后的分派与合并</a><a href="model-artifacts.html#checkpoint-replay">训练状态与恢复</a></div>
+    </section></div>
     <div class="modern-page"><section class="section" aria-labelledby="moe-dispatch"><div class="section-heading"><span class="section-number">EXECUTION / DISPATCH &amp; COMBINE</span><h2 id="moe-dispatch">Token 怎样到达专家，再回到原位置？</h2><p>Top-2 会让一个 token 产生两条专家分支。执行器按目标设备和专家排列这些分支，计算后根据原 token ID 汇合，再乘门控权重求和。排列索引必须在发送与返回两侧保持一致。</p></div>
       <div class="prose"><p>四个输入 token 分属两张逻辑卡：R0 持有 T0/T1 与 E0/E1，R1 持有 T2/T3 与 E2/E3。专家均为 2×2 线性层，路由 logits 固定；Top-2 中的两项单独 softmax，得到门控权重。该实验追踪专家输出、参数梯度与输入梯度，不对固定 router 求导。</p></div>
       <details><summary>固定输入、路由 logits 与专家权重</summary><div class="compare-wrap"><table><thead><tr><th>Token</th><th>输入</th><th>E0 / E1 / E2 / E3 的路由 logits</th></tr></thead><tbody data-md-config-input></tbody></table></div><div class="compare-wrap"><table class="chain-table"><thead><tr><th>专家</th><th>2×2 权重（按行排列）</th></tr></thead><tbody data-md-config-weights></tbody></table></div></details>

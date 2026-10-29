@@ -48,6 +48,43 @@ v_t&amp;=\beta_2v_{t-1}+(1-\beta_2)g_t^2,\\
     <div class="prose"><p>《Muon is Scalable for LLM Training》（2025）报告了权重衰减、更新尺度与分布式实现的实验。其效率结论依赖模型、数据、预算与调参协议；评估替换时同时看质量曲线、step time、显存、通信和数值稳定性。</p></div>
     <div class="reading-links"><a href="continual-learning.html#gradient-interference">不同任务的更新干扰</a><a href="performance-analysis.html">端到端性能测量</a><a href="parallel-correctness.html">分布式数学等价性</a></div>
   </section>
+  <section class="section" aria-labelledby="matrix-update-recipes"><div class="section-heading"><span class="section-number">CASE / MATRIX UPDATE RECIPES</span><h2 id="matrix-update-recipes">矩阵优化器：按头处理与大表更新，分别改变了什么？</h2></div>
+    <p>V4.1-Flash 报告第 2.5 节将 Query/Key 矩阵按 head 处理，并为 Engram 表、token embedding 与预测头采用动量加 Sinkhorn 均衡。分组方式、参数类型与缩放规则都是算法的一部分，不能只保留“正交化”或“归一化”两个名称。</p>
+    <h3>同一个 4×2 矩阵，整矩阵与两个 head 的方向不同</h3>
+    <p>固定 M=[[4,0],[0,1],[1,0],[0,2]]，前两行和后两行分别视作两个 head。由于列正交且非零，可以精确计算 Q=M(MᵀM)⁻¹ᐟ²；逐头时分别计算两个 2×2 子矩阵。下表将两种最终方向都归一到单位 Frobenius 范数。</p>
+    <div class="compare-wrap"><table data-luo-headwise><thead><tr><th>行</th><th>原始 M</th><th>整矩阵归一方向</th><th>逐头归一方向</th></tr></thead><tbody>
+      <tr><td>0</td><td>4.000000 / 0.000000</td><td>0.685994 / 0.000000</td><td>0.500000 / 0.000000</td></tr>
+      <tr><td>1</td><td>0.000000 / 1.000000</td><td>0.000000 / 0.316228</td><td>0.000000 / 0.500000</td></tr>
+      <tr><td>2</td><td>1.000000 / 0.000000</td><td>0.171499 / 0.000000</td><td>0.500000 / 0.000000</td></tr>
+      <tr><td>3</td><td>0.000000 / 2.000000</td><td>0.000000 / 0.632456</td><td>0.000000 / 0.500000</td></tr>
+    </tbody></table></div>
+    <p>方向余弦为 <span data-luo-cosine>0.903088</span>，因此区别不只是总步长。脚本核对完整矩阵和每个 head 的 QᵀQ=I；这里的精确极分解与显示归一化不是有限 Newton–Schulz、完整 Muon 或作者的更新缩放，也不证明哪种方向质量更好。</p>
+    <h3>此处 Sinkhorn 均衡的是有符号更新的 L2 尺度</h3>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+M_t&amp;=\beta M_{t-1}+(1-\beta)G_t,\qquad \widehat G_t=\beta M_t+(1-\beta)G_t,\\
+U^{(0)}&amp;=\operatorname{MaskRows}(\widehat G_t),\qquad
+\Delta_t=\sqrt n\,U^{(K)},\\
+W_{t+1}&amp;=W_t-\gamma\eta_t\Delta_t .
+\end{aligned}</div><figcaption>对应 V4.1 v1 算法 1：先按行范数相对均值屏蔽近零行，再做奇数 K 次行/列交替 L2 归一化，每次分母加 ε，最后一次为行归一化。m≥n，n 是列数；该更新不含权重衰减。具体参数组与其他优化器分别声明。</figcaption></figure>
+    <p>本例 W=[[1,−0.5],[0.2,0.8],[−0.3,0.4],[0.7,−0.1]]，当前梯度和上步动量在下表给出；β=0.9、ε=0.001、τ=0.1、K=3、η=0.02、γ=0.7，全是教学输入，不声称是厂商默认值。屏蔽条件为行范数 ≤τ×平均行范数。</p>
+    <div class="compare-wrap"><table data-luo-balanced><thead><tr><th>行</th><th>当前梯度</th><th>上步动量</th><th>更新 Δ</th><th>更新后 W</th></tr></thead><tbody>
+      <tr><td>0</td><td>0.200000 / −0.100000</td><td>0.100000 / −0.200000</td><td>0.754398 / −1.194174</td><td>0.989438 / −0.483282</td></tr>
+      <tr><td>1</td><td>0.000000 / 0.000000</td><td>0.080000 / 0.040000</td><td>1.252967 / 0.651996</td><td>0.182458 / 0.790872</td></tr>
+      <tr><td>2</td><td>−0.050000 / 0.300000</td><td>−0.100000 / 0.050000</td><td>−0.940168 / 1.054138</td><td>−0.286838 / 0.385242</td></tr>
+      <tr><td>3</td><td>0.000000 / 0.000000</td><td>0.000000 / 0.000000</td><td>0.000000 / 0.000000</td><td>0.700000 / −0.100000</td></tr>
+    </tbody></table></div>
+    <p class="experiment-note">第 1 行当前梯度为零，历史动量仍让参数发生更新；第 3 行梯度与动量都为零，才保持不变。稀疏读取、当前梯度的支持集、实际更新范围和状态内存是四个需要分别记录的对象。</p>
+    <details><summary>三次归一化后的行/列范数，并不会同时精确为 1</summary>
+      <div class="compare-wrap"><table data-luo-stages><thead><tr><th>步骤</th><th>归一化轴</th><th>四行 L2 范数</th><th>两列 L2 范数</th></tr></thead><tbody>
+        <tr><td>1</td><td>行</td><td>0.995405 / 0.986385 / 0.992539 / 0.000000</td><td>1.238278 / 1.189784</td></tr>
+        <tr><td>2</td><td>列</td><td>0.826188 / 0.802523 / 0.818583 / 0.000000</td><td>0.999193 / 0.999160</td></tr>
+        <tr><td>3</td><td>行</td><td>0.998791 / 0.998755 / 0.998780 / 0.000000</td><td>1.229422 / 1.217037</td></tr>
+      </tbody></table></div>
+      <p>这是乘 √n 之前的 U；ε 和屏蔽行保留在计算中，最终一轮又改变列范数。这里允许负值与矩形矩阵，目标是更新尺度；<a href="architecture-variants.html#mhc-residual">mHC 则约束非负残差矩阵的行列和</a>，其二范数结论不能移用到本表。脚本另核对全零输入、奇数步数与屏蔽边界。</p>
+    </details>
+    <p class="source-note">一手依据为 <a href="https://arxiv.org/html/2609.19969v1">DeepSeek-V4.1-Flash v1（2026-09-17）第 2.5 节、算法 1</a>。报告区分 Muon、逐头处理、L2 均衡更新和 AdamW 参数组；本站只核验给定小矩阵的方向与一次更新，没有重跑模型训练、复现大表分片或迁移作者的效果结论。</p>
+    <div class="reading-links"><a href="model-case-studies.html#engram-training">查表参数的梯度与离线命令</a><a href="architecture-variants.html#mhc-residual">残差混合的双随机约束</a><a href="parallel-correctness.html">分片与整体更新的条件</a></div>
+  </section>
   <section class="section" aria-labelledby="wsd-checkpoint-average"><div class="section-heading"><span class="section-number">06 / SCHEDULE &amp; READOUT</span><h2 id="wsd-checkpoint-average">WSD 与 checkpoint 平均：训练终点怎样读出来？</h2></div>
     <p>Warmup–Stable–Decay（WSD）把学习率分成升温、稳定与衰减三段。稳定阶段的单个 checkpoint 可能波动；除直接评估它，还可以按明确窗口与系数平均相邻权重，再独立评估平均结果。学习率日程决定训练轨迹，参数平均决定另一份读出工件，两者分别保存。</p>
     <figure class="math-block"><div class="math-display" data-math>\overline\theta=\frac{\sum_{s\in\mathcal W}a_s\theta_s}{\sum_{s\in\mathcal W}a_s},\qquad a_s\ge0,\quad\sum_sa_s&gt;0</div><figcaption>先固定 checkpoint 集合 W、张量对应关系与非零权重和。参数平均、输出集成与恢复完整训练状态是不同操作；共享权重、非参数 buffer、量化状态等也需要明确处理规则。</figcaption></figure>

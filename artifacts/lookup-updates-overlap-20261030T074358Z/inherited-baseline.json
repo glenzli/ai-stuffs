@@ -1,0 +1,178 @@
+{
+  "baseline": "fc52414d26761fe2c14e6f6a40a8affbe622072b",
+  "inheritedWorkResult": "moe-mhc-verified-20261030",
+  "inheritedSourceAndEvidenceIdentitiesVerifiedAtStart": 26,
+  "inheritedStageSourceInputs": [
+    {
+      "path": ".gitignore",
+      "bytes": 6181,
+      "sha256": "c688aefb7870a348699da14f4a2535fa7e8d2c690ce3db66aaf60557ddea72a9"
+    },
+    {
+      "path": "README.md",
+      "bytes": 35109,
+      "sha256": "67513a69796e3f0cb2d758088b6044537685f55786a5d38cb664df75f2b71a18"
+    },
+    {
+      "path": "src/content/transformer-anatomy.html",
+      "bytes": 32299,
+      "sha256": "3074d374781fd6b8c9f55a99ecd3242afb703718307f326b00e093fac9a80d4c"
+    },
+    {
+      "path": "src/content/architecture-variants.html",
+      "bytes": 22711,
+      "sha256": "ba987f20761d13b9162a22c1aec575b310b686f1408a23807dfcf6fcb5df334e"
+    },
+    {
+      "path": "src/content/model-case-studies.html",
+      "bytes": 14403,
+      "sha256": "3f397e3f85e8e77ca64f578d814057ba1b2c3de36d50e24a4f6871cacd347cd2"
+    },
+    {
+      "path": "src/content/posttraining.html",
+      "bytes": 16935,
+      "sha256": "196b788b159644b59e4fc55e9021d34e73cd7fe7a8c0cd3dd58965bd242fb9f4"
+    },
+    {
+      "path": "src/references.mjs",
+      "bytes": 56620,
+      "sha256": "4bcc9e71f82b52bf62b3124b1d5b91f347b6c082f1a2d575a3dd8c7ca004860a"
+    },
+    {
+      "path": "src/search.mjs",
+      "bytes": 21153,
+      "sha256": "b837ecd0c8d2f727b419cdb57982aced41a22ca71cc5301fe384826d2a8b6a35"
+    },
+    {
+      "path": "src/styles/wiki.css",
+      "bytes": 10750,
+      "sha256": "17e5341bec5c375ca0550a6f9f3b1df84cc91245c14850052e1a64733f2f24f5"
+    },
+    {
+      "path": "docs/moe-mhc-2026-10-30.md",
+      "bytes": 6321,
+      "sha256": "f128ca5f940630e9dfe3ff9488af0749eb5274b4ac4537985f5175d1244c1406"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/inputs.json",
+      "bytes": 2137,
+      "sha256": "cb471a21a686abcb7b6ecbb320a4ff4606b0ee91b68da6f2652cebfabbb2fef2"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/check-mechanisms.mjs",
+      "bytes": 15979,
+      "sha256": "c2b3d8e40cd1f781919e09ee84732c3662fa9ea0efc9c60828f68f73f052bd44"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/primary-sources.json",
+      "bytes": 4884,
+      "sha256": "4d36103aaa414613a696cf30facd1dcbed36df0fa8687044b897755ce1f7e718"
+    }
+  ],
+  "sharedPathsExtendedThisRound": [
+    ".gitignore",
+    "README.md",
+    "src/content/model-case-studies.html",
+    "src/content/posttraining.html",
+    "src/references.mjs",
+    "src/search.mjs"
+  ],
+  "preservedPaths": [
+    {
+      "path": "src/content/transformer-anatomy.html",
+      "bytes": 32299,
+      "sha256": "3074d374781fd6b8c9f55a99ecd3242afb703718307f326b00e093fac9a80d4c"
+    },
+    {
+      "path": "src/content/architecture-variants.html",
+      "bytes": 22711,
+      "sha256": "ba987f20761d13b9162a22c1aec575b310b686f1408a23807dfcf6fcb5df334e"
+    },
+    {
+      "path": "src/styles/wiki.css",
+      "bytes": 10750,
+      "sha256": "17e5341bec5c375ca0550a6f9f3b1df84cc91245c14850052e1a64733f2f24f5"
+    },
+    {
+      "path": "docs/moe-mhc-2026-10-30.md",
+      "bytes": 6321,
+      "sha256": "f128ca5f940630e9dfe3ff9488af0749eb5274b4ac4537985f5175d1244c1406"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/SHA256SUMS",
+      "bytes": 2593,
+      "sha256": "1aeef14a9e93eb97bf4686fabbb56f5f860a297f5234f56e9f5d92e2ab9835fd"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/browser-checks.json",
+      "bytes": 34401,
+      "sha256": "bf38e6446673cffbaf6ff5ef7827c369aafce58c148767347bacdc39f03a37ef"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/build.log",
+      "bytes": 168,
+      "sha256": "e4013a35f6f3c5f5a1e000d7069667f29edccdd3e2d668d15180e213b9b4f330"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/check-mechanisms.mjs",
+      "bytes": 15979,
+      "sha256": "c2b3d8e40cd1f781919e09ee84732c3662fa9ea0efc9c60828f68f73f052bd44"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/existing-experiments.json",
+      "bytes": 239,
+      "sha256": "6abcd8a378ec1afd497321c2821eb846f5d6f51e99efe4bbac152a6ee96e5b74"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/inputs.json",
+      "bytes": 2137,
+      "sha256": "cb471a21a686abcb7b6ecbb320a4ff4606b0ee91b68da6f2652cebfabbb2fef2"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/mechanism-check.log",
+      "bytes": 27266,
+      "sha256": "30096b3a6a340b49fc2f2689f23fa574f2f8bf19df5d9a35732235539dc40d5d"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/mhc-desktop-dark.png",
+      "bytes": 88296,
+      "sha256": "6b5a22d25af033cef2a47e6922b73a13bd05df2444bac4b33836b0c0d0494d66"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/moe-control-desktop.png",
+      "bytes": 94380,
+      "sha256": "600047b52e940ae4010e802cf8ca776a25a26f16005060e9d191b197913884e2"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/moe-gates-mobile.png",
+      "bytes": 49975,
+      "sha256": "74a64a940c61338dff8a4347dd385c5e405758597d073c6969110aaaa8533e10"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/node-focused.log",
+      "bytes": 2939,
+      "sha256": "16ffc8afc23626fdce775fcbb8482f7aeaa7fbe2bd683a70de8ee0a167e489be"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/primary-sources.json",
+      "bytes": 4884,
+      "sha256": "4d36103aaa414613a696cf30facd1dcbed36df0fa8687044b897755ce1f7e718"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/results.json",
+      "bytes": 27266,
+      "sha256": "30096b3a6a340b49fc2f2689f23fa574f2f8bf19df5d9a35732235539dc40d5d"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/single-pass-mobile.png",
+      "bytes": 56125,
+      "sha256": "385ee0fb25f7cab7a67cc6dd69139ddb37cb13772f863e9b0be6ef551b093fd9"
+    },
+    {
+      "path": "artifacts/moe-mhc-20261030T065726Z/verification-summary.json",
+      "bytes": 8589,
+      "sha256": "715ab6476ac64bad727a376a12111d1d10f96622c1bf43e0921fed5da7e87349"
+    }
+  ],
+  "boundary": "Earlier whole-site checksums describe that stage. This round extends shared owners without rewriting earlier evidence; numerical owners and all earlier evidence files are preserved."
+}

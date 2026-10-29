@@ -145,3 +145,12 @@ __pycache__/
 # Fixed-input MTP/WSD results and source-version audit.
 !/artifacts/mtp-wsd-20261030T061842Z/
 !/artifacts/mtp-wsd-20261030T061842Z/**
+
+# Fixed-input MoE load control and mHC source-version evidence.
+!/artifacts/moe-mhc-20261030T065726Z/
+!/artifacts/moe-mhc-20261030T065726Z/**
+
+# Fixed lookup, matrix-update and resource-schedule evidence.
+!/artifacts/lookup-updates-overlap-20261030T074358Z/
+!/artifacts/lookup-updates-overlap-20261030T074358Z/**
+/artifacts/lookup-updates-overlap-20261030T074358Z/__pycache__/

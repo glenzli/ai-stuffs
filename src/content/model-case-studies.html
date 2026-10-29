@@ -121,7 +121,44 @@
       <figure class="math-block"><div class="math-display" data-math>M_{\mathrm{KV}}\approx M_{\mathrm{global\ shared}}(S)+\sum_{\ell=1}^{L}M_{\mathrm{local},\ell}(W)+M_{\mathrm{index/meta}}</div><figcaption>分项账本而非该模型的精确计算器。S 为序列长度，W 为局部窗口；压缩比、共享层组、索引存储和精度分别影响各项，workspace 与模型权重另算。</figcaption></figure>
       <div class="concept-pairs"><div><h3>结构变化会改写成本公式</h3><p>普通 MHA/GQA 中“层数 × 长度 × KV head 数”的账本假设各层独立保存完整历史。跨层共享、压缩全局状态与固定局部窗口需要按存储对象重新推导。</p></div><div><h3>输入与输出成本开始分开设计</h3><p>长任务常重复提交很长的输入，新增输出较短。该案例调整 prefill 与 decode 的路径；比较时还要固定命中缓存比例、输入输出长度、并发和质量目标。</p></div><div><h3>条件记忆是另一类容量</h3><p>Engram 使用稀疏访问的条件记忆模块。它属于模型结构中的参数容量；与 Agent 文件记忆的写入、检索和权限机制需分别理解。</p></div><div><h3>骨干、残差与草稿各有作用</h3><p>报告还采用 Single-Pass mHC 的残差混合实现，以及在骨干预训练后单独训练的 DSpark 草稿模块。草稿验收依赖推理流程；残差混合改变层间信息组合，不能仅用 KV 压缩解释这些部件。</p></div></div>
       <p class="workflow-note">本节绑定 2026-09-17 架构报告。10 月 17 日发布说明另提到的 <a href="rl-posttraining.html#self-feedback">Self-Feedback RL</a> 属于后训练更新，具体奖励和优化细节需按该版本的公开材料另行核对。</p>
-      <div class="reading-links"><a href="architecture-variants.html#long-context-training">长上下文训练与评估</a><a href="inference-engine.html">标准 KV 账本</a><a href="efficient-inference.html">量化与草稿验收</a><a href="multimodal.html#native-multimodal">联合多模态训练</a></div>
+      <div class="reading-links"><a href="architecture-variants.html#long-context-training">长上下文训练与评估</a><a href="inference-engine.html">标准 KV 账本</a><a href="efficient-inference.html">量化与草稿验收</a><a href="multimodal.html#native-multimodal">联合多模态训练</a><a href="transformer-anatomy.html#moe-load-control">分模态的 MoE 负载控制</a><a href="architecture-variants.html#single-pass-mhc">Single-Pass 的系数依赖</a></div>
+    </section></div>
+    <div class="modern-page"><section class="section" aria-labelledby="engram-training"><div class="section-heading"><span class="section-number">CASE / LEARNING A LOOKUP TABLE</span><h2 id="engram-training">Engram：地址由 token 决定，查到的参数怎样学习？</h2></div>
+      <p>Engram 将局部 N-gram 映射到可训练的记忆表，再用当前 hidden state 对查到的内容做门控。确定的是地址计算；表中向量仍随训练更新，实际贡献也依赖上下文。它是模型参数容量的一部分，读取、梯度与优化器状态需要分别核对。</p>
+      <h3>固定两张小表，把查找与门控分开</h3>
+      <p>教学 token 序列为 [1,2,1,2]，只用相邻 2-gram。两个地址函数为 h₀(a,b)=(3a+b) mod 5、h₁(a,b)=(a+2b) mod 7；表 E₀=[0.1,−0.2,0.3,−0.4,0.5]，E₁=[0.2,0.4,−0.1,0.3,−0.5,0.6,0.7]。每张表查一个标量，再拼成二维记忆 m。首位置不足两个 token，约定不查表。</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+x_t&amp;=\left[s_t/10,\ \sum_{j\le t}s_j/10\right],\qquad m_t=[E_0[h_0],E_1[h_1]],\\
+\alpha_t&amp;=\sigma(x_t^\top m_t/\sqrt2),\qquad y_t=x_t+\alpha_tm_t .
+\end{aligned}</div><figcaption>s 是人工 token ID；x 是只读当前前缀的固定特征，不是 Transformer hidden state。这里省略 tokenizer 压缩、乘法/XOR hash、K/V 投影、RMSNorm、卷积与多分支集成；门控公式也采用上述教学简化。</figcaption></figure>
+      <div class="compare-wrap"><table data-luo-lookup><thead><tr><th>位置</th><th>2-gram</th><th>两张表的地址</th><th>门控 α</th><th>记忆残差 αm</th></tr></thead><tbody>
+        <tr><td>0</td><td>—</td><td>不读表</td><td>0.000000</td><td>0.000000 / 0.000000</td></tr>
+        <tr><td>1</td><td>1 / 2</td><td>0 / 5</td><td>0.535297</td><td>0.053530 / 0.321178</td></tr>
+        <tr><td>2</td><td>2 / 1</td><td>2 / 4</td><td>0.469984</td><td>0.140995 / −0.234992</td></tr>
+        <tr><td>3</td><td>1 / 2</td><td>0 / 5</td><td>0.566774</td><td>0.056677 / 0.340064</td></tr>
+      </tbody></table></div>
+      <p>位置 1 和 3 查到同一组参数，前缀特征不同，门控与残差也不同。修改后缀为 [1,2,9,8] 时，前两个位置的计算保持不变；脚本核验这个因果边界。</p>
+      <details><summary>重复地址的梯度要相加，不能按最后一次命中覆盖</summary><p>固定上游梯度为 [[0,0],[0.2,−0.1],[−0.3,0.4],[0.5,0.2]]，定义线性读出 L=Σₜuₜᵀyₜ。对记忆分量既有直接值路径，也有经 α 的门控路径；同一表行累积所有命中位置的贡献。</p>
+        <div class="compare-wrap"><table data-luo-lookup-grad><thead><tr><th>表行</th><th>命中位置</th><th>各位置梯度贡献</th><th>累计梯度</th></tr></thead><tbody>
+          <tr><td>E0[0]</td><td>1 / 3</td><td>0.105652 + 0.289290</td><td>0.394942</td></tr>
+          <tr><td>E0[2]</td><td>2</td><td>−0.146103</td><td>−0.146103</td></tr>
+          <tr><td>E1[4]</td><td>2</td><td>0.167561</td><td>0.167561</td></tr>
+          <tr><td>E1[5]</td><td>1 / 3</td><td>−0.055640 + 0.131064</td><td>0.075424</td></tr>
+        </tbody></table></div>
+        <p>全部 12 个表参数都经过有限差分核对，包括未命中的零梯度行。无动量、无权重衰减的一次 η=0.1 SGD 后，固定读出由 <span data-luo-lookup-before>0.298644</span> 变为 <span data-luo-lookup-after>0.277604</span>；这不是知识或语言能力评测。换用有历史状态的优化器后，当前零梯度不再自动意味着零更新，见矩阵更新例。</p>
+      </details>
+      <details><summary>多头 hash 缓解冲突，不保证每个 N-gram 都有独占参数</summary>
+        <div class="compare-wrap"><table data-luo-collisions><thead><tr><th>2-gram</th><th>两个地址</th></tr></thead><tbody>
+          <tr><td>1 / 2</td><td>0 / 5</td></tr>
+          <tr><td>2 / 4</td><td>0 / 3</td></tr>
+          <tr><td>3 / 1</td><td>0 / 5</td></tr>
+        </tbody></table></div><p>第二行只在一张表上碰撞，第三行两张表都碰撞。相同地址共享实际参数，其梯度在同一行汇合；上下文门控提供额外区分，但不能据此保证冲突无害。本例 hash 故意简单，不复现官方 multiplicative-XOR 实现。</p>
+      </details>
+      <h3>原始 Engram 与后续模型的版本分别读</h3>
+      <p class="source-note"><a href="https://arxiv.org/html/2601.07372v1">Engram 原论文 v1（2026-01-12）第 2.2–2.5 节</a>包含 tokenizer 压缩、多头 hash、RMSNorm 后的 K/Q 门控及短因果卷积，并区分训练时分片查表与推理预取。<a href="https://arxiv.org/html/2609.19969v1">V4.1-Flash v1（2026-09-17）第 2.4.2、2.5 节</a>说明省略短卷积，并使用动量加 Sinkhorn 均衡更新表参数；这些变体不合并成一个未标版本的配方。</p>
+      <p class="experiment-note">本站仅重算小表、门控与梯度，没有训练 Engram 模型、运行 All-to-All、FP8 查表、主存/RDMA 预取或测量端到端收益。实际系统还要记录表/Tokenizer 版本、重复 ID 的归并与分片、优化器状态和传输成本。</p>
+      <details><summary>离线重算本轮三个机制</summary><p>在仓库根目录执行；固定输入、逐行梯度、更新中间值和完整调度事件均随代码保存。</p><div class="compare-wrap"><pre class="decision-code"><code>python3 artifacts/lookup-updates-overlap-20261030T074358Z/check-mechanisms.py</code></pre></div></details>
+      <div class="reading-links"><a href="optimization-dynamics.html#matrix-update-recipes">逐头方向与表参数的 L2 均衡更新</a><a href="training-systems-deep.html#dualpipe-overlap">计算和通信的依赖与占用</a><a href="model-artifacts.html#checkpoint-replay">保存参数之外的训练状态</a></div>
     </section></div>
     <section class="section" aria-labelledby="read-title">
       <div class="section-heading">

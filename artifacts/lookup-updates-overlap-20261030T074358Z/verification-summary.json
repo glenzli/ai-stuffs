@@ -1,0 +1,312 @@
+{
+  "schema": "lookup-updates-overlap-verification-v1",
+  "checkedAt": "2026-10-30",
+  "baseline": "fc52414d26761fe2c14e6f6a40a8affbe622072b",
+  "head": "fc52414d26761fe2c14e6f6a40a8affbe622072b",
+  "uncommitted": true,
+  "pushed": false,
+  "runtime": {
+    "node": "v24.13.0",
+    "python": "Python 3.14.2"
+  },
+  "scope": {
+    "topics": [
+      "Engram-inspired fixed lookup/gate gradients",
+      "Head-wise polar directions and signed L2-balanced updates",
+      "DualPipe-inspired two-resource dependency scheduling"
+    ],
+    "newProductionModules": false,
+    "newDependencies": false,
+    "vendorModelTrainingOrSpeedReproduced": false,
+    "newModelExperimentRegistration": false
+  },
+  "offlineChecks": {
+    "passed": true,
+    "savedResultsMatchRecomputation": true,
+    "lookupFiniteDifferences": 12,
+    "authoredTablesMatched": 9,
+    "authoredScalarValuesMatched": 3,
+    "authoredTimelineRectanglesMatched": 10,
+    "matrixIdentitiesChecked": true,
+    "zeroAndNearZeroRowsChecked": true,
+    "totalScheduleOrderPairs": 51840,
+    "validLaneOrdersPerCase": 296,
+    "communicationPresets": [
+      1,
+      3,
+      6
+    ],
+    "dependencyAndResourceNegativeControls": true
+  },
+  "sourceReview": {
+    "primaryVersionedMaterials": 3,
+    "unknownImplementationDetailsInferred": false,
+    "engramVersionDifferencePreserved": true,
+    "l2UpdatesSeparatedFromMhc": true,
+    "boundedScheduleSeparatedFromFullDualpipe": true
+  },
+  "build": {
+    "passed": true,
+    "pages": 66,
+    "scripts": 114,
+    "styles": 44,
+    "equations": 162
+  },
+  "focusedTests": {
+    "passed": 31,
+    "failed": 0,
+    "files": [
+      "scripts/test-content.mjs",
+      "scripts/test-reading.mjs",
+      "scripts/test-math.mjs"
+    ]
+  },
+  "browser": {
+    "passed": true,
+    "baseLayouts": 24,
+    "expandedPanels": 6,
+    "finalAlignedFigureLayouts": 6,
+    "navigation": 3,
+    "searchQueries": 5,
+    "wholePageOverflow": 0,
+    "katexErrors": 0,
+    "headersAllLeftAligned": true,
+    "mobileLocalScroll": [
+      0,
+      322
+    ],
+    "consoleWarningsOrErrors": 0,
+    "originalThemeRestored": true,
+    "viewportReset": true
+  },
+  "inheritance": {
+    "passed": true,
+    "preservedIdentitiesChecked": 19,
+    "previousCheckerPassed": true,
+    "previousFiniteDifferences": 17,
+    "previousTables": 6,
+    "previousScalarValues": 3,
+    "priorEvidenceRewritten": false
+  },
+  "existingExperiments": {
+    "baseline": "fc52414d26761fe2c14e6f6a40a8affbe622072b",
+    "manifestUnchanged": true,
+    "manifestSha256": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+    "experiments": 13,
+    "filesChecked": 57,
+    "passed": true
+  },
+  "sourceInputs": [
+    {
+      "path": ".gitignore",
+      "bytes": 6416,
+      "sha256": "40f7052cad549fa5747efc28694ce7dd88e9321f942a74858a2703bcaf8d5536"
+    },
+    {
+      "path": "README.md",
+      "bytes": 35321,
+      "sha256": "ab5c5d3c88bc18ae48a347e0b7d308c18bfd6c04e00f810da7051260f75133d1"
+    },
+    {
+      "path": "src/content/model-case-studies.html",
+      "bytes": 20339,
+      "sha256": "df7ed6ea696c77d021f50c9c8fb202a2031ef23cdceb0ff88414a997b2fa07ff"
+    },
+    {
+      "path": "src/content/optimization-dynamics.html",
+      "bytes": 25161,
+      "sha256": "5d3b71bcb46bfa87bb9ce9fb63260f567081dd5464f524f583e3bc54a6289a3d"
+    },
+    {
+      "path": "src/content/training-systems-deep.html",
+      "bytes": 29555,
+      "sha256": "f5a4599a65dda4dda194c99a6eb90e21e97e9a36897404868df2f7a7279e47ce"
+    },
+    {
+      "path": "src/content/posttraining.html",
+      "bytes": 17320,
+      "sha256": "06514e1582008df32aff943647a0d7cf338c4b34b041adee8b24a686432dffa8"
+    },
+    {
+      "path": "src/references.mjs",
+      "bytes": 57452,
+      "sha256": "6b2738711306441c1e191267a222c73011739f20948c2327e05864a84f178764"
+    },
+    {
+      "path": "src/search.mjs",
+      "bytes": 21433,
+      "sha256": "691ec5dcdec87cacd4a2b18b987a2f5b24ae6b01552b6e061dc42955ae46dbf4"
+    },
+    {
+      "path": "docs/lookup-updates-overlap-2026-10-30.md",
+      "bytes": 6393,
+      "sha256": "dda6de96940960dcbac2d40eb0038f2d1f53b2abe10ef07d449dc689be876674"
+    },
+    {
+      "path": "src/content/transformer-anatomy.html",
+      "bytes": 32299,
+      "sha256": "3074d374781fd6b8c9f55a99ecd3242afb703718307f326b00e093fac9a80d4c"
+    },
+    {
+      "path": "src/content/architecture-variants.html",
+      "bytes": 22711,
+      "sha256": "ba987f20761d13b9162a22c1aec575b310b686f1408a23807dfcf6fcb5df334e"
+    },
+    {
+      "path": "src/styles/wiki.css",
+      "bytes": 10750,
+      "sha256": "17e5341bec5c375ca0550a6f9f3b1df84cc91245c14850052e1a64733f2f24f5"
+    },
+    {
+      "path": "src/styles/modern.css",
+      "bytes": 8130,
+      "sha256": "768bc8e744890063bc649e190b8c723beb2217f1722f4bfc2ae3821a7c4c515c"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/inputs.json",
+      "bytes": 3051,
+      "sha256": "1e0391b6bb17a54b23a99a3335457c392665d5c5d13c78ad5f7c7fc861af7e8f"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/check-mechanisms.py",
+      "bytes": 20143,
+      "sha256": "4dd7fdc2ca41ab6478ddfc2c778c94c9a4530a902323e49081c60141ba8a0ef0"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/primary-sources.json",
+      "bytes": 4068,
+      "sha256": "6c47ac0fc2418c585aa54c09984c1f036641e6ee80066c2dc566e281cee1701e"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/inherited-baseline.json",
+      "bytes": 6285,
+      "sha256": "0070291036512952fa6ad2846726f6eebf6deee46c95156851d8ccff810ecb22"
+    }
+  ],
+  "builtPages": [
+    {
+      "path": "dist/model-case-studies.html",
+      "bytes": 60940,
+      "sha256": "08c622837cc246f1f0a0bb4e3952e754c253706b08d55e05b1e4103fee2680f1"
+    },
+    {
+      "path": "dist/optimization-dynamics.html",
+      "bytes": 115968,
+      "sha256": "5c097d444290563eb636e47b824b4cc4ccdaa919934afd8a5c44070ad17a7098"
+    },
+    {
+      "path": "dist/training-systems-deep.html",
+      "bytes": 78332,
+      "sha256": "c971c812c32b1dd8bdbb4b733c297bd9c643a82a8053018ff763a701e735a877"
+    },
+    {
+      "path": "dist/posttraining.html",
+      "bytes": 38816,
+      "sha256": "2ed2f96a4debd7b9a427133d00be017e3fb1d24b5fe1c1c29bf5ade00ac4d584"
+    }
+  ],
+  "builtStyles": [
+    {
+      "path": "dist/assets/katex-0.19.1/katex.min.css",
+      "bytes": 24793,
+      "sha256": "00e0b094171b07f58422075f469b4feac2b2f7bce1aeec943c08da4d697f4dcf"
+    },
+    {
+      "path": "dist/assets/model-case-studies.c23352feb2.css",
+      "bytes": 61338,
+      "sha256": "c23352feb2bdece3aa62837444cacb45175e2b0733da987b4c9b6e5703fc5522"
+    },
+    {
+      "path": "dist/assets/optimization-dynamics.7aa0ac67c6.css",
+      "bytes": 46899,
+      "sha256": "7aa0ac67c6e385cec3d744296f39923b4874efc23715da37922cd9ab894f8c2e"
+    },
+    {
+      "path": "dist/assets/posttraining.a53dbae00a.css",
+      "bytes": 42437,
+      "sha256": "a53dbae00a54a76f21d49bba3381d00edf9257e056830f82174ebd81a66cf04f"
+    },
+    {
+      "path": "dist/assets/training-systems-deep.9d6634a813.css",
+      "bytes": 64565,
+      "sha256": "9d6634a81301ef8c305dd75b78b9b2e49c059436165da89cfe7b56532a05d189"
+    }
+  ],
+  "evidenceArtifacts": [
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/browser-checks.json",
+      "bytes": 40165,
+      "sha256": "15f78bf14c4a463907d98715e9d48071847f4727389768f3abb5874da20a4a5e"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/build.log",
+      "bytes": 168,
+      "sha256": "d7dc847ffbbbbdc991e2e77614c2c6e088e45474236356b55ff7019aae91ac58"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/check-mechanisms.py",
+      "bytes": 20143,
+      "sha256": "4dd7fdc2ca41ab6478ddfc2c778c94c9a4530a902323e49081c60141ba8a0ef0"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/dualpipe-desktop-dark.png",
+      "bytes": 80564,
+      "sha256": "05870e409abdd54b326e7a4834bd932a58f0b5bbbd3a922f1793909aed6d6ac4"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/dualpipe-desktop.png",
+      "bytes": 81743,
+      "sha256": "4f6f2cdff4c42a6f436388c93692e16d22df7652a70bf4a45315eb9c75c6a152"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/dualpipe-mobile-dark.png",
+      "bytes": 54460,
+      "sha256": "5f977963fa972c239be1f47231c0a8d0949893f390814b9290655c3029119019"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/engram-desktop.png",
+      "bytes": 93424,
+      "sha256": "2c5bee3a3c86cf309d059a3379256b279f74bfb2832ba7d6773554e41364d2ee"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/existing-experiments.json",
+      "bytes": 239,
+      "sha256": "6abcd8a378ec1afd497321c2821eb846f5d6f51e99efe4bbac152a6ee96e5b74"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/inherited-baseline.json",
+      "bytes": 6285,
+      "sha256": "0070291036512952fa6ad2846726f6eebf6deee46c95156851d8ccff810ecb22"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/inherited-check.json",
+      "bytes": 212,
+      "sha256": "0584ebab841b8ee2fbcc37e5bfea1726faeb84020fbe0cb2288fa9298b1517b3"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/inputs.json",
+      "bytes": 3051,
+      "sha256": "1e0391b6bb17a54b23a99a3335457c392665d5c5d13c78ad5f7c7fc861af7e8f"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/mechanism-check.log",
+      "bytes": 38135,
+      "sha256": "03e363d555c99ac41f53ab6dcce6ff3c85cb6fac5157d56a976b5907d78e2184"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/node-focused.log",
+      "bytes": 2946,
+      "sha256": "186ceeb6f6d0ea30b62403a49cbcbf16f1526e296c8ff450d27020365990177d"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/primary-sources.json",
+      "bytes": 4068,
+      "sha256": "6c47ac0fc2418c585aa54c09984c1f036641e6ee80066c2dc566e281cee1701e"
+    },
+    {
+      "path": "artifacts/lookup-updates-overlap-20261030T074358Z/results.json",
+      "bytes": 38135,
+      "sha256": "03e363d555c99ac41f53ab6dcce6ff3c85cb6fac5157d56a976b5907d78e2184"
+    }
+  ]
+}

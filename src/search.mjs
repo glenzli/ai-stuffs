@@ -30,7 +30,7 @@ export const searchMetadata = {
   "learning-mechanisms.html": { summary: "上下文学习、induction head、superposition、SAE 与因果干预", terms: "in-context learning ICL induction head circuit tracing superposition SAE probe patching 上下文学习 归纳头 机制解释 特征 叠加 消融 激活替换 稀疏自编码器", priority: 10 },
   "training-environments.html": { summary: "环境、验证器、Moonshot PARL 与 Microsoft Agent Lightning", terms: "environment verifier SWE-Gym reward sandbox simulation 训练环境 可解性 任务生成 验证器 状态 副作用 课程 环境隔离 PARL Kimi Moonshot 并行 编排 CriticalSteps Agent Lightning Microsoft harness 微软 rollout 归约", priority: 10 },
   "finetuning-recipe.html": { summary: "数据条数、模板与监督、epoch/packing/batch 账本、LoRA/QLoRA 参数与数据学习曲线", terms: "finetune sft lora qlora rank alpha target modules 微调 配方 一万条 几千条 数据量 样本数 轮数 epoch packing batch 监督 token 学习曲线 sampler drop_last worker rank 补样 丢尾 重复 数据分发 base instruct", priority: 10 },
-  "optimization-dynamics.html": { summary: "AdamW、Muon、WSD 学习率与 checkpoint 平均读出", terms: "optimizer adamw momentum sgd beta initialization warmup clipping mup μp 优化器 更新 动量 稳定性 学习率 初始化 spike Muon SVD Newton Schulz 正交化 奇异值 矩阵优化器 WSD warmup stable decay checkpoint averaging merging 检查点 平均 权重 读出 保存间隔", priority: 9 },
+  "optimization-dynamics.html": { summary: "AdamW、逐头 Muon、表参数 L2 均衡更新与 WSD 平均", terms: "optimizer adamw momentum sgd beta initialization warmup clipping mup μp 优化器 更新 动量 稳定性 学习率 初始化 spike Muon SVD Newton Schulz 正交化 奇异值 矩阵优化器 WSD warmup stable decay checkpoint averaging merging 检查点 平均 权重 读出 保存间隔 head-wise Sinkhorn balanced updates L2 Nesterov embedding 稀疏梯度 零梯度 历史动量 屏蔽 逐头", priority: 9 },
   "parallel-correctness.html": { summary: "完整 Transformer 的真实累积/DDP 更新、变长监督分母、尾窗口与空监督，以及跨卡负例、全局范数和协调跳步", terms: "ddp loss reduction weighted mean accumulation no_sync token contrastive infonce all-gather detach negative gradcache global norm clip gradient shards replicated 全局 梯度累积 实测 Transformer AdamW 尾窗口 多卡 分母 归一化 空标签 对比学习 全局负例 表示梯度 范数 裁剪 复制 跳步 溢出", priority: 10 },
   "performance-analysis.html": { summary: "Roofline 与真实 CPU 实验：未插桩耗时、保存张量引用、profiler、逻辑成本和报告读取", terms: "performance roofline gemm flops hbm bandwidth mfu hfu profiler trace saved tensors report 吞吐 瓶颈 带宽 性能 算术强度 重算 实测 测量 报告 内存 保存量", priority: 9 },
   "engineering-cases.html": { summary: "多卡方向错误、过滤偏差、MoE 等待、奖励与能力的诊断", terms: "case diagnose debugging ablation 多卡 过滤 MoE 奖励 案例 诊断 控制变量 排查 证据", priority: 9 },
@@ -61,8 +61,8 @@ export const searchMetadata = {
     "priority": 9
   },
   "transformer-anatomy.html": {
-    "summary": "QKV、残差、Norm、SwiGLU、Dense/MoE 参数，以及专家分派与合并计算",
-    "terms": "qkv residual rmsnorm swiglu dense moe parameter weights dispatch combine permutation alltoall 参数 权重 专家 分派 逆排列 容量 门控 梯度",
+    "summary": "QKV、Dense/MoE 参数、bias 负载控制、模态统计与专家分派",
+    "terms": "qkv residual rmsnorm swiglu dense moe parameter weights dispatch combine permutation alltoall 参数 权重 专家 分派 逆排列 容量 门控 梯度 Loss-Free Balancing auxiliary loss free bias router load balance 负载均衡 序列辅助项 分模态 correction 历史 因果",
     "priority": 9
   },
   "inference-engine.html": {
@@ -91,8 +91,8 @@ export const searchMetadata = {
     "priority": 8
   },
   "architecture-variants.html": {
-    "summary": "MHA/MQA/GQA/MLA、稀疏 attention、MoE、SSM",
-    "terms": "mha mqa gqa mla sparse window rope swiglu moe ssm hybrid 变体",
+    "summary": "注意力、MoE、SSM 与 mHC/Sinkhorn 残差混合",
+    "terms": "mha mqa gqa mla sparse window rope swiglu moe ssm hybrid 变体 mHC hyper connections Sinkhorn Knopp doubly stochastic Single-Pass Mega-mHC 残差 混合 双随机 行和 列和 Jacobian 系数 移位",
     "priority": 8
   },
   "scaling-laws.html": {
@@ -101,8 +101,8 @@ export const searchMetadata = {
     "priority": 8
   },
   "model-case-studies.html": {
-    "summary": "结构样本与 DeepSeek-V4.1-Flash 的跨层 KV、CSA2 和 CED",
-    "terms": "bert llama mistral mixtral deepseek mamba model cards 模型案例 V4.1 Flash CSA2 CED cross layer KV reuse FP4 Engram mHC 跨层复用 压缩 SWA replay",
+    "summary": "公开结构、跨层 KV 与 Engram 查表门控及梯度",
+    "terms": "bert llama mistral mixtral deepseek mamba model cards 模型案例 V4.1 Flash CSA2 CED cross layer KV reuse FP4 Engram mHC 跨层复用 压缩 SWA replay lookup hashed ngram conditional memory 查表 门控 碰撞 重复地址 稀疏 参数 梯度",
     "priority": 8
   },
   "transformer-lab.html": {
@@ -116,8 +116,8 @@ export const searchMetadata = {
     "priority": 7
   },
   "training-systems-deep.html": {
-    "summary": "并行、数值精度、流水线，以及 FSDP 聚合/释放/预取/归约的参数生命周期",
-    "terms": "fsdp deepspeed tensor parallel pipeline expert context precision bf16 fp8 activation collective gpipe 1f1b allgather reducescatter reshard prefetch 空泡 流水线 调度 参数生命周期 预取 分片 显存峰值",
+    "summary": "并行、FSDP 参数生命周期与 DualPipe 的依赖/通信重叠",
+    "terms": "fsdp deepspeed tensor parallel pipeline expert context precision bf16 fp8 activation collective gpipe 1f1b allgather reducescatter reshard prefetch 空泡 流水线 调度 参数生命周期 预取 分片 显存峰值 DualPipe overlap dgrad wgrad DAG 双向 计算 通信 占用 依赖 权重梯度 输入梯度 激活存活",
     "priority": 7
   },
   "model-artifacts.html": {

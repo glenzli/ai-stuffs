@@ -1,0 +1,54 @@
+{
+  "schema": "moe-mhc-primary-sources-v1",
+  "checkedAt": "2026-10-30",
+  "method": "Manual claim-to-source review against immutable arXiv v1 HTML documents. Numeric results independently recompute the explicitly supplied teaching inputs.",
+  "sources": [
+    {
+      "id": "loss-free-balancing",
+      "owner": "DeepSeek-AI and Peking University authors",
+      "url": "https://arxiv.org/html/2408.15664v1",
+      "version": "v1, 2024-08-28",
+      "locator": "Section 3, Equation 3, Algorithm 1; Section 5.2",
+      "supports": ["Historical expert load updates selection-only bias", "Original Equation 3 retains the unnormalized original affinity as the gate", "Current-sequence-dependent routing can leak future-token information"],
+      "localBoundary": "The three-replay controller has frozen positive affinities and no model update. Its selected-gate normalization follows the separately identified V3 convention, not Equation 3 of this paper. Gamma 0.2 and all arrays are teaching choices.",
+      "destination": "transformer-anatomy.html#moe-load-control"
+    },
+    {
+      "id": "deepseek-v3-routing",
+      "owner": "DeepSeek-AI",
+      "url": "https://arxiv.org/html/2412.19437v1",
+      "version": "v1, 2024-12-27",
+      "locator": "Section 2.1.2, Equations 13-20, Auxiliary-Loss-Free Load Balancing and Complementary Sequence-Wise Auxiliary Loss",
+      "supports": ["Biased affinities choose experts, while original selected affinities are normalized for output weighting", "Bias is adjusted after a training step using measured load", "The recipe also has a small complementary sequence-wise auxiliary loss"],
+      "localBoundary": "The local example omits sigmoid and learned router weights, shared experts, node constraints, capacities and the sequence-wise auxiliary term. Twelve derivatives concern direct affinity inputs in a fixed-selection region only.",
+      "destination": "transformer-anatomy.html#moe-load-control"
+    },
+    {
+      "id": "mhc",
+      "owner": "DeepSeek-AI",
+      "url": "https://arxiv.org/html/2512.24880v1",
+      "version": "v1, 2025-12-31",
+      "locator": "Sections 4.1-4.2, Equations 6-9",
+      "supports": ["Residual mixing is constrained to nonnegative doubly stochastic matrices", "Exact residual matrices have a spectral norm bound and compositional closure", "Equation 9 applies column normalization before row normalization; experiments use twenty iterations"],
+      "localBoundary": "The local 2x2 teaching sequence uses rows then columns and records the one-iteration order difference. A fixed linear readout is differentiated through finite normalization steps. No state-dependent coefficient predictor, full mHC block or vendor training result is reproduced.",
+      "destination": "architecture-variants.html#mhc-residual"
+    },
+    {
+      "id": "deepseek-v41",
+      "owner": "DeepSeek-AI",
+      "url": "https://arxiv.org/html/2609.19969v1",
+      "version": "v1, 2026-09-17",
+      "locator": "Section 2.1.1, Multimodal Auxiliary-loss-free Load Balancing; Section 2.4.1, Equations 2-6",
+      "supports": ["Text and image tokens use separate correction biases, retaining original scores for output weighting and updating after each step", "Single-Pass input mixing uses the preceding block's coefficient instead of the current block's coefficient", "The report distinguishes multi-kernel pretraining implementation from fused deployment execution"],
+      "localBoundary": "Modality counts and supplied-coefficient transitions are teaching arrays, not learned expert specialization, model quality or latency. Initial-block coefficient policy, complete configuration and kernel details not checked here are not guessed.",
+      "destinations": ["transformer-anatomy.html#moe-load-control", "architecture-variants.html#single-pass-mhc"]
+    }
+  ],
+  "versionDifferences": [
+    {"topic":"Gate normalization","sources":["loss-free-balancing","deepseek-v3-routing"],"resolution":"Keep the original paper's retained affinity and V3's selected-affinity normalization distinct; identify the local V3-style choice."},
+    {"topic":"Auxiliary-loss-free name","sources":["deepseek-v3-routing"],"resolution":"A selection-bias controller does not imply the complete V3 recipe has no auxiliary loss."},
+    {"topic":"Counting scope","sources":["deepseek-v3-routing","deepseek-v41"],"resolution":"Record the report-specific modality split and update boundary; do not extrapolate it to every version."},
+    {"topic":"Finite Sinkhorn order","sources":["mhc"],"resolution":"Original v1 Equation 9 is columns then rows. Teaching inputs specify rows then columns, and the finite-step difference is recomputed."},
+    {"topic":"Single-Pass versus fusion","sources":["mhc","deepseek-v41"],"resolution":"Coefficient provenance changes the transition; pretraining execution and fused deployment are separately identified."}
+  ]
+}

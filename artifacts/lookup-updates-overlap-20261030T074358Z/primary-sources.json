@@ -1,0 +1,43 @@
+{
+  "schema":"lookup-updates-overlap-primary-sources-v1",
+  "checkedAt":"2026-10-30",
+  "method":"Manual claim-to-source review against immutable arXiv v1 reports. Local arrays are fixed before readouts and independently checked by derivatives, matrix identities and bounded exhaustive scheduling.",
+  "sources":[
+    {
+      "id":"engram-v1",
+      "owner":"Peking University and DeepSeek-AI authors",
+      "url":"https://arxiv.org/html/2601.07372v1",
+      "version":"v1, 2026-01-12",
+      "locator":"Sections 2.2-2.5, Equations 1-5 and Figure 2",
+      "supports":["Canonical token IDs deterministically address multi-head hashed N-gram tables","Context-aware gating uses projected key/value and RMS-normalized key/query","The original module includes a short causal convolution","Training sharded lookup and inference host prefetching are distinct system paths"],
+      "localBoundary":"Two scalar tables, two linear modular hashes, a 2-gram and a simplified sigmoid with hand-defined causal context. No tokenizer compression, multiplicative-XOR implementation, projections, RMSNorm, convolution, Transformer, All-to-All, FP8 or RDMA.",
+      "destination":"model-case-studies.html#engram-training"
+    },
+    {
+      "id":"deepseek-v41-v1",
+      "owner":"DeepSeek-AI",
+      "url":"https://arxiv.org/html/2609.19969v1",
+      "version":"v1, 2026-09-17",
+      "locator":"Section 2.4.2 and Section 2.5 including Algorithm 1",
+      "supports":["The stated Engram variant omits the short causal convolution","The recipe applies head-wise Muon to Query and Key matrices","Engram tables, token embeddings and prediction head use momentum and alternating signed L2 balancing","Algorithm 1 has relative near-zero row masking, epsilon denominators, odd normalization count and final sqrt(n) scale; this update has no weight decay"],
+      "localBoundary":"Exact polar directions are calculated only for the declared orthogonal-column matrices. The balanced update uses explicit teaching hyperparameters and small dense arrays, not asserted vendor defaults, sharding, convergence or quality. It is not the nonnegative row/column-sum projection used for mHC.",
+      "destinations":["model-case-studies.html#engram-training","optimization-dynamics.html#matrix-update-recipes"]
+    },
+    {
+      "id":"dualpipe-v3-v1",
+      "owner":"DeepSeek-AI",
+      "url":"https://arxiv.org/html/2412.19437v1",
+      "version":"v1, 2024-12-27",
+      "locator":"Section 3.2.1, Figures 4-5 and Table 2",
+      "supports":["DualPipe decomposes chunks into attention, dispatch, MLP and combine","Backward input-gradient and weight-gradient work is separated","The complete method includes bidirectional pipeline scheduling and compute/communication overlap","Parameter copies and activation costs have to be included in the reported system setting"],
+      "localBoundary":"Only one independent forward/backward pair with two exclusive resources is modeled. The ten-node DAG, durations and two-bundle lifetimes are teaching assumptions. No full bidirectional schedule, PP transfers, SM partitioning, tensor bytes or hardware latency is reproduced.",
+      "destination":"training-systems-deep.html#dualpipe-overlap"
+    }
+  ],
+  "distinctions":[
+    {"topic":"Engram original versus V4.1","resolution":"Preserve the original short convolution and the later explicitly stated omission/update choice as separate source versions."},
+    {"topic":"Sparse gradient versus optimizer update","resolution":"The lookup example uses plain SGD; the independent matrix example shows a zero-current-gradient row moving due to prior momentum. Do not infer physical sparse-state allocation."},
+    {"topic":"Two uses of Sinkhorn","resolution":"Signed rectangular L2 update balancing is distinct from nonnegative doubly stochastic residual mixing; do not reuse mHC spectral conclusions."},
+    {"topic":"DualPipe versus local scheduling","resolution":"The complete source method and finite two-lane DAG are separately named. Numeric makespans are logical ticks and not vendor speedup claims."}
+  ]
+}

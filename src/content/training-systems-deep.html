@@ -163,6 +163,49 @@
       <div class="prose"><p>1F1B 可让已完成前向的激活更早被反向消费，通常能降低某些阶段的保留峰值；在本例同速、零通信假设下，完成时间未必比 GPipe 更短。实际模型阶段耗时不等，通信、重算、虚拟阶段和调度交错都会改变结果。</p><p>Microbatch 增多可以更充分填充流水线，但同时改变每次更新的样本组织。比较必须保持全局目标、梯度缩放与权重版本语义一致。异步更新或不同版本权重属于另一类协议，不能直接套用本例的同权重对照。</p></div>
       <div class="reading-links"><a href="activation-checkpointing.html">激活的保存与释放</a><a href="distributed-execution.html">层内张量并行</a><a href="parallel-correctness.html">跨 microbatch 的梯度归一化</a></div>
     </section></div>
+    <div class="modern-page"><section class="section" aria-labelledby="dualpipe-overlap"><div class="section-heading"><span class="section-number">CASE / OVERLAP WITH DEPENDENCIES</span><h2 id="dualpipe-overlap">DualPipe：哪些通信能被覆盖，哪些依赖仍要等待？</h2></div>
+      <p>DeepSeek-V3 的 DualPipe 将前向/反向 chunk 细分为 Attention、专家分派、MLP 与合并；反向再分输入梯度与权重梯度，并用双向流水线和计算—通信重叠改善执行。原报告还给出参数副本与激活的代价；这些条件不能从一个“并行”标签里省略。</p>
+      <h3>先核验一对 chunk 的依赖和资源占用</h3>
+      <p>下面是受该分解思路启发的有限调度教具，不是完整 DualPipe：一个新 microbatch 的前向 F，搭配一个旧 microbatch 的反向 B；一条独占计算通道、一条独占通信通道。计算操作均为 2 tick，四次通信先设为 3 tick，操作不抢占；只允许不同通道重叠。</p>
+      <p>F 的依赖为 FA→FD→FM→FC。旧反向先经 BC 回传合并端梯度，再产生 MLP 输入梯度 BMI 与权重梯度 BMW；BD 只依赖 BMI，之后 Attention 输入梯度 BAI 与权重梯度 BAW 都可执行。BMW 不必阻塞 BD。相同通道上的操作必须额外串行。</p>
+      <figure class="math-block"><div class="math-display" data-math>s_v\ge\max_{u\in\operatorname{pred}(v)}f_u,\qquad f_v=s_v+d_v,\qquad T\ge\max\!\left(\sum_{v\in C}d_v,\sum_{v\in N}d_v\right)</div><figcaption>s/f/d 为开始、结束与时长；无前驱时最早为 0，C/N 分别为计算/通信操作集。同通道区间不能相交；工作量下界未必能达到，还要满足依赖。</figcaption></figure>
+      <div class="compare-wrap"><table data-luo-schedules><thead><tr><th>每次通信 tick</th><th>显式串行完成</th><th>双资源最短完成</th><th>激活峰值限 1 的最短完成</th><th>双资源工作量下界</th></tr></thead><tbody>
+        <tr><td>1</td><td>16</td><td>12</td><td>15</td><td>12</td></tr>
+        <tr><td>3</td><td>24</td><td>13</td><td>22</td><td>12</td></tr>
+        <tr><td>6</td><td>36</td><td>24</td><td>34</td><td>24</td></tr>
+      </tbody></table></div>
+      <p class="experiment-note">每组穷举 6!×4!=17,280 对通道顺序，296 对与依赖相容；为每对计算最早开始时间，再选最短完成。三组通信时长在计算前固定，未按最好结果选择。最短仅指这个有限资源模型，没有 GPU、网络或训练吞吐实测。</p>
+      <figure style="margin:24px 0"><div class="compare-wrap"><svg viewBox="0 0 780 190" width="780" height="190" style="display:block;min-width:680px;width:100%;height:auto" role="img" aria-label="通信为3 tick时的13 tick调度；上行为计算，下行为通信，空白为等待">
+        <g fill="currentColor" font-size="12" font-family="monospace"><text x="8" y="62">计算</text><text x="8" y="126">通信</text><text x="78" y="172">0</text><text x="228" y="172">3</text><text x="378" y="172">6</text><text x="528" y="172">9</text><text x="674" y="172">12</text><text x="724" y="172">13</text></g>
+        <g fill="var(--blue-soft)" stroke="var(--blue)"><rect data-luo-event="FA" x="80" y="34" width="100" height="42"/><rect data-luo-event="BMI" x="230" y="34" width="100" height="42"/><rect data-luo-event="BMW" x="330" y="34" width="100" height="42"/><rect data-luo-event="FM" x="430" y="34" width="100" height="42"/><rect data-luo-event="BAI" x="530" y="34" width="100" height="42"/><rect data-luo-event="BAW" x="630" y="34" width="100" height="42"/></g>
+        <g fill="var(--coral-soft)" stroke="var(--coral)"><rect data-luo-event="BC" x="80" y="98" width="150" height="42"/><rect data-luo-event="FD" x="230" y="98" width="150" height="42"/><rect data-luo-event="BD" x="380" y="98" width="150" height="42"/><rect data-luo-event="FC" x="530" y="98" width="150" height="42"/></g>
+        <g fill="currentColor" text-anchor="middle" font-size="13" font-family="monospace"><text x="130" y="61">FA</text><text x="280" y="61">BMI</text><text x="380" y="61">BMW</text><text x="480" y="61">FM</text><text x="580" y="61">BAI</text><text x="680" y="61">BAW</text><text x="155" y="125">BC</text><text x="305" y="125">FD</text><text x="455" y="125">BD</text><text x="605" y="125">FC</text></g>
+      </svg></div><figcaption>固定 3 tick 通信的一份最短事件序列，蓝色为计算，暖色为通信。两类资源各有 12 tick 工作量，但依赖和占用使完成时间为 13；图中每个矩形的起点与宽度由核验脚本逐项检查。</figcaption></figure>
+      <details><summary>十个操作的开始、结束与依赖</summary><div class="compare-wrap"><table data-luo-events><thead><tr><th>操作</th><th>资源</th><th>开始</th><th>结束</th><th>前驱</th></tr></thead><tbody>
+        <tr><td>BC</td><td>通信</td><td>0</td><td>3</td><td>—</td></tr>
+        <tr><td>FA</td><td>计算</td><td>0</td><td>2</td><td>—</td></tr>
+        <tr><td>BMI</td><td>计算</td><td>3</td><td>5</td><td>BC</td></tr>
+        <tr><td>FD</td><td>通信</td><td>3</td><td>6</td><td>FA</td></tr>
+        <tr><td>BMW</td><td>计算</td><td>5</td><td>7</td><td>BC</td></tr>
+        <tr><td>BD</td><td>通信</td><td>6</td><td>9</td><td>BMI</td></tr>
+        <tr><td>FM</td><td>计算</td><td>7</td><td>9</td><td>FD</td></tr>
+        <tr><td>BAI</td><td>计算</td><td>9</td><td>11</td><td>BD</td></tr>
+        <tr><td>FC</td><td>通信</td><td>9</td><td>12</td><td>FM</td></tr>
+        <tr><td>BAW</td><td>计算</td><td>11</td><td>13</td><td>BD</td></tr>
+      </tbody></table></div></details>
+      <details><summary>为什么可以在这个教具里称为“最短”？</summary><p>每个不抢占、同通道互斥的可行调度，都给出一份计算顺序和一份通信顺序。把顺序边加入原依赖后，必须无环；对固定顺序，各节点按前驱最晚完成时刻启动，不会比同顺序的其他方案更晚。因此枚举所有通道顺序并取最小值，覆盖了本模型的所有可行完成时间。</p><p>激活峰值限 1 另要求所有旧反向计算完成后才能开始 FA。因为它们和 FA 都使用计算通道，该条件等价于相应操作全部排在 FA 之前；枚举中保留这些顺序即可。证明只用于本例的两份激活包规则，没有推广到细粒度张量释放或真实 GPU 调度。</p></details>
+      <h3>把激活存活规则也写进比较</h3>
+      <p>只计两份逻辑激活包：旧反向包在 t=0 已存在，全部旧反向计算完成后才释放；新前向包在 FA 开始时取得，并留到本对 chunk 之后。相同时刻先释放再取得。该粒度故意简化，不含张量大小、逐层释放、重算、参数副本或通信缓冲。</p>
+      <div class="compare-wrap"><table data-luo-memory><thead><tr><th>固定通信 3 tick</th><th>完成</th><th>激活包峰值</th><th>新包取得时刻</th><th>旧包释放时刻</th></tr></thead><tbody>
+        <tr><td>显式串行</td><td>24</td><td>2</td><td>0</td><td>24</td></tr>
+        <tr><td>双资源最短</td><td>13</td><td>2</td><td>0</td><td>13</td></tr>
+        <tr><td>激活峰值限 1</td><td>22</td><td>1</td><td>12</td><td>12</td></tr>
+      </tbody></table></div>
+      <p>峰值限 1 时，所有旧反向计算必须排在 FA 之前；枚举中一并检查这些通道顺序，得到 22 tick。这个结果只说明指定存活规则下的交换关系，不能作为真实显存或报告中参数副本代价的替代。</p>
+      <p class="source-note">一手依据：<a href="https://arxiv.org/html/2412.19437v1">DeepSeek-V3 v1（2024-12-27）第 3.2.1 节、图 4–5 与表 2</a>。完整 DualPipe 还有双向 microbatch、PP 通信、硬件 SM 分配与参数布局条件；本站不实现这些部分，也不把本例的 24→13 当作作者的加速比。</p>
+      <p class="experiment-note">本例固定同一权重版本，不在这对 chunk 内更新参数。完整训练步仍需等齐对应 microbatch 的权重梯度，并保持目标归约、更新时刻与版本语义一致；异步更新属于另一份协议。</p>
+      <div class="reading-links"><a href="model-case-studies.html#engram-training">本轮固定输入与离线命令</a><a href="performance-analysis.html#execution-path">实际关键路径与测量</a><a href="activation-checkpointing.html">更细的激活存活与重算</a></div>
+    </section></div>
     <div class="modern-page"><section class="section" aria-labelledby="fsdp-lifecycle"><div class="section-heading"><span class="section-number">06 / PARAMETER LIFETIME</span><h2 id="fsdp-lifecycle">参数分片之后，完整参数何时出现？</h2><p>每卡长期保存一部分参数，计算一层时临时聚齐该层。前向后释放完整参数能降低存活量，反向则需要重新获取。把状态分片和计算时的临时缓冲区放在同一条时间线上，才能解释峰值。</p></div>
       <div class="prose"><p>本例用两个 DP rank、两层 2×2 矩阵和 tanh 中间激活；每卡持有不同样本。每层按扁平数组分成两个连续片段。目标是两份 ½‖Y−target‖² 的平均；反向先产生本地完整梯度，再求和、除以 2 并保留本卡片段。</p></div>
       <figure class="math-block"><div class="math-display" data-math>\begin{aligned}W_\ell&amp;=\operatorname{AllGather}(W_{\ell,0},W_{\ell,1}),\\g_{\ell,r}&amp;=\operatorname{slice}_r\!\left(\frac{g_\ell^{(0)}+g_\ell^{(1)}}{2}\right),\\m_{\ell,r}'&amp;=0.9m_{\ell,r}+g_{\ell,r},\qquad W_{\ell,r}'=W_{\ell,r}-0.1m_{\ell,r}'.\end{aligned}</div><figcaption>gℓ⁽⁰⁾、gℓ⁽¹⁾ 是两份样本的本地梯度，r 为参数片拥有者。ReduceScatter 实现求和与分发，除以 DP 数的系数需与所选归约约定一致；本例动量初值为零。</figcaption></figure>

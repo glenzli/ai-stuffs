@@ -1,0 +1,56 @@
+{
+  "schema": "lookup-updates-overlap-inputs-v1",
+  "boundary": "Fixed teaching inputs only. No vendor model, tokenizer, GPU, distributed runtime, memory-transfer benchmark or training-quality result is reproduced.",
+  "lookup": {
+    "tokens": [1,2,1,2],
+    "table0": [0.1,-0.2,0.3,-0.4,0.5],
+    "table1": [0.2,0.4,-0.1,0.3,-0.5,0.6,0.7],
+    "hash0": {"previousCoefficient":3,"currentCoefficient":1,"modulus":5},
+    "hash1": {"previousCoefficient":1,"currentCoefficient":2,"modulus":7},
+    "contextRule": "[current token / 10, sum of prefix tokens including current / 10]",
+    "gate": "sigmoid(dot(context, concatenated scalar lookups) / sqrt(2))",
+    "upstream": [[0,0],[0.2,-0.1],[-0.3,0.4],[0.5,0.2]],
+    "learningRate": 0.1,
+    "partialCollisionPairs": [[1,2],[2,4]],
+    "collisionSearchDomain": [0,9],
+    "suffixVariant": [1,2,9,8],
+    "noBigramAtFirstToken": true
+  },
+  "headwise": {
+    "matrix": [[4,0],[0,1],[1,0],[0,2]],
+    "headRows": [[0,1],[2,3]],
+    "comparison": "Exact full-column-rank polar directions; normalize both displayed directions to unit Frobenius norm. No Newton-Schulz, momentum or vendor scaling implementation."
+  },
+  "balancedUpdate": {
+    "weights": [[1,-0.5],[0.2,0.8],[-0.3,0.4],[0.7,-0.1]],
+    "gradient": [[0.2,-0.1],[0,0],[-0.05,0.3],[0,0]],
+    "previousMomentum": [[0.1,-0.2],[0.08,0.04],[-0.1,0.05],[0,0]],
+    "beta": 0.9,
+    "epsilon": 0.001,
+    "tau": 0.1,
+    "normalizationSteps": 3,
+    "learningRate": 0.02,
+    "learningRateCorrection": 0.7,
+    "weightDecay": 0,
+    "source": "V4.1 v1 section 2.5 Algorithm 1; all numeric hyperparameters here are teaching inputs, not asserted recipe defaults."
+  },
+  "schedule": {
+    "timeUnit": "logical tick",
+    "nodes": [
+      {"id":"FA","lane":"compute","duration":2,"deps":[]},
+      {"id":"FD","lane":"network","duration":3,"deps":["FA"]},
+      {"id":"FM","lane":"compute","duration":2,"deps":["FD"]},
+      {"id":"FC","lane":"network","duration":3,"deps":["FM"]},
+      {"id":"BC","lane":"network","duration":3,"deps":[]},
+      {"id":"BMI","lane":"compute","duration":2,"deps":["BC"]},
+      {"id":"BMW","lane":"compute","duration":2,"deps":["BC"]},
+      {"id":"BD","lane":"network","duration":3,"deps":["BMI"]},
+      {"id":"BAI","lane":"compute","duration":2,"deps":["BD"]},
+      {"id":"BAW","lane":"compute","duration":2,"deps":["BD"]}
+    ],
+    "serialOrder": ["FA","FD","FM","FC","BC","BMI","BMW","BD","BAI","BAW"],
+    "networkDurations": [1,3,6],
+    "activationModel": "One old backward bundle is live at time zero. One new bundle is acquired at FA start and remains live beyond this pair. Release the old bundle only after all old backward compute nodes finish. Releases at a timestamp precede acquisitions.",
+    "boundary": "One independent forward/new-microbatch and backward/old-microbatch pair with one exclusive compute lane and one exclusive network lane. Exhaustively enumerate lane orders. Not the complete bidirectional DualPipe schedule; no PP send/recv, SM partitioning, tensor bytes or real latency."
+  }
+}

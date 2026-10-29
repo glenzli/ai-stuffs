@@ -1,0 +1,1861 @@
+{
+  "layouts": [
+    {
+      "anchor": "engram-training",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两张表的地址",
+          "textAlign": "left"
+        },
+        {
+          "text": "门控 α",
+          "textAlign": "left"
+        },
+        {
+          "text": "记忆残差 αm",
+          "textAlign": "left"
+        },
+        {
+          "text": "表行",
+          "textAlign": "left"
+        },
+        {
+          "text": "命中位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "各位置梯度贡献",
+          "textAlign": "left"
+        },
+        {
+          "text": "累计梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两个地址",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "matrix-update-recipes",
+      "file": "optimization-dynamics.html",
+      "headers": [
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "原始 M",
+          "textAlign": "left"
+        },
+        {
+          "text": "整矩阵归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "逐头归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "当前梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "上步动量",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新 Δ",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新后 W",
+          "textAlign": "left"
+        },
+        {
+          "text": "步骤",
+          "textAlign": "left"
+        },
+        {
+          "text": "归一化轴",
+          "textAlign": "left"
+        },
+        {
+          "text": "四行 L2 范数",
+          "textAlign": "left"
+        },
+        {
+          "text": "两列 L2 范数",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "dualpipe-overlap",
+      "file": "training-systems-deep.html",
+      "headers": [
+        {
+          "text": "每次通信 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "显式串行完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活峰值限 1 的最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源工作量下界",
+          "textAlign": "left"
+        },
+        {
+          "text": "操作",
+          "textAlign": "left"
+        },
+        {
+          "text": "资源",
+          "textAlign": "left"
+        },
+        {
+          "text": "开始",
+          "textAlign": "left"
+        },
+        {
+          "text": "结束",
+          "textAlign": "left"
+        },
+        {
+          "text": "前驱",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定通信 3 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活包峰值",
+          "textAlign": "left"
+        },
+        {
+          "text": "新包取得时刻",
+          "textAlign": "left"
+        },
+        {
+          "text": "旧包释放时刻",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 916,
+          "width": 916
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "scrollRegions": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "engram-training",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两张表的地址",
+          "textAlign": "left"
+        },
+        {
+          "text": "门控 α",
+          "textAlign": "left"
+        },
+        {
+          "text": "记忆残差 αm",
+          "textAlign": "left"
+        },
+        {
+          "text": "表行",
+          "textAlign": "left"
+        },
+        {
+          "text": "命中位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "各位置梯度贡献",
+          "textAlign": "left"
+        },
+        {
+          "text": "累计梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两个地址",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 742,
+          "width": 720
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "matrix-update-recipes",
+      "file": "optimization-dynamics.html",
+      "headers": [
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "原始 M",
+          "textAlign": "left"
+        },
+        {
+          "text": "整矩阵归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "逐头归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "当前梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "上步动量",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新 Δ",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新后 W",
+          "textAlign": "left"
+        },
+        {
+          "text": "步骤",
+          "textAlign": "left"
+        },
+        {
+          "text": "归一化轴",
+          "textAlign": "left"
+        },
+        {
+          "text": "四行 L2 范数",
+          "textAlign": "left"
+        },
+        {
+          "text": "两列 L2 范数",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "dualpipe-overlap",
+      "file": "training-systems-deep.html",
+      "headers": [
+        {
+          "text": "每次通信 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "显式串行完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活峰值限 1 的最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源工作量下界",
+          "textAlign": "left"
+        },
+        {
+          "text": "操作",
+          "textAlign": "left"
+        },
+        {
+          "text": "资源",
+          "textAlign": "left"
+        },
+        {
+          "text": "开始",
+          "textAlign": "left"
+        },
+        {
+          "text": "结束",
+          "textAlign": "left"
+        },
+        {
+          "text": "前驱",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定通信 3 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活包峰值",
+          "textAlign": "left"
+        },
+        {
+          "text": "新包取得时刻",
+          "textAlign": "left"
+        },
+        {
+          "text": "旧包释放时刻",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 680,
+          "width": 640
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "scrollRegions": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "engram-training",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两张表的地址",
+          "textAlign": "left"
+        },
+        {
+          "text": "门控 α",
+          "textAlign": "left"
+        },
+        {
+          "text": "记忆残差 αm",
+          "textAlign": "left"
+        },
+        {
+          "text": "表行",
+          "textAlign": "left"
+        },
+        {
+          "text": "命中位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "各位置梯度贡献",
+          "textAlign": "left"
+        },
+        {
+          "text": "累计梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两个地址",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 695,
+          "width": 358
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "matrix-update-recipes",
+      "file": "optimization-dynamics.html",
+      "headers": [
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "原始 M",
+          "textAlign": "left"
+        },
+        {
+          "text": "整矩阵归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "逐头归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "当前梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "上步动量",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新 Δ",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新后 W",
+          "textAlign": "left"
+        },
+        {
+          "text": "步骤",
+          "textAlign": "left"
+        },
+        {
+          "text": "归一化轴",
+          "textAlign": "left"
+        },
+        {
+          "text": "四行 L2 范数",
+          "textAlign": "left"
+        },
+        {
+          "text": "两列 L2 范数",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "dualpipe-overlap",
+      "file": "training-systems-deep.html",
+      "headers": [
+        {
+          "text": "每次通信 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "显式串行完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活峰值限 1 的最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源工作量下界",
+          "textAlign": "left"
+        },
+        {
+          "text": "操作",
+          "textAlign": "left"
+        },
+        {
+          "text": "资源",
+          "textAlign": "left"
+        },
+        {
+          "text": "开始",
+          "textAlign": "left"
+        },
+        {
+          "text": "结束",
+          "textAlign": "left"
+        },
+        {
+          "text": "前驱",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定通信 3 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活包峰值",
+          "textAlign": "left"
+        },
+        {
+          "text": "新包取得时刻",
+          "textAlign": "left"
+        },
+        {
+          "text": "旧包释放时刻",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 680,
+          "width": 278
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "scrollRegions": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 358,
+          "width": 358
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "engram-training",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两张表的地址",
+          "textAlign": "left"
+        },
+        {
+          "text": "门控 α",
+          "textAlign": "left"
+        },
+        {
+          "text": "记忆残差 αm",
+          "textAlign": "left"
+        },
+        {
+          "text": "表行",
+          "textAlign": "left"
+        },
+        {
+          "text": "命中位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "各位置梯度贡献",
+          "textAlign": "left"
+        },
+        {
+          "text": "累计梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两个地址",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 695,
+          "width": 358
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "matrix-update-recipes",
+      "file": "optimization-dynamics.html",
+      "headers": [
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "原始 M",
+          "textAlign": "left"
+        },
+        {
+          "text": "整矩阵归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "逐头归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "当前梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "上步动量",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新 Δ",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新后 W",
+          "textAlign": "left"
+        },
+        {
+          "text": "步骤",
+          "textAlign": "left"
+        },
+        {
+          "text": "归一化轴",
+          "textAlign": "left"
+        },
+        {
+          "text": "四行 L2 范数",
+          "textAlign": "left"
+        },
+        {
+          "text": "两列 L2 范数",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "dualpipe-overlap",
+      "file": "training-systems-deep.html",
+      "headers": [
+        {
+          "text": "每次通信 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "显式串行完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活峰值限 1 的最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源工作量下界",
+          "textAlign": "left"
+        },
+        {
+          "text": "操作",
+          "textAlign": "left"
+        },
+        {
+          "text": "资源",
+          "textAlign": "left"
+        },
+        {
+          "text": "开始",
+          "textAlign": "left"
+        },
+        {
+          "text": "结束",
+          "textAlign": "left"
+        },
+        {
+          "text": "前驱",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定通信 3 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活包峰值",
+          "textAlign": "left"
+        },
+        {
+          "text": "新包取得时刻",
+          "textAlign": "left"
+        },
+        {
+          "text": "旧包释放时刻",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 680,
+          "width": 278
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "scrollRegions": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 358,
+          "width": 358
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "engram-training",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两张表的地址",
+          "textAlign": "left"
+        },
+        {
+          "text": "门控 α",
+          "textAlign": "left"
+        },
+        {
+          "text": "记忆残差 αm",
+          "textAlign": "left"
+        },
+        {
+          "text": "表行",
+          "textAlign": "left"
+        },
+        {
+          "text": "命中位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "各位置梯度贡献",
+          "textAlign": "left"
+        },
+        {
+          "text": "累计梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两个地址",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 742,
+          "width": 720
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "matrix-update-recipes",
+      "file": "optimization-dynamics.html",
+      "headers": [
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "原始 M",
+          "textAlign": "left"
+        },
+        {
+          "text": "整矩阵归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "逐头归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "当前梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "上步动量",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新 Δ",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新后 W",
+          "textAlign": "left"
+        },
+        {
+          "text": "步骤",
+          "textAlign": "left"
+        },
+        {
+          "text": "归一化轴",
+          "textAlign": "left"
+        },
+        {
+          "text": "四行 L2 范数",
+          "textAlign": "left"
+        },
+        {
+          "text": "两列 L2 范数",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "dualpipe-overlap",
+      "file": "training-systems-deep.html",
+      "headers": [
+        {
+          "text": "每次通信 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "显式串行完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活峰值限 1 的最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源工作量下界",
+          "textAlign": "left"
+        },
+        {
+          "text": "操作",
+          "textAlign": "left"
+        },
+        {
+          "text": "资源",
+          "textAlign": "left"
+        },
+        {
+          "text": "开始",
+          "textAlign": "left"
+        },
+        {
+          "text": "结束",
+          "textAlign": "left"
+        },
+        {
+          "text": "前驱",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定通信 3 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活包峰值",
+          "textAlign": "left"
+        },
+        {
+          "text": "新包取得时刻",
+          "textAlign": "left"
+        },
+        {
+          "text": "旧包释放时刻",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 680,
+          "width": 640
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "scrollRegions": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "engram-training",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两张表的地址",
+          "textAlign": "left"
+        },
+        {
+          "text": "门控 α",
+          "textAlign": "left"
+        },
+        {
+          "text": "记忆残差 αm",
+          "textAlign": "left"
+        },
+        {
+          "text": "表行",
+          "textAlign": "left"
+        },
+        {
+          "text": "命中位置",
+          "textAlign": "left"
+        },
+        {
+          "text": "各位置梯度贡献",
+          "textAlign": "left"
+        },
+        {
+          "text": "累计梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "2-gram",
+          "textAlign": "left"
+        },
+        {
+          "text": "两个地址",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "anchor": "matrix-update-recipes",
+      "file": "optimization-dynamics.html",
+      "headers": [
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "原始 M",
+          "textAlign": "left"
+        },
+        {
+          "text": "整矩阵归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "逐头归一方向",
+          "textAlign": "left"
+        },
+        {
+          "text": "行",
+          "textAlign": "left"
+        },
+        {
+          "text": "当前梯度",
+          "textAlign": "left"
+        },
+        {
+          "text": "上步动量",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新 Δ",
+          "textAlign": "left"
+        },
+        {
+          "text": "更新后 W",
+          "textAlign": "left"
+        },
+        {
+          "text": "步骤",
+          "textAlign": "left"
+        },
+        {
+          "text": "归一化轴",
+          "textAlign": "left"
+        },
+        {
+          "text": "四行 L2 范数",
+          "textAlign": "left"
+        },
+        {
+          "text": "两列 L2 范数",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "anchor": "dualpipe-overlap",
+      "file": "training-systems-deep.html",
+      "headers": [
+        {
+          "text": "每次通信 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "显式串行完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活峰值限 1 的最短完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "双资源工作量下界",
+          "textAlign": "left"
+        },
+        {
+          "text": "操作",
+          "textAlign": "left"
+        },
+        {
+          "text": "资源",
+          "textAlign": "left"
+        },
+        {
+          "text": "开始",
+          "textAlign": "left"
+        },
+        {
+          "text": "结束",
+          "textAlign": "left"
+        },
+        {
+          "text": "前驱",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定通信 3 tick",
+          "textAlign": "left"
+        },
+        {
+          "text": "完成",
+          "textAlign": "left"
+        },
+        {
+          "text": "激活包峰值",
+          "textAlign": "left"
+        },
+        {
+          "text": "新包取得时刻",
+          "textAlign": "left"
+        },
+        {
+          "text": "旧包释放时刻",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "scrollRegions": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 916,
+          "width": 916
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "scrollRegions": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    }
+  ],
+  "expanded": [
+    {
+      "label": "重复地址的梯度要相加，不能按最后一次命中覆盖",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "width": 390
+    },
+    {
+      "label": "多头 hash 缓解冲突，不保证每个 N-gram 都有独占参数",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "width": 390
+    },
+    {
+      "label": "离线重算本轮三个机制",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "width": 390
+    },
+    {
+      "label": "L2 normalization stages",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "width": 390
+    },
+    {
+      "label": "十个操作的开始、结束与依赖",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "width": 390
+    },
+    {
+      "label": "为什么可以在这个教具里称为“最短”？",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "width": 390
+    }
+  ],
+  "navigation": [
+    {
+      "heading": "Engram：地址由 token 决定，查到的参数怎样学习？",
+      "headingTop": 92.15625,
+      "url": "http://127.0.0.1:4173/model-case-studies.html#engram-training"
+    },
+    {
+      "heading": "矩阵优化器：按头处理与大表更新，分别改变了什么？",
+      "headingTop": 92.0546875,
+      "url": "http://127.0.0.1:4173/optimization-dynamics.html#matrix-update-recipes"
+    },
+    {
+      "heading": "DualPipe：哪些通信能被覆盖，哪些依赖仍要等待？",
+      "headingTop": 92.0625,
+      "url": "http://127.0.0.1:4173/training-systems-deep.html#dualpipe-overlap"
+    }
+  ],
+  "search": [
+    {
+      "query": "Engram",
+      "links": [
+        "现代模型结构案例公开结构、跨层 KV 与 Engram 查表门控及梯度"
+      ]
+    },
+    {
+      "query": "head-wise Muon",
+      "links": [
+        "优化与训练稳定性AdamW、逐头 Muon、表参数 L2 均衡更新与 WSD 平均"
+      ]
+    },
+    {
+      "query": "Sinkhorn balanced updates",
+      "links": [
+        "优化与训练稳定性AdamW、逐头 Muon、表参数 L2 均衡更新与 WSD 平均"
+      ]
+    },
+    {
+      "query": "DualPipe",
+      "links": [
+        "训练系统深入并行、FSDP 参数生命周期与 DualPipe 的依赖/通信重叠"
+      ]
+    },
+    {
+      "query": "重复地址",
+      "links": [
+        "现代模型结构案例公开结构、跨层 KV 与 Engram 查表门控及梯度"
+      ]
+    }
+  ],
+  "finalFigureLayouts": [
+    {
+      "clientWidth": 358,
+      "computeColor": "rgb(231, 238, 251)",
+      "figureLeft": 16,
+      "networkColor": "rgb(250, 233, 222)",
+      "pageOverflow": 0,
+      "scrollWidth": 680,
+      "sectionLeft": 16,
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "clientWidth": 720,
+      "computeColor": "rgb(231, 238, 251)",
+      "figureLeft": 24,
+      "networkColor": "rgb(250, 233, 222)",
+      "pageOverflow": 0,
+      "scrollWidth": 720,
+      "sectionLeft": 24,
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "clientWidth": 996,
+      "computeColor": "rgb(231, 238, 251)",
+      "figureLeft": 248,
+      "networkColor": "rgb(250, 233, 222)",
+      "pageOverflow": 0,
+      "scrollWidth": 996,
+      "sectionLeft": 248,
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "clientWidth": 996,
+      "computeColor": "rgb(37, 51, 77)",
+      "figureLeft": 248,
+      "networkColor": "rgb(66, 45, 35)",
+      "pageOverflow": 0,
+      "scrollWidth": 996,
+      "sectionLeft": 248,
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "clientWidth": 720,
+      "computeColor": "rgb(37, 51, 77)",
+      "figureLeft": 24,
+      "networkColor": "rgb(66, 45, 35)",
+      "pageOverflow": 0,
+      "scrollWidth": 720,
+      "sectionLeft": 24,
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "clientWidth": 358,
+      "computeColor": "rgb(37, 51, 77)",
+      "figureLeft": 16,
+      "networkColor": "rgb(66, 45, 35)",
+      "pageOverflow": 0,
+      "scrollWidth": 680,
+      "sectionLeft": 16,
+      "theme": "dark",
+      "width": 390
+    }
+  ],
+  "mobileChartScroll": {
+    "before": {
+      "clientWidth": 358,
+      "height": 167.640625,
+      "left": 16,
+      "pageWidth": 390,
+      "scrollLeft": 0,
+      "scrollWidth": 680,
+      "top": 204.7578125
+    },
+    "after": {
+      "clientWidth": 358,
+      "pageWidth": 390,
+      "scrollLeft": 322,
+      "scrollWidth": 680
+    }
+  },
+  "console": [],
+  "originalTheme": "light",
+  "themeRestored": "light",
+  "viewportReset": true,
+  "passed": true
+}

@@ -56,6 +56,10 @@ Git 仅跟踪源码、文档、依赖锁文件及当前登记的完整实验来�
 离线核验见[训练机制核验记录](docs/training-contracts-2026-10-30.md)。
 MTP 标签与梯度、草稿头后训练、WSD/checkpoint 平均及来源版本差异见
 [MTP 与 WSD 补充记录](docs/mtp-wsd-2026-10-30.md)，含固定输入、更新轨迹和可离线执行的核验命令。
+MoE bias 控制、分模态统计与 mHC/Sinkhorn/Single-Pass 的版本区别和固定算例见
+[MoE 与 mHC 核验记录](docs/moe-mhc-2026-10-30.md)。
+Engram 查表训练、逐头矩阵方向、有符号 L2 均衡更新和 DualPipe 资源依赖的固定输入与版本边界见
+[查表、更新与重叠核验记录](docs/lookup-updates-overlap-2026-10-30.md)。
 
 ## 快速开始
 

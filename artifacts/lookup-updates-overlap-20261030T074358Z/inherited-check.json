@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "preservedIdentitiesChecked": 19,
+  "previousCheckerPassed": true,
+  "previousFiniteDifferences": 17,
+  "previousTables": 6,
+  "previousScalarValues": 3,
+  "priorEvidenceRewritten": false
+}

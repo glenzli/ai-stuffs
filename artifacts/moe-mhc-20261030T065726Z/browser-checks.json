@@ -1,0 +1,1563 @@
+{
+  "layouts": [
+    {
+      "anchor": "moe-load-control",
+      "file": "transformer-anatomy.html",
+      "headers": [
+        {
+          "text": "回放",
+          "textAlign": "left"
+        },
+        {
+          "text": "本次使用的 bias",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 / E2 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token",
+          "textAlign": "left"
+        },
+        {
+          "text": "选中专家",
+          "textAlign": "left"
+        },
+        {
+          "text": "对应门控权重",
+          "textAlign": "left"
+        },
+        {
+          "text": "合并输出",
+          "textAlign": "left"
+        },
+        {
+          "text": "统计范围",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token 数",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定来源",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节采用的事实",
+          "textAlign": "left"
+        },
+        {
+          "text": "需要单独保留",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "mhc-residual",
+      "file": "architecture-variants.html",
+      "headers": [
+        {
+          "text": "轮数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大行和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大列和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖M‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "混合次数 r",
+          "textAlign": "left"
+        },
+        {
+          "text": "差异方向 [1,−1] 的范数比",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖Bʳ‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "输入混合",
+          "textAlign": "left"
+        },
+        {
+          "text": "AX",
+          "textAlign": "left"
+        },
+        {
+          "text": "下一状态两条流",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 3,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "frontier-cache-case",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "项目",
+          "textAlign": "left"
+        },
+        {
+          "text": "报告配置 / 定义",
+          "textAlign": "left"
+        },
+        {
+          "text": "阅读时要区分",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tables": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "moe-load-control",
+      "file": "transformer-anatomy.html",
+      "headers": [
+        {
+          "text": "回放",
+          "textAlign": "left"
+        },
+        {
+          "text": "本次使用的 bias",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 / E2 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token",
+          "textAlign": "left"
+        },
+        {
+          "text": "选中专家",
+          "textAlign": "left"
+        },
+        {
+          "text": "对应门控权重",
+          "textAlign": "left"
+        },
+        {
+          "text": "合并输出",
+          "textAlign": "left"
+        },
+        {
+          "text": "统计范围",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token 数",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定来源",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节采用的事实",
+          "textAlign": "left"
+        },
+        {
+          "text": "需要单独保留",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "mhc-residual",
+      "file": "architecture-variants.html",
+      "headers": [
+        {
+          "text": "轮数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大行和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大列和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖M‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "混合次数 r",
+          "textAlign": "left"
+        },
+        {
+          "text": "差异方向 [1,−1] 的范数比",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖Bʳ‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "输入混合",
+          "textAlign": "left"
+        },
+        {
+          "text": "AX",
+          "textAlign": "left"
+        },
+        {
+          "text": "下一状态两条流",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 3,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "frontier-cache-case",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "项目",
+          "textAlign": "left"
+        },
+        {
+          "text": "报告配置 / 定义",
+          "textAlign": "left"
+        },
+        {
+          "text": "阅读时要区分",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tables": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "moe-load-control",
+      "file": "transformer-anatomy.html",
+      "headers": [
+        {
+          "text": "回放",
+          "textAlign": "left"
+        },
+        {
+          "text": "本次使用的 bias",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 / E2 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token",
+          "textAlign": "left"
+        },
+        {
+          "text": "选中专家",
+          "textAlign": "left"
+        },
+        {
+          "text": "对应门控权重",
+          "textAlign": "left"
+        },
+        {
+          "text": "合并输出",
+          "textAlign": "left"
+        },
+        {
+          "text": "统计范围",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token 数",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定来源",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节采用的事实",
+          "textAlign": "left"
+        },
+        {
+          "text": "需要单独保留",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "mhc-residual",
+      "file": "architecture-variants.html",
+      "headers": [
+        {
+          "text": "轮数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大行和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大列和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖M‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "混合次数 r",
+          "textAlign": "left"
+        },
+        {
+          "text": "差异方向 [1,−1] 的范数比",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖Bʳ‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "输入混合",
+          "textAlign": "left"
+        },
+        {
+          "text": "AX",
+          "textAlign": "left"
+        },
+        {
+          "text": "下一状态两条流",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 3,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "frontier-cache-case",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "项目",
+          "textAlign": "left"
+        },
+        {
+          "text": "报告配置 / 定义",
+          "textAlign": "left"
+        },
+        {
+          "text": "阅读时要区分",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tables": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 358,
+          "width": 358
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "moe-load-control",
+      "file": "transformer-anatomy.html",
+      "headers": [
+        {
+          "text": "回放",
+          "textAlign": "left"
+        },
+        {
+          "text": "本次使用的 bias",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 / E2 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token",
+          "textAlign": "left"
+        },
+        {
+          "text": "选中专家",
+          "textAlign": "left"
+        },
+        {
+          "text": "对应门控权重",
+          "textAlign": "left"
+        },
+        {
+          "text": "合并输出",
+          "textAlign": "left"
+        },
+        {
+          "text": "统计范围",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token 数",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定来源",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节采用的事实",
+          "textAlign": "left"
+        },
+        {
+          "text": "需要单独保留",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "mhc-residual",
+      "file": "architecture-variants.html",
+      "headers": [
+        {
+          "text": "轮数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大行和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大列和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖M‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "混合次数 r",
+          "textAlign": "left"
+        },
+        {
+          "text": "差异方向 [1,−1] 的范数比",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖Bʳ‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "输入混合",
+          "textAlign": "left"
+        },
+        {
+          "text": "AX",
+          "textAlign": "left"
+        },
+        {
+          "text": "下一状态两条流",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 3,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 0
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "frontier-cache-case",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "项目",
+          "textAlign": "left"
+        },
+        {
+          "text": "报告配置 / 定义",
+          "textAlign": "left"
+        },
+        {
+          "text": "阅读时要区分",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tables": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 358,
+          "width": 358
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "moe-load-control",
+      "file": "transformer-anatomy.html",
+      "headers": [
+        {
+          "text": "回放",
+          "textAlign": "left"
+        },
+        {
+          "text": "本次使用的 bias",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 / E2 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token",
+          "textAlign": "left"
+        },
+        {
+          "text": "选中专家",
+          "textAlign": "left"
+        },
+        {
+          "text": "对应门控权重",
+          "textAlign": "left"
+        },
+        {
+          "text": "合并输出",
+          "textAlign": "left"
+        },
+        {
+          "text": "统计范围",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token 数",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定来源",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节采用的事实",
+          "textAlign": "left"
+        },
+        {
+          "text": "需要单独保留",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "mhc-residual",
+      "file": "architecture-variants.html",
+      "headers": [
+        {
+          "text": "轮数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大行和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大列和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖M‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "混合次数 r",
+          "textAlign": "left"
+        },
+        {
+          "text": "差异方向 [1,−1] 的范数比",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖Bʳ‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "输入混合",
+          "textAlign": "left"
+        },
+        {
+          "text": "AX",
+          "textAlign": "left"
+        },
+        {
+          "text": "下一状态两条流",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 3,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 0
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "frontier-cache-case",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "项目",
+          "textAlign": "left"
+        },
+        {
+          "text": "报告配置 / 定义",
+          "textAlign": "left"
+        },
+        {
+          "text": "阅读时要区分",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tables": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "moe-load-control",
+      "file": "transformer-anatomy.html",
+      "headers": [
+        {
+          "text": "回放",
+          "textAlign": "left"
+        },
+        {
+          "text": "本次使用的 bias",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 / E2 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token",
+          "textAlign": "left"
+        },
+        {
+          "text": "选中专家",
+          "textAlign": "left"
+        },
+        {
+          "text": "对应门控权重",
+          "textAlign": "left"
+        },
+        {
+          "text": "合并输出",
+          "textAlign": "left"
+        },
+        {
+          "text": "统计范围",
+          "textAlign": "left"
+        },
+        {
+          "text": "Token 数",
+          "textAlign": "left"
+        },
+        {
+          "text": "E0 / E1 分派数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最忙负载 / 均值 − 1",
+          "textAlign": "left"
+        },
+        {
+          "text": "固定来源",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节采用的事实",
+          "textAlign": "left"
+        },
+        {
+          "text": "需要单独保留",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "anchor": "mhc-residual",
+      "file": "architecture-variants.html",
+      "headers": [
+        {
+          "text": "轮数",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大行和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "最大列和误差",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖M‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "混合次数 r",
+          "textAlign": "left"
+        },
+        {
+          "text": "差异方向 [1,−1] 的范数比",
+          "textAlign": "left"
+        },
+        {
+          "text": "‖Bʳ‖₂",
+          "textAlign": "left"
+        },
+        {
+          "text": "输入混合",
+          "textAlign": "left"
+        },
+        {
+          "text": "AX",
+          "textAlign": "left"
+        },
+        {
+          "text": "下一状态两条流",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 3,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        },
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 0
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "anchor": "frontier-cache-case",
+      "file": "model-case-studies.html",
+      "headers": [
+        {
+          "text": "项目",
+          "textAlign": "left"
+        },
+        {
+          "text": "报告配置 / 定义",
+          "textAlign": "left"
+        },
+        {
+          "text": "阅读时要区分",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tables": [
+        {
+          "overflowX": "auto",
+          "scrollWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headers": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tables": [
+        {
+          "overflowX": "visible",
+          "scrollWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    }
+  ],
+  "navigation": [
+    {
+      "heading": "MoE 负载控制：选谁、乘多少、按什么范围计数？",
+      "headingTop": 92,
+      "url": "http://127.0.0.1:4173/transformer-anatomy.html#moe-load-control"
+    },
+    {
+      "heading": "mHC：多条残差流怎样混合，约束又保证到哪里？",
+      "headingTop": 91.78125,
+      "url": "http://127.0.0.1:4173/architecture-variants.html#mhc-residual"
+    },
+    {
+      "heading": "Single-Pass：先改变系数依赖，再讨论融合",
+      "headingTop": 92.140625,
+      "scrollMargin": "92px",
+      "url": "http://127.0.0.1:4173/architecture-variants.html#single-pass-mhc"
+    }
+  ],
+  "search": [
+    {
+      "query": "Loss-Free Balancing",
+      "links": [
+        "Transformer 权重解剖QKV、Dense/MoE 参数、bias 负载控制、模态统计与专家分派"
+      ]
+    },
+    {
+      "query": "分模态",
+      "links": [
+        "Transformer 权重解剖QKV、Dense/MoE 参数、bias 负载控制、模态统计与专家分派"
+      ]
+    },
+    {
+      "query": "mHC",
+      "links": [
+        "架构变体与结论注意力、MoE、SSM 与 mHC/Sinkhorn 残差混合",
+        "现代模型结构案例结构样本与 DeepSeek-V4.1-Flash 的跨层 KV、CSA2 和 CED"
+      ]
+    },
+    {
+      "query": "Sinkhorn",
+      "links": [
+        "架构变体与结论注意力、MoE、SSM 与 mHC/Sinkhorn 残差混合"
+      ]
+    },
+    {
+      "query": "Single-Pass",
+      "links": [
+        "架构变体与结论注意力、MoE、SSM 与 mHC/Sinkhorn 残差混合"
+      ]
+    }
+  ],
+  "mobileScroll": {
+    "before": {
+      "clientWidth": 358,
+      "height": 285.3828125,
+      "left": 16,
+      "pageWidth": 390,
+      "scrollLeft": 292,
+      "scrollWidth": 650,
+      "top": 223.453125
+    },
+    "after": {
+      "clientWidth": 358,
+      "pageWidth": 390,
+      "scrollLeft": 0,
+      "scrollWidth": 650
+    }
+  },
+  "finalExpandedLayouts": [
+    {
+      "commandClientWidth": 996,
+      "commandOverflow": "auto",
+      "commandScrollWidth": 996,
+      "katexErrors": 0,
+      "openDetails": 4,
+      "pageOverflow": 0,
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "commandClientWidth": 720,
+      "commandOverflow": "auto",
+      "commandScrollWidth": 720,
+      "katexErrors": 0,
+      "openDetails": 4,
+      "pageOverflow": 0,
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "commandClientWidth": 358,
+      "commandOverflow": "auto",
+      "commandScrollWidth": 542,
+      "katexErrors": 0,
+      "openDetails": 4,
+      "pageOverflow": 0,
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "commandClientWidth": 358,
+      "commandOverflow": "auto",
+      "commandScrollWidth": 542,
+      "katexErrors": 0,
+      "openDetails": 4,
+      "pageOverflow": 0,
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "commandClientWidth": 720,
+      "commandOverflow": "auto",
+      "commandScrollWidth": 720,
+      "katexErrors": 0,
+      "openDetails": 4,
+      "pageOverflow": 0,
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "commandClientWidth": 996,
+      "commandOverflow": "auto",
+      "commandScrollWidth": 996,
+      "katexErrors": 0,
+      "openDetails": 4,
+      "pageOverflow": 0,
+      "theme": "dark",
+      "width": 1280
+    }
+  ],
+  "correctedIssue": {
+    "label": "Expanded offline command overflowed at 390px",
+    "beforeOverflow": 168,
+    "change": "Contain the command pre in an existing horizontal-scroll wrapper",
+    "resolved": true
+  },
+  "correctedAnchorIssue": {
+    "before": {
+      "heading": "Single-Pass：先改变系数依赖，再讨论融合",
+      "headingTop": 0.140625,
+      "url": "http://127.0.0.1:4173/architecture-variants.html#single-pass-mhc"
+    },
+    "change": "Extend the shared 92px fixed-header scroll margin to h3[id]",
+    "after": {
+      "heading": "Single-Pass：先改变系数依赖，再讨论融合",
+      "headingTop": 92.140625,
+      "scrollMargin": "92px",
+      "url": "http://127.0.0.1:4173/architecture-variants.html#single-pass-mhc"
+    }
+  },
+  "anchorLayouts": [
+    {
+      "anchor": "wsd-source-versions",
+      "headingTop": 92.1796875,
+      "pageOverflow": 0,
+      "scrollMargin": "92px",
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "single-pass-mhc",
+      "headingTop": 92.1484375,
+      "pageOverflow": 0,
+      "scrollMargin": "92px",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "single-pass-mhc",
+      "headingTop": 92.1484375,
+      "pageOverflow": 0,
+      "scrollMargin": "92px",
+      "theme": "dark",
+      "width": 390
+    }
+  ],
+  "intermediateAnchorObservations": [
+    {
+      "anchor": "single-pass-mhc",
+      "headingTop": 3373.6484375,
+      "pageOverflow": 0,
+      "scrollMargin": "92px",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "single-pass-mhc",
+      "headingTop": 3766.1484375,
+      "pageOverflow": 0,
+      "scrollMargin": "92px",
+      "theme": "dark",
+      "width": 390
+    }
+  ],
+  "console": [],
+  "themeRestored": "light",
+  "originalTheme": "light",
+  "viewportReset": true,
+  "passed": true,
+  "initialExpandedChecks": [
+    {
+      "containerWidth": 358,
+      "open": true,
+      "pageOverflow": 0,
+      "section": "moe-gates",
+      "tableWidth": 650
+    },
+    {
+      "label": "为什么本轮计数不能倒过来决定同一序列的前面位置？",
+      "katexErrors": 0,
+      "pageOverflow": 0
+    },
+    {
+      "label": "一手版本：Loss-Free 不等于整个配方没有辅助项",
+      "katexErrors": 0,
+      "pageOverflow": 0
+    },
+    {
+      "label": "离线重算 MoE 控制与 mHC",
+      "katexErrors": 0,
+      "pageOverflow": 168
+    },
+    {
+      "label": "约束后的矩阵还能怎样回传？",
+      "katexErrors": 0,
+      "pageOverflow": 0
+    },
+    {
+      "label": "相同当前状态，使用本层或前层系数会怎样？",
+      "katexErrors": 0,
+      "pageOverflow": 0
+    }
+  ]
+}

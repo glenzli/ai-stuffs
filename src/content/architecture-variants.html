@@ -170,6 +170,48 @@
       <div class="reading-links"><a href="position-cache.html#rotary-position">RoPE 旋转与缓存位置核对</a><a href="data-tokenizer.html#mixture-optimization">长度与数据混合</a><a href="parallel-correctness.html">全局 token 与并行正确性</a><a href="model-evaluation.html#generalization">泛化判据</a></div>
     </section>
     </div>
+    <div class="modern-page"><section class="section" aria-labelledby="mhc-residual"><div class="section-heading"><span class="section-number">CASE / RESIDUAL MIXING</span><h2 id="mhc-residual">mHC：多条残差流怎样混合，约束又保证到哪里？</h2></div>
+      <p>普通残差把分支输出加回一条流。Hyper-Connections 扩成多条流，并学习层间的混合。DeepSeek 的 mHC 再约束残差混合矩阵；它改变的是计算图，不能只当成优化器或 KV 压缩技巧。</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+X_{\ell+1}&amp;=B_\ell X_\ell+C_\ell\mathcal F_\ell(A_\ell X_\ell),\\
+B_\ell&amp;\ge0,\qquad B_\ell\mathbf1=\mathbf1,\qquad\mathbf1^\top B_\ell=\mathbf1^\top.
+\end{aligned}</div><figcaption>X 为 n×d 的残差流；A 为 1×n 输入混合，B 为 n×n 残差混合，C 为 n×1 输出分发。实际系数依赖状态。双随机条件约束 B；A、C 的参数化和分支 F 需另行分析。</figcaption></figure>
+      <h3>有限次 Sinkhorn：把误差也留下来</h3>
+      <p>固定正矩阵 M⁽⁰⁾=[[4,1],[1,1]]，交替归一化。本站教具约定每轮<strong>先行、后列</strong>；原论文 v1 式 9 写的是先列、后行。二者有限次结果不同，不能只凭同为 20 轮就认作逐步复现。</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+M^{(0)}_{ij}&amp;=\exp(Z_{ij}),\\
+R^{(t)}_{ij}&amp;=\frac{M^{(t-1)}_{ij}}{\sum_kM^{(t-1)}_{ik}},\qquad
+M^{(t)}_{ij}=\frac{R^{(t)}_{ij}}{\sum_kR^{(t)}_{kj}}.
+\end{aligned}</div><figcaption>教学输入全部为正，分母非零且不加 ε；采用 JavaScript Number 重算。表中行/列误差是对应和与 1 的最大绝对差，‖M‖₂ 是最大奇异值。</figcaption></figure>
+      <div class="compare-wrap"><table data-mhc-sinkhorn><thead><tr><th>轮数</th><th>最大行和误差</th><th>最大列和误差</th><th>‖M‖₂</th></tr></thead><tbody>
+        <tr><td>0</td><td>4.000e+0</td><td>4.000e+0</td><td>4.302776</td></tr>
+        <tr><td>1</td><td>9.890e-2</td><td>&lt;1e−14</td><td>1.005465</td></tr>
+        <tr><td>2</td><td>1.097e-2</td><td>&lt;1e−14</td><td>1.000068</td></tr>
+        <tr><td>5</td><td>1.505e-5</td><td>&lt;1e−14</td><td>1.000000</td></tr>
+        <tr><td>20</td><td>&lt;1e−14</td><td>&lt;1e−14</td><td>1.000000</td></tr>
+      </tbody></table></div>
+      <p class="experiment-note">一轮后列和已满足，行和与二范数却仍不满足精确双随机结论。表中 1.000000 是六位舍入，不能当作严格上界；“&lt;1e−14”也不代表精确为零。低精度、极端输入、归一化次序和稳定项会改变误差，需要在实际实现上核对。</p>
+      <details><summary>约束后的矩阵还能怎样回传？</summary><p>固定线性读出 L=ΣᵢⱼM⁽²⁰⁾ᵢⱼGᵢⱼ，G=[[0.2,−0.3],[0.4,0.8]]。本例从四个原始 Z=log M⁽⁰⁾ 出发，沿 20 轮归一化逐步反传；有限差分核对全部四个导数。一次 η=0.1 的 SGD 后，读出由 <span data-mhc-before-loss>0.700000</span> 变为 <span data-mhc-after-loss>0.695987</span>。这是指定矩阵目标的更新，不是模型质量提升，也没有实现状态相关的系数预测器。</p></details>
+      <h3>残差混合不放大，不等于不丢差异或整网都稳定</h3>
+      <p>对<strong>精确非负双随机</strong>的方阵，二范数至多为 1；这样的矩阵相乘仍满足同样约束。对每个固定输入方向 v，‖Bv‖₂≤‖v‖₂。该结论只约束残差混合算子，不把近似行列和自动升级成精确条件。</p>
+      <div class="compare-wrap"><table data-mhc-composition><thead><tr><th>混合次数 r</th><th>差异方向 [1,−1] 的范数比</th><th>‖Bʳ‖₂</th></tr></thead><tbody>
+        <tr><td>1</td><td>3.333333e-1</td><td>1.000000</td></tr>
+        <tr><td>5</td><td>4.115226e-3</td><td>1.000000</td></tr>
+        <tr><td>12</td><td>1.881676e-6</td><td>1.000000</td></tr>
+      </tbody></table></div>
+      <p>这里 B=[[2/3,1/3],[1/3,2/3]]，常量方向保持，差异方向却每层缩为 1/3。另取单流 B=1、A=0.5、C=1、F(u)=4u，完整转移是 x→3x，导数为 <span data-mhc-full-jacobian>3.000000</span>。B 满足约束，完整分支仍可放大梯度；实际 A/B/C 依赖 X 时还会出现系数导数。</p>
+      <h3 id="single-pass-mhc">Single-Pass：先改变系数依赖，再讨论融合</h3>
+      <p>DeepSeek-V4.1-Flash 报告第 2.4.1 节把输入混合由本层 Aℓ 改成前层产生的 Aℓ−1，解除输入混合等待本层系数归约的依赖。报告区分预训练沿用多 kernel 实现和部署时融合执行；不能把这项改动概括成“同一计算图换个快 kernel”。</p>
+      <figure class="math-block"><div class="math-display" data-math>X_{\ell+1}=B_\ell X_\ell+C_\ell\mathcal F_\ell(A_{\ell-1}X_\ell)</div><figcaption>这里仅输入混合系数移到前一层；Bℓ、Cℓ 仍属于当前层。完整训练需按实现约定系数状态与首层初始化，本站不补猜未核对的边界配置。</figcaption></figure>
+      <details><summary>相同当前状态，使用本层或前层系数会怎样？</summary><p>固定 X=[2,1]、上面的 B、C=[0.25,0.75]、F(u)=2u，本层 A=[0.6,0.4]，已保存前层 A=[0.8,0.2]。只对比一次转移，不生成系数或声称两行输出等价。</p>
+        <div class="compare-wrap"><table data-mhc-single-pass><thead><tr><th>输入混合</th><th>AX</th><th>下一状态两条流</th></tr></thead><tbody>
+          <tr><td>本层 Aℓ</td><td>1.600000</td><td>2.466667 / 3.733333</td></tr>
+          <tr><td>前层 Aℓ−1</td><td>1.800000</td><td>2.566667 / 4.033333</td></tr>
+        </tbody></table></div><p>本例检验的是系数来源与依赖，未执行融合 kernel、量化或测速。访存下界与作者的端到端收益不能由这三列数值推出。</p>
+      </details>
+      <p class="source-note">一手版本：<a href="https://arxiv.org/html/2512.24880v1">mHC v1（2025-12-31）第 4.1–4.2 节、式 6–9</a>定义约束、参数化和有限次迭代；<a href="https://arxiv.org/html/2609.19969v1">DeepSeek-V4.1-Flash v1（2026-09-17）第 2.4.1 节、式 2–6</a>说明 Single-Pass 的系数移位与执行阶段。这里没有重跑作者训练、验证质量或复现吞吐。</p>
+      <div class="reading-links"><a href="transformer-anatomy.html#moe-load-control">本轮固定输入与离线重算命令</a><a href="backpropagation.html#block-backward">残差分支的梯度汇合</a><a href="performance-analysis.html#execution-path">依赖、访存与关键路径</a></div>
+    </section></div>
     <section class="section" aria-labelledby="analysis-title">
       <div class="section-heading">
         <div>

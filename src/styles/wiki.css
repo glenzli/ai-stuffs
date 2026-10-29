@@ -33,7 +33,7 @@ body * { letter-spacing: 0; }
 .wiki-toc a { text-decoration: none; font-size: 12px; color: var(--ink-soft); overflow-wrap: anywhere; }
 .wiki-toc a:hover, .wiki-toc a[data-current] { color: var(--accent); }
 main [role="region"][tabindex="0"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-main h2[id], main section[id] { scroll-margin-top: 92px; }
+main h2[id], main h3[id], main section[id] { scroll-margin-top: 92px; }
 .page-intro { padding: 38px 0 32px; gap: 32px; grid-template-columns: minmax(0,1fr) minmax(220px,.48fr); align-items: start; }
 .page-intro h1 { font-family: var(--sans); font-weight: 650; font-size: 36px; line-height: 1.36; margin: 10px 0 18px; text-wrap: balance; }
 .page-intro h1 br { display: none; }

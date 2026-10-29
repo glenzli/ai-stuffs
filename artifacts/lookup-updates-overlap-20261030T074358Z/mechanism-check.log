@@ -1,0 +1,1850 @@
+{
+  "schema": "lookup-updates-overlap-results-v1",
+  "boundary": "Fixed teaching inputs only. No vendor model, tokenizer, GPU, distributed runtime, memory-transfer benchmark or training-quality result is reproduced.",
+  "lookup": {
+    "inputs": {
+      "tokens": [
+        1,
+        2,
+        1,
+        2
+      ],
+      "table0": [
+        0.1,
+        -0.2,
+        0.3,
+        -0.4,
+        0.5
+      ],
+      "table1": [
+        0.2,
+        0.4,
+        -0.1,
+        0.3,
+        -0.5,
+        0.6,
+        0.7
+      ],
+      "hash0": {
+        "previousCoefficient": 3,
+        "currentCoefficient": 1,
+        "modulus": 5
+      },
+      "hash1": {
+        "previousCoefficient": 1,
+        "currentCoefficient": 2,
+        "modulus": 7
+      },
+      "contextRule": "[current token / 10, sum of prefix tokens including current / 10]",
+      "gate": "sigmoid(dot(context, concatenated scalar lookups) / sqrt(2))",
+      "upstream": [
+        [
+          0,
+          0
+        ],
+        [
+          0.2,
+          -0.1
+        ],
+        [
+          -0.3,
+          0.4
+        ],
+        [
+          0.5,
+          0.2
+        ]
+      ],
+      "learningRate": 0.1,
+      "partialCollisionPairs": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "collisionSearchDomain": [
+        0,
+        9
+      ],
+      "suffixVariant": [
+        1,
+        2,
+        9,
+        8
+      ],
+      "noBigramAtFirstToken": true
+    },
+    "rows": [
+      {
+        "position": 0,
+        "ngram": null,
+        "addresses": null,
+        "context": [
+          0.1,
+          0.1
+        ],
+        "memory": [
+          0,
+          0
+        ],
+        "gate": 0,
+        "residual": [
+          0,
+          0
+        ],
+        "output": [
+          0.1,
+          0.1
+        ]
+      },
+      {
+        "position": 1,
+        "ngram": [
+          1,
+          2
+        ],
+        "addresses": [
+          0,
+          5
+        ],
+        "context": [
+          0.2,
+          0.3
+        ],
+        "memory": [
+          0.1,
+          0.6
+        ],
+        "gate": 0.5352965311073327,
+        "residual": [
+          0.053529653110733266,
+          0.3211779186643996
+        ],
+        "output": [
+          0.2535296531107333,
+          0.6211779186643995
+        ]
+      },
+      {
+        "position": 2,
+        "ngram": [
+          2,
+          1
+        ],
+        "addresses": [
+          2,
+          4
+        ],
+        "context": [
+          0.1,
+          0.4
+        ],
+        "memory": [
+          0.3,
+          -0.5
+        ],
+        "gate": 0.469984097247414,
+        "residual": [
+          0.1409952291742242,
+          -0.234992048623707
+        ],
+        "output": [
+          0.2409952291742242,
+          0.165007951376293
+        ]
+      },
+      {
+        "position": 3,
+        "ngram": [
+          1,
+          2
+        ],
+        "addresses": [
+          0,
+          5
+        ],
+        "context": [
+          0.2,
+          0.6
+        ],
+        "memory": [
+          0.1,
+          0.6
+        ],
+        "gate": 0.5667738707075946,
+        "residual": [
+          0.05667738707075946,
+          0.3400643224245567
+        ],
+        "output": [
+          0.2566773870707595,
+          0.9400643224245566
+        ]
+      }
+    ],
+    "touchedRows": [
+      {
+        "head": 0,
+        "row": 0,
+        "contributions": [
+          {
+            "position": 1,
+            "gradient": 0.10565214022328803
+          },
+          {
+            "position": 3,
+            "gradient": 0.28929014737820735
+          }
+        ],
+        "gradient": 0.3949422876014954
+      },
+      {
+        "head": 0,
+        "row": 2,
+        "contributions": [
+          {
+            "position": 2,
+            "gradient": -0.14610327827944886
+          }
+        ],
+        "gradient": -0.14610327827944886
+      },
+      {
+        "head": 1,
+        "row": 4,
+        "contributions": [
+          {
+            "position": 2,
+            "gradient": 0.16756144247806695
+          }
+        ],
+        "gradient": 0.16756144247806695
+      },
+      {
+        "head": 1,
+        "row": 5,
+        "contributions": [
+          {
+            "position": 1,
+            "gradient": -0.055640402108001016
+          },
+          {
+            "position": 3,
+            "gradient": 0.13106441021474913
+          }
+        ],
+        "gradient": 0.07542400810674811
+      }
+    ],
+    "gradients": [
+      [
+        0.3949422876014954,
+        0.0,
+        -0.14610327827944886,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.16756144247806695,
+        0.07542400810674811,
+        0.0
+      ]
+    ],
+    "finiteDifferenceChecks": 12,
+    "beforeLoss": 0.29864430857424773,
+    "afterLoss": 0.2776038485317846,
+    "updatedTables": [
+      [
+        0.06050577123985046,
+        -0.2,
+        0.31461032782794485,
+        -0.4,
+        0.5
+      ],
+      [
+        0.2,
+        0.4,
+        -0.1,
+        0.3,
+        -0.5167561442478067,
+        0.5924575991893252,
+        0.7
+      ]
+    ],
+    "collisionRows": [
+      {
+        "pair": [
+          1,
+          2
+        ],
+        "addresses": [
+          0,
+          5
+        ]
+      },
+      {
+        "pair": [
+          2,
+          4
+        ],
+        "addresses": [
+          0,
+          3
+        ]
+      },
+      {
+        "pair": [
+          3,
+          1
+        ],
+        "addresses": [
+          0,
+          5
+        ]
+      }
+    ],
+    "prefixAndEmptyGuardsPassed": true
+  },
+  "headwise": {
+    "inputs": {
+      "matrix": [
+        [
+          4,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "headRows": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "comparison": "Exact full-column-rank polar directions; normalize both displayed directions to unit Frobenius norm. No Newton-Schulz, momentum or vendor scaling implementation."
+    },
+    "fullPolar": [
+      [
+        0.9701425001453319,
+        0.0
+      ],
+      [
+        0.0,
+        0.4472135954999579
+      ],
+      [
+        0.24253562503633297,
+        0.0
+      ],
+      [
+        0.0,
+        0.8944271909999159
+      ]
+    ],
+    "headPolars": [
+      [
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0
+      ]
+    ],
+    "fullUnit": [
+      [
+        0.6859943405700353,
+        0.0
+      ],
+      [
+        0.0,
+        0.3162277660168379
+      ],
+      [
+        0.17149858514250882,
+        0.0
+      ],
+      [
+        0.0,
+        0.6324555320336758
+      ]
+    ],
+    "headUnit": [
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.0,
+        0.5
+      ],
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.0,
+        0.5
+      ]
+    ],
+    "cosine": 0.9030881118815288
+  },
+  "balancedUpdate": {
+    "inputs": {
+      "weights": [
+        [
+          1,
+          -0.5
+        ],
+        [
+          0.2,
+          0.8
+        ],
+        [
+          -0.3,
+          0.4
+        ],
+        [
+          0.7,
+          -0.1
+        ]
+      ],
+      "gradient": [
+        [
+          0.2,
+          -0.1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          -0.05,
+          0.3
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "previousMomentum": [
+        [
+          0.1,
+          -0.2
+        ],
+        [
+          0.08,
+          0.04
+        ],
+        [
+          -0.1,
+          0.05
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "beta": 0.9,
+      "epsilon": 0.001,
+      "tau": 0.1,
+      "normalizationSteps": 3,
+      "learningRate": 0.02,
+      "learningRateCorrection": 0.7,
+      "weightDecay": 0,
+      "source": "V4.1 v1 section 2.5 Algorithm 1; all numeric hyperparameters here are teaching inputs, not asserted recipe defaults."
+    },
+    "momentum": [
+      [
+        0.11000000000000001,
+        -0.19000000000000003
+      ],
+      [
+        0.07200000000000001,
+        0.036000000000000004
+      ],
+      [
+        -0.09500000000000001,
+        0.075
+      ],
+      [
+        0.0,
+        0.0
+      ]
+    ],
+    "nesterov": [
+      [
+        0.11900000000000002,
+        -0.18100000000000005
+      ],
+      [
+        0.06480000000000001,
+        0.032400000000000005
+      ],
+      [
+        -0.09050000000000002,
+        0.0975
+      ],
+      [
+        0.0,
+        0.0
+      ]
+    ],
+    "initialRowNorms": [
+      0.21661486560252513,
+      0.07244860247099319,
+      0.13302819250068762,
+      0.0
+    ],
+    "rowThreshold": 0.010552291514355149,
+    "masked": [
+      false,
+      false,
+      false,
+      true
+    ],
+    "stages": [
+      {
+        "step": 1,
+        "axis": "行",
+        "matrix": [
+          [
+            0.5468376421367934,
+            -0.8317446489643665
+          ],
+          [
+            0.8822495979496854,
+            0.4411247989748427
+          ],
+          [
+            -0.675231071250444,
+            0.727458888916224
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "rowNorms": [
+          0.9954047256963294,
+          0.9863850370686778,
+          0.9925388831906029,
+          0.0
+        ],
+        "columnNorms": [
+          1.2382781430365843,
+          1.1897843016339893
+        ]
+      },
+      {
+        "step": 2,
+        "axis": "列",
+        "matrix": [
+          [
+            0.44125497186360885,
+            -0.6984847279419539
+          ],
+          [
+            0.7119060421641284,
+            0.37044895399572625
+          ],
+          [
+            -0.5448583718227578,
+            0.6109073556965842
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "rowNorms": [
+          0.8261881537292215,
+          0.8025226728176105,
+          0.8185831922227205,
+          0.0
+        ],
+        "columnNorms": [
+          0.9991930786437098,
+          0.9991602173469808
+        ]
+      },
+      {
+        "step": 3,
+        "axis": "行",
+        "matrix": [
+          [
+            0.5334396652977853,
+            -0.8444085239772445
+          ],
+          [
+            0.8859812750121641,
+            0.46103111527235463
+          ],
+          [
+            -0.6647993480016283,
+            0.7453878526227402
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "rowNorms": [
+          0.9987910852017262,
+          0.9987554800457672,
+          0.9987798676089392,
+          0.0
+        ],
+        "columnNorms": [
+          1.2294221688616906,
+          1.2170367683238825
+        ]
+      }
+    ],
+    "delta": [
+      [
+        0.7543976093718925,
+        -1.1941739867920662
+      ],
+      [
+        1.2529667351308094,
+        0.6519964558941577
+      ],
+      [
+        -0.9401682542006938,
+        1.054137610407237
+      ],
+      [
+        0.0,
+        0.0
+      ]
+    ],
+    "effectiveRate": 0.013999999999999999,
+    "afterWeights": [
+      [
+        0.9894384334687935,
+        -0.4832815641849111
+      ],
+      [
+        0.18245846570816868,
+        0.7908720496174818
+      ],
+      [
+        -0.28683764444119025,
+        0.38524207345429873
+      ],
+      [
+        0.7,
+        -0.1
+      ]
+    ],
+    "zeroAndShapeGuardsPassed": true
+  },
+  "schedule": {
+    "inputs": {
+      "timeUnit": "logical tick",
+      "nodes": [
+        {
+          "id": "FA",
+          "lane": "compute",
+          "duration": 2,
+          "deps": []
+        },
+        {
+          "id": "FD",
+          "lane": "network",
+          "duration": 3,
+          "deps": [
+            "FA"
+          ]
+        },
+        {
+          "id": "FM",
+          "lane": "compute",
+          "duration": 2,
+          "deps": [
+            "FD"
+          ]
+        },
+        {
+          "id": "FC",
+          "lane": "network",
+          "duration": 3,
+          "deps": [
+            "FM"
+          ]
+        },
+        {
+          "id": "BC",
+          "lane": "network",
+          "duration": 3,
+          "deps": []
+        },
+        {
+          "id": "BMI",
+          "lane": "compute",
+          "duration": 2,
+          "deps": [
+            "BC"
+          ]
+        },
+        {
+          "id": "BMW",
+          "lane": "compute",
+          "duration": 2,
+          "deps": [
+            "BC"
+          ]
+        },
+        {
+          "id": "BD",
+          "lane": "network",
+          "duration": 3,
+          "deps": [
+            "BMI"
+          ]
+        },
+        {
+          "id": "BAI",
+          "lane": "compute",
+          "duration": 2,
+          "deps": [
+            "BD"
+          ]
+        },
+        {
+          "id": "BAW",
+          "lane": "compute",
+          "duration": 2,
+          "deps": [
+            "BD"
+          ]
+        }
+      ],
+      "serialOrder": [
+        "FA",
+        "FD",
+        "FM",
+        "FC",
+        "BC",
+        "BMI",
+        "BMW",
+        "BD",
+        "BAI",
+        "BAW"
+      ],
+      "networkDurations": [
+        1,
+        3,
+        6
+      ],
+      "activationModel": "One old backward bundle is live at time zero. One new bundle is acquired at FA start and remains live beyond this pair. Release the old bundle only after all old backward compute nodes finish. Releases at a timestamp precede acquisitions.",
+      "boundary": "One independent forward/new-microbatch and backward/old-microbatch pair with one exclusive compute lane and one exclusive network lane. Exhaustively enumerate lane orders. Not the complete bidirectional DualPipe schedule; no PP send/recv, SM partitioning, tensor bytes or real latency."
+    },
+    "cases": [
+      {
+        "networkDuration": 1,
+        "orderPairsChecked": 17280,
+        "validOrders": 296,
+        "histogram": {
+          "15": 66,
+          "13": 58,
+          "16": 42,
+          "14": 112,
+          "12": 18
+        },
+        "best": {
+          "finish": 12,
+          "activationPeak": 2,
+          "oldBundleReleasedAt": 12,
+          "newBundleAcquiredAt": 0,
+          "events": [
+            {
+              "id": "FA",
+              "lane": "compute",
+              "start": 0,
+              "finish": 2,
+              "deps": []
+            },
+            {
+              "id": "FD",
+              "lane": "network",
+              "start": 2,
+              "finish": 3,
+              "deps": [
+                "FA"
+              ]
+            },
+            {
+              "id": "FM",
+              "lane": "compute",
+              "start": 4,
+              "finish": 6,
+              "deps": [
+                "FD"
+              ]
+            },
+            {
+              "id": "FC",
+              "lane": "network",
+              "start": 6,
+              "finish": 7,
+              "deps": [
+                "FM"
+              ]
+            },
+            {
+              "id": "BC",
+              "lane": "network",
+              "start": 0,
+              "finish": 1,
+              "deps": []
+            },
+            {
+              "id": "BMI",
+              "lane": "compute",
+              "start": 2,
+              "finish": 4,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BMW",
+              "lane": "compute",
+              "start": 6,
+              "finish": 8,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BD",
+              "lane": "network",
+              "start": 7,
+              "finish": 8,
+              "deps": [
+                "BMI"
+              ]
+            },
+            {
+              "id": "BAI",
+              "lane": "compute",
+              "start": 8,
+              "finish": 10,
+              "deps": [
+                "BD"
+              ]
+            },
+            {
+              "id": "BAW",
+              "lane": "compute",
+              "start": 10,
+              "finish": 12,
+              "deps": [
+                "BD"
+              ]
+            }
+          ],
+          "busy": {
+            "compute": 12,
+            "network": 4
+          },
+          "idle": {
+            "compute": 0,
+            "network": 8
+          },
+          "workLowerBound": 12,
+          "laneOrders": {
+            "compute": [
+              "FA",
+              "BMI",
+              "FM",
+              "BMW",
+              "BAI",
+              "BAW"
+            ],
+            "network": [
+              "BC",
+              "FD",
+              "FC",
+              "BD"
+            ]
+          }
+        },
+        "bestPeakOne": {
+          "finish": 15,
+          "activationPeak": 1,
+          "oldBundleReleasedAt": 9,
+          "newBundleAcquiredAt": 9,
+          "events": [
+            {
+              "id": "FA",
+              "lane": "compute",
+              "start": 9,
+              "finish": 11,
+              "deps": []
+            },
+            {
+              "id": "FD",
+              "lane": "network",
+              "start": 11,
+              "finish": 12,
+              "deps": [
+                "FA"
+              ]
+            },
+            {
+              "id": "FM",
+              "lane": "compute",
+              "start": 12,
+              "finish": 14,
+              "deps": [
+                "FD"
+              ]
+            },
+            {
+              "id": "FC",
+              "lane": "network",
+              "start": 14,
+              "finish": 15,
+              "deps": [
+                "FM"
+              ]
+            },
+            {
+              "id": "BC",
+              "lane": "network",
+              "start": 0,
+              "finish": 1,
+              "deps": []
+            },
+            {
+              "id": "BMI",
+              "lane": "compute",
+              "start": 1,
+              "finish": 3,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BMW",
+              "lane": "compute",
+              "start": 3,
+              "finish": 5,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BD",
+              "lane": "network",
+              "start": 3,
+              "finish": 4,
+              "deps": [
+                "BMI"
+              ]
+            },
+            {
+              "id": "BAI",
+              "lane": "compute",
+              "start": 5,
+              "finish": 7,
+              "deps": [
+                "BD"
+              ]
+            },
+            {
+              "id": "BAW",
+              "lane": "compute",
+              "start": 7,
+              "finish": 9,
+              "deps": [
+                "BD"
+              ]
+            }
+          ],
+          "busy": {
+            "compute": 12,
+            "network": 4
+          },
+          "idle": {
+            "compute": 3,
+            "network": 11
+          },
+          "workLowerBound": 12,
+          "laneOrders": {
+            "compute": [
+              "BMI",
+              "BMW",
+              "BAI",
+              "BAW",
+              "FA",
+              "FM"
+            ],
+            "network": [
+              "BC",
+              "BD",
+              "FD",
+              "FC"
+            ]
+          }
+        },
+        "serial": {
+          "finish": 16,
+          "activationPeak": 2,
+          "oldBundleReleasedAt": 16,
+          "newBundleAcquiredAt": 0,
+          "events": [
+            {
+              "id": "FA",
+              "lane": "compute",
+              "start": 0,
+              "finish": 2,
+              "deps": []
+            },
+            {
+              "id": "FD",
+              "lane": "network",
+              "start": 2,
+              "finish": 3,
+              "deps": [
+                "FA"
+              ]
+            },
+            {
+              "id": "FM",
+              "lane": "compute",
+              "start": 3,
+              "finish": 5,
+              "deps": [
+                "FD"
+              ]
+            },
+            {
+              "id": "FC",
+              "lane": "network",
+              "start": 5,
+              "finish": 6,
+              "deps": [
+                "FM"
+              ]
+            },
+            {
+              "id": "BC",
+              "lane": "network",
+              "start": 6,
+              "finish": 7,
+              "deps": []
+            },
+            {
+              "id": "BMI",
+              "lane": "compute",
+              "start": 7,
+              "finish": 9,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BMW",
+              "lane": "compute",
+              "start": 9,
+              "finish": 11,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BD",
+              "lane": "network",
+              "start": 11,
+              "finish": 12,
+              "deps": [
+                "BMI"
+              ]
+            },
+            {
+              "id": "BAI",
+              "lane": "compute",
+              "start": 12,
+              "finish": 14,
+              "deps": [
+                "BD"
+              ]
+            },
+            {
+              "id": "BAW",
+              "lane": "compute",
+              "start": 14,
+              "finish": 16,
+              "deps": [
+                "BD"
+              ]
+            }
+          ],
+          "busy": {
+            "compute": 12,
+            "network": 4
+          },
+          "idle": {
+            "compute": 4,
+            "network": 12
+          },
+          "workLowerBound": 12
+        }
+      },
+      {
+        "networkDuration": 3,
+        "orderPairsChecked": 17280,
+        "validOrders": 296,
+        "histogram": {
+          "22": 48,
+          "18": 30,
+          "17": 40,
+          "24": 42,
+          "20": 32,
+          "19": 64,
+          "14": 4,
+          "15": 4,
+          "13": 2,
+          "16": 6,
+          "21": 24
+        },
+        "best": {
+          "finish": 13,
+          "activationPeak": 2,
+          "oldBundleReleasedAt": 13,
+          "newBundleAcquiredAt": 0,
+          "events": [
+            {
+              "id": "FA",
+              "lane": "compute",
+              "start": 0,
+              "finish": 2,
+              "deps": []
+            },
+            {
+              "id": "FD",
+              "lane": "network",
+              "start": 3,
+              "finish": 6,
+              "deps": [
+                "FA"
+              ]
+            },
+            {
+              "id": "FM",
+              "lane": "compute",
+              "start": 7,
+              "finish": 9,
+              "deps": [
+                "FD"
+              ]
+            },
+            {
+              "id": "FC",
+              "lane": "network",
+              "start": 9,
+              "finish": 12,
+              "deps": [
+                "FM"
+              ]
+            },
+            {
+              "id": "BC",
+              "lane": "network",
+              "start": 0,
+              "finish": 3,
+              "deps": []
+            },
+            {
+              "id": "BMI",
+              "lane": "compute",
+              "start": 3,
+              "finish": 5,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BMW",
+              "lane": "compute",
+              "start": 5,
+              "finish": 7,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BD",
+              "lane": "network",
+              "start": 6,
+              "finish": 9,
+              "deps": [
+                "BMI"
+              ]
+            },
+            {
+              "id": "BAI",
+              "lane": "compute",
+              "start": 9,
+              "finish": 11,
+              "deps": [
+                "BD"
+              ]
+            },
+            {
+              "id": "BAW",
+              "lane": "compute",
+              "start": 11,
+              "finish": 13,
+              "deps": [
+                "BD"
+              ]
+            }
+          ],
+          "busy": {
+            "compute": 12,
+            "network": 12
+          },
+          "idle": {
+            "compute": 1,
+            "network": 1
+          },
+          "workLowerBound": 12,
+          "laneOrders": {
+            "compute": [
+              "FA",
+              "BMI",
+              "BMW",
+              "FM",
+              "BAI",
+              "BAW"
+            ],
+            "network": [
+              "BC",
+              "FD",
+              "BD",
+              "FC"
+            ]
+          }
+        },
+        "bestPeakOne": {
+          "finish": 22,
+          "activationPeak": 1,
+          "oldBundleReleasedAt": 12,
+          "newBundleAcquiredAt": 12,
+          "events": [
+            {
+              "id": "FA",
+              "lane": "compute",
+              "start": 12,
+              "finish": 14,
+              "deps": []
+            },
+            {
+              "id": "FD",
+              "lane": "network",
+              "start": 14,
+              "finish": 17,
+              "deps": [
+                "FA"
+              ]
+            },
+            {
+              "id": "FM",
+              "lane": "compute",
+              "start": 17,
+              "finish": 19,
+              "deps": [
+                "FD"
+              ]
+            },
+            {
+              "id": "FC",
+              "lane": "network",
+              "start": 19,
+              "finish": 22,
+              "deps": [
+                "FM"
+              ]
+            },
+            {
+              "id": "BC",
+              "lane": "network",
+              "start": 0,
+              "finish": 3,
+              "deps": []
+            },
+            {
+              "id": "BMI",
+              "lane": "compute",
+              "start": 3,
+              "finish": 5,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BMW",
+              "lane": "compute",
+              "start": 5,
+              "finish": 7,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BD",
+              "lane": "network",
+              "start": 5,
+              "finish": 8,
+              "deps": [
+                "BMI"
+              ]
+            },
+            {
+              "id": "BAI",
+              "lane": "compute",
+              "start": 8,
+              "finish": 10,
+              "deps": [
+                "BD"
+              ]
+            },
+            {
+              "id": "BAW",
+              "lane": "compute",
+              "start": 10,
+              "finish": 12,
+              "deps": [
+                "BD"
+              ]
+            }
+          ],
+          "busy": {
+            "compute": 12,
+            "network": 12
+          },
+          "idle": {
+            "compute": 10,
+            "network": 10
+          },
+          "workLowerBound": 12,
+          "laneOrders": {
+            "compute": [
+              "BMI",
+              "BMW",
+              "BAI",
+              "BAW",
+              "FA",
+              "FM"
+            ],
+            "network": [
+              "BC",
+              "BD",
+              "FD",
+              "FC"
+            ]
+          }
+        },
+        "serial": {
+          "finish": 24,
+          "activationPeak": 2,
+          "oldBundleReleasedAt": 24,
+          "newBundleAcquiredAt": 0,
+          "events": [
+            {
+              "id": "FA",
+              "lane": "compute",
+              "start": 0,
+              "finish": 2,
+              "deps": []
+            },
+            {
+              "id": "FD",
+              "lane": "network",
+              "start": 2,
+              "finish": 5,
+              "deps": [
+                "FA"
+              ]
+            },
+            {
+              "id": "FM",
+              "lane": "compute",
+              "start": 5,
+              "finish": 7,
+              "deps": [
+                "FD"
+              ]
+            },
+            {
+              "id": "FC",
+              "lane": "network",
+              "start": 7,
+              "finish": 10,
+              "deps": [
+                "FM"
+              ]
+            },
+            {
+              "id": "BC",
+              "lane": "network",
+              "start": 10,
+              "finish": 13,
+              "deps": []
+            },
+            {
+              "id": "BMI",
+              "lane": "compute",
+              "start": 13,
+              "finish": 15,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BMW",
+              "lane": "compute",
+              "start": 15,
+              "finish": 17,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BD",
+              "lane": "network",
+              "start": 17,
+              "finish": 20,
+              "deps": [
+                "BMI"
+              ]
+            },
+            {
+              "id": "BAI",
+              "lane": "compute",
+              "start": 20,
+              "finish": 22,
+              "deps": [
+                "BD"
+              ]
+            },
+            {
+              "id": "BAW",
+              "lane": "compute",
+              "start": 22,
+              "finish": 24,
+              "deps": [
+                "BD"
+              ]
+            }
+          ],
+          "busy": {
+            "compute": 12,
+            "network": 12
+          },
+          "idle": {
+            "compute": 12,
+            "network": 12
+          },
+          "workLowerBound": 12
+        }
+      },
+      {
+        "networkDuration": 6,
+        "orderPairsChecked": 17280,
+        "validOrders": 296,
+        "histogram": {
+          "34": 48,
+          "30": 46,
+          "28": 94,
+          "36": 42,
+          "32": 56,
+          "24": 10
+        },
+        "best": {
+          "finish": 24,
+          "activationPeak": 2,
+          "oldBundleReleasedAt": 22,
+          "newBundleAcquiredAt": 0,
+          "events": [
+            {
+              "id": "FA",
+              "lane": "compute",
+              "start": 0,
+              "finish": 2,
+              "deps": []
+            },
+            {
+              "id": "FD",
+              "lane": "network",
+              "start": 6,
+              "finish": 12,
+              "deps": [
+                "FA"
+              ]
+            },
+            {
+              "id": "FM",
+              "lane": "compute",
+              "start": 12,
+              "finish": 14,
+              "deps": [
+                "FD"
+              ]
+            },
+            {
+              "id": "FC",
+              "lane": "network",
+              "start": 18,
+              "finish": 24,
+              "deps": [
+                "FM"
+              ]
+            },
+            {
+              "id": "BC",
+              "lane": "network",
+              "start": 0,
+              "finish": 6,
+              "deps": []
+            },
+            {
+              "id": "BMI",
+              "lane": "compute",
+              "start": 6,
+              "finish": 8,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BMW",
+              "lane": "compute",
+              "start": 14,
+              "finish": 16,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BD",
+              "lane": "network",
+              "start": 12,
+              "finish": 18,
+              "deps": [
+                "BMI"
+              ]
+            },
+            {
+              "id": "BAI",
+              "lane": "compute",
+              "start": 18,
+              "finish": 20,
+              "deps": [
+                "BD"
+              ]
+            },
+            {
+              "id": "BAW",
+              "lane": "compute",
+              "start": 20,
+              "finish": 22,
+              "deps": [
+                "BD"
+              ]
+            }
+          ],
+          "busy": {
+            "compute": 12,
+            "network": 24
+          },
+          "idle": {
+            "compute": 12,
+            "network": 0
+          },
+          "workLowerBound": 24,
+          "laneOrders": {
+            "compute": [
+              "FA",
+              "BMI",
+              "FM",
+              "BMW",
+              "BAI",
+              "BAW"
+            ],
+            "network": [
+              "BC",
+              "FD",
+              "BD",
+              "FC"
+            ]
+          }
+        },
+        "bestPeakOne": {
+          "finish": 34,
+          "activationPeak": 1,
+          "oldBundleReleasedAt": 18,
+          "newBundleAcquiredAt": 18,
+          "events": [
+            {
+              "id": "FA",
+              "lane": "compute",
+              "start": 18,
+              "finish": 20,
+              "deps": []
+            },
+            {
+              "id": "FD",
+              "lane": "network",
+              "start": 20,
+              "finish": 26,
+              "deps": [
+                "FA"
+              ]
+            },
+            {
+              "id": "FM",
+              "lane": "compute",
+              "start": 26,
+              "finish": 28,
+              "deps": [
+                "FD"
+              ]
+            },
+            {
+              "id": "FC",
+              "lane": "network",
+              "start": 28,
+              "finish": 34,
+              "deps": [
+                "FM"
+              ]
+            },
+            {
+              "id": "BC",
+              "lane": "network",
+              "start": 0,
+              "finish": 6,
+              "deps": []
+            },
+            {
+              "id": "BMI",
+              "lane": "compute",
+              "start": 6,
+              "finish": 8,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BMW",
+              "lane": "compute",
+              "start": 8,
+              "finish": 10,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BD",
+              "lane": "network",
+              "start": 8,
+              "finish": 14,
+              "deps": [
+                "BMI"
+              ]
+            },
+            {
+              "id": "BAI",
+              "lane": "compute",
+              "start": 14,
+              "finish": 16,
+              "deps": [
+                "BD"
+              ]
+            },
+            {
+              "id": "BAW",
+              "lane": "compute",
+              "start": 16,
+              "finish": 18,
+              "deps": [
+                "BD"
+              ]
+            }
+          ],
+          "busy": {
+            "compute": 12,
+            "network": 24
+          },
+          "idle": {
+            "compute": 22,
+            "network": 10
+          },
+          "workLowerBound": 24,
+          "laneOrders": {
+            "compute": [
+              "BMI",
+              "BMW",
+              "BAI",
+              "BAW",
+              "FA",
+              "FM"
+            ],
+            "network": [
+              "BC",
+              "BD",
+              "FD",
+              "FC"
+            ]
+          }
+        },
+        "serial": {
+          "finish": 36,
+          "activationPeak": 2,
+          "oldBundleReleasedAt": 36,
+          "newBundleAcquiredAt": 0,
+          "events": [
+            {
+              "id": "FA",
+              "lane": "compute",
+              "start": 0,
+              "finish": 2,
+              "deps": []
+            },
+            {
+              "id": "FD",
+              "lane": "network",
+              "start": 2,
+              "finish": 8,
+              "deps": [
+                "FA"
+              ]
+            },
+            {
+              "id": "FM",
+              "lane": "compute",
+              "start": 8,
+              "finish": 10,
+              "deps": [
+                "FD"
+              ]
+            },
+            {
+              "id": "FC",
+              "lane": "network",
+              "start": 10,
+              "finish": 16,
+              "deps": [
+                "FM"
+              ]
+            },
+            {
+              "id": "BC",
+              "lane": "network",
+              "start": 16,
+              "finish": 22,
+              "deps": []
+            },
+            {
+              "id": "BMI",
+              "lane": "compute",
+              "start": 22,
+              "finish": 24,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BMW",
+              "lane": "compute",
+              "start": 24,
+              "finish": 26,
+              "deps": [
+                "BC"
+              ]
+            },
+            {
+              "id": "BD",
+              "lane": "network",
+              "start": 26,
+              "finish": 32,
+              "deps": [
+                "BMI"
+              ]
+            },
+            {
+              "id": "BAI",
+              "lane": "compute",
+              "start": 32,
+              "finish": 34,
+              "deps": [
+                "BD"
+              ]
+            },
+            {
+              "id": "BAW",
+              "lane": "compute",
+              "start": 34,
+              "finish": 36,
+              "deps": [
+                "BD"
+              ]
+            }
+          ],
+          "busy": {
+            "compute": 12,
+            "network": 24
+          },
+          "idle": {
+            "compute": 24,
+            "network": 12
+          },
+          "workLowerBound": 24
+        }
+      }
+    ],
+    "exhaustiveOrderPairsPerCase": 17280,
+    "totalOrderPairs": 51840,
+    "negativeTimingGuardPassed": true
+  },
+  "passed": true,
+  "authoredTablesMatched": 9,
+  "authoredScalarValuesMatched": 3,
+  "authoredTimelineRectanglesMatched": 10
+}
