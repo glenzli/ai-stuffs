@@ -41,7 +41,7 @@ export function initTrainingSystems() {
           shard: "layer matrices / heads / FFN width",
           comm: "all-reduce / all-gather per layer",
           limit: "高频层内通信",
-          note: "TP 让单个超大矩阵可以放得下，但每次 attention/MLP 前后都要同步。跨机网络的延迟经常使 TP 不如单机内高效。",
+          note: "通信位置由分片布局决定。复制输入的列并行 → 逐元素激活 → 行并行 MLP 可让中间激活保持本地，只在前向合并输出、反向合并输入梯度；序列并行等策略会改变通信方式与次数。吞吐仍需结合互联和重叠调度实测。",
           cards: [
             ["GPU0", "heads / FFN shard 0", "layer-local compute"],
             ["GPU1", "heads / FFN shard 1", "layer-local compute"],

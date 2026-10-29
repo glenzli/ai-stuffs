@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | 表示演化：LSA | 将经典 LSA 笼统描述成词—上下文共现分解，并把直接共现推成向量接近。 | 改为加权词—文档矩阵的截断 SVD；区分文档分布模式与直接共现。依据 [LSA 原论文](https://web.stanford.edu/class/linguist289/lsi.pdf)。 |
 | 表示演化：Word2Vec | 泛称每个训练对只更新少数行；把输入词与输出上下文的得分等同于两个输入向量靠近。 | 区分负采样的采样行梯度、完整 softmax 的输出词表梯度与层次 softmax 的树路径；保留输入/输出两种角色。多义词受语料与采样影响，不能无条件断言公司语境更弱。依据 [Word2Vec 论文第 2 节](https://arxiv.org/html/1310.4546v1)。 |
-| 表示演化、后训练、检索沙盘 | 将 cross-encoder 更准、细块更精确、中块召回更稳、易负例防坍缩写成一般规律；把逐对编码误写成不能批量前向。 | 改为逐对联合编码且可批处理，质量与成本需同任务评估；分块与负例说明改为带条件的机制。只有单位向量才把点积增大等价解释为欧氏距离减小。接口依据 [Sentence Transformers 文档](https://sbert.net/examples/cross_encoder/applications/README.html)。 |
+| 表示演化、后训练、检索沙盘 | 将 cross-encoder 更准、细块更精确、中块召回更稳、易负例防坍缩写成一般规律；把逐对编码误写成不能批量前向。 | 改为逐对联合编码且可批处理，质量与成本需同任务评估；分块与负例说明改为带条件的机制。在双方范数保持固定时，点积增大与欧氏距离减小对应；单位向量是常见特例。接口依据 [Sentence Transformers 文档](https://sbert.net/examples/cross_encoder/applications/README.html)。 |
 | 二维对比模拟 | 将温度降低直接解释为更强的更新。 | 梯度同时受概率与 `1/τ` 影响：正确预测可饱和，错误预测可被放大；与现有 InfoNCE 公式和数值检查对齐。 |
 | 训练工程、并行正确性 | 累积被写成自动减少同步；计数相等被写成两个平均相等的必要条件。 | 固定样本预算下区分 microstep 与 optimizer step；DDP `no_sync` 需覆盖前向和反向。计数相等是保证一般一致的条件，计数不等仍可能在特定梯度上碰巧相等。依据 [DDP 文档](https://docs.pytorch.org/docs/2.14/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel.no_sync)。 |
 | 训练系统：并行方式 | 把参数聚合概括到所有 ZeRO 阶段；“增大 microbatch”混淆样本数和微批数量。 | 参数聚合图限定为 ZeRO-3/FSDP 全分片；分别说明 ZeRO-1/2/3。流水线占用说明改为增加微批数量，并保留调度与重算条件。DDP 梯度桶通信可与反向重叠。 |
@@ -46,4 +46,15 @@
 - 浏览器验证训练系统的默认读数、FP8/BF16 切换、ZeRO/PP 切换，表示历史的 LSA/Word2Vec、检索目标切换，以及模型配置、Mamba 与检索并集说明；所查页面未出现控制台错误。
 - 复核近期引用时回读了 [J-space 原文](https://www.anthropic.com/research/global-workspace)及 [DeepSeek-V4.1-Flash v1](https://arxiv.org/html/2609.19969v1)中所涉及的方法、结构和参数口径；保持现有按论文版本限定的表述。
 
-本轮没有重新训练模型、重算全部大型实验或测量 CUDA/NCCL/生产检索延迟。修改保留在本地工作区，未提交或推送。
+本轮没有重新训练模型、重算全部大型实验或测量 CUDA/NCCL/生产检索延迟。首轮修正已在 `9d7852a` 提交并推送到 `origin/main`；随后按用户要求完成下述复查。
+
+
+## 提交后的复查
+
+在已推送的 `9d7852a` 上重新检查修改内容、相邻概念说明和静态/交互一致性，发现并修正三处遗漏：
+
+1. **张量并行的通信边界。** 原总览仍称每个 attention/MLP 前后都要同步，容易让读者误判通信次数。复制输入、列分片、逐元素激活、行分片的 MLP 可以让中间激活留在本地，前向归约局部输出、反向归约输入梯度；其他布局需另行核算。这与本站两卡小矩阵例子及 [Megatron 作者的 Figure 2a 说明](https://research.nvidia.com/labs/adlr/MegatronLM/)一致。
+2. **MHA/MQA 缓存比较的控制变量。** 缓存大小对比需要固定 batch、长度、层数、query heads、head dim 和存储精度；更多独立 K/V 投影不保证质量更高，实际读取与时延也不只取决于逻辑缓存量。静态 MHA 卡和动态 MHA/MQA 卡同步补齐条件。
+3. **审校记录中的范数限定。** 上表原先把单位范数误写成必要条件。恒等式 `‖q−d‖² = ‖q‖² + ‖d‖² − 2q·d` 表明双方范数固定已足够。例如 q 的范数为 2，候选范数均为 3 时，距离平方仍等于 `13−2q·d`。页面原有单位向量说明是充分条件示例，保持不变。
+
+验证结果：`npm run check` 再次通过，构建 66 页和 143 个公式；`test-distributed-lifecycle`、`test-content`、`test-math`、`test-editorial-alignment`、`test-reading` 五个文件共 **48 项检查全部通过**。浏览器回读确认 MHA→MQA→MHA 与 TP 切换显示新说明，未出现控制台错误。固定范数的非单位向量例子独立核算通过。未重复训练或改动冻结来源包；其他未变部分复用首轮 151 项验证证据。

@@ -59,7 +59,7 @@
             <p class="micro-label" data-variant-kicker>STANDARD ATTENTION</p>
             <h3 data-variant-title>每个 query head 都有独立 K/V</h3>
             <p data-variant-copy>
-              最直接的 MHA。每个 query head 拥有自己的 K/V projection；表达灵活，但训练和推理的 KV 状态也最大。
+              每个 query head 拥有自己的 K/V projection。固定 batch、序列长度、层数、query heads、head dim 和存储精度时，MHA 的 KV 缓存不小于共享 KV 的 GQA/MQA；结构本身不保证任务质量更高。
             </p>
           </div>
           <div class="variant-structure">
@@ -67,8 +67,8 @@
             <code data-variant-structure>Hq = Hkv; cache ∝ Hkv · D</code>
           </div>
           <div class="variant-tradeoff">
-            <div><span>获得</span><p data-variant-gain>更强 head 多样性；实现最直接。</p></div>
-            <div><span>代价</span><p data-variant-cost>KV Cache 大，decode 读取带宽高。</p></div>
+            <div><span>获得</span><p data-variant-gain>每个 query head 有独立的 K/V 投影。</p></div>
+            <div><span>代价</span><p data-variant-cost>固定其他维度时缓存通常更大；实际时延取决于实现与硬件。</p></div>
             <div><span>评估条件</span><p data-variant-misread>head 数量的收益需要结合每头维度、训练配方和任务结果评估。</p></div>
           </div>
         </div>
