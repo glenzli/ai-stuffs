@@ -1,0 +1,692 @@
+{
+  "layouts": [
+    {
+      "page": "architecture-variants.html",
+      "mathErrors": 0,
+      "newTables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        }
+      ],
+      "scrollWidth": 1280,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "page": "architecture-variants.html",
+      "mathErrors": 0,
+      "newTables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        }
+      ],
+      "scrollWidth": 1280,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "page": "model-case-studies.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 1280,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "page": "model-case-studies.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 1280,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "page": "efficient-inference.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 1280,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "page": "efficient-inference.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 1280,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "page": "posttraining.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 1280,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "page": "posttraining.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 1280,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "page": "architecture-variants.html",
+      "mathErrors": 0,
+      "newTables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        }
+      ],
+      "scrollWidth": 768,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "architecture-variants.html",
+      "mathErrors": 0,
+      "newTables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        }
+      ],
+      "scrollWidth": 768,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "page": "model-case-studies.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 768,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "model-case-studies.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 768,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "page": "efficient-inference.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 768,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "efficient-inference.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 768,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "page": "posttraining.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 768,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "posttraining.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 768,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "page": "architecture-variants.html",
+      "mathErrors": 0,
+      "newTables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 386.8046875
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        }
+      ],
+      "scrollWidth": 390,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "architecture-variants.html",
+      "mathErrors": 0,
+      "newTables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 386.8046875
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        }
+      ],
+      "scrollWidth": 390,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "page": "model-case-studies.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 390,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "model-case-studies.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 390,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "page": "efficient-inference.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 390,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "efficient-inference.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 390,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "page": "posttraining.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 390,
+      "tableHeadersLeft": true,
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "posttraining.html",
+      "mathErrors": 0,
+      "newTables": [],
+      "scrollWidth": 390,
+      "tableHeadersLeft": true,
+      "theme": "dark",
+      "width": 390
+    }
+  ],
+  "panels": [
+    {
+      "label": "三个来源，三种具体配置",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "light",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ]
+    },
+    {
+      "label": "换成标量门、交换顺序、清零计算块，结果一样吗？",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "light",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ]
+    },
+    {
+      "label": "投机解码拒绝草稿时，循环状态能像 KV 一样删尾吗？",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "light",
+      "width": 390,
+      "wrappers": []
+    },
+    {
+      "label": "离线重算状态、分块、梯度与正文表格",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "light",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 596,
+          "width": 358
+        }
+      ]
+    },
+    {
+      "label": "三个来源，三种具体配置",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "dark",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ]
+    },
+    {
+      "label": "换成标量门、交换顺序、清零计算块，结果一样吗？",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "dark",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ]
+    },
+    {
+      "label": "投机解码拒绝草稿时，循环状态能像 KV 一样删尾吗？",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "dark",
+      "width": 390,
+      "wrappers": []
+    },
+    {
+      "label": "离线重算状态、分块、梯度与正文表格",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "dark",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 596,
+          "width": 358
+        }
+      ]
+    }
+  ],
+  "navigation": [
+    {
+      "from": "posttraining.html",
+      "activation": "keyboard Enter on a wrapped inline link",
+      "top": 91.78125,
+      "url": "http://127.0.0.1:4173/architecture-variants.html#delta-state-training"
+    },
+    {
+      "from": "model-case-studies.html",
+      "activation": "click",
+      "top": 91.78125,
+      "url": "http://127.0.0.1:4173/architecture-variants.html#delta-state-training"
+    },
+    {
+      "from": "efficient-inference.html",
+      "activation": "click",
+      "top": 91.78125,
+      "url": "http://127.0.0.1:4173/architecture-variants.html#delta-state-training"
+    },
+    {
+      "from": "page contents",
+      "activation": "click",
+      "top": 91.765625,
+      "url": "http://127.0.0.1:4173/architecture-variants.html#delta-state-training"
+    }
+  ],
+  "search": [
+    {
+      "query": "Gated DeltaNet",
+      "results": [
+        {
+          "href": "architecture-variants.html",
+          "text": "架构变体与结论注意力、SSM、GDN/KDA 循环状态与 mHC 残差混合"
+        }
+      ]
+    },
+    {
+      "query": "KDA",
+      "results": [
+        {
+          "href": "architecture-variants.html",
+          "text": "架构变体与结论注意力、SSM、GDN/KDA 循环状态与 mHC 残差混合"
+        }
+      ]
+    },
+    {
+      "query": "跨块梯度",
+      "results": [
+        {
+          "href": "architecture-variants.html",
+          "text": "架构变体与结论注意力、SSM、GDN/KDA 循环状态与 mHC 残差混合"
+        }
+      ]
+    },
+    {
+      "query": "循环状态",
+      "results": [
+        {
+          "href": "architecture-variants.html",
+          "text": "架构变体与结论注意力、SSM、GDN/KDA 循环状态与 mHC 残差混合"
+        }
+      ]
+    }
+  ],
+  "finalLayouts": [
+    {
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [
+        {
+          "name": "outputs",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "training",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "memory",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    }
+  ],
+  "mobileScroll": {
+    "clientWidth": 358,
+    "pageWidth": 390,
+    "scrollLeft": 292,
+    "scrollWidth": 650,
+    "viewportWidth": 390
+  },
+  "console": [],
+  "notes": [
+    "Initial short output table needed 28.8px of local scroll; four-decimal display now fits mobile while full precision remains in results.json.",
+    "The long posttraining inline link wraps over two lines; bounding-box center clicks landed outside its text. Keyboard Enter on the actual link navigated correctly; other entry and TOC links were clicked.",
+    "Affine expansion is dense teaching arithmetic; it is not the paper WY/UT kernel or a throughput measurement."
+  ],
+  "restored": {
+    "headingTop": 91.765625,
+    "height": 720,
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/architecture-variants.html#delta-state-training",
+    "width": 1280
+  }
+}

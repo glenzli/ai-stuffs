@@ -158,3 +158,8 @@ __pycache__/
 # Fixed DSpark verification-budget teaching ledger and review evidence.
 !/artifacts/dspark-horizon-20261030T084815Z/
 !/artifacts/dspark-horizon-20261030T084815Z/**
+
+# Fixed recurrent-state and chunk-gradient teaching ledger.
+!/artifacts/delta-state-20261030T092245Z/
+!/artifacts/delta-state-20261030T092245Z/**
+/artifacts/delta-state-20261030T092245Z/__pycache__/

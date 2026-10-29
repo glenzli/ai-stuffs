@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "finiteDerivatives": 30,
+  "chunkPartitions": 8,
+  "authoredTables": 4,
+  "scalarReadouts": 1,
+  "maxFiniteDifferenceError": 8.228678155530744e-13,
+  "earlyValueGradient": -0.003851771008943794,
+  "detachedEarlyGradient": 0.0,
+  "lastOutput": [
+    0.21897931616800004,
+    -0.10399682360000004,
+    0.10310564800000002
+  ],
+  "mode": "verified"
+}

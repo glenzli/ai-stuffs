@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-10-30",
+  "sources": [
+    {
+      "title": "Gated Delta Networks: Improving Mamba2 with Delta Rule",
+      "url": "https://arxiv.org/html/2412.06464v1",
+      "version": "v1, 2024-12-09",
+      "locations": ["3.1, equation 8", "3.2", "3.3 and Figure 1"],
+      "supports": "Scalar forgetting with a delta correction; chunkwise parallel training and hybrid variants; normalized queries/keys and additional block components.",
+      "layoutDifference": "The original uses value-by-key state. This page transposes it to key-by-value to match Kimi Linear equation 1. Scalar forgetting commutes with the rank-one correction.",
+      "limits": "The local dense affine expansion is an algebra check, not the author's optimized WY algorithm or CUDA kernel."
+    },
+    {
+      "title": "Kimi Linear: An Expressive, Efficient Attention Architecture",
+      "url": "https://arxiv.org/html/2510.26692v1",
+      "version": "v1, 2025-10-30",
+      "locations": ["2.1 and 2.2", "3, equation 1", "3.1, equations 6-9", "4"],
+      "supports": "Channel-wise decay; the order (I - beta k k^T) Diag(alpha); key-by-value state; WY/UT chunk algorithm; a 3:1 KDA/full-MLA hybrid with extra block components.",
+      "limits": "No Kimi checkpoints or optimized kernels are run. The site's 2x3 example does not reproduce pretraining, RL, retrieval accuracy, KV savings percentages or throughput."
+    },
+    {
+      "title": "Qwen3.5-9B official model card",
+      "url": "https://huggingface.co/Qwen/Qwen3.5-9B",
+      "version": "9B model card, checked 2026-10-30; see official-card-revision.json for pinned text identity",
+      "locations": ["Model Overview / Language Model / Hidden Layout"],
+      "supports": "The 9B card explicitly lists 8 repeats of 3 Gated DeltaNet plus 1 Gated Attention layer, with FFN after each mixer.",
+      "limits": "This is the named 9B model, not a claim about every Qwen3.5 model. It uses GDN, not KDA; full attention is not Kimi Linear's MLA. Do not infer private training recipes from an architecture card."
+    }
+  ],
+  "localScope": "Thirty local finite-difference derivatives, all eight chunk partitions of a four-token recurrence, fixed gate/order/gradient counterexamples, and an abstract scalar-slot ledger. No complete model or GPU benchmark."
+}

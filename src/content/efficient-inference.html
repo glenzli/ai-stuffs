@@ -104,7 +104,7 @@ S_0&amp;=1,\qquad S_j=\prod_{i=1}^{j}c_i,\\
       <tr><td>在首个下降处停止</td><td>0.500000</td><td>0.500000</td></tr>
     </tbody></table></div><p>这里证明的是这条事后筛选规则失效；不是所有动态长度都会偏。调度信息边界、提议分布与验收规则必须共同核对。前面的成本枚举仅使用采样前固定的输入，因此没有这次“用后续候选筛首草稿”的操作。</p></details>
     <details><summary>离线重算：概率、成本、边界与正文读出</summary><p>在仓库根目录执行。10,000 组离散均匀数通过既有单位置验收函数，核对首拒绝分布、预计产出和输出上限；同时枚举 K、检查选择偏差，并逐项核对四张正文表与两个数值标记。</p><div class="compare-wrap"><pre class="decision-code"><code>node artifacts/dspark-horizon-20261030T084815Z/check-mechanisms.mjs</code></pre></div><p>脚本另检查空草稿、全拒绝、全接受与零存活前缀。仅有剩余输出上限 m、没有 EOS 时，产出应截为 min(Nₖ,m)；EOS 还取决于 token 路径，需要单独统计。完整模型训练、STS 校准、GPU 耗时与作者线上成绩均未在本地复现。</p></details>
-    <div class="reading-links"><a href="model-case-studies.html#frontier-cache-case">V4.1 的压缩、残差与草稿分工</a><a href="inference-engine.html#serving-schedule">请求调度与缓存资源</a><a href="posttraining.html#recent-training">近期公开训练技术</a></div>
+    <div class="reading-links"><a href="model-case-studies.html#frontier-cache-case">V4.1 的压缩、残差与草稿分工</a><a href="inference-engine.html#serving-schedule">请求调度与缓存资源</a><a href="architecture-variants.html#delta-state-training">循环状态的更新与回滚边界</a><a href="posttraining.html#recent-training">近期公开训练技术</a></div>
   </section>
   <div class="reading-links"><a href="quantized-linear.html">量化矩阵乘：零点、整数累加与整层误差</a></div>
 </div>

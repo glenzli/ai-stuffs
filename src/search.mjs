@@ -91,8 +91,8 @@ export const searchMetadata = {
     "priority": 8
   },
   "architecture-variants.html": {
-    "summary": "注意力、MoE、SSM 与 mHC/Sinkhorn 残差混合",
-    "terms": "mha mqa gqa mla sparse window rope swiglu moe ssm hybrid 变体 mHC hyper connections Sinkhorn Knopp doubly stochastic Single-Pass Mega-mHC 残差 混合 双随机 行和 列和 Jacobian 系数 移位",
+    "summary": "注意力、SSM、GDN/KDA 循环状态与 mHC 残差混合",
+    "terms": "mha mqa gqa mla sparse window rope swiglu moe ssm hybrid 变体 mHC hyper connections Sinkhorn Knopp doubly stochastic Single-Pass Mega-mHC 残差 混合 双随机 行和 列和 Jacobian 系数 移位 Gated DeltaNet GDN Kimi Linear KDA Qwen3.5 delta rule recurrent state chunk training detach 仿射 分块 跨块梯度 循环状态 写入 遗忘门 逐通道 衰减 缓存回滚",
     "priority": 8
   },
   "scaling-laws.html": {

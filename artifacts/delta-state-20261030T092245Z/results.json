@@ -1,0 +1,589 @@
+{
+  "schema": 1,
+  "states": [
+    [
+      [
+        0.2,
+        -0.1,
+        0.15
+      ],
+      [
+        0.05,
+        0.3,
+        -0.2
+      ]
+    ],
+    [
+      [
+        0.29000000000000004,
+        -0.14500000000000002,
+        0.11750000000000001
+      ],
+      [
+        0.034999999999999996,
+        0.21,
+        -0.13999999999999999
+      ]
+    ],
+    [
+      [
+        0.21818200000000001,
+        -0.008900000000000019,
+        0.052
+      ],
+      [
+        0.014825999999999995,
+        0.34229999999999994,
+        -0.18899999999999997
+      ]
+    ],
+    [
+      [
+        0.1418183,
+        -0.005785000000000012,
+        0.0338
+      ],
+      [
+        -0.17495916,
+        0.23638199999999998,
+        0.17574
+      ]
+    ],
+    [
+      [
+        0.21897931616800004,
+        -0.10399682360000004,
+        0.10310564800000002
+      ],
+      [
+        -0.189437189376,
+        0.21657275519999997,
+        0.047127264
+      ]
+    ]
+  ],
+  "outputs": [
+    [
+      0.25300000000000006,
+      0.009999999999999981,
+      0.010000000000000023
+    ],
+    [
+      0.014825999999999995,
+      0.34229999999999994,
+      -0.18899999999999997
+    ],
+    [
+      0.22505830799999998,
+      -0.1925766,
+      -0.12031200000000003
+    ],
+    [
+      0.21897931616800004,
+      -0.10399682360000004,
+      0.10310564800000002
+    ]
+  ],
+  "variants": [
+    {
+      "name": "KDA：逐通道衰减",
+      "output": [
+        0.21897931616800004,
+        -0.10399682360000004,
+        0.10310564800000002
+      ]
+    },
+    {
+      "name": "GDN：每头标量衰减",
+      "output": [
+        0.22356333250000004,
+        -0.10493646905000004,
+        0.10829920982500002
+      ]
+    },
+    {
+      "name": "错序：先修正再衰减旧状态",
+      "output": [
+        0.21390259408000006,
+        -0.09509071376000003,
+        0.10674238384000002
+      ]
+    },
+    {
+      "name": "误把计算分块当新文档清零",
+      "output": [
+        0.13926400000000003,
+        -0.11417600000000003,
+        0.09164800000000001
+      ]
+    }
+  ],
+  "training": [
+    {
+      "name": "逐 token 递推",
+      "loss": 0.0015441100568971604,
+      "earlyValueGradient": -0.003851771008943794,
+      "boundaryAdjointNorm": 0.020273062860973093
+    },
+    {
+      "name": "仿射分块 [2,2]",
+      "loss": 0.0015441100568971604,
+      "earlyValueGradient": -0.003851771008943794,
+      "boundaryAdjointNorm": 0.020273062860973093
+    },
+    {
+      "name": "块边界 detach",
+      "loss": 0.0015441100568971604,
+      "earlyValueGradient": 0.0,
+      "boundaryAdjointNorm": 0.0
+    }
+  ],
+  "partitionChecks": [
+    {
+      "sizes": [
+        4
+      ],
+      "maxStateAndOutputError": 2.7755575615628914e-17
+    },
+    {
+      "sizes": [
+        3,
+        1
+      ],
+      "maxStateAndOutputError": 2.7755575615628914e-17
+    },
+    {
+      "sizes": [
+        2,
+        2
+      ],
+      "maxStateAndOutputError": 2.7755575615628914e-17
+    },
+    {
+      "sizes": [
+        2,
+        1,
+        1
+      ],
+      "maxStateAndOutputError": 2.7755575615628914e-17
+    },
+    {
+      "sizes": [
+        1,
+        3
+      ],
+      "maxStateAndOutputError": 5.551115123125783e-17
+    },
+    {
+      "sizes": [
+        1,
+        2,
+        1
+      ],
+      "maxStateAndOutputError": 5.551115123125783e-17
+    },
+    {
+      "sizes": [
+        1,
+        1,
+        2
+      ],
+      "maxStateAndOutputError": 2.7755575615628914e-17
+    },
+    {
+      "sizes": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "maxStateAndOutputError": 0.0
+    }
+  ],
+  "finiteDifferences": [
+    {
+      "slot": [
+        "initialState",
+        0,
+        0
+      ],
+      "analytic": -0.0034665939080494148,
+      "chunkAnalytic": -0.0034665939080494148,
+      "finiteDifference": -0.003466593907980667,
+      "absoluteError": 6.874795871469885e-14
+    },
+    {
+      "slot": [
+        "initialState",
+        0,
+        1
+      ],
+      "analytic": 0.005140903144586829,
+      "chunkAnalytic": 0.005140903144586829,
+      "finiteDifference": 0.005140903144591064,
+      "absoluteError": 4.234460004859386e-15
+    },
+    {
+      "slot": [
+        "initialState",
+        0,
+        2
+      ],
+      "analytic": 0.00034705941673149115,
+      "chunkAnalytic": 0.00034705941673149115,
+      "finiteDifference": 0.00034705941668721624,
+      "absoluteError": 4.4274913596487053e-14
+    },
+    {
+      "slot": [
+        "initialState",
+        1,
+        0
+      ],
+      "analytic": 0.0006299863271288237,
+      "chunkAnalytic": 0.0006299863271288237,
+      "finiteDifference": 0.0006299863267774514,
+      "absoluteError": 3.513723600273577e-13
+    },
+    {
+      "slot": [
+        "initialState",
+        1,
+        1
+      ],
+      "analytic": -0.0009342596150829873,
+      "chunkAnalytic": -0.0009342596150829873,
+      "finiteDifference": -0.0009342596148749147,
+      "absoluteError": 2.0807259994842786e-13
+    },
+    {
+      "slot": [
+        "initialState",
+        1,
+        2
+      ],
+      "analytic": -6.307132968025378e-05,
+      "chunkAnalytic": -6.307132968025378e-05,
+      "finiteDifference": -6.307132962603268e-05,
+      "absoluteError": 5.4221099723798794e-14
+    },
+    {
+      "slot": [
+        "values",
+        0,
+        0
+      ],
+      "analytic": -0.003851771008943794,
+      "chunkAnalytic": -0.003851771008943794,
+      "finiteDifference": -0.003851771008698754,
+      "absoluteError": 2.4504009932257986e-13
+    },
+    {
+      "slot": [
+        "values",
+        0,
+        1
+      ],
+      "analytic": 0.005712114605096476,
+      "chunkAnalytic": 0.005712114605096476,
+      "finiteDifference": 0.0057121146049927615,
+      "absoluteError": 1.0371477981996335e-13
+    },
+    {
+      "slot": [
+        "values",
+        0,
+        2
+      ],
+      "analytic": 0.00038562157414610127,
+      "chunkAnalytic": 0.00038562157414610127,
+      "finiteDifference": 0.0003856215741691871,
+      "absoluteError": 2.3085808438516597e-14
+    },
+    {
+      "slot": [
+        "values",
+        1,
+        0
+      ],
+      "analytic": -0.002702957505844838,
+      "chunkAnalytic": -0.002702957505844838,
+      "finiteDifference": -0.0027029575058214184,
+      "absoluteError": 2.3419634287424884e-14
+    },
+    {
+      "slot": [
+        "values",
+        1,
+        1
+      ],
+      "analytic": 0.004008442612564651,
+      "chunkAnalytic": 0.004008442612564651,
+      "finiteDifference": 0.004008442612665926,
+      "absoluteError": 1.0127489125100197e-13
+    },
+    {
+      "slot": [
+        "values",
+        1,
+        2
+      ],
+      "analytic": 0.00027060765705792144,
+      "chunkAnalytic": 0.00027060765705792144,
+      "finiteDifference": 0.00027060765705067685,
+      "absoluteError": 7.244584706439516e-15
+    },
+    {
+      "slot": [
+        "values",
+        2,
+        0
+      ],
+      "analytic": -0.0021441496664678372,
+      "chunkAnalytic": -0.0021441496664678372,
+      "finiteDifference": -0.0021441496665186924,
+      "absoluteError": 5.0855153421736077e-14
+    },
+    {
+      "slot": [
+        "values",
+        2,
+        1
+      ],
+      "analytic": 0.0031797395527679967,
+      "chunkAnalytic": 0.0031797395527679967,
+      "finiteDifference": 0.003179739552824218,
+      "absoluteError": 5.6221086813801335e-14
+    },
+    {
+      "slot": [
+        "values",
+        2,
+        2
+      ],
+      "analytic": 0.00021466238976000114,
+      "chunkAnalytic": 0.00021466238976000114,
+      "finiteDifference": 0.0002146623897516728,
+      "absoluteError": 8.328353198056027e-15
+    },
+    {
+      "slot": [
+        "values",
+        3,
+        0
+      ],
+      "analytic": -0.00992661882623999,
+      "chunkAnalytic": -0.00992661882623999,
+      "finiteDifference": -0.009926618826190323,
+      "absoluteError": 4.9666867840691964e-14
+    },
+    {
+      "slot": [
+        "values",
+        3,
+        1
+      ],
+      "analytic": 0.014721016447999988,
+      "chunkAnalytic": 0.014721016447999988,
+      "finiteDifference": 0.014721016447830602,
+      "absoluteError": 1.6938533908827935e-13
+    },
+    {
+      "slot": [
+        "values",
+        3,
+        2
+      ],
+      "analytic": 0.0009938073600000055,
+      "chunkAnalytic": 0.0009938073600000055,
+      "finiteDifference": 0.000993807360081915,
+      "absoluteError": 8.190952256736939e-14
+    },
+    {
+      "slot": [
+        "channelDecay",
+        0,
+        0
+      ],
+      "analytic": -0.0012837224261764914,
+      "chunkAnalytic": -0.0012837224261764914,
+      "finiteDifference": -0.0012837224261028068,
+      "absoluteError": 7.368454804645985e-14
+    },
+    {
+      "slot": [
+        "channelDecay",
+        0,
+        1
+      ],
+      "analytic": -0.00033737757461772035,
+      "chunkAnalytic": -0.00033737757461772035,
+      "finiteDifference": -0.0003373775743368071,
+      "absoluteError": 2.809132592339336e-13
+    },
+    {
+      "slot": [
+        "channelDecay",
+        1,
+        0
+      ],
+      "analytic": -0.004749899188426306,
+      "chunkAnalytic": -0.004749899188426306,
+      "finiteDifference": -0.004749899189249174,
+      "absoluteError": 8.228678155530744e-13
+    },
+    {
+      "slot": [
+        "channelDecay",
+        1,
+        1
+      ],
+      "analytic": -0.00024859400234989923,
+      "chunkAnalytic": -0.00024859400234989923,
+      "finiteDifference": -0.0002485940024795838,
+      "absoluteError": 1.296845660372914e-13
+    },
+    {
+      "slot": [
+        "channelDecay",
+        2,
+        0
+      ],
+      "analytic": -0.003914977892896726,
+      "chunkAnalytic": -0.003914977892896726,
+      "finiteDifference": -0.003914977893303487,
+      "absoluteError": 4.067605627322557e-13
+    },
+    {
+      "slot": [
+        "channelDecay",
+        2,
+        1
+      ],
+      "analytic": 0.0006773763295285285,
+      "chunkAnalytic": 0.0006773763295285285,
+      "finiteDifference": 0.0006773763296151827,
+      "absoluteError": 8.665420811460045e-14
+    },
+    {
+      "slot": [
+        "channelDecay",
+        3,
+        0
+      ],
+      "analytic": -0.0033929808405104957,
+      "chunkAnalytic": -0.0033929808405104957,
+      "finiteDifference": -0.0033929808407329176,
+      "absoluteError": 2.2242190728105626e-13
+    },
+    {
+      "slot": [
+        "channelDecay",
+        3,
+        1
+      ],
+      "analytic": 0.0032347127441620005,
+      "chunkAnalytic": 0.0032347127441620005,
+      "finiteDifference": 0.0032347127444046914,
+      "absoluteError": 2.4269085005523827e-13
+    },
+    {
+      "slot": [
+        "writeStrength",
+        0,
+        null
+      ],
+      "analytic": -0.002978437967246721,
+      "chunkAnalytic": -0.002978437967246721,
+      "finiteDifference": -0.0029784379673974265,
+      "absoluteError": 1.507054030180921e-13
+    },
+    {
+      "slot": [
+        "writeStrength",
+        1,
+        null
+      ],
+      "analytic": 0.0061943965853742235,
+      "chunkAnalytic": 0.0061943965853742235,
+      "finiteDifference": 0.00619439658507831,
+      "absoluteError": 2.959134673408137e-13
+    },
+    {
+      "slot": [
+        "writeStrength",
+        2,
+        null
+      ],
+      "analytic": 0.0008356715770817953,
+      "chunkAnalytic": 0.0008356715770817953,
+      "finiteDifference": 0.0008356715770763135,
+      "absoluteError": 5.481834604303959e-15
+    },
+    {
+      "slot": [
+        "writeStrength",
+        3,
+        null
+      ],
+      "analytic": -0.019591297287453423,
+      "chunkAnalytic": -0.019591297287453423,
+      "finiteDifference": -0.019591297287365958,
+      "absoluteError": 8.746475765875061e-14
+    }
+  ],
+  "memory": [
+    {
+      "length": 1,
+      "full": 20,
+      "recurrent": 24,
+      "hybrid": 23
+    },
+    {
+      "length": 4,
+      "full": 80,
+      "recurrent": 24,
+      "hybrid": 38
+    },
+    {
+      "length": 16,
+      "full": 320,
+      "recurrent": 24,
+      "hybrid": 98
+    }
+  ],
+  "overwriteBoundary": {
+    "afterA": [
+      [
+        0.4,
+        -0.2,
+        0.1
+      ],
+      [
+        0.1,
+        0.2,
+        0.3
+      ]
+    ],
+    "afterB": [
+      [
+        0.4,
+        -0.2,
+        0.1
+      ],
+      [
+        0.1,
+        0.2,
+        0.3
+      ]
+    ],
+    "maxDifference": 0.0
+  },
+  "checks": {
+    "finiteDerivatives": 30,
+    "chunkPartitions": 8,
+    "causalSuffixIsolation": true,
+    "emptySequence": true,
+    "gateEndpoints": true
+  }
+}

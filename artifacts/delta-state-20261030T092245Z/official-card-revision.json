@@ -1,0 +1,12 @@
+{
+  "repository": "Qwen/Qwen3.5-9B",
+  "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "url": "https://huggingface.co/Qwen/Qwen3.5-9B/resolve/c202236235762e1c871ad0ccb60c8ee5ba337b9a/README.md",
+  "checkedAt": "2026-10-30T09:25:29.504289+00:00",
+  "bytes": 77643,
+  "sha256": "c5f5a8c2dddab69cfbf05279235aa5fddb137939a06539c4c7637aa900fef6d0",
+  "scope": "Text-only source verification, no weights or code executed.",
+  "hiddenLayoutLines": [
+    "- Hidden Layout: 8 × (3 × (Gated DeltaNet → FFN) → 1 × (Gated Attention → FFN))"
+  ]
+}

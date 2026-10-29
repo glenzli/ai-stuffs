@@ -170,6 +170,56 @@
       <div class="reading-links"><a href="position-cache.html#rotary-position">RoPE 旋转与缓存位置核对</a><a href="data-tokenizer.html#mixture-optimization">长度与数据混合</a><a href="parallel-correctness.html">全局 token 与并行正确性</a><a href="model-evaluation.html#generalization">泛化判据</a></div>
     </section>
     </div>
+    <div class="modern-page"><section class="section" aria-labelledby="delta-state-training"><div class="section-heading"><span class="section-number">CASE / RECURRENT MEMORY</span><h2 id="delta-state-training">Gated DeltaNet 与 KDA：固定状态怎样写入，训练又怎样分块？</h2></div>
+      <p>这类层把历史压入每个 head 的矩阵状态。新 key 用来读取旧关联，再把“新 value 与旧预测的差”写回；衰减控制旧状态保留多少。它与逐 token 保存 K/V 的全注意力、只保留固定邻域的滑窗，以及完整 Mamba 块的结构分别理解。</p>
+      <details><summary>三个来源，三种具体配置</summary><div class="compare-wrap"><table><thead><tr><th>公开版本</th><th>本节对应内容</th><th>配置边界</th></tr></thead><tbody>
+        <tr><td><a href="https://arxiv.org/html/2412.06464v1">Gated DeltaNet v1 · 2024-12-09</a><br>NVIDIA / MIT，§3</td><td>每头一个标量遗忘门，结合 delta 修正；原文提供 WY 分块训练与混合层。</td><td>原文状态是 dᵥ×dₖ；下文统一转置成 dₖ×dᵥ。完整块还含短卷积、归一化与输出门。</td></tr>
+        <tr><td><a href="https://arxiv.org/html/2510.26692v1">Kimi Linear v1 · 2025-10-30</a><br>Moonshot，§3–4</td><td>KDA 改为逐 key 通道衰减，原文式 1 给定乘法顺序。</td><td>Kimi Linear 以 3:1 混合 KDA 与 full MLA；其 WY/UT 实现和模型结果不同于本站稠密小矩阵教具。</td></tr>
+        <tr><td><a href="https://huggingface.co/Qwen/Qwen3.5-9B/blob/c202236235762e1c871ad0ccb60c8ee5ba337b9a/README.md">Qwen3.5-9B 官方模型卡</a><br>2026-10-30 核对，c202236</td><td>明确列出 8 组“3 层 Gated DeltaNet + 1 层 Gated Attention”，每层 mixer 后接 FFN。</td><td>这是指定 9B 版本；GDN 不等于 KDA，Gated Attention 也不等于 Kimi 的 MLA。模型卡不是未披露训练配方的依据。</td></tr>
+      </tbody></table></div></details>
+      <h3>先衰减旧状态，再读出误差并修正</h3>
+      <p>以下 Sₜ∈ℝᵈₖ×ᵈᵥ，qₜ/kₜ 为 dₖ 维列向量，vₜ 为 dᵥ 维列向量；本节统一使用 Kimi 论文的方向。令 Dₜ=Diag(αₜ)，逐通道 αₜ∈[0,1]ᵈₖ，写入强度 βₜ∈[0,1]。GDN 的标量门是 Dₜ=αₜI 的特例。</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+X_t&amp;=D_tS_{t-1},\qquad r_t=v_t-X_t^\top k_t,\\
+S_t&amp;=X_t+\beta_t k_t r_t^\top\\
+&amp;=(I-\beta_t k_tk_t^\top)D_tS_{t-1}+\beta_t k_tv_t^\top,\\
+o_t&amp;=S_t^\top q_t.
+\end{aligned}</div><figcaption>rₜ 以衰减后的状态为基准。通道衰减 Dₜ 与 I−βₜkₜkₜᵀ 通常不交换；标量门能交换，不代表向量门也能。状态是每次前向变化的中间量，βₜ 是输入相关的写门，不是更新模型参数的优化器学习率。</figcaption></figure>
+      <p>本地固定四个位置、2×3 初始状态、单位 q/k，以及预先保存的 v、α、β；不运行模型投影、短卷积或输出门。三个输出坐标直接来自 Sₜᵀqₜ；此表显示四位小数，完整数值保存在结果文件中：</p>
+      <div class="compare-wrap"><table data-delta-outputs style="min-width:0"><thead><tr><th>位置 t</th><th>oₜ[0]</th><th>oₜ[1]</th><th>oₜ[2]</th></tr></thead><tbody>
+        <tr><td>1</td><td>0.2530</td><td>0.0100</td><td>0.0100</td></tr>
+        <tr><td>2</td><td>0.0148</td><td>0.3423</td><td>-0.1890</td></tr>
+        <tr><td>3</td><td>0.2251</td><td>-0.1926</td><td>-0.1203</td></tr>
+        <tr><td>4</td><td>0.2190</td><td>-0.1040</td><td>0.1031</td></tr>
+      </tbody></table></div>
+      <details><summary>换成标量门、交换顺序、清零计算块，结果一样吗？</summary><p>标量门依次固定为 [0.8,0.875,0.75,0.675]；错序例将旧状态路径改成 Dₜ(I−βₜkₜkₜᵀ)Sₜ₋₁，写入项保持原样。清零例在处理第 3 个位置前把状态置零。其他输入不变，比较最后一个输出：</p><div class="compare-wrap"><table data-delta-variants><thead><tr><th>路径</th><th>o₄[0]</th><th>o₄[1]</th><th>o₄[2]</th></tr></thead><tbody>
+        <tr><td>KDA：逐通道衰减</td><td>0.218979</td><td>-0.103997</td><td>0.103106</td></tr>
+        <tr><td>GDN：每头标量衰减</td><td>0.223563</td><td>-0.104936</td><td>0.108299</td></tr>
+        <tr><td>错序：先修正再衰减旧状态</td><td>0.213903</td><td>-0.095091</td><td>0.106742</td></tr>
+        <tr><td>误把计算分块当新文档清零</td><td>0.139264</td><td>-0.114176</td><td>0.091648</td></tr>
+      </tbody></table></div><p>这些差异说明算子和边界约定不同，不比较模型质量。计算分块要延续同一文档的状态；独立文档需要自己的状态、短卷积和注意力隔离规则。</p></details>
+      <h3>分块重排计算，不等于截断跨块梯度</h3>
+      <p>对本层给定的 q/k/v 与门值，每步可写成 Sₜ=AₜSₜ₋₁+Bₜ。若前块表示为 S↦P₁S+R₁、后块为 S↦P₂S+R₂，代入后得到 P=P₂P₁、R=P₂R₁+R₂。因此能先组合块内仿射变换，再用块入口状态求输出。组合顺序保留因果关系；代数等价允许浮点舍入差异。</p>
+      <p>本地枚举四位置的全部 8 种连续分块方式，核对每个中间状态与输出。这个稠密展开用于看懂依赖；真实高效训练还需论文的结构化 WY/UT、块内并行、精度处理和硬件实现，不能用教具的运算时间代表论文收益。</p>
+      <figure class="math-block"><div class="math-display" data-math>\mathcal L=\tfrac12\lVert o_4-y\rVert_2^2,\qquad G_{t-1}=A_t^\top G_t,\qquad G_t=\frac{\partial\mathcal L}{\partial S_t}</div><figcaption>末位置监督 y=[0.25,−0.15,0.1]。若只改变分块执行而保持整段训练目标，状态伴随 G 必须跨过块边界；detach 把这条链的梯度人为置零，属于截断反传的另一种训练约定。</figcaption></figure>
+      <div class="compare-wrap"><table data-delta-training><thead><tr><th>训练路径</th><th>同一前向 loss</th><th>∂L/∂v₁[0]</th><th>传过 S₂ 的 ‖G₂‖F</th></tr></thead><tbody>
+        <tr><td>逐 token 递推</td><td>0.001544</td><td>-0.003852</td><td>0.020273</td></tr>
+        <tr><td>仿射分块 [2,2]</td><td>0.001544</td><td>-0.003852</td><td>0.020273</td></tr>
+        <tr><td>块边界 detach</td><td>0.001544</td><td>0.000000</td><td>0.000000</td></tr>
+      </tbody></table></div>
+      <p>输入状态、v、通道衰减和写门共 30 个局部量均核对手工伴随、分块伴随与有限差分。q/k 在此固定，未核验上游投影、归一化或门参数化的权重梯度。前向相同和训练梯度相同是两项独立检查。</p>
+      <h3>固定状态省的是哪些槽位？</h3>
+      <p>只计算抽象四层、每层一头、dₖ=2/dᵥ=3、相同精度的缓存标量数。全注意力每层保存 T(dₖ+dᵥ)=5T，循环层每层保存 dₖdᵥ=6；三层循环加一层全注意力需要 18+5T：</p>
+      <div class="compare-wrap"><table data-delta-memory style="min-width:0"><thead><tr><th>已处理长度 T</th><th>四层全注意力</th><th>四层循环</th><th>3+1 混合</th></tr></thead><tbody>
+        <tr><td>1</td><td>20</td><td>24</td><td>23</td></tr>
+        <tr><td>4</td><td>80</td><td>24</td><td>38</td></tr>
+        <tr><td>16</td><td>320</td><td>24</td><td>98</td></tr>
+      </tbody></table></div>
+      <p>短前缀时，固定矩阵也可能比少量 K/V 占更多槽位；混合模型仍有随 T 增长的全注意力缓存。本表排除了短卷积状态、权重、激活与分配器，也没有套用 Qwen/Kimi 不同的 head 数、维度或量化配置。</p>
+      <details><summary>投机解码拒绝草稿时，循环状态能像 KV 一样删尾吗？</summary><p>必须按状态语义处理。作为方程的端点反例，取 β=1、k=[1,0]、D=I，两份旧状态只在第一行不同。这次写入会把第一行完全换成 v，两份新状态的最大差为 <strong data-delta-overwrite>0.000000</strong>，从新状态不能唯一恢复旧第一行。</p><p>这里 β=1 是明确的数学端点，不宣称有限 sigmoid logit 必然达到该值。内部参数下的可逆性需另看 A 与数值条件；不能默认所有步都可逆，也不能只按 KV 删除位置。实现通常需要按所选机制核对状态快照、重算、短卷积状态及混合层缓存，本站不指定某个引擎未核对的回滚实现。</p></details>
+      <details><summary>离线重算状态、分块、梯度与正文表格</summary><p>在仓库根目录执行，仅用 Python 3.10+ 标准库。固定输入、全部状态、30 项有限差分、8 种分块、反例与来源版本随代码保存；同时核对正文四表一值。</p><div class="compare-wrap"><pre class="decision-code"><code>python3 artifacts/delta-state-20261030T092245Z/check-mechanisms.py</code></pre></div><p>另检查空序列、门值端点和后缀变更不影响早期状态。没有下载权重、训练完整模型、运行作者 kernel 或测 GPU 吞吐；不复现作者的任务成绩和速度提升。</p></details>
+      <div class="reading-links"><a href="attention-kernels.html">softmax attention 的分块归一化</a><a href="position-cache.html#cache-equivalence">固定前缀的数值一致性</a><a href="efficient-inference.html#dspark-verification">投机验收预算与调度信息边界</a><a href="backpropagation.html">完整 Transformer 的反向传播</a></div>
+    </section></div>
     <div class="modern-page"><section class="section" aria-labelledby="mhc-residual"><div class="section-heading"><span class="section-number">CASE / RESIDUAL MIXING</span><h2 id="mhc-residual">mHC：多条残差流怎样混合，约束又保证到哪里？</h2></div>
       <p>普通残差把分支输出加回一条流。Hyper-Connections 扩成多条流，并学习层间的混合。DeepSeek 的 mHC 再约束残差混合矩阵；它改变的是计算图，不能只当成优化器或 KV 压缩技巧。</p>
       <figure class="math-block"><div class="math-display" data-math>\begin{aligned}

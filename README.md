@@ -62,6 +62,8 @@ Engram 查表训练、逐头矩阵方向、有符号 L2 均衡更新和 DualPipe
 [查表、更新与重叠核验记录](docs/lookup-updates-overlap-2026-10-30.md)。
 DSpark 条件接受率、验收长度成本与调度选择偏差的版本边界和离线核验见
 [验收预算补充记录](docs/dspark-horizon-2026-10-30.md)。
+Gated DeltaNet/KDA 的状态更新、分块输出与跨块梯度，以及固定状态和混合缓存的边界见
+[循环状态核验记录](docs/delta-state-2026-10-30.md)。
 
 ## 快速开始
 
