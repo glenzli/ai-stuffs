@@ -1,0 +1,94 @@
+{
+  "baseCommit": "918d1df86b03b9a3e30c48a6ee0e45d8f6bfaa07",
+  "uncommitted": true,
+  "pushed": false,
+  "scope": "Six versioned public training cases, explicit disclosure boundaries and fixed-input arithmetic; no vendor model training reproduced.",
+  "build": {
+    "pages": 66,
+    "scripts": 114,
+    "styles": 44,
+    "equations": 146,
+    "log": "build.log"
+  },
+  "tests": {
+    "command": "node --test scripts/test-content.mjs scripts/test-reading.mjs scripts/test-policy-workflows.mjs scripts/test-math.mjs",
+    "passed": 48,
+    "log": "node-focused.log"
+  },
+  "primarySources": {
+    "documents": 9,
+    "officialCodeEntries": 3,
+    "checkedAt": "2026-10-30",
+    "ledger": "primary-sources.json",
+    "method": "Manual claim-to-primary-source review; versions and missing artifacts distinguished from independent replication."
+  },
+  "arithmetic": {
+    "modelTraining": false,
+    "finiteDifferenceSoftDerivativeCases": 15,
+    "checks": [
+      "PPO sign-dependent clipping",
+      "GSPO normalized ratio",
+      "SAPO local derivatives and rendered table",
+      "PARL supplied step counts and rendered table",
+      "storage-split normalization example"
+    ],
+    "script": "mechanism-check.mjs",
+    "results": "mechanism-results.json"
+  },
+  "browser": {
+    "changedPages": 7,
+    "layouts": 42,
+    "widths": [
+      390,
+      768,
+      1440
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "pageOverflows": 0,
+    "mathErrors": 0,
+    "navigationTargets": 6,
+    "searchQueries": 6,
+    "consoleErrors": 0
+  },
+  "experiments": {
+    "groups": 13,
+    "pinned_files": 57,
+    "manifest_sha256": "44afd76af506999af7ab58441de78ea5dab9001b5d0570c4ae8f061aee3948cd",
+    "base": "918d1df86b03b9a3e30c48a6ee0e45d8f6bfaa07",
+    "all_pinned_bytes_match": true,
+    "existing_experiment_sources_unchanged": true
+  },
+  "sourceInputs": {
+    ".gitignore": "1c92999589212999878dd592097e4d917353773a4d6d7902591265903fb9199a",
+    "README.md": "35dcfab6fa5078ac057e3b39a7226c511515cc05e4b33c3a54490c960e6700e6",
+    "src/content/deep-dive.html": "68de0c1f92088d93e22207b185e66d7fb43ffa58a6809820ff76db714cf5c267",
+    "src/content/distillation-data.html": "4c25627bd12e2c5b39a6a1e484448bc76c0f546ef1f6a8312f3ca5e8e596244b",
+    "src/content/model-case-studies.html": "0e38200df5c0db7f3f8c2b6ee414fed09185824897c66c078a614d5610d8e204",
+    "src/content/model-evaluation.html": "b50dc65da431ce75f2cb68b57dd259f92a2b614e3718d4a111095984bd47942f",
+    "src/content/posttraining.html": "ec8b5616ff85739ab60b9aa798bc4788730be7ae4be418ff2f1b98b79558fd63",
+    "src/content/rl-posttraining.html": "1bd217bdf9657f0ed2d9e8b0762857e86cae813e6c03df1b709a8ea14b75932c",
+    "src/content/training-environments.html": "556a76a42c9ac987c95afb3775d34d77669b6476e5c4f9fb286e6dd674367e97",
+    "src/references.mjs": "bd17c4423334361975452040cdf3074e53057e7c00083eb12f139545f90a2088",
+    "src/search.mjs": "bce5828a2b2177605d7222360aaa8a61c735e1022e8e34c640229f6152cdb350",
+    "docs/training-techniques-2026-10-30.md": "c57ff44adf87ea011376e8221bdb7943239df1054ce0e407e20ea974544593fc",
+    "artifacts/training-research-20261030T033831Z/primary-sources.json": "99d39f6c7d92241f83061afc1fd1e743cb8ad867648f094ef25f684eb44c108c",
+    "artifacts/training-research-20261030T033831Z/mechanism-check.mjs": "c5c79ec923560d9636e4f927c3a804328004b42cf76e215f55af6ee8a3a6d89a"
+  },
+  "builtInputs": {
+    "posttraining.html": "2b1879f65aaef5cba936f356cf728b3e465f94b9cd39ca09057d50eb01726c00",
+    "rl-posttraining.html": "2ecb2f7a24dc17f77eacb17ef7b46ae3c0390aad923500ce6c63f756eecd256c",
+    "training-environments.html": "bbfed7aa1026acc6dc54f4c7b669785e7e011b8674b05f79efe5aeb6086e1b58",
+    "distillation-data.html": "78db18d01ffb64f67bb71f64f553fd99b1e86c6cb1694915ec3f74e999bc15cd",
+    "model-evaluation.html": "db22a017fe402c84d2c4bc0aea196a3c93ed23d7fdc7cf22f00babc2cc5f24ad",
+    "model-case-studies.html": "77809d6beed1041682cef8ff460465e05a12aef5f5a0c7c7d4ec1bd225da078b",
+    "deep-dive.html": "70b910049d7fa1fa0e1102876cb921c863089f7f8c2cf8526a12a3864113ad33"
+  },
+  "screenshots": [
+    "recent-training-desktop.png",
+    "recent-training-mobile.png",
+    "recent-training-dark.png"
+  ]
+}

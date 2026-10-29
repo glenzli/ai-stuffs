@@ -40,4 +40,12 @@ p_{\mathrm{stud}}^{(T)}&amp;=\operatorname{softmax}(z_{\mathrm{stud}}/T),\\
     <div class="concept-pairs"><div><h3>教师也会遇到陌生状态</h3><p>学生可能给出自相矛盾的前缀，教师仍可能顺着错误继续。要检查教师在恢复场景中的能力，并保留结果验证器或人工抽查；模仿程度与任务正确性分别评价。</p></div><div><h3>已有模型可以当保留能力的教师</h3><p>领域继续训练可能改变通用指令行为。可以用更新前模型在通用任务上提供约束或恢复训练，再同时检查新领域和旧能力。教师本身不具备的新知识，需要其他数据或证据。</p></div></div>
     <div class="reading-links"><a href="rl-posttraining.html#rl-staleness">采样版本与数据陈旧度</a><a href="finetuning-recipe.html#recipe-data">微调数据设计</a><a href="model-evaluation.html#judge-reliability">教师与判分器的误差</a></div>
   </section>
+  <section class="section" aria-labelledby="multi-teacher-opd"><div class="section-heading"><span class="section-number">06 / VERSIONED CASE</span><h2 id="multi-teacher-opd">NVIDIA MOPD：怎样把领域教师合到一个学生？</h2></div>
+    <p>Nemotron 3 Ultra 的 2026-06-09 报告先以多环境 RLVR 建立学生，再让领域教师在学生生成的前缀上提供密集 token 信号，迭代做 Multi-teacher On-Policy Distillation。教师与领域数据对应，不能把它理解为无差别平均所有教师的参数或输出。</p>
+    <div class="mechanism-flow"><div><span>01 / STUDENT</span><h3>采样学生轨迹</h3><p>记录实际生成前缀和行为策略。</p></div><div><span>02 / TEACHER</span><h3>对应领域评分</h3><p>按报告定义提供 token 级信号。</p></div><div><span>03 / UPDATE</span><h3>处理策略版本</h3><p>异步估计器区分行为、proximal 与当前策略。</p></div><div><span>04 / EVALUATE</span><h3>检查各领域迁移</h3><p>教师匹配程度与独立任务完成分别测量。</p></div></div>
+    <p>报告的异步目标明确规定 log-prob 差、stop-gradient、概率比及 mask。把教师 log-prob 简单当作奖励，仍不足以确定同一个梯度估计器。</p>
+    <div class="practice-verdict"><strong>公开配方仍有复现边界</strong><p>NVIDIA 固定版本的官方指南明确写出：领域教师和首轮 MOPD 的中间 checkpoint 未包含在公开发布中。指南提供一个代表性单轮流程，不能从现有公开工件重建报告的完整两轮训练链。本站没有运行该 GPU 配方。</p></div>
+    <p class="source-note">一手依据：<a href="https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Ultra-Technical-Report.pdf">Ultra 报告第 3.2–3.3 节、图 10</a>；<a href="https://github.com/NVIDIA-NeMo/Nemotron/blob/99a7e45302f486c7e104647c128c2962ae7695d6/docs/nemotron/ultra3/mopd.md">官方配方 99a7e45 的 Scope 声明</a>。源码入口存在和完整训练可复现，需要分别核对。</p>
+    <div class="reading-links"><a href="rl-posttraining.html#self-feedback">自反馈与教师反馈的区别</a><a href="model-evaluation.html#training-claims">从公开声明核对到结果</a></div>
+  </section>
 </div>

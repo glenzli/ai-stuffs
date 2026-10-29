@@ -1,0 +1,42 @@
+[
+  {
+    "ready": "true",
+    "tag": "H2",
+    "target": "self-feedback",
+    "title": "Self-Feedback RL：模型的反馈怎样进入训练？",
+    "url": "http://127.0.0.1:4173/rl-posttraining.html#self-feedback"
+  },
+  {
+    "ready": "true",
+    "tag": "H2",
+    "target": "policy-variants",
+    "title": "Qwen GSPO / SAPO：裁剪哪个量，保留哪些梯度？",
+    "url": "http://127.0.0.1:4173/rl-posttraining.html#policy-variants"
+  },
+  {
+    "ready": "true",
+    "tag": "H3",
+    "target": "qwengyre",
+    "title": "QwenGyre：长任务的调度与轨迹怎样一起处理？",
+    "url": "http://127.0.0.1:4173/rl-posttraining.html#qwengyre"
+  },
+  {
+    "ready": "true",
+    "tag": "H2",
+    "target": "parallel-agent-rl",
+    "title": "Moonshot PARL：训练的是怎样分工与收尾",
+    "url": "http://127.0.0.1:4173/training-environments.html#parallel-agent-rl"
+  },
+  {
+    "ready": "true",
+    "target": "harnessed-rl",
+    "title": "Microsoft Agent Lightning：训练时保留真实 Agent 框架",
+    "url": "http://127.0.0.1:4173/training-environments.html#harnessed-rl"
+  },
+  {
+    "ready": "true",
+    "target": "multi-teacher-opd",
+    "title": "NVIDIA MOPD：怎样把领域教师合到一个学生？",
+    "url": "http://127.0.0.1:4173/distillation-data.html#multi-teacher-opd"
+  }
+]

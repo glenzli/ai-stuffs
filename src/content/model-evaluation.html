@@ -208,6 +208,19 @@
     </section></div>
     <div class="modern-page"><div class="reading-links"><a href="uncertainty-calibration.html">下一步：置信度、校准与回答门槛</a><a href="continual-learning.html#continual-evaluation">新旧任务的阶段评估矩阵</a><a href="training-environments.html#environment-verifier">可执行环境验证器</a></div></div>
     <div class="modern-page"><div class="reading-links"><a href="engineering-check.html">综合检查：数据、监督与执行是否使用同一口径</a></div></div>
+    <div class="modern-page">
+    <section class="section" aria-labelledby="training-claims"><div class="section-heading"><span class="section-number">SOURCE TO RESULT</span><h2 id="training-claims">怎样核验一项公开训练技术？</h2></div>
+      <p>先把“公司采用了”“机制已经说明”“工件足够重跑”“结果得到独立确认”拆开记录。下面四层各有可检查的对象，上一层的证据不能替代下一层。</p>
+      <div class="compare-wrap"><table><thead><tr><th>核验层次</th><th>固定什么</th><th>具体检查</th></tr></thead><tbody>
+        <tr><td>来源与版本</td><td>作者/公司、日期、论文版本或源码提交。</td><td>确认原文实际支持哪项声明，产品公告与训练论文分别归档。</td></tr>
+        <tr><td>机制与目标</td><td>采样者、反馈者、可训练参数、loss 与梯度边界。</td><td>核对概率比、stop-gradient、token 来源、归约及失败/截断处理。</td></tr>
+        <tr><td>重跑工件</td><td>输入数据、初值、中间教师、环境、评分器与配置。</td><td>区分完整配方、代表性单轮示例和仍然缺失的文件。</td></tr>
+        <tr><td>结果与归因</td><td>比较基线、预算、模型/任务切片及评估协议。</td><td>用独立评估核对实际完成质量；固定输入的公式验证单独报告。</td></tr>
+      </tbody></table></div>
+      <p><a href="rl-posttraining.html#self-feedback">DeepSeek 自反馈发布说明</a>确认采用，但没有给出完整算法；<a href="distillation-data.html#multi-teacher-opd">NVIDIA MOPD 官方配方</a>提供代表性流程，并明确中间权重缺失。这两类材料都有阅读价值，支持的结论范围不同。</p>
+      <p>自反馈或教师信号应与保留的真实任务结果分别计分。冻结训练时不可访问的测试、替代评分器和抽查标准；记录评分者与策略是否同源、是否反复按测试选参，以及失败重试的额外预算。</p>
+      <div class="reading-links"><a href="posttraining.html#recent-training">按核验范围选读近期方法</a><a href="model-artifacts.html">训练与恢复工件</a><a href="paired-evaluation.html">独立结果的配对比较</a></div>
+    </section></div>
     <section class="section next-lesson">
       <div>
         <p class="eyebrow">NEXT / REPRODUCE IT</p>

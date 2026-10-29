@@ -28,7 +28,7 @@ export const searchMetadata = {
   "uncertainty-calibration.html": { summary: "回答覆盖、错误率、Brier/ECE、语义熵与稳定错误", terms: "uncertainty calibration semantic entropy brier ECE hallucination confidence selective risk coverage 置信 幻觉 不确定性 校准 语义熵 拒答 回答门槛", priority: 10 },
   "continual-learning.html": { summary: "新旧任务梯度冲突、重放、EWC 与阶段评估矩阵", terms: "continual forgetting retention gradient conflict pcgrad replay EWC Fisher 干扰 遗忘 梯度冲突 持续学习 重放 可塑性 稳定性", priority: 10 },
   "learning-mechanisms.html": { summary: "上下文学习、induction head、superposition、SAE 与因果干预", terms: "in-context learning ICL induction head circuit tracing superposition SAE probe patching 上下文学习 归纳头 机制解释 特征 叠加 消融 激活替换 稀疏自编码器", priority: 10 },
-  "training-environments.html": { summary: "任务生成、环境快照、可执行验证器、奖励漏洞与安全", terms: "environment verifier SWE-Gym reward sandbox simulation 训练环境 可解性 任务生成 验证器 状态 副作用 课程 环境隔离", priority: 10 },
+  "training-environments.html": { summary: "环境、验证器、Moonshot PARL 与 Microsoft Agent Lightning", terms: "environment verifier SWE-Gym reward sandbox simulation 训练环境 可解性 任务生成 验证器 状态 副作用 课程 环境隔离 PARL Kimi Moonshot 并行 编排 CriticalSteps Agent Lightning Microsoft harness 微软 rollout 归约", priority: 10 },
   "finetuning-recipe.html": { summary: "数据条数、模板与监督、epoch/packing/batch 账本、LoRA/QLoRA 参数与数据学习曲线", terms: "finetune sft lora qlora rank alpha target modules 微调 配方 一万条 几千条 数据量 样本数 轮数 epoch packing batch 监督 token 学习曲线 sampler drop_last worker rank 补样 丢尾 重复 数据分发 base instruct", priority: 10 },
   "optimization-dynamics.html": { summary: "AdamW 状态账本、初始化、warmup、梯度裁剪与 μP 迁移", terms: "optimizer adamw momentum sgd beta initialization warmup clipping mup μp 优化器 更新 动量 稳定性 学习率 初始化 spike Muon SVD Newton Schulz 正交化 奇异值 矩阵优化器", priority: 9 },
   "parallel-correctness.html": { summary: "完整 Transformer 的真实累积/DDP 更新、变长监督分母、尾窗口与空监督，以及跨卡负例、全局范数和协调跳步", terms: "ddp loss reduction weighted mean accumulation no_sync token contrastive infonce all-gather detach negative gradcache global norm clip gradient shards replicated 全局 梯度累积 实测 Transformer AdamW 尾窗口 多卡 分母 归一化 空标签 对比学习 全局负例 表示梯度 范数 裁剪 复制 跳步 溢出", priority: 10 },
@@ -38,7 +38,7 @@ export const searchMetadata = {
   "reasoning-compute.html": { summary: "CoT 与可见 thinking、J-space 内部表示、监督推理、验证器与推理预算", terms: "cot chain of thought thinking 思维链 思考 reasoning verifier test time compute latent coconut J-space JSpace Jacobian Anthropic 推理 RLVR pass@k CoT-Pass 能力边界 过程正确 采样效率", priority: 10 },
   "multimodal.html": { summary: "图像 patch、原生多模态联合训练、Qwen3-Omni 与流式时间线", terms: "multimodal 多模态 vision vlm image audio video connector projector 视觉 音频 视频 streaming Thinker Talker codec Qwen3 Omni 流式 首包 队列 原生", priority: 9 },
   "agents-context.html": { summary: "工具调用、上下文压缩、证据记忆、冲突更新与持续学习", terms: "agent tool context memory rag 工具 上下文 记忆 轨迹 环境 compaction continual test time training 持续学习 压缩 约束 遗忘 prompt injection 提示注入 授权 信任", priority: 9 },
-  "distillation-data.html": { summary: "教师角色、软标签、学生轨迹蒸馏、前缀分布与能力保留", terms: "teacher student distillation synthetic data 蒸馏 教师 合成 数据 软标签 on-policy opd reverse kl forward 前缀 轨迹 恢复 遗忘", priority: 9 },
+  "distillation-data.html": { summary: "教师、学生轨迹与 NVIDIA 多教师 On-Policy Distillation", terms: "teacher student distillation synthetic data 蒸馏 教师 合成 数据 软标签 on-policy opd reverse kl forward 前缀 轨迹 恢复 遗忘 MOPD NVIDIA Nemotron Ultra 多教师 中间权重", priority: 9 },
   "efficient-inference.html": { summary: "量化误差、PTQ/QAT、KV 精度，以及投机采样接受与修正的概率账本", terms: "quantization int4 int8 fp8 awq gptq ptq qat 量化 校准 speculative draft residual distribution rejection 投机 解码 采样 残差 概率分布 接受 拒绝", priority: 9 },
   "index.html": {
     "summary": "一次学习的输入、预测、监督、损失和参数更新，连接六步主线",
@@ -76,18 +76,18 @@ export const searchMetadata = {
     "priority": 8
   },
   "model-evaluation.html": {
-    "summary": "指标、泛化、重复执行、判分器误差与发布判据",
-    "terms": "eval evaluation metric recall mrr ndcg f1 contamination confidence generalization early stopping 泛化 训练好了 过拟合 停止 评估 judge grader pass^k pass@k 判分器 混淆矩阵 可靠性 harness",
+    "summary": "指标、判分器误差，以及公开训练声明的核验",
+    "terms": "eval evaluation metric recall mrr ndcg f1 contamination confidence generalization early stopping 泛化 训练好了 过拟合 停止 评估 judge grader pass^k pass@k 判分器 混淆矩阵 可靠性 harness 训练声明 一手来源 披露边界 复现",
     "priority": 8
   },
   "posttraining.html": {
-    "summary": "表示后训练、SFT、偏好对齐和回归",
-    "terms": "posttraining sft dpo preference 后训练",
+    "summary": "后训练目标与近期公司公开训练技术导航",
+    "terms": "posttraining sft dpo preference 后训练 近期 公开 训练技术 DeepSeek Self-Feedback RLSF SAPO QwenGyre PARL Agent Lightning MOPD",
     "priority": 8
   },
   "rl-posttraining.html": {
-    "summary": "PPO/GRPO、组内优势、探索、DAPO 与异步 RL 策略陈旧度",
-    "terms": "rlhf ppo grpo rlvr reward hacking verifier rlaif preference dapo areal entropy staleness off-policy old behavior 策略 异步 裁剪 熵 陈旧度 全对 全错",
+    "summary": "PPO/GRPO、自反馈、GSPO/SAPO 与 QwenGyre 长轨迹训练",
+    "terms": "rlhf ppo grpo rlvr reward hacking verifier rlaif preference dapo areal entropy staleness off-policy old behavior 策略 异步 裁剪 熵 陈旧度 全对 全错 Self-Feedback RLSF 自反馈 DeepSeek GSPO SAPO QwenGyre 门控 弹性 调度",
     "priority": 8
   },
   "architecture-variants.html": {

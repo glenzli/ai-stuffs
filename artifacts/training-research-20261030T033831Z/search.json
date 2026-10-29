@@ -1,0 +1,80 @@
+[
+  {
+    "query": "Self-Feedback",
+    "hits": [
+      {
+        "href": "posttraining.html",
+        "text": "后训练在改什么后训练目标与近期公司公开训练技术导航"
+      },
+      {
+        "href": "rl-posttraining.html",
+        "text": "RL 后训练机制PPO/GRPO、自反馈、GSPO/SAPO 与 QwenGyre 长轨迹训练"
+      }
+    ]
+  },
+  {
+    "query": "SAPO",
+    "hits": [
+      {
+        "href": "posttraining.html",
+        "text": "后训练在改什么后训练目标与近期公司公开训练技术导航"
+      },
+      {
+        "href": "rl-posttraining.html",
+        "text": "RL 后训练机制PPO/GRPO、自反馈、GSPO/SAPO 与 QwenGyre 长轨迹训练"
+      }
+    ]
+  },
+  {
+    "query": "QwenGyre",
+    "hits": [
+      {
+        "href": "posttraining.html",
+        "text": "后训练在改什么后训练目标与近期公司公开训练技术导航"
+      },
+      {
+        "href": "rl-posttraining.html",
+        "text": "RL 后训练机制PPO/GRPO、自反馈、GSPO/SAPO 与 QwenGyre 长轨迹训练"
+      }
+    ]
+  },
+  {
+    "query": "PARL",
+    "hits": [
+      {
+        "href": "training-environments.html",
+        "text": "训练环境与验证器环境、验证器、Moonshot PARL 与 Microsoft Agent Lightning"
+      },
+      {
+        "href": "posttraining.html",
+        "text": "后训练在改什么后训练目标与近期公司公开训练技术导航"
+      }
+    ]
+  },
+  {
+    "query": "Agent Lightning",
+    "hits": [
+      {
+        "href": "training-environments.html",
+        "text": "训练环境与验证器环境、验证器、Moonshot PARL 与 Microsoft Agent Lightning"
+      },
+      {
+        "href": "posttraining.html",
+        "text": "后训练在改什么后训练目标与近期公司公开训练技术导航"
+      }
+    ]
+  },
+  {
+    "query": "MOPD",
+    "hits": [
+      {
+        "href": "distillation-data.html",
+        "text": "Teacher、蒸馏与合成数据教师、学生轨迹与 NVIDIA 多教师 On-Policy Distillation"
+      },
+      {
+        "href": "posttraining.html",
+        "text": "后训练在改什么后训练目标与近期公司公开训练技术导航"
+      }
+    ]
+  }
+]

@@ -133,3 +133,7 @@ __pycache__/
 # Editorial and metric-layout checks; model experiment outputs are unchanged.
 !/artifacts/editorial-20261029142135Z/
 !/artifacts/editorial-20261029142135Z/**
+
+# Primary-source audit and fixed-input arithmetic for recent training techniques.
+!/artifacts/training-research-20261030T033831Z/
+!/artifacts/training-research-20261030T033831Z/**

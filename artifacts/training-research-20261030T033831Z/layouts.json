@@ -1,0 +1,2798 @@
+[
+  {
+    "headings": [
+      {
+        "id": "reward-title",
+        "text": "奖励从哪里来，决定你优化什么"
+      },
+      {
+        "id": "loop-title",
+        "text": "一次 RL 后训练循环"
+      },
+      {
+        "id": "algorithms-title",
+        "text": "PPO、GRPO、DPO：优化对象不同"
+      },
+      {
+        "id": "reward-model-title",
+        "text": "Reward Model 在学什么？"
+      },
+      {
+        "id": "hacking-title",
+        "text": "Reward hacking：高奖励可能来自哪些漏洞"
+      },
+      {
+        "id": "rl-dynamics",
+        "text": "同一题全答对或全答错，还能学到什么？"
+      },
+      {
+        "id": "rl-staleness",
+        "text": "回答生成时，训练器已经更新了怎么办？"
+      },
+      {
+        "id": "qwengyre",
+        "text": "QwenGyre：长任务的调度与轨迹怎样一起处理？"
+      },
+      {
+        "id": "self-feedback",
+        "text": "Self-Feedback RL：模型的反馈怎样进入训练？"
+      },
+      {
+        "id": "policy-variants",
+        "text": "Qwen GSPO / SAPO：裁剪哪个量，保留哪些梯度？"
+      },
+      {
+        "id": "evidence-title",
+        "text": "怎样评估 RL 后训练的收益？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "reward-hacking-table-wrap",
+          "scrollWidth": 760,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 4,
+        "width": 760
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 324
+        },
+        "rows": 4,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 3,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 3,
+        "width": 650
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/rl-posttraining.html#policy-variants",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "environment-contract",
+        "text": "训练前，先定义世界怎样响应动作"
+      },
+      {
+        "id": "environment-verifier",
+        "text": "相同结果，三种检查会给出什么奖励？"
+      },
+      {
+        "id": "environment-data",
+        "text": "怎样持续产出有用、可解、独立的任务？"
+      },
+      {
+        "id": "environment-safety",
+        "text": "奖励、权限和测试隔离怎样配合？"
+      },
+      {
+        "id": "parallel-agent-rl",
+        "text": "Moonshot PARL：训练的是怎样分工与收尾"
+      },
+      {
+        "id": "harnessed-rl",
+        "text": "Microsoft Agent Lightning：训练时保留真实 Agent 框架"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 324,
+          "tag": "DIV",
+          "width": 324
+        },
+        "rows": 4,
+        "width": 324
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 5,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 2,
+        "width": 650
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/training-environments.html#parallel-agent-rl",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "teacher-roles",
+        "text": "同一个教师，可以干四种不同的事"
+      },
+      {
+        "id": "soft-targets",
+        "text": "软标签为什么比一个正确 ID 多一些信息？"
+      },
+      {
+        "id": "sequence-distillation",
+        "text": "只有教师文本，仍然可以蒸馏"
+      },
+      {
+        "id": "synthetic-evidence",
+        "text": "合成数据的覆盖、筛选与重复"
+      },
+      {
+        "id": "on-policy-distillation",
+        "text": "教师怎样指导学生自己走过的轨迹？"
+      },
+      {
+        "id": "multi-teacher-opd",
+        "text": "NVIDIA MOPD：怎样把领域教师合到一个学生？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 4,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 324
+        },
+        "rows": 2,
+        "width": 650
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/distillation-data.html#multi-teacher-opd",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "metric-title",
+        "text": "按任务选择评估指标"
+      },
+      {
+        "id": "metrics-math-title",
+        "text": "几个你会实际写进评估脚本的指标"
+      },
+      {
+        "id": "slice-title",
+        "text": "按语言、长度和领域查看评估结果"
+      },
+      {
+        "id": "reliability-title",
+        "text": "怎样判断指标差异是否可靠"
+      },
+      {
+        "id": "contamination-title",
+        "text": "检查训练数据与评测数据的重叠"
+      },
+      {
+        "id": "gate-title",
+        "text": "一个可执行的发布门槛"
+      },
+      {
+        "id": "generalization",
+        "text": "怎样判断“训练好了”，又怎样判断泛化？"
+      },
+      {
+        "id": "stopping-criteria",
+        "text": "把“训练好了”改写成可执行的判断"
+      },
+      {
+        "id": "agent-reliability",
+        "text": "试很多次能成功，和每次都可靠，分别怎样测？"
+      },
+      {
+        "id": "judge-reliability",
+        "text": "判分器给出的通过率，偏差从哪里来？"
+      },
+      {
+        "id": "training-claims",
+        "text": "怎样核验一项公开训练技术？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 5,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 3,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 324,
+          "tag": "DIV",
+          "width": 324
+        },
+        "rows": 4,
+        "width": 324
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 4,
+        "width": 650
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/model-evaluation.html#training-claims",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "case-title",
+        "text": "七个结构样本"
+      },
+      {
+        "id": "compare-title",
+        "text": "案例横向比较"
+      },
+      {
+        "id": "patterns-title",
+        "text": "从案例里能总结出什么"
+      },
+      {
+        "id": "frontier-cache-case",
+        "text": "长输入案例：跨层复用、稀疏访问与低位缓存怎样配合？"
+      },
+      {
+        "id": "read-title",
+        "text": "拿到一个新模型，按什么顺序读？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "case-compare-wrap",
+          "scrollWidth": 900,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 7,
+        "width": 900
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 5,
+        "width": 650
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/model-case-studies.html#frontier-cache-case",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "deep-routes-title",
+        "text": "从一个问题走到下一份证据"
+      },
+      {
+        "id": "practice-route",
+        "text": "五个可运行实战，按当前问题选一项"
+      },
+      {
+        "id": "verified-experiments",
+        "text": "已有具体问题？从实测里找参考"
+      },
+      {
+        "id": "learning-branches",
+        "text": "按你的任务继续走"
+      },
+      {
+        "id": "route-reading-depth",
+        "text": "什么时候需要再深入一层？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/deep-dive.html#route-reading-depth",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "reward-title",
+        "text": "奖励从哪里来，决定你优化什么"
+      },
+      {
+        "id": "loop-title",
+        "text": "一次 RL 后训练循环"
+      },
+      {
+        "id": "algorithms-title",
+        "text": "PPO、GRPO、DPO：优化对象不同"
+      },
+      {
+        "id": "reward-model-title",
+        "text": "Reward Model 在学什么？"
+      },
+      {
+        "id": "hacking-title",
+        "text": "Reward hacking：高奖励可能来自哪些漏洞"
+      },
+      {
+        "id": "rl-dynamics",
+        "text": "同一题全答对或全答错，还能学到什么？"
+      },
+      {
+        "id": "rl-staleness",
+        "text": "回答生成时，训练器已经更新了怎么办？"
+      },
+      {
+        "id": "qwengyre",
+        "text": "QwenGyre：长任务的调度与轨迹怎样一起处理？"
+      },
+      {
+        "id": "self-feedback",
+        "text": "Self-Feedback RL：模型的反馈怎样进入训练？"
+      },
+      {
+        "id": "policy-variants",
+        "text": "Qwen GSPO / SAPO：裁剪哪个量，保留哪些梯度？"
+      },
+      {
+        "id": "evidence-title",
+        "text": "怎样评估 RL 后训练的收益？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "reward-hacking-table-wrap",
+          "scrollWidth": 760,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 4,
+        "width": 760
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 324
+        },
+        "rows": 4,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 3,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 3,
+        "width": 650
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/rl-posttraining.html#policy-variants",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "environment-contract",
+        "text": "训练前，先定义世界怎样响应动作"
+      },
+      {
+        "id": "environment-verifier",
+        "text": "相同结果，三种检查会给出什么奖励？"
+      },
+      {
+        "id": "environment-data",
+        "text": "怎样持续产出有用、可解、独立的任务？"
+      },
+      {
+        "id": "environment-safety",
+        "text": "奖励、权限和测试隔离怎样配合？"
+      },
+      {
+        "id": "parallel-agent-rl",
+        "text": "Moonshot PARL：训练的是怎样分工与收尾"
+      },
+      {
+        "id": "harnessed-rl",
+        "text": "Microsoft Agent Lightning：训练时保留真实 Agent 框架"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 324,
+          "tag": "DIV",
+          "width": 324
+        },
+        "rows": 4,
+        "width": 324
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 5,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 2,
+        "width": 650
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/training-environments.html#parallel-agent-rl",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "teacher-roles",
+        "text": "同一个教师，可以干四种不同的事"
+      },
+      {
+        "id": "soft-targets",
+        "text": "软标签为什么比一个正确 ID 多一些信息？"
+      },
+      {
+        "id": "sequence-distillation",
+        "text": "只有教师文本，仍然可以蒸馏"
+      },
+      {
+        "id": "synthetic-evidence",
+        "text": "合成数据的覆盖、筛选与重复"
+      },
+      {
+        "id": "on-policy-distillation",
+        "text": "教师怎样指导学生自己走过的轨迹？"
+      },
+      {
+        "id": "multi-teacher-opd",
+        "text": "NVIDIA MOPD：怎样把领域教师合到一个学生？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 4,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 324
+        },
+        "rows": 2,
+        "width": 650
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/distillation-data.html#multi-teacher-opd",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "metric-title",
+        "text": "按任务选择评估指标"
+      },
+      {
+        "id": "metrics-math-title",
+        "text": "几个你会实际写进评估脚本的指标"
+      },
+      {
+        "id": "slice-title",
+        "text": "按语言、长度和领域查看评估结果"
+      },
+      {
+        "id": "reliability-title",
+        "text": "怎样判断指标差异是否可靠"
+      },
+      {
+        "id": "contamination-title",
+        "text": "检查训练数据与评测数据的重叠"
+      },
+      {
+        "id": "gate-title",
+        "text": "一个可执行的发布门槛"
+      },
+      {
+        "id": "generalization",
+        "text": "怎样判断“训练好了”，又怎样判断泛化？"
+      },
+      {
+        "id": "stopping-criteria",
+        "text": "把“训练好了”改写成可执行的判断"
+      },
+      {
+        "id": "agent-reliability",
+        "text": "试很多次能成功，和每次都可靠，分别怎样测？"
+      },
+      {
+        "id": "judge-reliability",
+        "text": "判分器给出的通过率，偏差从哪里来？"
+      },
+      {
+        "id": "training-claims",
+        "text": "怎样核验一项公开训练技术？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 5,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 3,
+        "width": 650
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 324,
+          "tag": "DIV",
+          "width": 324
+        },
+        "rows": 4,
+        "width": 324
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 4,
+        "width": 650
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/model-evaluation.html#training-claims",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "case-title",
+        "text": "七个结构样本"
+      },
+      {
+        "id": "compare-title",
+        "text": "案例横向比较"
+      },
+      {
+        "id": "patterns-title",
+        "text": "从案例里能总结出什么"
+      },
+      {
+        "id": "frontier-cache-case",
+        "text": "长输入案例：跨层复用、稀疏访问与低位缓存怎样配合？"
+      },
+      {
+        "id": "read-title",
+        "text": "拿到一个新模型，按什么顺序读？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "case-compare-wrap",
+          "scrollWidth": 900,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 7,
+        "width": 900
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 650,
+          "tag": "DIV",
+          "width": 358
+        },
+        "rows": 5,
+        "width": 650
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/model-case-studies.html#frontier-cache-case",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "deep-routes-title",
+        "text": "从一个问题走到下一份证据"
+      },
+      {
+        "id": "practice-route",
+        "text": "五个可运行实战，按当前问题选一项"
+      },
+      {
+        "id": "verified-experiments",
+        "text": "已有具体问题？从实测里找参考"
+      },
+      {
+        "id": "learning-branches",
+        "text": "按你的任务继续走"
+      },
+      {
+        "id": "route-reading-depth",
+        "text": "什么时候需要再深入一层？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/deep-dive.html#route-reading-depth",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "reward-title",
+        "text": "奖励从哪里来，决定你优化什么"
+      },
+      {
+        "id": "loop-title",
+        "text": "一次 RL 后训练循环"
+      },
+      {
+        "id": "algorithms-title",
+        "text": "PPO、GRPO、DPO：优化对象不同"
+      },
+      {
+        "id": "reward-model-title",
+        "text": "Reward Model 在学什么？"
+      },
+      {
+        "id": "hacking-title",
+        "text": "Reward hacking：高奖励可能来自哪些漏洞"
+      },
+      {
+        "id": "rl-dynamics",
+        "text": "同一题全答对或全答错，还能学到什么？"
+      },
+      {
+        "id": "rl-staleness",
+        "text": "回答生成时，训练器已经更新了怎么办？"
+      },
+      {
+        "id": "qwengyre",
+        "text": "QwenGyre：长任务的调度与轨迹怎样一起处理？"
+      },
+      {
+        "id": "self-feedback",
+        "text": "Self-Feedback RL：模型的反馈怎样进入训练？"
+      },
+      {
+        "id": "policy-variants",
+        "text": "Qwen GSPO / SAPO：裁剪哪个量，保留哪些梯度？"
+      },
+      {
+        "id": "evidence-title",
+        "text": "怎样评估 RL 后训练的收益？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "reward-hacking-table-wrap",
+          "scrollWidth": 760,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 4,
+        "width": 760
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 674,
+          "tag": "DIV",
+          "width": 674
+        },
+        "rows": 4,
+        "width": 674
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 3,
+        "width": 720
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 3,
+        "width": 720
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/rl-posttraining.html#policy-variants",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "environment-contract",
+        "text": "训练前，先定义世界怎样响应动作"
+      },
+      {
+        "id": "environment-verifier",
+        "text": "相同结果，三种检查会给出什么奖励？"
+      },
+      {
+        "id": "environment-data",
+        "text": "怎样持续产出有用、可解、独立的任务？"
+      },
+      {
+        "id": "environment-safety",
+        "text": "奖励、权限和测试隔离怎样配合？"
+      },
+      {
+        "id": "parallel-agent-rl",
+        "text": "Moonshot PARL：训练的是怎样分工与收尾"
+      },
+      {
+        "id": "harnessed-rl",
+        "text": "Microsoft Agent Lightning：训练时保留真实 Agent 框架"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 674,
+          "tag": "DIV",
+          "width": 674
+        },
+        "rows": 4,
+        "width": 674
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 5,
+        "width": 720
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 2,
+        "width": 720
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/training-environments.html#parallel-agent-rl",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "teacher-roles",
+        "text": "同一个教师，可以干四种不同的事"
+      },
+      {
+        "id": "soft-targets",
+        "text": "软标签为什么比一个正确 ID 多一些信息？"
+      },
+      {
+        "id": "sequence-distillation",
+        "text": "只有教师文本，仍然可以蒸馏"
+      },
+      {
+        "id": "synthetic-evidence",
+        "text": "合成数据的覆盖、筛选与重复"
+      },
+      {
+        "id": "on-policy-distillation",
+        "text": "教师怎样指导学生自己走过的轨迹？"
+      },
+      {
+        "id": "multi-teacher-opd",
+        "text": "NVIDIA MOPD：怎样把领域教师合到一个学生？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 4,
+        "width": 720
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 674,
+          "tag": "DIV",
+          "width": 674
+        },
+        "rows": 2,
+        "width": 674
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/distillation-data.html#multi-teacher-opd",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "metric-title",
+        "text": "按任务选择评估指标"
+      },
+      {
+        "id": "metrics-math-title",
+        "text": "几个你会实际写进评估脚本的指标"
+      },
+      {
+        "id": "slice-title",
+        "text": "按语言、长度和领域查看评估结果"
+      },
+      {
+        "id": "reliability-title",
+        "text": "怎样判断指标差异是否可靠"
+      },
+      {
+        "id": "contamination-title",
+        "text": "检查训练数据与评测数据的重叠"
+      },
+      {
+        "id": "gate-title",
+        "text": "一个可执行的发布门槛"
+      },
+      {
+        "id": "generalization",
+        "text": "怎样判断“训练好了”，又怎样判断泛化？"
+      },
+      {
+        "id": "stopping-criteria",
+        "text": "把“训练好了”改写成可执行的判断"
+      },
+      {
+        "id": "agent-reliability",
+        "text": "试很多次能成功，和每次都可靠，分别怎样测？"
+      },
+      {
+        "id": "judge-reliability",
+        "text": "判分器给出的通过率，偏差从哪里来？"
+      },
+      {
+        "id": "training-claims",
+        "text": "怎样核验一项公开训练技术？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 5,
+        "width": 720
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 3,
+        "width": 720
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 674,
+          "tag": "DIV",
+          "width": 674
+        },
+        "rows": 4,
+        "width": 674
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 4,
+        "width": 720
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/model-evaluation.html#training-claims",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "case-title",
+        "text": "七个结构样本"
+      },
+      {
+        "id": "compare-title",
+        "text": "案例横向比较"
+      },
+      {
+        "id": "patterns-title",
+        "text": "从案例里能总结出什么"
+      },
+      {
+        "id": "frontier-cache-case",
+        "text": "长输入案例：跨层复用、稀疏访问与低位缓存怎样配合？"
+      },
+      {
+        "id": "read-title",
+        "text": "拿到一个新模型，按什么顺序读？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "case-compare-wrap",
+          "scrollWidth": 900,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 7,
+        "width": 900
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 5,
+        "width": 720
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/model-case-studies.html#frontier-cache-case",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "deep-routes-title",
+        "text": "从一个问题走到下一份证据"
+      },
+      {
+        "id": "practice-route",
+        "text": "五个可运行实战，按当前问题选一项"
+      },
+      {
+        "id": "verified-experiments",
+        "text": "已有具体问题？从实测里找参考"
+      },
+      {
+        "id": "learning-branches",
+        "text": "按你的任务继续走"
+      },
+      {
+        "id": "route-reading-depth",
+        "text": "什么时候需要再深入一层？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/deep-dive.html#route-reading-depth",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "reward-title",
+        "text": "奖励从哪里来，决定你优化什么"
+      },
+      {
+        "id": "loop-title",
+        "text": "一次 RL 后训练循环"
+      },
+      {
+        "id": "algorithms-title",
+        "text": "PPO、GRPO、DPO：优化对象不同"
+      },
+      {
+        "id": "reward-model-title",
+        "text": "Reward Model 在学什么？"
+      },
+      {
+        "id": "hacking-title",
+        "text": "Reward hacking：高奖励可能来自哪些漏洞"
+      },
+      {
+        "id": "rl-dynamics",
+        "text": "同一题全答对或全答错，还能学到什么？"
+      },
+      {
+        "id": "rl-staleness",
+        "text": "回答生成时，训练器已经更新了怎么办？"
+      },
+      {
+        "id": "qwengyre",
+        "text": "QwenGyre：长任务的调度与轨迹怎样一起处理？"
+      },
+      {
+        "id": "self-feedback",
+        "text": "Self-Feedback RL：模型的反馈怎样进入训练？"
+      },
+      {
+        "id": "policy-variants",
+        "text": "Qwen GSPO / SAPO：裁剪哪个量，保留哪些梯度？"
+      },
+      {
+        "id": "evidence-title",
+        "text": "怎样评估 RL 后训练的收益？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "reward-hacking-table-wrap",
+          "scrollWidth": 760,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 4,
+        "width": 760
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 674,
+          "tag": "DIV",
+          "width": 674
+        },
+        "rows": 4,
+        "width": 674
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 3,
+        "width": 720
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 3,
+        "width": 720
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/rl-posttraining.html#policy-variants",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "environment-contract",
+        "text": "训练前，先定义世界怎样响应动作"
+      },
+      {
+        "id": "environment-verifier",
+        "text": "相同结果，三种检查会给出什么奖励？"
+      },
+      {
+        "id": "environment-data",
+        "text": "怎样持续产出有用、可解、独立的任务？"
+      },
+      {
+        "id": "environment-safety",
+        "text": "奖励、权限和测试隔离怎样配合？"
+      },
+      {
+        "id": "parallel-agent-rl",
+        "text": "Moonshot PARL：训练的是怎样分工与收尾"
+      },
+      {
+        "id": "harnessed-rl",
+        "text": "Microsoft Agent Lightning：训练时保留真实 Agent 框架"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 674,
+          "tag": "DIV",
+          "width": 674
+        },
+        "rows": 4,
+        "width": 674
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 5,
+        "width": 720
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 2,
+        "width": 720
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/training-environments.html#parallel-agent-rl",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "teacher-roles",
+        "text": "同一个教师，可以干四种不同的事"
+      },
+      {
+        "id": "soft-targets",
+        "text": "软标签为什么比一个正确 ID 多一些信息？"
+      },
+      {
+        "id": "sequence-distillation",
+        "text": "只有教师文本，仍然可以蒸馏"
+      },
+      {
+        "id": "synthetic-evidence",
+        "text": "合成数据的覆盖、筛选与重复"
+      },
+      {
+        "id": "on-policy-distillation",
+        "text": "教师怎样指导学生自己走过的轨迹？"
+      },
+      {
+        "id": "multi-teacher-opd",
+        "text": "NVIDIA MOPD：怎样把领域教师合到一个学生？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 4,
+        "width": 720
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 674,
+          "tag": "DIV",
+          "width": 674
+        },
+        "rows": 2,
+        "width": 674
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/distillation-data.html#multi-teacher-opd",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "metric-title",
+        "text": "按任务选择评估指标"
+      },
+      {
+        "id": "metrics-math-title",
+        "text": "几个你会实际写进评估脚本的指标"
+      },
+      {
+        "id": "slice-title",
+        "text": "按语言、长度和领域查看评估结果"
+      },
+      {
+        "id": "reliability-title",
+        "text": "怎样判断指标差异是否可靠"
+      },
+      {
+        "id": "contamination-title",
+        "text": "检查训练数据与评测数据的重叠"
+      },
+      {
+        "id": "gate-title",
+        "text": "一个可执行的发布门槛"
+      },
+      {
+        "id": "generalization",
+        "text": "怎样判断“训练好了”，又怎样判断泛化？"
+      },
+      {
+        "id": "stopping-criteria",
+        "text": "把“训练好了”改写成可执行的判断"
+      },
+      {
+        "id": "agent-reliability",
+        "text": "试很多次能成功，和每次都可靠，分别怎样测？"
+      },
+      {
+        "id": "judge-reliability",
+        "text": "判分器给出的通过率，偏差从哪里来？"
+      },
+      {
+        "id": "training-claims",
+        "text": "怎样核验一项公开训练技术？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 5,
+        "width": 720
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 3,
+        "width": 720
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 674,
+          "tag": "DIV",
+          "width": 674
+        },
+        "rows": 4,
+        "width": 674
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 4,
+        "width": 720
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/model-evaluation.html#training-claims",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "case-title",
+        "text": "七个结构样本"
+      },
+      {
+        "id": "compare-title",
+        "text": "案例横向比较"
+      },
+      {
+        "id": "patterns-title",
+        "text": "从案例里能总结出什么"
+      },
+      {
+        "id": "frontier-cache-case",
+        "text": "长输入案例：跨层复用、稀疏访问与低位缓存怎样配合？"
+      },
+      {
+        "id": "read-title",
+        "text": "拿到一个新模型，按什么顺序读？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "case-compare-wrap",
+          "scrollWidth": 900,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 7,
+        "width": 900
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 720,
+          "tag": "DIV",
+          "width": 720
+        },
+        "rows": 5,
+        "width": 720
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/model-case-studies.html#frontier-cache-case",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "deep-routes-title",
+        "text": "从一个问题走到下一份证据"
+      },
+      {
+        "id": "practice-route",
+        "text": "五个可运行实战，按当前问题选一项"
+      },
+      {
+        "id": "verified-experiments",
+        "text": "已有具体问题？从实测里找参考"
+      },
+      {
+        "id": "learning-branches",
+        "text": "按你的任务继续走"
+      },
+      {
+        "id": "route-reading-depth",
+        "text": "什么时候需要再深入一层？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/deep-dive.html#route-reading-depth",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "reward-title",
+        "text": "奖励从哪里来，决定你优化什么"
+      },
+      {
+        "id": "loop-title",
+        "text": "一次 RL 后训练循环"
+      },
+      {
+        "id": "algorithms-title",
+        "text": "PPO、GRPO、DPO：优化对象不同"
+      },
+      {
+        "id": "reward-model-title",
+        "text": "Reward Model 在学什么？"
+      },
+      {
+        "id": "hacking-title",
+        "text": "Reward hacking：高奖励可能来自哪些漏洞"
+      },
+      {
+        "id": "rl-dynamics",
+        "text": "同一题全答对或全答错，还能学到什么？"
+      },
+      {
+        "id": "rl-staleness",
+        "text": "回答生成时，训练器已经更新了怎么办？"
+      },
+      {
+        "id": "qwengyre",
+        "text": "QwenGyre：长任务的调度与轨迹怎样一起处理？"
+      },
+      {
+        "id": "self-feedback",
+        "text": "Self-Feedback RL：模型的反馈怎样进入训练？"
+      },
+      {
+        "id": "policy-variants",
+        "text": "Qwen GSPO / SAPO：裁剪哪个量，保留哪些梯度？"
+      },
+      {
+        "id": "evidence-title",
+        "text": "怎样评估 RL 后训练的收益？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "reward-hacking-table-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 4,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 743,
+          "tag": "DIV",
+          "width": 743
+        },
+        "rows": 4,
+        "width": 742.8203125
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 3,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 3,
+        "width": 1156
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/rl-posttraining.html#policy-variants",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "environment-contract",
+        "text": "训练前，先定义世界怎样响应动作"
+      },
+      {
+        "id": "environment-verifier",
+        "text": "相同结果，三种检查会给出什么奖励？"
+      },
+      {
+        "id": "environment-data",
+        "text": "怎样持续产出有用、可解、独立的任务？"
+      },
+      {
+        "id": "environment-safety",
+        "text": "奖励、权限和测试隔离怎样配合？"
+      },
+      {
+        "id": "parallel-agent-rl",
+        "text": "Moonshot PARL：训练的是怎样分工与收尾"
+      },
+      {
+        "id": "harnessed-rl",
+        "text": "Microsoft Agent Lightning：训练时保留真实 Agent 框架"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 743,
+          "tag": "DIV",
+          "width": 743
+        },
+        "rows": 4,
+        "width": 742.8203125
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 5,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 2,
+        "width": 1156
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/training-environments.html#parallel-agent-rl",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "teacher-roles",
+        "text": "同一个教师，可以干四种不同的事"
+      },
+      {
+        "id": "soft-targets",
+        "text": "软标签为什么比一个正确 ID 多一些信息？"
+      },
+      {
+        "id": "sequence-distillation",
+        "text": "只有教师文本，仍然可以蒸馏"
+      },
+      {
+        "id": "synthetic-evidence",
+        "text": "合成数据的覆盖、筛选与重复"
+      },
+      {
+        "id": "on-policy-distillation",
+        "text": "教师怎样指导学生自己走过的轨迹？"
+      },
+      {
+        "id": "multi-teacher-opd",
+        "text": "NVIDIA MOPD：怎样把领域教师合到一个学生？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 4,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 743,
+          "tag": "DIV",
+          "width": 743
+        },
+        "rows": 2,
+        "width": 742.8203125
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/distillation-data.html#multi-teacher-opd",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "metric-title",
+        "text": "按任务选择评估指标"
+      },
+      {
+        "id": "metrics-math-title",
+        "text": "几个你会实际写进评估脚本的指标"
+      },
+      {
+        "id": "slice-title",
+        "text": "按语言、长度和领域查看评估结果"
+      },
+      {
+        "id": "reliability-title",
+        "text": "怎样判断指标差异是否可靠"
+      },
+      {
+        "id": "contamination-title",
+        "text": "检查训练数据与评测数据的重叠"
+      },
+      {
+        "id": "gate-title",
+        "text": "一个可执行的发布门槛"
+      },
+      {
+        "id": "generalization",
+        "text": "怎样判断“训练好了”，又怎样判断泛化？"
+      },
+      {
+        "id": "stopping-criteria",
+        "text": "把“训练好了”改写成可执行的判断"
+      },
+      {
+        "id": "agent-reliability",
+        "text": "试很多次能成功，和每次都可靠，分别怎样测？"
+      },
+      {
+        "id": "judge-reliability",
+        "text": "判分器给出的通过率，偏差从哪里来？"
+      },
+      {
+        "id": "training-claims",
+        "text": "怎样核验一项公开训练技术？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 5,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 3,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 743,
+          "tag": "DIV",
+          "width": 743
+        },
+        "rows": 4,
+        "width": 742.8203125
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 4,
+        "width": 1156
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/model-evaluation.html#training-claims",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "case-title",
+        "text": "七个结构样本"
+      },
+      {
+        "id": "compare-title",
+        "text": "案例横向比较"
+      },
+      {
+        "id": "patterns-title",
+        "text": "从案例里能总结出什么"
+      },
+      {
+        "id": "frontier-cache-case",
+        "text": "长输入案例：跨层复用、稀疏访问与低位缓存怎样配合？"
+      },
+      {
+        "id": "read-title",
+        "text": "拿到一个新模型，按什么顺序读？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "case-compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 7,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 5,
+        "width": 1156
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/model-case-studies.html#frontier-cache-case",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "deep-routes-title",
+        "text": "从一个问题走到下一份证据"
+      },
+      {
+        "id": "practice-route",
+        "text": "五个可运行实战，按当前问题选一项"
+      },
+      {
+        "id": "verified-experiments",
+        "text": "已有具体问题？从实测里找参考"
+      },
+      {
+        "id": "learning-branches",
+        "text": "按你的任务继续走"
+      },
+      {
+        "id": "route-reading-depth",
+        "text": "什么时候需要再深入一层？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/deep-dive.html#route-reading-depth",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "reward-title",
+        "text": "奖励从哪里来，决定你优化什么"
+      },
+      {
+        "id": "loop-title",
+        "text": "一次 RL 后训练循环"
+      },
+      {
+        "id": "algorithms-title",
+        "text": "PPO、GRPO、DPO：优化对象不同"
+      },
+      {
+        "id": "reward-model-title",
+        "text": "Reward Model 在学什么？"
+      },
+      {
+        "id": "hacking-title",
+        "text": "Reward hacking：高奖励可能来自哪些漏洞"
+      },
+      {
+        "id": "rl-dynamics",
+        "text": "同一题全答对或全答错，还能学到什么？"
+      },
+      {
+        "id": "rl-staleness",
+        "text": "回答生成时，训练器已经更新了怎么办？"
+      },
+      {
+        "id": "qwengyre",
+        "text": "QwenGyre：长任务的调度与轨迹怎样一起处理？"
+      },
+      {
+        "id": "self-feedback",
+        "text": "Self-Feedback RL：模型的反馈怎样进入训练？"
+      },
+      {
+        "id": "policy-variants",
+        "text": "Qwen GSPO / SAPO：裁剪哪个量，保留哪些梯度？"
+      },
+      {
+        "id": "evidence-title",
+        "text": "怎样评估 RL 后训练的收益？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "reward-hacking-table-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 4,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 743,
+          "tag": "DIV",
+          "width": 743
+        },
+        "rows": 4,
+        "width": 742.8203125
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 3,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 3,
+        "width": 1156
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/rl-posttraining.html#policy-variants",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "environment-contract",
+        "text": "训练前，先定义世界怎样响应动作"
+      },
+      {
+        "id": "environment-verifier",
+        "text": "相同结果，三种检查会给出什么奖励？"
+      },
+      {
+        "id": "environment-data",
+        "text": "怎样持续产出有用、可解、独立的任务？"
+      },
+      {
+        "id": "environment-safety",
+        "text": "奖励、权限和测试隔离怎样配合？"
+      },
+      {
+        "id": "parallel-agent-rl",
+        "text": "Moonshot PARL：训练的是怎样分工与收尾"
+      },
+      {
+        "id": "harnessed-rl",
+        "text": "Microsoft Agent Lightning：训练时保留真实 Agent 框架"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 743,
+          "tag": "DIV",
+          "width": 743
+        },
+        "rows": 4,
+        "width": 742.8203125
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 5,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 2,
+        "width": 1156
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/training-environments.html#parallel-agent-rl",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "teacher-roles",
+        "text": "同一个教师，可以干四种不同的事"
+      },
+      {
+        "id": "soft-targets",
+        "text": "软标签为什么比一个正确 ID 多一些信息？"
+      },
+      {
+        "id": "sequence-distillation",
+        "text": "只有教师文本，仍然可以蒸馏"
+      },
+      {
+        "id": "synthetic-evidence",
+        "text": "合成数据的覆盖、筛选与重复"
+      },
+      {
+        "id": "on-policy-distillation",
+        "text": "教师怎样指导学生自己走过的轨迹？"
+      },
+      {
+        "id": "multi-teacher-opd",
+        "text": "NVIDIA MOPD：怎样把领域教师合到一个学生？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 4,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 743,
+          "tag": "DIV",
+          "width": 743
+        },
+        "rows": 2,
+        "width": 742.8203125
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/distillation-data.html#multi-teacher-opd",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "metric-title",
+        "text": "按任务选择评估指标"
+      },
+      {
+        "id": "metrics-math-title",
+        "text": "几个你会实际写进评估脚本的指标"
+      },
+      {
+        "id": "slice-title",
+        "text": "按语言、长度和领域查看评估结果"
+      },
+      {
+        "id": "reliability-title",
+        "text": "怎样判断指标差异是否可靠"
+      },
+      {
+        "id": "contamination-title",
+        "text": "检查训练数据与评测数据的重叠"
+      },
+      {
+        "id": "gate-title",
+        "text": "一个可执行的发布门槛"
+      },
+      {
+        "id": "generalization",
+        "text": "怎样判断“训练好了”，又怎样判断泛化？"
+      },
+      {
+        "id": "stopping-criteria",
+        "text": "把“训练好了”改写成可执行的判断"
+      },
+      {
+        "id": "agent-reliability",
+        "text": "试很多次能成功，和每次都可靠，分别怎样测？"
+      },
+      {
+        "id": "judge-reliability",
+        "text": "判分器给出的通过率，偏差从哪里来？"
+      },
+      {
+        "id": "training-claims",
+        "text": "怎样核验一项公开训练技术？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 5,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 3,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 743,
+          "tag": "DIV",
+          "width": 743
+        },
+        "rows": 4,
+        "width": 742.8203125
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 4,
+        "width": 1156
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/model-evaluation.html#training-claims",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "case-title",
+        "text": "七个结构样本"
+      },
+      {
+        "id": "compare-title",
+        "text": "案例横向比较"
+      },
+      {
+        "id": "patterns-title",
+        "text": "从案例里能总结出什么"
+      },
+      {
+        "id": "frontier-cache-case",
+        "text": "长输入案例：跨层复用、稀疏访问与低位缓存怎样配合？"
+      },
+      {
+        "id": "read-title",
+        "text": "拿到一个新模型，按什么顺序读？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": {
+          "class": "case-compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 7,
+        "width": 1156
+      },
+      {
+        "host": {
+          "class": "compare-wrap",
+          "scrollWidth": 1156,
+          "tag": "DIV",
+          "width": 1156
+        },
+        "rows": 5,
+        "width": 1156
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/model-case-studies.html#frontier-cache-case",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "deep-routes-title",
+        "text": "从一个问题走到下一份证据"
+      },
+      {
+        "id": "practice-route",
+        "text": "五个可运行实战，按当前问题选一项"
+      },
+      {
+        "id": "verified-experiments",
+        "text": "已有具体问题？从实测里找参考"
+      },
+      {
+        "id": "learning-branches",
+        "text": "按你的任务继续走"
+      },
+      {
+        "id": "route-reading-depth",
+        "text": "什么时候需要再深入一层？"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/deep-dive.html#route-reading-depth",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "stage-title",
+        "text": "四种训练目标对模型的影响"
+      },
+      {
+        "id": "three-level-title",
+        "text": "表示后训练、SFT、偏好对齐：各自怎样提供监督？"
+      },
+      {
+        "id": "negative-loop-title",
+        "text": "表示后训练：构造和更新难负样本"
+      },
+      {
+        "id": "same-model-title",
+        "text": "一个 base model，为什么要做出不同接口？"
+      },
+      {
+        "id": "regression-title",
+        "text": "后训练后的回归评估"
+      },
+      {
+        "id": "recent-training",
+        "text": "近期公开训练技术，按机制与证据选读"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": null,
+        "rows": 6,
+        "width": 358
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/posttraining.html#recent-training",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "stage-title",
+        "text": "四种训练目标对模型的影响"
+      },
+      {
+        "id": "three-level-title",
+        "text": "表示后训练、SFT、偏好对齐：各自怎样提供监督？"
+      },
+      {
+        "id": "negative-loop-title",
+        "text": "表示后训练：构造和更新难负样本"
+      },
+      {
+        "id": "same-model-title",
+        "text": "一个 base model，为什么要做出不同接口？"
+      },
+      {
+        "id": "regression-title",
+        "text": "后训练后的回归评估"
+      },
+      {
+        "id": "recent-training",
+        "text": "近期公开训练技术，按机制与证据选读"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": null,
+        "rows": 6,
+        "width": 358
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/posttraining.html#recent-training",
+    "width": 390
+  },
+  {
+    "headings": [
+      {
+        "id": "stage-title",
+        "text": "四种训练目标对模型的影响"
+      },
+      {
+        "id": "three-level-title",
+        "text": "表示后训练、SFT、偏好对齐：各自怎样提供监督？"
+      },
+      {
+        "id": "negative-loop-title",
+        "text": "表示后训练：构造和更新难负样本"
+      },
+      {
+        "id": "same-model-title",
+        "text": "一个 base model，为什么要做出不同接口？"
+      },
+      {
+        "id": "regression-title",
+        "text": "后训练后的回归评估"
+      },
+      {
+        "id": "recent-training",
+        "text": "近期公开训练技术，按机制与证据选读"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": null,
+        "rows": 6,
+        "width": 720
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/posttraining.html#recent-training",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "stage-title",
+        "text": "四种训练目标对模型的影响"
+      },
+      {
+        "id": "three-level-title",
+        "text": "表示后训练、SFT、偏好对齐：各自怎样提供监督？"
+      },
+      {
+        "id": "negative-loop-title",
+        "text": "表示后训练：构造和更新难负样本"
+      },
+      {
+        "id": "same-model-title",
+        "text": "一个 base model，为什么要做出不同接口？"
+      },
+      {
+        "id": "regression-title",
+        "text": "后训练后的回归评估"
+      },
+      {
+        "id": "recent-training",
+        "text": "近期公开训练技术，按机制与证据选读"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": null,
+        "rows": 6,
+        "width": 720
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/posttraining.html#recent-training",
+    "width": 768
+  },
+  {
+    "headings": [
+      {
+        "id": "stage-title",
+        "text": "四种训练目标对模型的影响"
+      },
+      {
+        "id": "three-level-title",
+        "text": "表示后训练、SFT、偏好对齐：各自怎样提供监督？"
+      },
+      {
+        "id": "negative-loop-title",
+        "text": "表示后训练：构造和更新难负样本"
+      },
+      {
+        "id": "same-model-title",
+        "text": "一个 base model，为什么要做出不同接口？"
+      },
+      {
+        "id": "regression-title",
+        "text": "后训练后的回归评估"
+      },
+      {
+        "id": "recent-training",
+        "text": "近期公开训练技术，按机制与证据选读"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": null,
+        "rows": 6,
+        "width": 1156
+      }
+    ],
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/posttraining.html#recent-training",
+    "width": 1440
+  },
+  {
+    "headings": [
+      {
+        "id": "stage-title",
+        "text": "四种训练目标对模型的影响"
+      },
+      {
+        "id": "three-level-title",
+        "text": "表示后训练、SFT、偏好对齐：各自怎样提供监督？"
+      },
+      {
+        "id": "negative-loop-title",
+        "text": "表示后训练：构造和更新难负样本"
+      },
+      {
+        "id": "same-model-title",
+        "text": "一个 base model，为什么要做出不同接口？"
+      },
+      {
+        "id": "regression-title",
+        "text": "后训练后的回归评估"
+      },
+      {
+        "id": "recent-training",
+        "text": "近期公开训练技术，按机制与证据选读"
+      },
+      {
+        "id": "page-evidence-title",
+        "text": "适用范围与一手资料"
+      }
+    ],
+    "mathErrors": 0,
+    "pageOverflow": 0,
+    "ready": "true",
+    "tables": [
+      {
+        "host": null,
+        "rows": 6,
+        "width": 1156
+      }
+    ],
+    "theme": "dark",
+    "url": "http://127.0.0.1:4173/posttraining.html#recent-training",
+    "width": 1440
+  }
+]

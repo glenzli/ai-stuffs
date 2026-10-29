@@ -1,0 +1,92 @@
+{
+  "schema": "training-techniques-fixed-input-v1",
+  "passed": true,
+  "boundary": "No model, GPU, rollout training or vendor benchmark was executed.",
+  "policy": [
+    {
+      "ratio": 0.6,
+      "hard_positive": 1,
+      "hard_negative": 0,
+      "soft_derivative": 0.8556387860811777
+    },
+    {
+      "ratio": 1,
+      "hard_positive": 1,
+      "hard_negative": -1,
+      "soft_derivative": 1
+    },
+    {
+      "ratio": 1.4,
+      "hard_positive": 0,
+      "hard_negative": -1,
+      "soft_derivative": 0.8556387860811776
+    }
+  ],
+  "soft_derivative_cases": 15,
+  "gspo": [
+    {
+      "token_ratios": [
+        2,
+        0.5
+      ],
+      "sequence_ratio": 1,
+      "length_normalized_ratio": 1
+    },
+    {
+      "token_ratios": [
+        2,
+        2
+      ],
+      "sequence_ratio": 4,
+      "length_normalized_ratio": 2
+    }
+  ],
+  "parl": {
+    "assumptions": "Subtasks concurrent within each stage; barrier between stages; fixed supplied step counts.",
+    "stages": [
+      {
+        "main": 2,
+        "sub": [
+          3,
+          5
+        ]
+      },
+      {
+        "main": 1,
+        "sub": [
+          4,
+          2
+        ]
+      }
+    ],
+    "critical_steps": 12,
+    "serial_work_steps": 17
+  },
+  "normalization": {
+    "grouped_token_losses": [
+      [
+        2,
+        2
+      ],
+      [
+        4,
+        4
+      ]
+    ],
+    "split_token_losses": [
+      [
+        2
+      ],
+      [
+        2
+      ],
+      [
+        4,
+        4
+      ]
+    ],
+    "original_sample_mean": 3,
+    "split_sample_mean": 2.6666666666666665,
+    "equal_rollout_mean": 3
+  }
+}

@@ -120,6 +120,7 @@
       <p class="workflow-note">这三种模式在架构中静态安排；共享的是指定状态，不是把每一层的计算结果变成相同内容。</p>
       <figure class="math-block"><div class="math-display" data-math>M_{\mathrm{KV}}\approx M_{\mathrm{global\ shared}}(S)+\sum_{\ell=1}^{L}M_{\mathrm{local},\ell}(W)+M_{\mathrm{index/meta}}</div><figcaption>分项账本而非该模型的精确计算器。S 为序列长度，W 为局部窗口；压缩比、共享层组、索引存储和精度分别影响各项，workspace 与模型权重另算。</figcaption></figure>
       <div class="concept-pairs"><div><h3>结构变化会改写成本公式</h3><p>普通 MHA/GQA 中“层数 × 长度 × KV head 数”的账本假设各层独立保存完整历史。跨层共享、压缩全局状态与固定局部窗口需要按存储对象重新推导。</p></div><div><h3>输入与输出成本开始分开设计</h3><p>长任务常重复提交很长的输入，新增输出较短。该案例调整 prefill 与 decode 的路径；比较时还要固定命中缓存比例、输入输出长度、并发和质量目标。</p></div><div><h3>条件记忆是另一类容量</h3><p>Engram 使用稀疏访问的条件记忆模块。它属于模型结构中的参数容量；与 Agent 文件记忆的写入、检索和权限机制需分别理解。</p></div><div><h3>骨干、残差与草稿各有作用</h3><p>报告还采用 Single-Pass mHC 的残差混合实现，以及在骨干预训练后单独训练的 DSpark 草稿模块。草稿验收依赖推理流程；残差混合改变层间信息组合，不能仅用 KV 压缩解释这些部件。</p></div></div>
+      <p class="workflow-note">本节绑定 2026-09-17 架构报告。10 月 17 日发布说明另提到的 <a href="rl-posttraining.html#self-feedback">Self-Feedback RL</a> 属于后训练更新，具体奖励和优化细节需按该版本的公开材料另行核对。</p>
       <div class="reading-links"><a href="architecture-variants.html#long-context-training">长上下文训练与评估</a><a href="inference-engine.html">标准 KV 账本</a><a href="efficient-inference.html">量化与草稿验收</a><a href="multimodal.html#native-multimodal">联合多模态训练</a></div>
     </section></div>
     <section class="section" aria-labelledby="read-title">

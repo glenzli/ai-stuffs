@@ -23,4 +23,21 @@
     <div class="concept-pairs"><div><h3>奖励提供偏好，运行时限制动作</h3><p>奖励惩罚越权无法代替权限控制。训练和评估环境应隔离、限制网络与文件访问、设置资源预算，并为不可逆动作定义审批边界。</p></div><div><h3>模型不能改自己的考卷</h3><p>把 grader、隐藏测试和计分日志与可写工作区隔离。测试源码若属于任务输入，另外准备未暴露的检查，记录每次修改与结果。</p></div><div><h3>环境故障单独处理</h3><p>超时、依赖下载失败、服务不可用和模型动作错误分别标记。是否重试、跳过或计失败，应提前固定并写入报告。</p></div><div><h3>仿真到真实环境的差异</h3><p>训练环境简化了时延、权限、页面变化和异常行为。用真实目标环境的独立任务检验迁移，逐步扩大授权范围。</p></div></div>
     <div class="reading-links"><a href="rl-posttraining.html#rl-staleness">生成与训练系统</a><a href="agents-context.html#prompt-injection-boundary">外部内容与提示注入</a><a href="model-evaluation.html#agent-reliability">重复执行与环境评估</a></div>
   </section>
+  <section class="section" aria-labelledby="parallel-agent-rl"><div class="section-heading"><span class="section-number">05 / TRAIN THE ORCHESTRATOR</span><h2 id="parallel-agent-rl">Moonshot PARL：训练的是怎样分工与收尾</h2></div>
+    <p>Kimi K2.5 的公开 PARL 设定训练编排者，动态调用的子 Agent 保持冻结。早期奖励鼓励探索并行与完成子任务，辅助权重逐渐退火，最终关注整项任务结果；奖励“多开几个子 Agent”本身会留下刷分空间。</p>
+    <figure class="math-block"><div class="math-display" data-math>\mathrm{CriticalSteps}=\sum_{t=1}^{T}\left(S_{\mathrm{main}}^{(t)}+\max_i S_{\mathrm{sub},i}^{(t)}\right)</div><figcaption>公开的关键步数按阶段计算主流程加最慢子任务。它是延迟代理；实际等待、同步与工具开销还需测量。</figcaption></figure>
+    <div class="compare-wrap"><table data-training-parl-example><thead><tr><th>手工阶段</th><th>主流程步数</th><th>子任务步数</th><th>本阶段关键步数</th></tr></thead><tbody>
+      <tr><td>1</td><td>2</td><td>3 / 5</td><td>7</td></tr>
+      <tr><td>2</td><td>1</td><td>4 / 2</td><td>5</td></tr>
+    </tbody></table></div>
+    <p>本例假设同阶段子任务可同时执行、阶段间有屏障。关键步数为 12，全部串行的总工作步数为 17。这里没有模型运行，不能把 17/12 当作实际加速比；核验训练收益还要固定完成质量、工具预算与整项任务成本。</p>
+    <p class="source-note">来源：<a href="https://www.kimi.com/en/blog/kimi-k2-5">Kimi K2.5 技术博客第 2 节</a>。本节绑定 K2.5 的公开机制，不推定后续 K3 系列训练细节。算例可用 RL 页的<a href="rl-posttraining.html#policy-variants">固定输入核验命令</a>重算。</p>
+  </section>
+  <section class="section" aria-labelledby="harnessed-rl"><div class="section-heading"><span class="section-number">06 / TRAIN WITH THE HARNESS</span><h2 id="harnessed-rl">Microsoft Agent Lightning：训练时保留真实 Agent 框架</h2></div>
+    <p>Agent Lightning v1.0 让部署时的 harness 继续控制工具、上下文与交互，训练系统通过 LLM 代理记录调用，再组装样本。一条任务轨迹可能因摘要、分支或重新分词拆成多条训练记录；harness 行为会直接影响训练数据的形状。</p>
+    <div class="concept-pairs"><div><h3>先核对 token 与上下文</h3><p>重新套模板可能改变 token 边界。保存实际采样 token、log-prob、生成版本和原始前缀，不能仅凭文本看似相同就合并记录。</p></div><div><h3>再核对统计单位</h3><p>同一 rollout 拆出的记录数量可能只是框架行为。按记录平均或计算组内优势，可能让拆得更多的任务获得额外权重；归约应绑定明确的任务与 rollout 定义。</p></div></div>
+    <p>公开论文还描述同池异步调度：收集足够轨迹后暂停接收新模型请求，排空在途请求，再更新共享 GPU 上的权重并恢复生成。核验时保留暂停、排空、更新和版本切换日志；不要将它与任意版本混采等同。</p>
+    <p class="source-note">来源：<a href="https://arxiv.org/html/2608.17528v1">Agent Lightning v1.0 论文第 2–3 节</a>；<a href="https://github.com/microsoft/agent-lightning/tree/8f8b8f95fd4ed664822734811b61bb3341f4ddfe">官方 v1.0.0 源码快照</a>。该版本发布于 2026-08-17，10 月 7 日是后续技术博客说明日。本站检查公开资料和源码入口，未重跑其训练或 SWE-bench 成绩。</p>
+    <div class="reading-links"><a href="rl-posttraining.html#qwengyre">QwenGyre 的轨迹树与来源 mask</a><a href="packing-correctness.html">监督边界与 loss 位置</a><a href="model-evaluation.html#training-claims">结果与工件的核验范围</a></div>
+  </section>
 </div>

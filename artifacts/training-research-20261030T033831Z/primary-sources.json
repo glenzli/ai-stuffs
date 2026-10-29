@@ -1,0 +1,197 @@
+{
+  "schema": "training-techniques-primary-audit-v1",
+  "checked_at": "2026-10-30",
+  "base_commit": "918d1df86b03b9a3e30c48a6ee0e45d8f6bfaa07",
+  "selection": "Recent public mechanisms, with earlier published optimization details as prerequisites. Not a latest-product ranking.",
+  "sources": [
+    {
+      "id": "deepseekSelfFeedback",
+      "title": "DeepSeek V4.1-Flash-1017 发布说明",
+      "url": "https://api-docs.deepseek.com/news/news261017/",
+      "version": "2026-10-17 release note",
+      "date": "2026-10-17",
+      "locator": "Build complete projects from scratch",
+      "claims": [
+        "官方声明采用 self-feedback RL 改善端到端项目开发。"
+      ],
+      "boundaries": [
+        "本发布说明没有给出反馈生成器、奖励公式、优化器配方或消融。",
+        "不将同名 RLSF 学术论文的置信度奖励归为 DeepSeek 实现。"
+      ],
+      "reproduction": "release-statement-only"
+    },
+    {
+      "id": "rlsfConfidence",
+      "title": "Post-Training Large Language Models via Reinforcement Learning from Self-Feedback",
+      "url": "https://arxiv.org/abs/2507.21931v2",
+      "version": "arXiv 2507.21931v2",
+      "date": "2026-09-15",
+      "locator": "Abstract; first submitted 2025-07-29",
+      "claims": [
+        "作者论文用冻结模型的 CoT beams 和答案片段置信度构造排序及合成偏好。"
+      ],
+      "boundaries": [
+        "独立作者工作；不能作为 DeepSeek 1017 训练细节的证据。",
+        "置信度为训练信号，不自动证明答案正确或评估独立。"
+      ],
+      "reproduction": "paper-not-rerun"
+    },
+    {
+      "id": "gspo",
+      "title": "Group Sequence Policy Optimization",
+      "url": "https://arxiv.org/html/2507.18071v2",
+      "version": "arXiv 2507.18071v2",
+      "locator": "Group Sequence Policy Optimization; length-normalized sequence importance ratio",
+      "claims": [
+        "长度归一化序列比率是逐 token 概率比的几何平均；裁剪单位为回答。"
+      ],
+      "boundaries": [
+        "仅作 SAPO 前置机制；不把其比率当完整轨迹的未归一化重要性权重。"
+      ],
+      "reproduction": "fixed-formula-check-only"
+    },
+    {
+      "id": "sapo",
+      "title": "Soft Adaptive Policy Optimization",
+      "url": "https://arxiv.org/html/2511.20347v2",
+      "version": "arXiv 2511.20347v2",
+      "date": "2025-12-01",
+      "locator": "Section 3, equations 5–8",
+      "claims": [
+        "以温度控制的 sigmoid 门控替代硬裁剪；正负优势可用不同温度。",
+        "局部导数权重为 4p(1-p)，完整 log-policy 梯度另含概率比 r。"
+      ],
+      "boundaries": [
+        "本站只重算固定比率的函数与导数；不训练 Qwen，不复现质量或稳定性收益。",
+        "PPO 裁剪还取决于优势符号，不能概括为越界就零梯度。"
+      ],
+      "reproduction": "fixed-formula-check-only"
+    },
+    {
+      "id": "qwenGyre",
+      "title": "QwenGyre: An Elastic Reinforcement Learning Framework for Training xLong-Horizon Agents",
+      "url": "https://arxiv.org/html/2609.33848v2",
+      "version": "arXiv 2609.33848v2",
+      "date": "2026-10-20",
+      "locator": "Sections 4, 5.1–5.3 and Appendix B",
+      "claims": [
+        "弹性调度在 rollout 与训练之间调整 GPU 角色；轨迹树保留原始生成上下文。",
+        "可训练目标由 token 来源决定，共享目标去重；超时后的可评估产物按任务规则评分。"
+      ],
+      "boundaries": [
+        "本轮核验论文机制；未执行其分布式框架或重测加速。",
+        "辅助评分须绑定被评估状态，外部注入文本不是策略采样目标。"
+      ],
+      "reproduction": "paper-mechanism-only"
+    },
+    {
+      "id": "kimiParl",
+      "title": "Kimi K2.5: Visual Agentic Intelligence",
+      "url": "https://www.kimi.com/en/blog/kimi-k2-5",
+      "version": "K2.5 method snapshot; checked 2026-10-30",
+      "date": "2026-01-27",
+      "locator": "Section 2 Agent Swarm, PARL reward and CriticalSteps",
+      "claims": [
+        "训练编排者，子 Agent 在该训练设定中冻结；辅助并行/完成奖励逐渐退火，任务结果为最终目标。",
+        "CriticalSteps 按阶段累加主 Agent 步数与该阶段最慢子 Agent 步数。"
+      ],
+      "boundaries": [
+        "不推定后续 K3 系列沿用相同训练细节。",
+        "关键步数为延迟代理，手工算例不是实际时延或模型加速实测。"
+      ],
+      "reproduction": "critical-step-arithmetic-only"
+    },
+    {
+      "id": "lightningPaper",
+      "title": "Agent Lightning v1.0: Towards Harnessed Agentic RL",
+      "url": "https://arxiv.org/html/2608.17528v1",
+      "version": "arXiv 2608.17528v1",
+      "date": "2026-08-18",
+      "locator": "Sections 2.1–2.3, 3.1 and 4.3",
+      "claims": [
+        "部署 harness 保持交互控制权，训练器通过代理获取请求、响应与采样记录。",
+        "单次 rollout 可能拆成多个样本；优势与 loss 分母必须核对原始统计单位。"
+      ],
+      "boundaries": [
+        "没有在本站执行编码 Agent 训练或验证论文分数。",
+        "v1.0.0 发布日为 2026-08-17，10-07 为技术博客说明日，二者不混写。"
+      ],
+      "reproduction": "official-code-inspection-only"
+    },
+    {
+      "id": "lightningBlog",
+      "title": "Microsoft Research · Agent Lightning v1.0",
+      "url": "https://www.microsoft.com/en-us/research/blog/agent-lightning-v1-0-a-3500-line-lightweight-agentic-rl-framework-for-training-agents-with-real-harnesses/",
+      "version": "2026-10-07 blog",
+      "date": "2026-10-07",
+      "locator": "Four challenges; Collocated async RL",
+      "claims": [
+        "公开说明 harness 接入、样本适配和同池异步调度。"
+      ],
+      "boundaries": [
+        "此处不转抄作者性能数字为本站成绩。"
+      ],
+      "reproduction": "public-explanation-only"
+    },
+    {
+      "id": "nemotronUltra",
+      "title": "NVIDIA Nemotron 3 Ultra Technical Report",
+      "url": "https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Ultra-Technical-Report.pdf",
+      "version": "PDF header 2026-6-9; 65 pages",
+      "date": "2026-06-09",
+      "locator": "Sections 3.2–3.3, printed pages 20–22, Figure 10",
+      "claims": [
+        "统一多环境 RLVR 后，通过领域教师在学生生成轨迹上提供密集 token 信号，再做多轮 MOPD。",
+        "异步估计器区分行为、proximal 与当前策略，并明确 stop-gradient。"
+      ],
+      "boundaries": [
+        "不把多教师描述为平均所有教师参数或对每题无差别平均 logits。",
+        "官方配方文档明确中间教师和首轮 MOPD 权重缺失，公开工件不能重建完整链。"
+      ],
+      "reproduction": "paper-and-representative-recipe-only"
+    }
+  ],
+  "official_code": [
+    {
+      "repository": "microsoft/agent-lightning",
+      "commit": "8f8b8f95fd4ed664822734811b61bb3341f4ddfe",
+      "path": "README.md",
+      "url": "https://github.com/microsoft/agent-lightning/blob/8f8b8f95fd4ed664822734811b61bb3341f4ddfe/README.md",
+      "git_blob_sha": "8b71ee8cb20b80f84597554e95a3746a7dbbf57a",
+      "read_lines": [
+        1,
+        130
+      ],
+      "scope": "Official source documentation inspected; training not executed."
+    },
+    {
+      "repository": "NVIDIA-NeMo/Nemotron",
+      "commit": "99a7e45302f486c7e104647c128c2962ae7695d6",
+      "path": "docs/nemotron/ultra3/mopd.md",
+      "url": "https://github.com/NVIDIA-NeMo/Nemotron/blob/99a7e45302f486c7e104647c128c2962ae7695d6/docs/nemotron/ultra3/mopd.md",
+      "git_blob_sha": "279a19d53bb4306d3b61b255c46a5c12fcbed616",
+      "read_lines": [
+        1,
+        130
+      ],
+      "scope": "Official source documentation inspected; training not executed."
+    },
+    {
+      "repository": "NVIDIA-NeMo/Nemotron",
+      "commit": "99a7e45302f486c7e104647c128c2962ae7695d6",
+      "path": "docs/nemotron/ultra3/README.md",
+      "url": "https://github.com/NVIDIA-NeMo/Nemotron/blob/99a7e45302f486c7e104647c128c2962ae7695d6/docs/nemotron/ultra3/README.md",
+      "scope": "Explicit missing-intermediate-checkpoint statement and representative-pass limit inspected."
+    }
+  ],
+  "local_checks": {
+    "kind": "fixed inputs and published formulas only",
+    "model_training_executed": false,
+    "company_benchmarks_reproduced": false
+  },
+  "excluded_inferences": [
+    "DeepSeek 1017's exact reward/feedback/optimizer recipe is not inferred from another RLSF paper.",
+    "Newer Kimi product versions are not assumed to use K2.5 PARL unchanged.",
+    "An official recipe entry point is not equated with a complete checkpoint chain."
+  ]
+}

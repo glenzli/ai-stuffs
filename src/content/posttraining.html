@@ -244,6 +244,21 @@
       </div>
     </section>
 
+    <div class="modern-page">
+    <section class="section" aria-labelledby="recent-training">
+      <div class="section-heading"><span class="section-number">PUBLIC METHODS / CHECKED 2026-10-30</span><h2 id="recent-training">近期公开训练技术，按机制与证据选读</h2></div>
+      <p>这里选取近一年公开、能补充现有机制的案例。日期对应具体发布或论文版本；来源披露、局部公式核验和完整训练复现分别说明，厂商报告的分数没有在本站重跑。</p>
+      <div class="compare-wrap"><table class="deep-table"><thead><tr><th>版本化案例</th><th>值得理解的新问题</th><th>公开与核验范围</th></tr></thead><tbody>
+        <tr><td><a href="rl-posttraining.html#self-feedback">DeepSeek Self-Feedback RL</a><br>2026-10-17</td><td>模型反馈怎样进入训练？</td><td>官方确认采用；发布说明未给出具体奖励与更新配方。</td></tr>
+        <tr><td><a href="rl-posttraining.html#policy-variants">Qwen SAPO</a><br>2025-12-01 · v2</td><td>硬裁剪与软门控改变哪些梯度？</td><td>论文有目标与公式；本站只重算固定输入，不复现模型质量。</td></tr>
+        <tr><td><a href="rl-posttraining.html#qwengyre">QwenGyre</a><br>2026-10-20 · v2</td><td>长任务的 GPU 调度和分支轨迹怎样协同？</td><td>核对论文的调度、评分与 token 来源语义；未运行完整系统。</td></tr>
+        <tr><td><a href="training-environments.html#parallel-agent-rl">Moonshot Kimi K2.5 / PARL</a><br>2026-01</td><td>怎样训练编排者分工，并防止无效并行？</td><td>官方披露机制与关键步数公式；本地仅验证手工步数算例。</td></tr>
+        <tr><td><a href="training-environments.html#harnessed-rl">Microsoft Agent Lightning v1.0</a><br>2026-08 · 10 月博客说明</td><td>部署 harness 拆出的调用，怎样成为训练样本？</td><td>论文和固定官方源码可查；GPU 训练与成绩未在本站重跑。</td></tr>
+        <tr><td><a href="distillation-data.html#multi-teacher-opd">NVIDIA Nemotron 3 Ultra / MOPD</a><br>2026-06 报告</td><td>多环境 RL 后，怎样汇集领域教师的能力？</td><td>报告及代表性配方公开；中间权重缺失，完整训练链不能由公开工件重建。</td></tr>
+      </tbody></table></div>
+      <p>阅读每项时，先确定它主要改变反馈来源、策略目标、执行调度还是教师信号，再进入对应专题。产品版本更新并不自动意味着训练机制发生同样变化。</p>
+      <div class="reading-links"><a href="model-evaluation.html#training-claims">把来源、机制、工件与结果逐层对齐</a><a href="model-case-studies.html#frontier-cache-case">与模型架构案例分开阅读</a></div>
+    </section></div>
     <section class="section next-lesson">
       <div>
         <p class="eyebrow">NEXT / HANDS-ON</p>

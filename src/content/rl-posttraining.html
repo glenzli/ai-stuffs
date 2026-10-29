@@ -183,7 +183,41 @@ J(\theta)&amp;=\mathbb E_{y\sim\pi_\theta(\cdot\mid x)}[R(y)]\\
       <div class="prose"><p>同步流程要等待一批长短不同的回答完成；异步系统让生成和训练重叠，代价是样本来自不同版本的策略。AReaL（2025，2026 年修订）使用陈旧度控制与对应 PPO 变体。版本号相差几步只是调度指标，还需要检查概率分布变化；采样温度、top-p、停止规则及推理引擎的 log-prob 口径也要匹配。</p></div>
       <div class="experiment"><div class="experiment-head"><h3>一个已采动作的概率比</h3><span class="assumption">PPO 单项 · ε=0.2</span></div><div class="experiment-body"><div class="experiment-controls"><label><span>行为策略动作概率 <output data-rld-old-value></output></span><input type="range" min="1" max="99" value="20" data-rld-old></label><label><span>当前策略动作概率 <output data-rld-current-value></output></span><input type="range" min="1" max="99" value="40" data-rld-current></label><label><span>该动作优势</span><select data-rld-sign><option value="1">+1</option><option value="-1">−1</option></select></label></div><div class="experiment-view" aria-live="polite"><div class="metric-row"><div><span>概率比 ρ</span><strong data-rld-ratio></strong></div><div><span>裁剪目标项（最大化）</span><strong data-rld-objective></strong></div></div><p class="experiment-note" data-rld-clip-note></p></div></div><p class="experiment-caption">计算 min(ρA, clip(ρ,0.8,1.2)A)。正负优势的平台方向不同。这里不模拟轨迹的状态分布校正，也不估算全模型 KL。</p></div>
       <div class="prose"><p>裁剪限制某个 surrogate 项继续奖励过大的概率变化，并没有强制所有动作概率都留在区间内。参数共享、其他样本和其他损失仍会改变它。异步校正也无法让任意陈旧数据都等价于新策略采样。</p></div>
-      <div class="reading-links"><a href="distillation-data.html#on-policy-distillation">学生 rollout 与教师信号</a><a href="agents-context.html#memory-compression">长轨迹的上下文管理</a><a href="performance-analysis.html#execution-path">等待、吞吐与关键路径</a></div>
+      <h3 id="qwengyre">QwenGyre：长任务的调度与轨迹怎样一起处理？</h3>
+      <p>Qwen 的 2026-10-20 v2 论文把问题拆成两部分：在生成与训练之间弹性调配 GPU；用轨迹树保留分支的原始上下文，并避免共享前缀目标被重复计权。可训练目标按 token 的实际来源判断，harness 注入的 assistant 文本也不能自动算成策略采样。</p>
+      <p>任务结束或超时后，若保留的工作产物可以评估，就按任务规则评分，并绑定被检查的状态和分支。核验时同时检查任务成功率、目标去重、策略版本、角色切换成本与同预算耗时；GPU 更忙本身不能证明训练目标保持一致。</p>
+      <p class="source-note">来源：<a href="https://arxiv.org/html/2609.33848v2">QwenGyre v2，第 4–5 节</a>。这里解释公开机制，未运行分布式训练，也未独立重测论文加速。</p>
+      <div class="reading-links"><a href="distillation-data.html#on-policy-distillation">学生 rollout 与教师信号</a><a href="training-environments.html#harnessed-rl">真实 harness 怎样进入训练</a><a href="agents-context.html#memory-compression">长轨迹的上下文管理</a></div>
+    </section></div>
+    <div class="modern-page">
+    <section class="section" aria-labelledby="self-feedback">
+      <div class="section-heading"><span class="section-number">CASE / FEEDBACK SOURCES</span><h2 id="self-feedback">Self-Feedback RL：模型的反馈怎样进入训练？</h2></div>
+      <p class="section-note">先分清反馈来源与参数是否更新，再判断一项公开技术披露到了哪一步。</p>
+      <div class="concept-pairs">
+        <div><h3>DeepSeek：已确认采用，配方仍需披露</h3><p>2026-10-17 的 V4.1-Flash-1017 官方说明明确提到，用 self-feedback RL 提升从零构建完整项目的能力。该说明没有给出反馈生成器、奖励公式、优化目标或训练消融；这些字段保持未知，不据名称补成某种具体算法。</p><p class="source-note"><a href="https://api-docs.deepseek.com/news/news261017/">官方发布说明：完整项目开发段</a>。属于厂商采用声明，本站没有复现其训练收益。</p></div>
+        <div><h3>独立 RLSF 论文：置信度构造偏好</h3><p>另一项 2025 年发表、2026-09-15 更新至 v2 的研究，用冻结模型生成多个推理候选，按答案片段置信度构造排序与偏好，再优化策略。它提供一种明确机制，不能作为 DeepSeek 使用同一配方的证据。</p><p class="source-note"><a href="https://arxiv.org/abs/2507.21931v2">van Niekerk 等：RLSF v2</a>。置信度提供训练信号，正确性和校准收益仍要独立评估。</p></div>
+      </div>
+      <div class="compare-wrap"><table><thead><tr><th>过程</th><th>反馈改变什么</th><th>核验重点</th></tr></thead><tbody>
+        <tr><td>推理时回看、批评与修订</td><td>改变本次上下文和后续输出，通常不更新参数。</td><td>固定总推理预算，比较最终完成质量与新增成本。</td></tr>
+        <tr><td>自生成偏好或筛选数据</td><td>先形成训练数据，再按已声明的目标更新参数。</td><td>冻结生成与评分版本，检查数据覆盖及同源偏差。</td></tr>
+        <tr><td>基于结果或反馈的 RL</td><td>反馈进入奖励或优势，经策略目标更新参数。</td><td>奖励定义、采样策略、归约与独立评估均应明确。</td></tr>
+      </tbody></table></div>
+      <p>同一模型出题、作答和判分时，多个环节可能共享盲点。应保留训练反馈无法访问的测试、替代判分器及抽样人工核验，分别报告训练信号和真实任务结果。</p>
+      <div class="reading-links"><a href="model-evaluation.html#training-claims">训练声明的核验顺序</a><a href="distillation-data.html#synthetic-evidence">合成数据的共同偏差</a><a href="posttraining.html#recent-training">近期方法导航</a></div>
+    </section>
+    <section class="section" aria-labelledby="policy-variants">
+      <div class="section-heading"><span class="section-number">CASE / POLICY OBJECTIVES</span><h2 id="policy-variants">Qwen GSPO / SAPO：裁剪哪个量，保留哪些梯度？</h2></div>
+      <p>GSPO 按回答计算长度归一化的序列概率比并裁剪；SAPO 的 2025-12-01 v2 论文改用温度控制的 token 级软门控。它们改变策略更新目标，不能只作为 GRPO 的一个采样开关。以下只检查公式局部行为，不训练 Qwen 模型。</p>
+      <figure class="math-block"><div class="math-display" data-math>s_i=\exp\!\left(\frac{1}{|y_i|}\sum_t\log r_{i,t}\right),\qquad r_{i,t}=\frac{\pi_\theta(y_{i,t}\mid x,y_{i,&lt;t})}{\pi_{\mathrm{old}}(y_{i,t}\mid x,y_{i,&lt;t})}</div><figcaption>GSPO 的 s 是 token 比率的几何平均。固定两个比率为 2 与 0.5 时，s=1；局部的大偏移可以在序列平均中相抵，不能据此判断模型质量。</figcaption></figure>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}f_\tau(r)&amp;=\frac4\tau\,\sigma(\tau(r-1)),\quad \tau&gt;0,\\ \frac{\partial f_\tau}{\partial r}&amp;=4p(1-p),\quad p=\sigma(\tau(r-1)).\end{aligned}</div><figcaption>SAPO 以 fτ(r)A 构造目标，正负优势可用不同 τ。对参数求导还要乘 r∇logπ；本表只比较对 r 的局部导数，省略组归约、KL 等项。</figcaption></figure>
+      <div class="compare-wrap"><table data-training-policy-example><thead><tr><th>固定比率 r</th><th>硬裁剪 ∂J/∂r，A=+1</th><th>硬裁剪 ∂J/∂r，A=−1</th><th>软门控 ∂f/∂r，τ=2</th></tr></thead><tbody>
+        <tr><td>0.6</td><td>1</td><td>0</td><td>0.856</td></tr>
+        <tr><td>1.0</td><td>1</td><td>−1</td><td>1.000</td></tr>
+        <tr><td>1.4</td><td>0</td><td>−1</td><td>0.856</td></tr>
+      </tbody></table></div>
+      <p class="experiment-note">硬裁剪使用 J=min(rA, clip(r,0.8,1.2)A)。只有正优势上侧、负优势下侧进入平台，不能说“比率越界就没有梯度”。本表固定两种优势的 τ 都为 2，只为隔离门控形状，不是作者完整训练的超参数配置。</p>
+      <p class="source-note">来源：<a href="https://arxiv.org/html/2507.18071v2">GSPO v2</a>、<a href="https://arxiv.org/html/2511.20347v2">SAPO v2 第 3 节式 5–8</a>。论文中的任务收益属于作者报告，不能从这三个比率推得。</p>
+      <details><summary>核验这组固定输入的数值</summary><p>在仓库根目录运行下列命令。检查会用有限差分复算软门控导数，并核对表格、现有硬裁剪实现与关键步数算例；它不调用模型或 GPU。</p><pre class="decision-code"><code>node artifacts/training-research-20261030T033831Z/mechanism-check.mjs</code></pre></details>
     </section></div>
     <section class="section" aria-labelledby="evidence-title">
       <div class="section-heading">
