@@ -258,7 +258,7 @@
       </tbody></table></div>
       <p>阅读每项时，先确定它主要改变反馈来源、策略目标、执行调度还是教师信号，再进入对应专题。产品版本更新并不自动意味着训练机制发生同样变化。</p>
       <p>再沿工程条件核对：<a href="rl-posttraining.html#rollout-correction">实际采样与训练概率怎样校正</a>、<a href="numerical-computing.html#native-low-precision">原生低位训练怎样分配精度</a>，以及 <a href="model-evaluation.html#rubric-rewards">rubric 怎样汇总成奖励</a>。三个固定输入例子均提供离线重算方式。</p>
-      <p>训练目标与交付还可接着看：<a href="generation-mechanisms.html#multi-token-training">MTP 的多偏移标签与共享梯度</a>、<a href="efficient-inference.html#mtp-boosting">骨干冻结后的草稿头训练</a>，以及 <a href="optimization-dynamics.html#wsd-checkpoint-average">WSD 与 checkpoint 平均读出</a>。来源版本差异与本地算例的适用范围分别说明。</p>
+      <p>训练目标与交付还可接着看：<a href="generation-mechanisms.html#multi-token-training">MTP 的多偏移标签与共享梯度</a>、<a href="efficient-inference.html#mtp-boosting">骨干冻结后的草稿头训练</a>、<a href="efficient-inference.html#dspark-verification">DSpark 的验收预算与选择偏差</a>，以及 <a href="optimization-dynamics.html#wsd-checkpoint-average">WSD 与 checkpoint 平均读出</a>。来源版本差异与本地算例的适用范围分别说明。</p>
       <p>训练期的负载控制与结构变化分别见 <a href="transformer-anatomy.html#moe-load-control">MoE bias、分模态统计与因果边界</a>和 <a href="architecture-variants.html#mhc-residual">mHC、Sinkhorn 与 Single-Pass</a>，各自保留版本差异和离线核验。</p>
       <p>参数读取、更新与执行还可继续看 <a href="model-case-studies.html#engram-training">Engram 查表与重复梯度</a>、<a href="optimization-dynamics.html#matrix-update-recipes">逐头 Muon 与表参数 L2 均衡</a>和 <a href="training-systems-deep.html#dualpipe-overlap">DualPipe 的依赖与资源重叠</a>；三者都提供固定输入与核验命令。</p>
       <div class="reading-links"><a href="model-evaluation.html#training-claims">把来源、机制、工件与结果逐层对齐</a><a href="model-case-studies.html#frontier-cache-case">与模型架构案例分开阅读</a></div>

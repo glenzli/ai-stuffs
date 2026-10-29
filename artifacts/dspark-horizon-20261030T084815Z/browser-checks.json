@@ -1,0 +1,587 @@
+{
+  "layouts": [
+    {
+      "page": "efficient-inference.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "page": "efficient-inference.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "page": "model-case-studies.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "page": "model-case-studies.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "page": "posttraining.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "page": "posttraining.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "page": "efficient-inference.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "efficient-inference.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "page": "model-case-studies.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "model-case-studies.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "page": "posttraining.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "posttraining.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "page": "efficient-inference.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "efficient-inference.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "page": "model-case-studies.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "model-case-studies.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "page": "posttraining.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "posttraining.html",
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "dark",
+      "width": 390
+    }
+  ],
+  "panels": [
+    {
+      "label": "先区分原论文、部署配置和 V4.1 的训练阶段",
+      "code": [],
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "label": "为什么服务端还要按整个 batch 算，而不是逐请求取最大值？",
+      "code": [],
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "label": "算一遍：为什么“看完后续再选最佳 K”会把 50% 变成 75%？",
+      "code": [],
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        },
+        {
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "label": "离线重算：概率、成本、边界与正文读出",
+      "code": [
+        {
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        }
+      ],
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "label": "先区分原论文、部署配置和 V4.1 的训练阶段",
+      "code": [],
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "label": "为什么服务端还要按整个 batch 算，而不是逐请求取最大值？",
+      "code": [],
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "label": "算一遍：为什么“看完后续再选最佳 K”会把 50% 变成 75%？",
+      "code": [],
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        },
+        {
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "label": "离线重算：概率、成本、边界与正文读出",
+      "code": [
+        {
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        }
+      ],
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "dark",
+      "width": 390
+    }
+  ],
+  "navigation": [
+    {
+      "from": "posttraining.html",
+      "label": "DSpark 的验收预算与选择偏差",
+      "url": "http://127.0.0.1:4173/efficient-inference.html#dspark-verification",
+      "heading": "DSpark：草稿能写多长，验收就该做多长吗？",
+      "top": 2849.8359375
+    },
+    {
+      "from": "model-case-studies.html",
+      "label": "DSpark 验收预算与训练阶段",
+      "url": "http://127.0.0.1:4173/efficient-inference.html#dspark-verification",
+      "heading": "DSpark：草稿能写多长，验收就该做多长吗？",
+      "top": 2272.8359375
+    },
+    {
+      "from": "page contents",
+      "stable": true,
+      "top": 92.0234375,
+      "url": "http://127.0.0.1:4173/efficient-inference.html#dspark-verification"
+    },
+    {
+      "from": "posttraining.html",
+      "stable": true,
+      "top": 91.8359375,
+      "url": "http://127.0.0.1:4173/efficient-inference.html#dspark-verification"
+    },
+    {
+      "from": "model-case-studies.html",
+      "stable": true,
+      "top": 91.8359375,
+      "url": "http://127.0.0.1:4173/efficient-inference.html#dspark-verification"
+    }
+  ],
+  "search": [
+    {
+      "query": "DSpark",
+      "results": [
+        {
+          "href": "efficient-inference.html",
+          "text": "量化与投机解码量化、精确投机验收、MTP boosting 与 DSpark 验收预算"
+        }
+      ]
+    },
+    {
+      "query": "前缀存活",
+      "results": [
+        {
+          "href": "efficient-inference.html",
+          "text": "量化与投机解码量化、精确投机验收、MTP boosting 与 DSpark 验收预算"
+        }
+      ]
+    },
+    {
+      "query": "选择偏差",
+      "results": [
+        {
+          "href": "paired-evaluation.html",
+          "text": "配对评估与统计实验逐题配对 JSON、按组重采样、差值区间、精确置换和 checkpoint 选择偏差"
+        },
+        {
+          "href": "efficient-inference.html",
+          "text": "量化与投机解码量化、精确投机验收、MTP boosting 与 DSpark 验收预算"
+        }
+      ]
+    }
+  ],
+  "finalLayouts": [
+    {
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "headingsLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [
+        {
+          "name": "prefix",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "budget",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    }
+  ],
+  "mobileScroll": {
+    "clientWidth": 358,
+    "pageWidth": 390,
+    "scrollLeft": 292,
+    "scrollWidth": 650,
+    "viewportWidth": 390
+  },
+  "console": [],
+  "notes": [
+    "The first two immediate cross-page anchor measurements were captured before layout settled; separate later observations confirm approximately 92px heading position.",
+    "An AX summary appeared as a button but the DOM role locator had no match; actual summary elements were used to expand the four panels.",
+    "Three-column tables now fit the 358px mobile content width; wider tables scroll within their wrappers."
+  ],
+  "restored": {
+    "headingTop": 92.0234375,
+    "height": 720,
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/efficient-inference.html#dspark-verification",
+    "width": 1280
+  }
+}

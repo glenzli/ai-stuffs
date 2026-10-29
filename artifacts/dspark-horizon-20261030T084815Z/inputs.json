@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "kind": "fixed teaching inputs, not measured engine data",
+  "conditionalAcceptance": [0.9, 0.8, 0.6, 0.4],
+  "draftTimeWhenEnabled": 0.15,
+  "overheadTime": 0.05,
+  "verificationTime": {
+    "A": [1, 1.02, 1.04, 1.06, 1.08],
+    "B": [1, 1.4, 2, 2.8, 3.8]
+  },
+  "protocol": "No EOS or output cap. K drafts yield the accepted prefix and one residual token at first rejection, or one bonus token if all K pass. K=0 directly draws one target token without drafting.",
+  "uniformGridSize": 10,
+  "selectionBias": {
+    "vocabulary": ["A", "B"],
+    "targetFirst": [0.5, 0.5],
+    "draftFirst": [0.5, 0.5],
+    "targetSecondByFirst": [[0.9, 0.1], [0, 1]],
+    "draftSecondByFirst": [[1, 0], [1, 0]],
+    "stepsPerTimeByBatchSize": [1, 0.45, 0.4],
+    "tieRule": "keep the shorter prefix",
+    "badPolicy": "Inspect continuation confidence after sampling x1, then maximize the full K=0,1,2 score curve retrospectively; still verify using the original q.",
+    "safePolicy": "Stop at the first score that does not improve, before consulting any continuation-dependent confidence. This example always chooses K=0."
+  }
+}

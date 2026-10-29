@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-30",
+  "sources": [
+    {
+      "title": "DSpark: Confidence-Scheduled Speculative Decoding with Semi-Autoregressive Generation",
+      "url": "https://arxiv.org/html/2607.05147v1",
+      "version": "v1, 2026-07-06",
+      "locations": ["3.1, equations 4-5", "3.2.1, equations 7-8 and STS", "3.2.2, Algorithm 1 and non-anticipating admission", "3.3", "4.1 and 4.2", "5.1 and 5.2", "Appendix A"],
+      "supports": "Semi-autoregressive drafting; conditional acceptance and calibrated prefix survival; engine-profiled verification budgets; distinction between frozen-target method, offline evaluation and preview production setup; early stopping and asynchronous historical-capacity adaptation.",
+      "limits": "No vendor code, checkpoints, calibration data or engine profile is executed here. The local probabilities, cost curves and selection-bias counterexample are independently specified teaching data, not the paper's numerical experiments."
+    },
+    {
+      "title": "DeepSeek-V4.1-Flash: Pushing the Limits of KV Cache Compression",
+      "url": "https://arxiv.org/html/2609.19969v1",
+      "version": "v1, 2026-09-17",
+      "locations": ["2.4.3"],
+      "supports": "Three drafter blocks, window 128, five base-logit positions, Markov head; DSpark-only training with frozen backbone after pretraining; continued co-training during posttraining without DSpark-objective gradients flowing to the backbone; serving and RL/OPD rollouts.",
+      "limits": "Do not call the posttraining backbone globally frozen. Do not transfer offline DSpark defaults, preview deployment details or reported speedups to V4.1 without an explicit disclosure."
+    },
+    {
+      "title": "Fast Inference from Transformers via Speculative Decoding",
+      "url": "https://proceedings.mlr.press/v202/leviathan23a.html",
+      "version": "ICML 2023, PMLR 202",
+      "locations": ["Algorithm 1", "Appendix A.1"],
+      "supports": "Sequential draft verification, residual correction, bonus draw and the expected emitted-length convention.",
+      "limits": "The site's existing speculativeMass and speculativeToken implement the same single-position probability ledger. Reusing them is not a model or GPU benchmark."
+    }
+  ],
+  "localScope": "Exact finite teaching processes and exhaustive discrete choices on inputs frozen before results; no actual DSpark training, STS fit, production scheduler or hardware timing."
+}

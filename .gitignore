@@ -154,3 +154,7 @@ __pycache__/
 !/artifacts/lookup-updates-overlap-20261030T074358Z/
 !/artifacts/lookup-updates-overlap-20261030T074358Z/**
 /artifacts/lookup-updates-overlap-20261030T074358Z/__pycache__/
+
+# Fixed DSpark verification-budget teaching ledger and review evidence.
+!/artifacts/dspark-horizon-20261030T084815Z/
+!/artifacts/dspark-horizon-20261030T084815Z/**

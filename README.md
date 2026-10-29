@@ -60,6 +60,8 @@ MoE bias 控制、分模态统计与 mHC/Sinkhorn/Single-Pass 的版本区别和
 [MoE 与 mHC 核验记录](docs/moe-mhc-2026-10-30.md)。
 Engram 查表训练、逐头矩阵方向、有符号 L2 均衡更新和 DualPipe 资源依赖的固定输入与版本边界见
 [查表、更新与重叠核验记录](docs/lookup-updates-overlap-2026-10-30.md)。
+DSpark 条件接受率、验收长度成本与调度选择偏差的版本边界和离线核验见
+[验收预算补充记录](docs/dspark-horizon-2026-10-30.md)。
 
 ## 快速开始
 

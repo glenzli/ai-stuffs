@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "gridOutcomes": 10000,
+  "terminalCounts": [
+    1000,
+    1800,
+    2880,
+    2592,
+    1728
+  ],
+  "expectedEmitted": 3.2248,
+  "bestK": {
+    "A": 4,
+    "B": 2
+  },
+  "retrospectiveFirstOutput": [
+    0.75,
+    0.25
+  ],
+  "readoutTables": 4,
+  "scalarReadouts": 2,
+  "outputCaps": 7,
+  "boundaryCases": 4,
+  "mode": "verified"
+}

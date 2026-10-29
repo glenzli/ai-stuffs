@@ -1,0 +1,273 @@
+{
+  "schema": 1,
+  "prefix": {
+    "survival": [
+      1,
+      0.9,
+      0.7200000000000001,
+      0.43200000000000005,
+      0.17280000000000004
+    ],
+    "terminal": [
+      0.09999999999999998,
+      0.17999999999999997,
+      0.28800000000000003,
+      0.25920000000000004,
+      0.17280000000000004
+    ],
+    "expectedAccepted": 2.2248,
+    "expectedEmitted": 3.2248
+  },
+  "exactGrid": {
+    "gridOutcomes": 10000,
+    "counts": [
+      1000,
+      1800,
+      2880,
+      2592,
+      1728
+    ],
+    "terminal": [
+      0.1,
+      0.18,
+      0.288,
+      0.2592,
+      0.1728
+    ]
+  },
+  "capped": [
+    {
+      "cap": 0,
+      "expectedEmitted": 0
+    },
+    {
+      "cap": 1,
+      "expectedEmitted": 1
+    },
+    {
+      "cap": 2,
+      "expectedEmitted": 1.9
+    },
+    {
+      "cap": 3,
+      "expectedEmitted": 2.62
+    },
+    {
+      "cap": 4,
+      "expectedEmitted": 3.0519999999999996
+    },
+    {
+      "cap": 5,
+      "expectedEmitted": 3.2248
+    },
+    {
+      "cap": 6,
+      "expectedEmitted": 3.2248
+    }
+  ],
+  "boundaryCases": [
+    {
+      "conditional": [],
+      "survival": [
+        1
+      ],
+      "terminal": [
+        1
+      ],
+      "expectedAccepted": 0,
+      "expectedEmitted": 1
+    },
+    {
+      "conditional": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "survival": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "terminal": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expectedAccepted": 0,
+      "expectedEmitted": 1
+    },
+    {
+      "conditional": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "survival": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "terminal": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "expectedAccepted": 4,
+      "expectedEmitted": 5
+    },
+    {
+      "conditional": [
+        0.7,
+        0,
+        0.9
+      ],
+      "survival": [
+        1,
+        0.7,
+        0,
+        0
+      ],
+      "terminal": [
+        0.30000000000000004,
+        0.7,
+        0,
+        0
+      ],
+      "expectedAccepted": 0.7,
+      "expectedEmitted": 1.7
+    }
+  ],
+  "budgets": [
+    {
+      "K": 0,
+      "survival": 1,
+      "expectedEmitted": 1,
+      "profiles": {
+        "A": {
+          "time": 1.05,
+          "tokensPerTime": 0.9523809523809523
+        },
+        "B": {
+          "time": 1.05,
+          "tokensPerTime": 0.9523809523809523
+        }
+      }
+    },
+    {
+      "K": 1,
+      "survival": 0.9,
+      "expectedEmitted": 1.9,
+      "profiles": {
+        "A": {
+          "time": 1.22,
+          "tokensPerTime": 1.5573770491803278
+        },
+        "B": {
+          "time": 1.5999999999999999,
+          "tokensPerTime": 1.1875
+        }
+      }
+    },
+    {
+      "K": 2,
+      "survival": 0.7200000000000001,
+      "expectedEmitted": 2.62,
+      "profiles": {
+        "A": {
+          "time": 1.24,
+          "tokensPerTime": 2.1129032258064515
+        },
+        "B": {
+          "time": 2.1999999999999997,
+          "tokensPerTime": 1.1909090909090911
+        }
+      }
+    },
+    {
+      "K": 3,
+      "survival": 0.43200000000000005,
+      "expectedEmitted": 3.0520000000000005,
+      "profiles": {
+        "A": {
+          "time": 1.26,
+          "tokensPerTime": 2.4222222222222225
+        },
+        "B": {
+          "time": 2.9999999999999996,
+          "tokensPerTime": 1.0173333333333336
+        }
+      }
+    },
+    {
+      "K": 4,
+      "survival": 0.17280000000000004,
+      "expectedEmitted": 3.2248,
+      "profiles": {
+        "A": {
+          "time": 1.28,
+          "tokensPerTime": 2.519375
+        },
+        "B": {
+          "time": 3.9999999999999996,
+          "tokensPerTime": 0.8062000000000001
+        }
+      }
+    }
+  ],
+  "bestK": {
+    "A": 4,
+    "B": 2
+  },
+  "bias": {
+    "branches": [
+      {
+        "token": "A",
+        "c2": 0.9,
+        "scores": [
+          1,
+          0.9,
+          1.16
+        ],
+        "retrospectiveK": 2,
+        "safeK": 0
+      },
+      {
+        "token": "B",
+        "c2": 0,
+        "scores": [
+          1,
+          0.9,
+          0.8
+        ],
+        "retrospectiveK": 0,
+        "safeK": 0
+      }
+    ],
+    "target": [
+      0.5,
+      0.5
+    ],
+    "retrospective": [
+      0.75,
+      0.25
+    ],
+    "safe": [
+      0.5,
+      0.5
+    ],
+    "fixedK2": [
+      0.5,
+      0.5
+    ]
+  }
+}

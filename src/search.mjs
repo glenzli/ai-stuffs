@@ -39,7 +39,7 @@ export const searchMetadata = {
   "multimodal.html": { summary: "图像 patch、原生多模态联合训练、Qwen3-Omni 与流式时间线", terms: "multimodal 多模态 vision vlm image audio video connector projector 视觉 音频 视频 streaming Thinker Talker codec Qwen3 Omni 流式 首包 队列 原生", priority: 9 },
   "agents-context.html": { summary: "工具调用、上下文压缩、证据记忆、冲突更新与持续学习", terms: "agent tool context memory rag 工具 上下文 记忆 轨迹 环境 compaction continual test time training 持续学习 压缩 约束 遗忘 prompt injection 提示注入 授权 信任", priority: 9 },
   "distillation-data.html": { summary: "教师、学生轨迹与 NVIDIA 多教师 On-Policy Distillation", terms: "teacher student distillation synthetic data 蒸馏 教师 合成 数据 软标签 on-policy opd reverse kl forward 前缀 轨迹 恢复 遗忘 MOPD NVIDIA Nemotron Ultra 多教师 中间权重", priority: 9 },
-  "efficient-inference.html": { summary: "量化、精确投机验收、MTP boosting 与草稿蒸馏", terms: "quantization int4 int8 fp8 awq gptq ptq qat 量化 校准 speculative draft residual distribution rejection 投机 解码 采样 残差 概率分布 接受 拒绝 MTP boosting Nemotron 3.5 LK losses Nebius 草稿头 冻结 蒸馏 状态混合 接受率", priority: 9 },
+  "efficient-inference.html": { summary: "量化、精确投机验收、MTP boosting 与 DSpark 验收预算", terms: "quantization int4 int8 fp8 awq gptq ptq qat 量化 校准 speculative draft residual distribution rejection 投机 解码 采样 残差 概率分布 接受 拒绝 MTP boosting Nemotron 3.5 LK losses Nebius 草稿头 冻结 蒸馏 状态混合 接受率 DSpark STS confidence verification budget 条件接受率 前缀存活 预计产出 验收长度 选择偏差 调度成本", priority: 9 },
   "index.html": {
     "summary": "一次学习的输入、预测、监督、损失和参数更新，连接六步主线",
     "terms": "overview 表示 token id embedding pipeline",

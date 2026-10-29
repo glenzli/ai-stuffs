@@ -1,0 +1,55 @@
+✔ InfoNCE and SGNS raw-score gradients match finite differences (3.425875ms)
+✔ temperature can saturate correct predictions and amplify incorrect ones (0.164583ms)
+✔ DPO derivative is with respect to reference-corrected delta (0.323666ms)
+✔ sampled output is one position ahead of cached generated input (3.183166ms)
+✔ clean simulator negatives never include another valid same-class document (0.196417ms)
+✔ every page has explicit scope and valid primary-source metadata (0.788792ms)
+✔ candidate coverage does not equal final selection; single candidate ignores selector (0.483917ms)
+✔ vision budget scales with area, merge and frames (0.117792ms)
+✔ soft labels remain normalized and higher temperature softens fixed logits (0.186208ms)
+✔ symmetric quantization respects range, reconstructs extrema and handles zero (0.196625ms)
+✔ curation records independent score, duplicate and contamination decisions (0.157541ms)
+✔ knowledge library contains each page exactly once (0.276875ms)
+✔ optimizer ledger separates task update, historical state and decoupled decay (0.9525ms)
+✔ global token gradient matches finite differences for every UI count including empty ranks (2.182542ms)
+✔ GEMM roofline obeys work/traffic units and compute/bandwidth bounds (0.159917ms)
+✔ diagnostic cases provide distinct evidence and real follow-up topics (0.100084ms)
+✔ typesets fractions and subscripts while preserving unrelated source byte-for-byte (15.460708ms)
+✔ renders HTML entities, inline math and hidden variants without breaking attributes (4.133083ms)
+✔ invalid or ambiguous TeX fails with context instead of silently showing broken math (4.768834ms)
+✔ every authored formula has HTML and MathML in the generated page (685.692625ms)
+✔ marginal answer example sums paths; score-function gradient does not require reward derivatives (0.249541ms)
+✔ distillation derivative includes temperature and the KL direction (0.214334ms)
+✔ fixed-compute scaling stationary point satisfies the derivative and local minimum (0.078292ms)
+✔ topic ownership covers every page once and agrees with header navigation (101.044792ms)
+✖ built reading routes and all local authored links resolve to pages and anchors (349.581417ms)
+✔ guide starts with learning and problem lookup; advanced collections are optional (2.261458ms)
+✔ guide and detailed route share six steps with a real learning result in the first four (4.72025ms)
+✔ before/after examples come from the same saved question across every seed and split (3.840459ms)
+✔ partial or conflicting saved pairs never fabricate a before/after comparison (2.6965ms)
+✔ report question identifiers are escaped in the new example (1.958542ms)
+✔ report starts with evidence while failure outcomes and all existing controls remain available (4.883167ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 30
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 976.116667
+
+✖ failing tests:
+
+test at scripts/test-reading.mjs:36:1
+✖ built reading routes and all local authored links resolve to pages and anchors (349.581417ms)
+  AssertionError [ERR_ASSERTION]: efficient-inference.html: /serving-scheduler.html
+      at TestContext.<anonymous> (file:///Users/g4i/lab/ai-stuffs/scripts/test-reading.mjs:43:14)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
