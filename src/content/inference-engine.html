@@ -3,8 +3,8 @@
         <p class="eyebrow">ARCHITECTURE / INFERENCE ENGINE</p>
         <h1>自回归推理的两个阶段：<span class="accent-text">prefill 与 decode</span></h1>
         <p class="lede">
-          prompt 可以并行计算并填满 KV Cache；生成阶段每轮只新增一个 token，却要重读所有历史 K/V。
-          这两阶段的瓶颈、延迟指标和 batch 策略完全不同。
+          标准全因果 Attention 的 prompt 可以并行计算并写入 KV Cache；常规 decode 每轮每请求输入一个新 token，并读取此前可见位置的 K/V。
+          prefill 与 decode 的计算形态不同，瓶颈还取决于 batch、序列长度、结构与硬件。
         </p>
       </div>
       <aside class="intro-aside">
@@ -108,7 +108,7 @@
           <span class="section-number">03</span>
           <h2 id="kv-title">KV Cache 占多少显存？</h2>
         </div>
-        <p class="section-note">标准 MHA 每层保存 K 与 V。GQA/MQA 让多个 query heads 共享 KV heads，缓存按共享后的数量计算。</p>
+        <p class="section-note">标准 MHA 每层保存 K 与 V。GQA/MQA 让多个 query heads 共享 KV heads，缓存按共享后的数量计算。下面假设各层配置相同、K/V 的 head dim 相同、每请求保留 S 个位置且不跨层共享；滑窗、MLA、层间共享及量化元数据需另算。</p>
       </div>
 
       <div class="kv-calculator">

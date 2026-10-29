@@ -7,7 +7,7 @@ export function initTrainingSystems() {
         dp: {
           kicker: "DATA PARALLEL",
           title: "复制完整模型，让不同 GPU 算不同 batch",
-          copy: "每卡有完整权重、梯度和优化器状态，适合单卡放得下训练状态的情况。反向结束时对同位置梯度做 all-reduce。",
+          copy: "每卡有完整权重、梯度和优化器状态，适合单卡放得下训练状态的情况。梯度用 all-reduce 同步；DDP 可在梯度桶就绪后发起通信，与反向计算重叠。",
           shard: "batch",
           comm: "all-reduce gradients",
           limit: "每卡完整训练状态放不下",
@@ -20,13 +20,13 @@ export function initTrainingSystems() {
           ],
         },
         zero: {
-          kicker: "ZERO / FSDP",
+          kicker: "ZERO-3 / FULL-SHARD FSDP",
           title: "把参数、梯度和优化器状态分片保存",
-          copy: "计算前 gather 需要部分，计算后 reshard；梯度可 reduce-scatter。省静态显存，但 collective 频率变高。",
+          copy: "这里展示 ZeRO-3 / FSDP 全分片：计算前 gather 所需参数，按策略 reshard；梯度可 reduce-scatter。静态状态减少，额外通信取决于 gather 粒度与调度。",
           shard: "parameters / gradients / optimizer states",
           comm: "all-gather + reduce-scatter",
           limit: "通信与 gather 调度复杂",
-          note: "ZeRO 通过分片降低每卡状态占用；每层前后重聚参数会带来带宽和延迟。",
+          note: "ZeRO-1 分片优化器状态，ZeRO-2 再分片梯度，ZeRO-3 才进一步分片参数。图中的按需参数聚合对应第三阶段或 FSDP 全分片，不能套用到所有 ZeRO 策略。",
           cards: [
             ["GPU0", "1/4 states + layer shard", "gather → compute"],
             ["GPU1", "1/4 states + layer shard", "gather → compute"],
@@ -56,7 +56,7 @@ export function initTrainingSystems() {
           shard: "layers / stages",
           comm: "stage-to-stage activations",
           limit: "bubble 与激活缓存",
-          note: "PP 省权重和层计算，但会引入空泡。增大 micro-batch 能填满流水线，却增加 activation 和调度复杂度。",
+          note: "PP 将各层权重与计算分配给不同设备。增加每次更新的 microbatch 数量可降低空泡比例；增大单个 microbatch 的样本数是另一件事。激活峰值还取决于具体调度与重算策略。",
           cards: [
             ["GPU0", "layers 0–7", "microbatch 1–4"],
             ["GPU1", "layers 8–15", "microbatch 1–4"],

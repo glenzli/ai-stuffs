@@ -34,7 +34,7 @@
           </div>
           <p class="micro-label" data-par-kicker>DATA PARALLEL</p>
           <h3 data-par-title>复制完整模型，让不同 GPU 算不同 batch</h3>
-          <p data-par-copy>每卡有完整权重、梯度和优化器状态，适合单卡放得下训练状态的情况。反向结束时对同位置梯度做 all-reduce。</p>
+          <p data-par-copy>每卡有完整权重、梯度和优化器状态，适合单卡放得下训练状态的情况。梯度用 all-reduce 同步；DDP 可在梯度桶就绪后发起通信，与反向计算重叠。</p>
           <div class="parallel-facts">
             <div><span>分片</span><p data-par-shard>batch</p></div>
             <div><span>主要通信</span><p data-par-comm>all-reduce gradients</p></div>
@@ -64,10 +64,10 @@
         <table class="deep-table precision-table">
           <thead><tr><th>格式</th><th>bits / 结构</th><th>常见用途</th><th>优势</th><th>主要风险</th></tr></thead>
           <tbody>
-            <tr><td>FP32</td><td>1 sign + 8 exp + 23 mantissa · 32b</td><td>master weights、精确优化器状态、诊断</td><td>范围与精度高</td><td>显存和带宽成本最高</td></tr>
-            <tr><td>TF32</td><td>NVIDIA 内部 matmul 模式 · 约 10b 有效尾数</td><td>部分 FP32 矩阵乘加速</td><td>改代码少、常见硬件支持</td><td>有效尾数少于 FP32；行为依赖硬件与 kernel</td></tr>
-            <tr><td>BF16</td><td>8 exp + 7 mantissa · 16b</td><td>训练 activation/参数、KV Cache</td><td>范围接近 FP32，不需要传统 loss scaling</td><td>尾数少，累加和细腻差异仍需注意</td></tr>
-            <tr><td>FP16</td><td>5 exp + 10 mantissa · 16b</td><td>部分推理、训练 mixed precision</td><td>精度较高、硬件成熟</td><td>指数范围小，可能出现 overflow/underflow</td></tr>
+            <tr><td>FP32</td><td>1 sign + 8 exp + 23 fraction · 32b</td><td>master weights、较高精度优化器状态、诊断</td><td>范围与精度高</td><td>仍有舍入误差；存储成本高于低位格式</td></tr>
+            <tr><td>TF32</td><td>Ampere 为例：8 exp + 10 fraction</td><td>部分 FP32 矩阵乘/卷积加速</td><td>该模式以 FP32 存储和累加</td><td>乘法输入精度低于 FP32；依赖硬件与 kernel</td></tr>
+            <tr><td>BF16</td><td>1 sign + 8 exp + 7 fraction · 16b</td><td>训练 activation/参数、KV Cache</td><td>范围接近 FP32，通常无需传统 loss scaling</td><td>尾数少，累加和细腻差异仍需注意</td></tr>
+            <tr><td>FP16</td><td>1 sign + 5 exp + 10 fraction · 16b</td><td>部分推理、训练 mixed precision</td><td>正规数的小数位多于 BF16、硬件成熟</td><td>指数范围小，可能出现 overflow/underflow</td></tr>
             <tr><td>FP8</td><td>E4M3 / E5M2 · 8b</td><td>受支持的训练与推理 kernel</td><td>显存/带宽明显下降</td><td>需要 scaling、分组配置，并检查数值误差</td></tr>
             <tr><td>INT8 / INT4</td><td>整数 + scale / group</td><td>权重量化、部分激活/KV</td><td>服务吞吐和内存友好</td><td>误差累积、outlier 与 kernel/模型结构依赖强</td></tr>
           </tbody>
@@ -93,28 +93,28 @@
       <div class="activation-lab">
         <div class="activation-controls">
           <label class="lab-range"><span>batch B <strong data-act-b-value>1</strong></span><input type="range" min="1" max="8" value="1" step="1" data-act-b></label>
-          <label class="lab-range"><span>sequence T <strong data-act-t-value>8192</strong></span><input type="range" min="512" max="32768" value="8192" step="512" data-act-t></label>
-          <label class="lab-range"><span>query heads H <strong data-act-h-value>32</strong></span><input type="range" min="8" max="64" value="32" step="8" data-act-h></label>
+          <label class="lab-range"><span>sequence T <strong data-act-t-value>8,192</strong></span><input type="range" min="512" max="32768" value="8192" step="512" data-act-t></label>
+          <label class="lab-range"><span>MHA heads H <strong data-act-h-value>32</strong></span><input type="range" min="8" max="64" value="32" step="8" data-act-h></label>
           <label class="lab-range"><span>head dim <strong data-act-d-value>128</strong></span><input type="range" min="64" max="256" value="128" step="64" data-act-d></label>
-          <label class="lab-range"><span>FFN width <strong data-act-f-value>14336</strong></span><input type="range" min="4096" max="28672" value="14336" step="2048" data-act-f></label>
+          <label class="lab-range"><span>FFN width <strong data-act-f-value>14,336</strong></span><input type="range" min="4096" max="28672" value="14336" step="2048" data-act-f></label>
           <label class="sim-select"><span>activation precision</span><select data-act-bytes><option value="2" selected>BF16 · 2 bytes</option><option value="1">FP8 · 1 byte</option></select></label>
         </div>
         <div class="activation-visual">
           <div class="activation-primary">
             <span>未融合 T×T attention 分数</span>
-            <strong data-act-attention>4.0 GiB</strong>
+            <strong data-act-attention>4.00 GiB</strong>
             <small>单层、单个 materialized score matrix</small>
           </div>
           <div class="activation-breakdown">
-            <div><span>Q / K / V 张量</span><strong data-act-qkv>192 MiB</strong></div>
-            <div><span>SwiGLU 中间值</span><strong data-act-mlp>224 MiB</strong></div>
-            <div><span>residual / hidden</span><strong data-act-hidden>128 MiB</strong></div>
+            <div><span>Q / K / V 三份张量</span><strong data-act-qkv>192.0 MiB</strong></div>
+            <div><span>SwiGLU gate / up 两路投影</span><strong data-act-mlp>448.0 MiB</strong></div>
+            <div><span>单份 residual / hidden</span><strong data-act-hidden>64.0 MiB</strong></div>
           </div>
           <div class="activation-compare">
             <span>如果使用 FlashAttention / 分块 attention</span>
             <p>可以避免显式保存完整 T×T 矩阵，显存更接近随 B·T·d 线性增长；但反向仍需保存/重算部分中间量，通信与 kernel 支持也会影响结果。</p>
           </div>
-          <p class="figure-caption">这是一个教学估算：按当前 layer 的 attention heads 与序列长度直接计算，不代表整模型总峰值。实际还要加所有需要为反传保留的层、临时 workspace 与通信 buffers。</p>
+          <p class="figure-caption">计数假设 MHA 的 Q/K/V 都有 H 个头，模型宽度为 H×head dim；元素数分别为 BH T²、3BT H·head dim、2BTF 和 BT H·head dim，再乘每元素字节数。gate/up 只数两路投影，不含 SiLU、逐元素乘积或 down projection 的额外中间量。面板不是反传保存清单或总峰值；GQA、融合算子、重算、临时 workspace 与通信缓冲需另算。FP8 选项仅按 1 byte 计数，不表示这些张量都能使用 FP8 kernel，也未计缩放元数据。</p>
         </div>
       </div>
     </section>

@@ -531,6 +531,8 @@ TeX 语法或结构错误会使构建失败，并保留此前输出（公式校�
 
 主验收记录见 `docs/engineering-wiki-acceptance-2026-10-26.md`。
 
+知识表述、公式条件与交互计数的最新复核见 [知识正确性复核](docs/knowledge-review-2026-10-29.md)。
+
 学习动态验证运行 `npm run test:learning`；最终验收见 [learning-dynamics-acceptance-2026-10-28.md](docs/learning-dynamics-acceptance-2026-10-28.md)。
 
 ### 真实向量的来源过滤与候选数量

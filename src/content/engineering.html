@@ -134,7 +134,7 @@
             <div><span>2</span>fwd/back</div><i>…</i>
             <div><span>8</span>sync + update</div>
           </div>
-          <p>增加 accumulation 会减少同步与更新频率，让显存能承受更大的有效 batch；吞吐收益取决于计算与通信的比例。每一步仍要做同样多的 forward/backward，只是 optimizer 次数变少。</p>
+          <p>固定 microbatch 和消费样本总数时，增大 accumulation 会减少 optimizer 更新次数；每次更新要累积更多轮 forward/backward。通信不会自动减少：标准 DDP 默认在每轮反向同步，需在前 A−1 个 microstep 用 no_sync 覆盖 forward 和 backward，最后一轮再同步。显存与吞吐收益取决于保存激活、通信和调度方式。</p>
         </div>
       </div>
     </section>

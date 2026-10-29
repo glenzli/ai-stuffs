@@ -6,11 +6,11 @@ export function initModelArtifacts() {
     const artifacts = {
       config: {
         kicker: "MODEL CONFIG",
-        title: "先定义权重该长什么样",
-        copy: "hidden size、层数、heads、KV heads、FFN 宽、词表、RoPE、Norm 和 tied embedding 都从 config 读取。加载权重前如果 architecture 不一致，形状会直接不匹配。",
+        title: "定义权重形状与前向规则",
+        copy: "config 与模型实现共同定义结构和计算规则。宽度、词表等不匹配可能在加载时暴露；RoPE 频率、Norm epsilon、注意力窗口等即使不改变权重形状，也可能改变输出。",
         deploy: "必须",
         resume: "结构侧必须；还需数据/优化器状态",
-        risk: "config 与 checkpoint 版本不一致，权重能下载但 forward 形状错误。",
+        risk: "权重可加载也不证明配置兼容；核对配置与实现版本，再用固定输入比对 logits。",
         code: `{
   "hidden_size": 4096,
   "num_hidden_layers": 32,

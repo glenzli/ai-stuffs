@@ -3,6 +3,7 @@ import { test } from "node:test";
 import { readFile } from "node:fs/promises";
 import { parseFragment } from "parse5";
 import { initDataTokenizer } from "../src/scripts/features/data-tokenizer.js";
+import { initTrainingSystems } from "../src/scripts/features/training-systems.js";
 
 const walk = (node, predicate) => [...(predicate(node) ? [node] : []), ...(node.childNodes || []).flatMap(child => walk(child, predicate))];
 const attrs = node => Object.fromEntries((node.attrs || []).map(({ name, value }) => [name, value]));
@@ -59,4 +60,62 @@ test("all three modes update the same units, selection and actual token chips", 
       assert.match(nodes.get("note").textContent, /byte fallback 不同/);
     } else assert.equal(chips.join(""), sentence);
   }
+});
+
+const systemsRoot = parseFragment(await readFile("src/content/training-systems-deep.html", "utf8"));
+const activationInputs = ["b", "t", "h", "d", "f", "bytes"];
+const activationOutputs = ["attention", "qkv", "mlp", "hidden"];
+
+function mountActivation(t) {
+  const nodes = new Map(walk(systemsRoot, node => Object.keys(attrs(node)).some(key => key.startsWith("data-act-"))).map(node => {
+    const attributes = attrs(node);
+    const marker = Object.keys(attributes).find(key => key.startsWith("data-act-"));
+    const selected = walk(node, child => child.tagName === "option" && "selected" in attrs(child))[0];
+    return [marker, {
+      value: attributes.value ?? attrs(selected || {}).value,
+      textContent: text(node),
+      addEventListener(event, handler) { this[event] = handler; },
+    }];
+  }));
+  const previous = Object.getOwnPropertyDescriptor(globalThis, "document");
+  Object.defineProperty(globalThis, "document", { configurable: true, value: {
+    querySelector: selector => nodes.get(selector.slice(1, -1)) || null,
+    querySelectorAll: () => [],
+  } });
+  t.after(() => previous ? Object.defineProperty(globalThis, "document", previous) : delete globalThis.document);
+  const saved = new Map([...nodes].map(([key, node]) => [key, node.textContent]));
+  initTrainingSystems();
+  return {
+    nodes, saved,
+    set(key, value, event = "input") {
+      const node = nodes.get(`data-act-${key}`);
+      node.value = String(value);
+      node[event]();
+    },
+    read() { return activationOutputs.map(key => nodes.get(`data-act-${key}`).textContent); },
+  };
+}
+
+test("activation fallback and initialized UI agree on four explicitly counted tensors", t => {
+  const { nodes, saved, read } = mountActivation(t);
+  for (const key of [...activationOutputs, ...activationInputs.filter(key => key !== "bytes").map(key => `${key}-value`)]) {
+    assert.equal(nodes.get(`data-act-${key}`).textContent, saved.get(`data-act-${key}`), key);
+  }
+  // At the saved shape, one [B,T,d_model] BF16 tensor is 64 MiB.
+  // Q/K/V are three copies; gate/up each have 3.5 times the hidden width.
+  assert.deepEqual(read(), ["4.00 GiB", "192.0 MiB", "448.0 MiB", "64.0 MiB"]);
+});
+
+test("activation controls distinguish quadratic attention, linear projections, and byte width", t => {
+  const { set, read } = mountActivation(t);
+  set("t", 16384);
+  assert.deepEqual(read(), ["16.00 GiB", "384.0 MiB", "896.0 MiB", "128.0 MiB"]);
+  set("f", 28672);
+  assert.deepEqual(read(), ["16.00 GiB", "384.0 MiB", "1.75 GiB", "128.0 MiB"]);
+  set("bytes", 1, "change");
+  assert.deepEqual(read(), ["8.00 GiB", "192.0 MiB", "896.0 MiB", "64.0 MiB"]);
+  set("b", 2);
+  set("h", 16);
+  set("d", 256);
+  assert.deepEqual(read(), ["8.00 GiB", "384.0 MiB", "1.75 GiB", "128.0 MiB"]);
 });

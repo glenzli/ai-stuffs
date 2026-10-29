@@ -17,22 +17,22 @@ export function initRepresentation() {
         year: "1990",
         era: "LSA / 共现分解",
         kicker: "分布假设进入工程",
-        title: "先数词的共现，再做低秩压缩",
-        what: "构造“词 × 上下文”的稀疏共现矩阵，用 SVD 等方法保留主要方向。经常共同出现的词，在压缩后的空间里更接近。",
-        objective: "重构共现矩阵；没有神经网络式的逐样本训练",
+        title: "先统计词—文档关系，再做低秩压缩",
+        what: "经典 LSA 对加权的“词 × 文档”矩阵做截断 SVD，得到低秩表示。词在文档中的分布模式决定表示；直接共现不保证两个词的向量更近。",
+        objective: "低秩近似词—文档矩阵；不依赖神经网络式的逐样本训练",
         solved: "全局统计、主题结构、降低维度",
         limit: "矩阵很大、动态语境弱，投影与任务目标并不总一致",
-        shapes: ["|V| × |C|", "SVD → k 维", "全局共现"],
+        shapes: ["词数 × 文档数", "SVD → k 维", "全局分布统计"],
       },
       {
         year: "2013",
         era: "Word2Vec",
         kicker: "预测任务替代数矩阵",
         title: "用上下文预测，把相似性压进几百维",
-        what: "Skip-gram 用中心词预测邻近词；CBOW 反过来。每遇到一个训练对，只更新少数查表行，使训练从“分解巨大矩阵”变成可流式优化。",
+        what: "Skip-gram 用中心词预测邻近词；CBOW 用上下文预测中心词。负采样只为本次输入、正例与采样负例产生数据梯度；完整 softmax 通常涉及全部输出词行，层次 softmax 则更新树路径。",
         objective: "Skip-gram/CBOW 可配不同目标；SGNS 对真实搭配与噪声独立二分类，不等同完整 softmax",
         solved: "稠密、可迁移的词向量；高效训练",
-        limit: "一个词只有一个静态向量；多义和句级语义不足",
+        limit: "同一表内每个词只有一个静态向量；多义和句级语义不足",
         shapes: ["V × d", "d ≈ 100–300", "静态词向量"],
       },
       {
@@ -122,8 +122,8 @@ export function initRepresentation() {
     const objectiveData = {
       context: {
         label: "预测邻近词",
-        title: "共现关系定义邻居",
-        copy: "“苹果”与“吃”“甜”会被拉近；如果训练目标只关心局部搭配，“苹果公司”的语境信号会更弱。",
+        title: "上下文分布塑造词表示",
+        copy: "Skip-gram 提高真实搭配的输入词—输出上下文得分，不保证两个输入词向量直接靠近。静态“苹果”会混合水果与公司语境，各义项的影响取决于语料与采样；下图仅示意这些语境。",
         groups: [
           { color: "teal", label: "食物语境", points: [[18, 36], [25, 28], [33, 40], [30, 53], [16, 52]] },
           { color: "blue", label: "科技语境", points: [[73, 65], [80, 54], [90, 63], [84, 76], [69, 79]] },
@@ -133,7 +133,7 @@ export function initRepresentation() {
       retrieval: {
         label: "query ↔ passage",
         title: "“能不能检索到”定义邻居",
-        copy: "训练目标会把“问题—可回答段落”拉近，而把表面相似却无法回答的段落推开。由此形成适合问答检索的相对位置关系。",
+        copy: "对比目标促使可回答段落相对负例获得更高得分，实际排名仍取决于训练结果。单位向量的点积增大对应欧氏距离减小；未归一化的点积不能直接这样解释。",
         groups: [
           { color: "teal", label: "可回答段落", points: [[35, 48], [44, 53], [29, 60], [48, 40]] },
           { color: "coral", label: "query", points: [[56, 47]] },
@@ -202,7 +202,7 @@ export function initRepresentation() {
       },
       pair: {
         title: "检索：bi-encoder 粗召回 + cross-encoder 精排",
-        copy: "bi-encoder 预先编码文档，适合全库搜索；cross-encoder 同时看 query 和文档，更准但更贵。两阶段分别优化召回覆盖和候选精排。",
+        copy: "bi-encoder 可预先编码文档；cross-encoder 联合编码 query 与候选，增加交互也增加逐对计算成本。两阶段分别检查召回覆盖和候选排序，是否更准需在同一任务上实测。",
         boundary: "关注：Recall@k、MRR、延迟、索引成本",
       },
       multimodal: {

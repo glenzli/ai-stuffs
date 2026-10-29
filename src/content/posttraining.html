@@ -179,12 +179,12 @@
         <div>
           <span class="tag">easy negative</span>
           <h3>随机负例</h3>
-          <p>如无关的咖啡店段落。能防止明显坍缩，但模型很快学会区分，梯度信息有限。</p>
+          <p>如无关的咖啡店段落。提供正负区分压力，但不保证避免坍缩；若已容易区分，其梯度贡献可能很小。</p>
         </div>
         <div>
           <span class="tag tag-coral">hard negative</span>
           <h3>难负例</h3>
-          <p>共享关键词、主题相近，但不含答案。最能改变细粒度决策边界，也最需要可靠判定。</p>
+          <p>共享关键词、主题相近，但不含答案。可提供细粒度区分信号，收益取决于难度与标注可靠性；假负例会引入错误压力。</p>
         </div>
         <div>
           <span class="tag">false negative</span>
@@ -211,7 +211,7 @@
         </div>
         <div class="interface-row">
           <div><span>02</span><strong>Cross-encoder reranker</strong></div>
-          <p>同时读 query 与候选，输出相关性分数。更准但每个候选都要一次前向，不能提前编码全库。</p>
+          <p>联合编码每个 query–候选对并输出相关性分数，多对可以组成 batch。不能像 bi-encoder 那样复用独立文档向量；质量收益与延迟需实测。</p>
           <code>(query, passage) → score</code>
         </div>
         <div class="interface-row">
@@ -240,7 +240,7 @@
         <article><span>01</span><h3>目标内提升</h3><p>检索 Recall@k、MRR；聚类；分类 F1。先确认你想优化的主指标真的动了。</p></article>
         <article><span>02</span><h3>邻近任务回归</h3><p>语义相似、重复检测、其他语言、短/长文本。避免“只对训练数据分布有效”。</p></article>
         <article><span>03</span><h3>系统成本</h3><p>维度、索引内存、编码吞吐、batch 延迟。embedding 不只有质量，也有服务边界。</p></article>
-        <article><span>04</span><h3>版本与漂移</h3><p>模型、chunk、normalize、指令前缀任一改变都可能让新 query 与旧索引不可比，需要重建。</p></article>
+        <article><span>04</span><h3>版本与漂移</h3><p>文档内容、切块或文档编码规则改变时，应重新编码受影响文档并更新索引。仅改查询指令或查询侧模型时，先验证与现有文档向量的兼容性和检索质量，再决定是否重建。</p></article>
       </div>
     </section>
 

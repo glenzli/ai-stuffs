@@ -130,7 +130,7 @@
             <tr><td>Mistral 7B</td><td>Decoder</td><td>RoPE</td><td>Pre-RMSNorm</td><td>SwiGLU</td><td>GQA + sliding window</td><td>用有限窗口降低长序列成本</td></tr>
             <tr><td>Mixtral 8×7B</td><td>MoE Decoder</td><td>RoPE</td><td>Pre-RMSNorm</td><td>SwiGLU experts</td><td>GQA、8 experts / top-2</td><td>总参数约 46.7B，每 token 激活约 12.9B</td></tr>
             <tr><td>DeepSeek-V2 / V3</td><td>MoE Decoder</td><td>RoPE 相关</td><td>RMSNorm 类</td><td>MoE</td><td>MLA、细粒度 experts</td><td>压缩 KV latent + 共享/路由 expert；以模型卡为准</td></tr>
-            <tr><td>Mamba</td><td>SSM</td><td>状态递推</td><td>架构相关</td><td>门控 MLP</td><td>不用标准 attention KV</td><td>递推状态更新，需评估任务质量与硬件效率</td></tr>
+            <tr><td>Mamba（原版）</td><td>SSM</td><td>状态递推</td><td>架构相关</td><td>无独立 FFN；投影与门控融入统一块</td><td>SSM 状态与短卷积状态</td><td>选择性 SSM、短卷积与门控；不使用标准 attention KV</td></tr>
           </tbody>
         </table>
       </div>

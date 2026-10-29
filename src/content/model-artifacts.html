@@ -4,7 +4,7 @@
         <p class="eyebrow">ENGINEERING EXTENSION / ARTIFACTS</p>
         <h1>模型工件：<span class="accent-text">配置、权重与恢复状态</span></h1>
         <p class="lede">
-          权重只是其中一部分。config 决定张量形状，tokenizer 决定输入的 ID，safetensors 分片承载参数，
+          权重只是其中一部分。config 与模型实现共同定义结构和计算规则，tokenizer 决定输入的 ID，safetensors 分片承载参数，
           generation config 决定推理行为，训练 checkpoint 还要保存优化器、scheduler、RNG 与数据游标。
         </p>
       </div>
@@ -36,14 +36,14 @@
         </div>
         <div class="artifact-detail" aria-live="polite">
           <p class="micro-label" data-artifact-kicker>MODEL CONFIG</p>
-          <h3 data-artifact-title>先定义权重该长什么样</h3>
+          <h3 data-artifact-title>定义权重形状与前向规则</h3>
           <p data-artifact-copy>
-            hidden size、层数、heads、KV heads、FFN 宽、词表、RoPE、Norm 和 tied embedding 都从 config 读取。加载权重前如果 architecture 不一致，形状会直接不匹配。
+            config 与模型实现共同定义结构和计算规则。宽度、词表等不匹配可能在加载时暴露；RoPE 频率、Norm epsilon、注意力窗口等即使不改变权重形状，也可能改变输出。
           </p>
           <div class="artifact-facts">
             <div><span>部署需要</span><p data-artifact-deploy>必须</p></div>
             <div><span>恢复训练需要</span><p data-artifact-resume>结构侧必须；还需数据/优化器状态</p></div>
-            <div><span>常见故障</span><p data-artifact-risk>config 与 checkpoint 版本不一致，权重能下载但 forward 形状错误。</p></div>
+            <div><span>常见故障</span><p data-artifact-risk>权重可加载也不证明配置兼容；核对配置与实现版本，再用固定输入比对 logits。</p></div>
           </div>
           <div class="artifact-snippet">
             <pre><code data-artifact-code>{

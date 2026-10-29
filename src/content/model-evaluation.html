@@ -58,8 +58,8 @@
         <article>
           <span>CLASSIFICATION</span>
           <h3>Precision / Recall / F1</h3>
-          <div class="math-display" data-math>\begin{aligned}P&amp;=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FP}},\\R&amp;=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}},\\F_1&amp;=\frac{2PR}{P+R}.\end{aligned}</div>
-          <p>只看 accuracy 会在类别不均衡时失真。明确正类、拒绝类与业务代价。</p>
+          <div class="math-display" data-math>\begin{aligned}P&amp;=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FP}},\\R&amp;=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}},\\F_1&amp;=\frac{2\mathrm{TP}}{2\mathrm{TP}+\mathrm{FP}+\mathrm{FN}}.\end{aligned}</div>
+          <p>各式要求自身分母非零。P、R 有定义且 P+R&gt;0 时，F1 也等于 2PR/(P+R)；无正例或无正类预测时，需声明未定义值、置零或跳过的处理及平均规则。只看 accuracy 可能掩盖少数类失败，还需明确正类、拒绝类与业务代价。</p>
         </article>
         <article>
           <span>RETRIEVAL</span>

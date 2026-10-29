@@ -6,7 +6,7 @@ S_{rk}&amp;=\sum_{t\in\mathcal M_{rk}}\ell_{rkt},\qquad n_{rk}=|\mathcal M_{rk}|
 N&amp;=\sum_r\sum_k n_{rk},\\
 \mathcal L_{\mathrm{global}}&amp;=\frac{\sum_r\sum_k S_{rk}}{N},\qquad N&gt;0.
 \end{aligned}</div><figcaption>r 是数据并行副本，k 是累积 microstep，Mᵣₖ 是有效监督位置集合。分子是 loss 总和，分母是同一更新窗口的全局有效 token 数。</figcaption></figure>
-    <div class="prose"><p>r 是 DP 副本，k 是累积 microstep。N 必须覆盖这一次更新的全部有效标签。padding、被 mask 的 prompt、截断后不存在的标签不计入 N；SFT response-only 的分母也不是输入长度。若目标是“每条序列等权”，应另写序列平均目标，并按该目标计算样本权重。</p><p>标准 DDP 梯度规约通常对副本求平均。若每个副本回传自己的 local mean，最终得到的是<strong>副本等权平均</strong>；只有各副本有效 token 数相等，才等于全局 token 平均。各 microbatch 的均值再等权平均，同样需要相应计数相等。</p></div>
+    <div class="prose"><p>r 是 DP 副本，k 是累积 microstep。N 必须覆盖这一次更新的全部有效标签。padding、被 mask 的 prompt、截断后不存在的标签不计入 N；SFT response-only 的分母也不是输入长度。若目标是“每条序列等权”，应另写序列平均目标，并按该目标计算样本权重。</p><p>标准 DDP 梯度规约通常对副本求平均。若每个副本回传自己的 local mean，最终得到的是<strong>副本等权平均</strong>。各副本有效 token 数相等且非零时，可保证它与全局 token 平均一致；计数不等时一般不同，特定梯度可能碰巧相等。各 microbatch 的均值再等权平均，也有同样的计数问题。</p></div>
   </section>
   <section class="section" aria-labelledby="reduction-lab"><div class="section-heading"><span class="section-number">02 / CHECK THE UPDATE</span><h2 id="reduction-lab">两份样本，错误平均甚至能把方向反过来</h2><p>把两种切分放进同一可微目标。θ=0，A 的每 token loss 为 ½(θ−2)²，B 为 ½(θ+1)²，所以梯度分别是 −2 与 +1。</p></div>
     <div class="experiment"><div class="experiment-head"><h3>两副本梯度账本</h3><span class="assumption">单参数二次损失 · 无 optimizer 历史状态</span></div><div class="experiment-body"><div class="experiment-controls">
