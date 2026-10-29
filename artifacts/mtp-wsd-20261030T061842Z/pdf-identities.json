@@ -1,0 +1,16 @@
+[
+  {
+    "id": "super35",
+    "url": "https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3.5-Super-and-Lightning-Technical-Report.pdf",
+    "bytes": 4345265,
+    "sha256": "6ce6f95fb154935eed1a2f6149715cde6849b1459d32bab185085eb9bd4ea045",
+    "checkedAt": "2026-10-30"
+  },
+  {
+    "id": "super3",
+    "url": "https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Super-Technical-Report.pdf",
+    "bytes": 4940502,
+    "sha256": "73ea5d737b9c7c62a39ed3edefbecb82e5a23681bc2c4167e202eeee7b3d254d",
+    "checkedAt": "2026-10-30"
+  }
+]

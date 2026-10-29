@@ -48,4 +48,31 @@ v_t&amp;=\beta_2v_{t-1}+(1-\beta_2)g_t^2,\\
     <div class="prose"><p>《Muon is Scalable for LLM Training》（2025）报告了权重衰减、更新尺度与分布式实现的实验。其效率结论依赖模型、数据、预算与调参协议；评估替换时同时看质量曲线、step time、显存、通信和数值稳定性。</p></div>
     <div class="reading-links"><a href="continual-learning.html#gradient-interference">不同任务的更新干扰</a><a href="performance-analysis.html">端到端性能测量</a><a href="parallel-correctness.html">分布式数学等价性</a></div>
   </section>
+  <section class="section" aria-labelledby="wsd-checkpoint-average"><div class="section-heading"><span class="section-number">06 / SCHEDULE &amp; READOUT</span><h2 id="wsd-checkpoint-average">WSD 与 checkpoint 平均：训练终点怎样读出来？</h2></div>
+    <p>Warmup–Stable–Decay（WSD）把学习率分成升温、稳定与衰减三段。稳定阶段的单个 checkpoint 可能波动；除直接评估它，还可以按明确窗口与系数平均相邻权重，再独立评估平均结果。学习率日程决定训练轨迹，参数平均决定另一份读出工件，两者分别保存。</p>
+    <figure class="math-block"><div class="math-display" data-math>\overline\theta=\frac{\sum_{s\in\mathcal W}a_s\theta_s}{\sum_{s\in\mathcal W}a_s},\qquad a_s\ge0,\quad\sum_sa_s&gt;0</div><figcaption>先固定 checkpoint 集合 W、张量对应关系与非零权重和。参数平均、输出集成与恢复完整训练状态是不同操作；共享权重、非参数 buffer、量化状态等也需要明确处理规则。</figcaption></figure>
+    <h3>同一条二维更新轨迹，保留有利与不利的结果</h3>
+    <p>固定初值 [1,−0.6]，每步使用下式梯度；扰动 ξ 在 [0.6,−0.8] 与 [−0.6,0.8] 间交替。诊断函数 F 只用于这组二次函数例子的比较，不是语言模型验证分数。</p>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}F(\theta)&amp;=\tfrac12(\theta_1^2+4\theta_2^2),\\\theta_t&amp;=\theta_{t-1}-\eta_t\left(\operatorname{diag}(1,4)\theta_{t-1}+\xi_t\right).\end{aligned}</div><figcaption>SGD，无动量、权重衰减或自适应状态。第 1–2 步学习率为 0.1、0.2；第 3–8 步为 0.2；第 9–12 步为 0.155、0.11、0.065、0.02。尾段是人为线性日程，不是 NVIDIA 的 minus-sqrt 配方。</figcaption></figure>
+    <p>在计算结果前就固定读出步 8 与 12，各取包含当前步的最近四份参数；除了等权平均，再检查从旧到新 1:2:3:4 的教学系数。不按结果挑窗口，也不把这组系数称为作者的 decay emulation。</p>
+    <div class="compare-wrap"><table data-wsd-average-example><thead><tr><th>读出阶段</th><th>方案</th><th>参数 [θ₁,θ₂]</th><th>诊断 F</th></tr></thead><tbody>
+      <tr><td>稳定末 · step 8</td><td>末次参数</td><td>0.256808 / −0.133339</td><td>0.068534</td></tr>
+      <tr><td>稳定末 · step 8</td><td>窗口等权平均</td><td>0.274072 / −0.000206</td><td>0.037558</td></tr>
+      <tr><td>稳定末 · step 8</td><td>窗口 1:2:3:4</td><td>0.257250 / −0.026769</td><td>0.034522</td></tr>
+      <tr><td>衰减末 · step 12</td><td>末次参数</td><td>0.135381 / −0.000113</td><td>0.009164</td></tr>
+      <tr><td>衰减末 · step 12</td><td>窗口等权平均</td><td>0.140412 / 0.010888</td><td>0.010095</td></tr>
+      <tr><td>衰减末 · step 12</td><td>窗口 1:2:3:4</td><td>0.139595 / 0.003082</td><td>0.009762</td></tr>
+    </tbody></table></div>
+    <p class="experiment-note">本例稳定末的两种平均都有更低的 F，衰减末则是末次参数更低。这里没有得到“平均总优于最新 checkpoint”的结论。真实实验应预先规定选择集与预算，保留所有窗口结果，避免反复用独立测试挑模型。</p>
+    <details><summary>为什么不能把参数平均直接叫成集成或原轨迹恢复？</summary><p>取 fθ(x)=(θx)²、x=1，参数 −1 与 1 都输出 1；先平均参数得到 0，输出却为 0，而两个输出的平均仍为 1。这个反例说明两项操作不能普遍互换，不否定相邻训练 checkpoint 的用途。</p><p>想从平均权重继续训练，还要指定学习率步号、优化器状态、随机状态和数据游标。它是新定义的起点；仅有平均参数不能证明恢复了某条原始训练轨迹。本地脚本也比较同一平均参数在“接第 9 步”和“重启第 1 步”下的下一次更新。</p></details>
+    <h3 id="wsd-source-versions">来源版本差异：1,000 步与 2,000 步分别记录</h3>
+    <p>Nemotron 3 Super 报告第 2.4–2.5 节使用 WSD，并研究稳定期的权重平均读出。该报告还指出，较长的实际衰减阶段可以追平或超过平均读出；本站不将其特定实验的收益或预算估计外推成通用保证。</p>
+    <div class="compare-wrap"><table data-wsd-source-intervals><thead><tr><th>一手材料</th><th>记载的保存间隔</th><th>按 3072×8192 位置/步换算</th></tr></thead><tbody>
+      <tr><td>Super 报告 · 页首 2026-04-03</td><td>1,000 步</td><td>25,165,824,000</td></tr>
+      <tr><td>官方配方 · commit 99a7e45</td><td>2,000 步</td><td>50,331,648,000</td></tr>
+    </tbody></table></div>
+    <p>两项分别对应约 25B 与 50B 的名义 token 槽位；平均窗口仍需按实际 checkpoint 的 step/token 坐标选取，并声明端点与系数归一化。仅凭这两份材料无法确定保存间隔差异的原因，本节保留双方原始口径，不把任一数值写成唯一已核实的运行日志。</p>
+    <p class="source-note">来源：<a href="https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Super-Technical-Report.pdf">Super 报告第 2.4–2.5 节、图 11</a>；<a href="https://github.com/NVIDIA-NeMo/Nemotron/blob/99a7e45302f486c7e104647c128c2962ae7695d6/docs/nemotron/super3/pretrain.md">固定官方配方的 Hyperparameters / Checkpoint Merging</a>。本节只运行公开的教学输入与公式核对，未重跑厂商预训练或平均实验。</p>
+    <div class="reading-links"><a href="generation-mechanisms.html#multi-token-training">本轮重算命令与固定输入</a><a href="model-artifacts.html#checkpoint-replay">完整状态恢复的独立实验</a><a href="paired-evaluation.html#pe-selection">反复选 checkpoint 的偏差</a></div>
+  </section>
 </div>

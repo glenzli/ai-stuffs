@@ -1,0 +1,1418 @@
+{
+  "layouts": [
+    {
+      "anchor": "multi-token-training",
+      "file": "generation-mechanisms.html",
+      "headingPresent": true,
+      "height": 720,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        },
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读到的位置 t",
+          "textAlign": "left"
+        },
+        {
+          "text": "可见前缀",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 1 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 2 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "目标项",
+          "textAlign": "left"
+        },
+        {
+          "text": "有效偏移—位置对",
+          "textAlign": "left"
+        },
+        {
+          "text": "加权损失项",
+          "textAlign": "left"
+        },
+        {
+          "text": "对 θ 的加权梯度",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "mtp-boosting",
+      "file": "efficient-inference.html",
+      "headingPresent": true,
+      "height": 720,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        },
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        },
+        {
+          "clientWidth": 0,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "绑定的公开版本",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节核对的机制",
+          "textAlign": "left"
+        },
+        {
+          "text": "不可混用的细节",
+          "textAlign": "left"
+        },
+        {
+          "text": "阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿 q(0)",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿",
+          "textAlign": "left"
+        },
+        {
+          "text": "q",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "wsd-checkpoint-average",
+      "file": "optimization-dynamics.html",
+      "headingPresent": true,
+      "height": 720,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 2,
+      "tableContainers": [
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        },
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读出阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "方案",
+          "textAlign": "left"
+        },
+        {
+          "text": "参数 [θ₁,θ₂]",
+          "textAlign": "left"
+        },
+        {
+          "text": "诊断 F",
+          "textAlign": "left"
+        },
+        {
+          "text": "一手材料",
+          "textAlign": "left"
+        },
+        {
+          "text": "记载的保存间隔",
+          "textAlign": "left"
+        },
+        {
+          "text": "按 3072×8192 位置/步换算",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headingPresent": true,
+      "height": 720,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tableContainers": [
+        {
+          "clientWidth": 996,
+          "overflowX": "visible",
+          "scrollWidth": 996
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "anchor": "multi-token-training",
+      "file": "generation-mechanisms.html",
+      "headingPresent": true,
+      "height": 900,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        },
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读到的位置 t",
+          "textAlign": "left"
+        },
+        {
+          "text": "可见前缀",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 1 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 2 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "目标项",
+          "textAlign": "left"
+        },
+        {
+          "text": "有效偏移—位置对",
+          "textAlign": "left"
+        },
+        {
+          "text": "加权损失项",
+          "textAlign": "left"
+        },
+        {
+          "text": "对 θ 的加权梯度",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "mtp-boosting",
+      "file": "efficient-inference.html",
+      "headingPresent": true,
+      "height": 900,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        },
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        },
+        {
+          "clientWidth": 0,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "绑定的公开版本",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节核对的机制",
+          "textAlign": "left"
+        },
+        {
+          "text": "不可混用的细节",
+          "textAlign": "left"
+        },
+        {
+          "text": "阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿 q(0)",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿",
+          "textAlign": "left"
+        },
+        {
+          "text": "q",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "wsd-checkpoint-average",
+      "file": "optimization-dynamics.html",
+      "headingPresent": true,
+      "height": 900,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 2,
+      "tableContainers": [
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        },
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读出阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "方案",
+          "textAlign": "left"
+        },
+        {
+          "text": "参数 [θ₁,θ₂]",
+          "textAlign": "left"
+        },
+        {
+          "text": "诊断 F",
+          "textAlign": "left"
+        },
+        {
+          "text": "一手材料",
+          "textAlign": "left"
+        },
+        {
+          "text": "记载的保存间隔",
+          "textAlign": "left"
+        },
+        {
+          "text": "按 3072×8192 位置/步换算",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headingPresent": true,
+      "height": 900,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tableContainers": [
+        {
+          "clientWidth": 720,
+          "overflowX": "visible",
+          "scrollWidth": 720
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "anchor": "multi-token-training",
+      "file": "generation-mechanisms.html",
+      "headingPresent": true,
+      "height": 844,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        },
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读到的位置 t",
+          "textAlign": "left"
+        },
+        {
+          "text": "可见前缀",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 1 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 2 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "目标项",
+          "textAlign": "left"
+        },
+        {
+          "text": "有效偏移—位置对",
+          "textAlign": "left"
+        },
+        {
+          "text": "加权损失项",
+          "textAlign": "left"
+        },
+        {
+          "text": "对 θ 的加权梯度",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "mtp-boosting",
+      "file": "efficient-inference.html",
+      "headingPresent": true,
+      "height": 844,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        },
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        },
+        {
+          "clientWidth": 0,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "绑定的公开版本",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节核对的机制",
+          "textAlign": "left"
+        },
+        {
+          "text": "不可混用的细节",
+          "textAlign": "left"
+        },
+        {
+          "text": "阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿 q(0)",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿",
+          "textAlign": "left"
+        },
+        {
+          "text": "q",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "wsd-checkpoint-average",
+      "file": "optimization-dynamics.html",
+      "headingPresent": true,
+      "height": 844,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 2,
+      "tableContainers": [
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        },
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读出阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "方案",
+          "textAlign": "left"
+        },
+        {
+          "text": "参数 [θ₁,θ₂]",
+          "textAlign": "left"
+        },
+        {
+          "text": "诊断 F",
+          "textAlign": "left"
+        },
+        {
+          "text": "一手材料",
+          "textAlign": "left"
+        },
+        {
+          "text": "记载的保存间隔",
+          "textAlign": "left"
+        },
+        {
+          "text": "按 3072×8192 位置/步换算",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headingPresent": true,
+      "height": 844,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tableContainers": [
+        {
+          "clientWidth": 358,
+          "overflowX": "visible",
+          "scrollWidth": 358
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "anchor": "multi-token-training",
+      "file": "generation-mechanisms.html",
+      "headingPresent": true,
+      "height": 844,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        },
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读到的位置 t",
+          "textAlign": "left"
+        },
+        {
+          "text": "可见前缀",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 1 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 2 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "目标项",
+          "textAlign": "left"
+        },
+        {
+          "text": "有效偏移—位置对",
+          "textAlign": "left"
+        },
+        {
+          "text": "加权损失项",
+          "textAlign": "left"
+        },
+        {
+          "text": "对 θ 的加权梯度",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "mtp-boosting",
+      "file": "efficient-inference.html",
+      "headingPresent": true,
+      "height": 844,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        },
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        },
+        {
+          "clientWidth": 0,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "绑定的公开版本",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节核对的机制",
+          "textAlign": "left"
+        },
+        {
+          "text": "不可混用的细节",
+          "textAlign": "left"
+        },
+        {
+          "text": "阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿 q(0)",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿",
+          "textAlign": "left"
+        },
+        {
+          "text": "q",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "wsd-checkpoint-average",
+      "file": "optimization-dynamics.html",
+      "headingPresent": true,
+      "height": 844,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 2,
+      "tableContainers": [
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        },
+        {
+          "clientWidth": 358,
+          "overflowX": "auto",
+          "scrollWidth": 650
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读出阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "方案",
+          "textAlign": "left"
+        },
+        {
+          "text": "参数 [θ₁,θ₂]",
+          "textAlign": "left"
+        },
+        {
+          "text": "诊断 F",
+          "textAlign": "left"
+        },
+        {
+          "text": "一手材料",
+          "textAlign": "left"
+        },
+        {
+          "text": "记载的保存间隔",
+          "textAlign": "left"
+        },
+        {
+          "text": "按 3072×8192 位置/步换算",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headingPresent": true,
+      "height": 844,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tableContainers": [
+        {
+          "clientWidth": 358,
+          "overflowX": "visible",
+          "scrollWidth": 358
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "anchor": "multi-token-training",
+      "file": "generation-mechanisms.html",
+      "headingPresent": true,
+      "height": 900,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        },
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读到的位置 t",
+          "textAlign": "left"
+        },
+        {
+          "text": "可见前缀",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 1 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 2 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "目标项",
+          "textAlign": "left"
+        },
+        {
+          "text": "有效偏移—位置对",
+          "textAlign": "left"
+        },
+        {
+          "text": "加权损失项",
+          "textAlign": "left"
+        },
+        {
+          "text": "对 θ 的加权梯度",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "mtp-boosting",
+      "file": "efficient-inference.html",
+      "headingPresent": true,
+      "height": 900,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        },
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        },
+        {
+          "clientWidth": 0,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "绑定的公开版本",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节核对的机制",
+          "textAlign": "left"
+        },
+        {
+          "text": "不可混用的细节",
+          "textAlign": "left"
+        },
+        {
+          "text": "阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿 q(0)",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿",
+          "textAlign": "left"
+        },
+        {
+          "text": "q",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "wsd-checkpoint-average",
+      "file": "optimization-dynamics.html",
+      "headingPresent": true,
+      "height": 900,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 2,
+      "tableContainers": [
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        },
+        {
+          "clientWidth": 720,
+          "overflowX": "auto",
+          "scrollWidth": 720
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读出阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "方案",
+          "textAlign": "left"
+        },
+        {
+          "text": "参数 [θ₁,θ₂]",
+          "textAlign": "left"
+        },
+        {
+          "text": "诊断 F",
+          "textAlign": "left"
+        },
+        {
+          "text": "一手材料",
+          "textAlign": "left"
+        },
+        {
+          "text": "记载的保存间隔",
+          "textAlign": "left"
+        },
+        {
+          "text": "按 3072×8192 位置/步换算",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headingPresent": true,
+      "height": 900,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tableContainers": [
+        {
+          "clientWidth": 720,
+          "overflowX": "visible",
+          "scrollWidth": 720
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "anchor": "multi-token-training",
+      "file": "generation-mechanisms.html",
+      "headingPresent": true,
+      "height": 720,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        },
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读到的位置 t",
+          "textAlign": "left"
+        },
+        {
+          "text": "可见前缀",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 1 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "偏移 2 的标签",
+          "textAlign": "left"
+        },
+        {
+          "text": "目标项",
+          "textAlign": "left"
+        },
+        {
+          "text": "有效偏移—位置对",
+          "textAlign": "left"
+        },
+        {
+          "text": "加权损失项",
+          "textAlign": "left"
+        },
+        {
+          "text": "对 θ 的加权梯度",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "anchor": "mtp-boosting",
+      "file": "efficient-inference.html",
+      "headingPresent": true,
+      "height": 720,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 1,
+      "tableContainers": [
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        },
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        },
+        {
+          "clientWidth": 0,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "绑定的公开版本",
+          "textAlign": "left"
+        },
+        {
+          "text": "本节核对的机制",
+          "textAlign": "left"
+        },
+        {
+          "text": "不可混用的细节",
+          "textAlign": "left"
+        },
+        {
+          "text": "阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿 q(0)",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        },
+        {
+          "text": "草稿",
+          "textAlign": "left"
+        },
+        {
+          "text": "q",
+          "textAlign": "left"
+        },
+        {
+          "text": "KL(p∥q)",
+          "textAlign": "left"
+        },
+        {
+          "text": "单位置接受质量",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "anchor": "wsd-checkpoint-average",
+      "file": "optimization-dynamics.html",
+      "headingPresent": true,
+      "height": 720,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 2,
+      "tableContainers": [
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        },
+        {
+          "clientWidth": 996,
+          "overflowX": "auto",
+          "scrollWidth": 996
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "读出阶段",
+          "textAlign": "left"
+        },
+        {
+          "text": "方案",
+          "textAlign": "left"
+        },
+        {
+          "text": "参数 [θ₁,θ₂]",
+          "textAlign": "left"
+        },
+        {
+          "text": "诊断 F",
+          "textAlign": "left"
+        },
+        {
+          "text": "一手材料",
+          "textAlign": "left"
+        },
+        {
+          "text": "记载的保存间隔",
+          "textAlign": "left"
+        },
+        {
+          "text": "按 3072×8192 位置/步换算",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "anchor": "recent-training",
+      "file": "posttraining.html",
+      "headingPresent": true,
+      "height": 720,
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "renderedMath": 0,
+      "tableContainers": [
+        {
+          "clientWidth": 996,
+          "overflowX": "visible",
+          "scrollWidth": 996
+        }
+      ],
+      "tableHeaders": [
+        {
+          "text": "版本化案例",
+          "textAlign": "left"
+        },
+        {
+          "text": "值得理解的新问题",
+          "textAlign": "left"
+        },
+        {
+          "text": "公开与核验范围",
+          "textAlign": "left"
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    }
+  ],
+  "navigation": [
+    {
+      "heading": "MTP 训练：多个未来标签怎样共同更新骨干？",
+      "headingTop": 92.046875,
+      "url": "http://127.0.0.1:4173/generation-mechanisms.html#multi-token-training"
+    },
+    {
+      "heading": "MTP boosting：骨干定下来后，草稿头还怎样训练？",
+      "headingTop": 91.9921875,
+      "url": "http://127.0.0.1:4173/efficient-inference.html#mtp-boosting"
+    },
+    {
+      "heading": "WSD 与 checkpoint 平均：训练终点怎样读出来？",
+      "headingTop": 92.0546875,
+      "url": "http://127.0.0.1:4173/optimization-dynamics.html#wsd-checkpoint-average"
+    }
+  ],
+  "search": [
+    {
+      "query": "MTP",
+      "links": [
+        "自回归、扩散与潜在空间自回归、MTP 多偏移训练、扩散与潜在表示目标",
+        "量化与投机解码量化、精确投机验收、MTP boosting 与草稿蒸馏"
+      ]
+    },
+    {
+      "query": "MTP boosting",
+      "links": [
+        "量化与投机解码量化、精确投机验收、MTP boosting 与草稿蒸馏"
+      ]
+    },
+    {
+      "query": "WSD",
+      "links": [
+        "优化与训练稳定性AdamW、Muon、WSD 学习率与 checkpoint 平均读出"
+      ]
+    },
+    {
+      "query": "checkpoint averaging",
+      "links": [
+        "优化与训练稳定性AdamW、Muon、WSD 学习率与 checkpoint 平均读出"
+      ]
+    }
+  ],
+  "mobileTable": {
+    "before": {
+      "clientWidth": 358,
+      "height": 399.4765625,
+      "left": 16,
+      "pageWidth": 390,
+      "scrollLeft": 292,
+      "scrollWidth": 650,
+      "top": 337.6953125,
+      "width": 358
+    },
+    "after": {
+      "clientWidth": 358,
+      "pageWidth": 390,
+      "scrollLeft": 0,
+      "scrollWidth": 650
+    }
+  },
+  "finalCaptionCheck": "SGD，无动量、权重衰减或自适应状态。第 1–2 步学习率为 0.1、0.2；第 3–8 步为 0.2；第 9–12 步为 0.155、0.11、0.065、0.02。尾段是人为线性日程，不是 NVIDIA 的 minus-sqrt 配方。",
+  "finalLayouts": [
+    {
+      "file": "/optimization-dynamics.html",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "file": "/optimization-dynamics.html",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "file": "/optimization-dynamics.html",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "file": "/optimization-dynamics.html",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "file": "/optimization-dynamics.html",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "file": "/optimization-dynamics.html",
+      "katexErrors": 0,
+      "pageOverflow": 0,
+      "theme": "dark",
+      "width": 1280
+    }
+  ],
+  "expandedCounterexample": {
+    "containerWidth": 358,
+    "detailOpen": true,
+    "pageOverflow": 0,
+    "tableWidth": 650
+  },
+  "console": [],
+  "originalTheme": "light",
+  "themeRestored": "light",
+  "viewportReset": true,
+  "passed": true
+}

@@ -39,4 +39,28 @@ p_{\mathrm{corr}}(v)&amp;=\frac{[p(v)-q(v)]_+}{\sum_u[p(u)-q(u)]_+},\\
   </section>
 </div>
 
-<div class="modern-page"><div class="reading-links"><a href="quantized-linear.html">量化矩阵乘：零点、整数累加与整层误差</a></div></div>
+<div class="modern-page">
+  <section class="section" aria-labelledby="mtp-boosting"><div class="section-heading"><span class="section-number">06 / TRAIN THE DRAFTER</span><h2 id="mtp-boosting">MTP boosting：骨干定下来后，草稿头还怎样训练？</h2></div>
+    <p>多步辅助训练后，草稿头仍可能遇到不同的输入状态：训练时使用的内部状态与递归草稿运行时由自身先前步骤产生的状态并不相同。NVIDIA 的 Nemotron 3.5 报告将 hidden-state mixing 与 MTP-only 后训练结合；这一阶段冻结骨干，只更新 MTP 头，由对应骨干产生 rollout 和教师分布。</p>
+    <div class="compare-wrap"><table><thead><tr><th>绑定的公开版本</th><th>本节核对的机制</th><th>不可混用的细节</th></tr></thead><tbody>
+      <tr><td>Meta MTP v1 · 2024-04-30</td><td>多偏移损失经独立头回到共享骨干。</td><td>原论文的 Transformer 头与共享词表投影，不等于本站线性头教具。</td></tr>
+      <tr><td>Nemotron 3.5 报告 · 页首 2026-10-27</td><td>Super 有 SFT 后的 warm start 与最终 boosting；Lightning 只做最终 boosting。</td><td>第 3.7 节明确采用 LK 损失，区别于文中对 Ultra 温度缩放 forward KL 的描述。</td></tr>
+    </tbody></table></div>
+    <p class="source-note">日期口径：<a href="https://research.nvidia.com/labs/nemotron/Nemotron-3.5-Super-and-Lightning/">官方产品页</a>标注 2026-10-14；这里核对的是页首标注 2026-10-27 的<a href="https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3.5-Super-and-Lightning-Technical-Report.pdf">技术报告第 2.1、3.7 节</a>。两份 NVIDIA PDF 的本轮字节摘要保存在来源记录中，以便发现发布者后续替换文件。</p>
+    <p>hidden-state mixing 让训练接触来自更早 MTP 步骤的内部状态，而非只依赖紧邻上一步。报告将它用于缓解较深草稿位置的条件差异；不能把“骨干冻结”理解为可忽略草稿的输入状态、目标位置和 assistant-response mask。</p>
+    <h3>先用两个 logit 核对“冻结教师，更新草稿”</h3>
+    <p>本地教具固定一个前缀，教师 p=[0.8,0.2]，草稿初始 logit 为 [0.1,−0.2]。只更新这两个 logit，采用 η=0.2 的一次 SGD；这里选择常规 forward KL 以核对梯度，<strong>没有实现或冒充 3.5 的 LK 配方</strong>。</p>
+    <figure class="math-block"><div class="math-display" data-math>q=\operatorname{softmax}(z),\qquad\mathcal L_{\mathrm{KL}}=\sum_vp_v\log\frac{p_v}{q_v},\qquad\nabla_z\mathcal L_{\mathrm{KL}}=q-p</div><figcaption>教师概率 p 为常量，不沿教师反传。单位置精确采样验收的接受质量为 Σmin(pᵥ,qᵥ)；它不同于完整草稿回合的平均接受长度或实际耗时。</figcaption></figure>
+    <div class="compare-wrap"><table data-mtp-boosting-example><thead><tr><th>阶段</th><th>草稿 q(0)</th><th>KL(p∥q)</th><th>单位置接受质量</th></tr></thead><tbody>
+      <tr><td>更新前</td><td>0.574443</td><td>0.113953</td><td>0.774443</td></tr>
+      <tr><td>一次 logit 更新后</td><td>0.596336</td><td>0.094593</td><td>0.796336</td></tr>
+    </tbody></table></div>
+    <details><summary>KL 更低，为什么仍要直接测接受率？</summary><p>另固定 p=[0.8,0.1,0.1]，比较两个人工草稿分布；它们不是上表的训练轨迹，也没有模型运行。</p><div class="compare-wrap"><table data-mtp-kl-counterexample><thead><tr><th>草稿</th><th>q</th><th>KL(p∥q)</th><th>单位置接受质量</th></tr></thead><tbody>
+      <tr><td>A</td><td>0.79 / 0.209 / 0.001</td><td>0.396864</td><td>0.891000</td></tr>
+      <tr><td>B</td><td>0.6 / 0.2 / 0.2</td><td>0.091516</td><td>0.800000</td></tr>
+    </tbody></table></div><p>B 的 KL 更低，接受质量却更低，因此不能把这两个指标的排序普遍等同。<a href="https://arxiv.org/html/2602.23881v1">Nebius 的 LK Losses v1（2026-02-27）</a>研究直接优化接受率，并提出多个 LK 变体。3.5 报告第 3.7 节只写采用 LK；本节不据此猜定具体变体或全部超参数。</p></details>
+    <p class="experiment-note">核验只涉及人工分布、两个 logit、有限差分和现有验收概率函数。没有训练真实 MTP 模块、执行 hidden-state mixing 或重测作者的 SPEED-Bench 成绩。实际比较应固定骨干、数据与推理设置，按草稿深度检查接受情况，并计入草稿、验收和缓存成本。</p>
+    <div class="reading-links"><a href="generation-mechanisms.html#multi-token-training">MTP 标签、损失与重算命令</a><a href="efficient-inference.html#speculative-probability">原有精确验收账本</a><a href="distillation-data.html#on-policy-distillation">学生自己走过的前缀</a></div>
+  </section>
+  <div class="reading-links"><a href="quantized-linear.html">量化矩阵乘：零点、整数累加与整层误差</a></div>
+</div>

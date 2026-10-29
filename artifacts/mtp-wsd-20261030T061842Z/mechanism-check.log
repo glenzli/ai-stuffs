@@ -1,0 +1,809 @@
+{
+  "schema": "mtp-wsd-results-v1",
+  "passed": true,
+  "boundary": "Author-supplied tiny models, probabilities, schedules and checkpoint windows. No vendor model, GPU training, throughput measurement or benchmark replication.",
+  "mtp": {
+    "inputs": {
+      "tokens": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "embedding": [
+        -1,
+        1
+      ],
+      "theta": 0.5,
+      "heads": [
+        [
+          0.8,
+          -0.3
+        ],
+        [
+          -0.4,
+          0.7
+        ]
+      ],
+      "offsets": [
+        1,
+        2
+      ],
+      "lossWeights": [
+        1,
+        0.5
+      ],
+      "learningRate": 0.05,
+      "normalization": "Mean over valid positions separately for each head, then weighted sum. Empty heads contribute zero; targets never cross a record boundary.",
+      "architecture": "A scalar causal trunk h_t=theta*embedding[token_t] and two independent linear heads with two logits. No attention or Transformer.",
+      "emptyAndBoundaryRecords": [
+        [],
+        [
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    "initialParameters": [
+      0.5,
+      0.8,
+      -0.3,
+      -0.4,
+      0.7
+    ],
+    "before": {
+      "loss": 1.1415720555283395,
+      "gradient": [
+        0.31299039183448785,
+        -0.016265537827932976,
+        0.01626553782793299,
+        -0.15853389775270016,
+        0.15853389775270016
+      ],
+      "heads": [
+        {
+          "offset": 1,
+          "positions": [
+            {
+              "record": 0,
+              "t": 0,
+              "input": 0,
+              "target": 1
+            },
+            {
+              "record": 0,
+              "t": 1,
+              "input": 1,
+              "target": 1
+            },
+            {
+              "record": 0,
+              "t": 2,
+              "input": 1,
+              "target": 0
+            }
+          ],
+          "count": 3,
+          "meanLoss": 0.6388258147966708,
+          "weight": 1,
+          "weightedLoss": 0.6388258147966708,
+          "weightedTrunkGradient": -0.03578418322145252,
+          "headGradient": [
+            -0.016265537827932976,
+            0.01626553782793299
+          ]
+        },
+        {
+          "offset": 2,
+          "positions": [
+            {
+              "record": 0,
+              "t": 0,
+              "input": 0,
+              "target": 1
+            },
+            {
+              "record": 0,
+              "t": 1,
+              "input": 1,
+              "target": 0
+            }
+          ],
+          "count": 2,
+          "meanLoss": 1.0054924814633375,
+          "weight": 0.5,
+          "weightedLoss": 0.5027462407316687,
+          "weightedTrunkGradient": 0.34877457505594034,
+          "headGradient": [
+            -0.3170677955054003,
+            0.3170677955054003
+          ]
+        }
+      ]
+    },
+    "afterParameters": [
+      0.4843504804082756,
+      0.8008132768913967,
+      -0.30081327689139664,
+      -0.392073305112365,
+      0.692073305112365
+    ],
+    "after": {
+      "loss": 1.1342810103440553,
+      "gradient": [
+        0.3005622782666747,
+        -0.017606388792440378,
+        0.017606388792440378,
+        -0.15216867140030893,
+        0.15216867140030893
+      ],
+      "heads": [
+        {
+          "offset": 1,
+          "positions": [
+            {
+              "record": 0,
+              "t": 0,
+              "input": 0,
+              "target": 1
+            },
+            {
+              "record": 0,
+              "t": 1,
+              "input": 1,
+              "target": 1
+            },
+            {
+              "record": 0,
+              "t": 2,
+              "input": 1,
+              "target": 0
+            }
+          ],
+          "count": 3,
+          "meanLoss": 0.639391538945201,
+          "weight": 1,
+          "weightedLoss": 0.639391538945201,
+          "weightedTrunkGradient": -0.04004469117822865,
+          "headGradient": [
+            -0.017606388792440378,
+            0.017606388792440378
+          ]
+        },
+        {
+          "offset": 2,
+          "positions": [
+            {
+              "record": 0,
+              "t": 0,
+              "input": 0,
+              "target": 1
+            },
+            {
+              "record": 0,
+              "t": 1,
+              "input": 1,
+              "target": 0
+            }
+          ],
+          "count": 2,
+          "meanLoss": 0.9897789427977086,
+          "weight": 0.5,
+          "weightedLoss": 0.4948894713988543,
+          "weightedTrunkGradient": 0.3406069694449033,
+          "headGradient": [
+            -0.30433734280061786,
+            0.30433734280061786
+          ]
+        }
+      ]
+    },
+    "finiteDifferenceChecks": 15,
+    "emptyAndRecordBoundaryGuardsChecked": true
+  },
+  "boosting": {
+    "inputs": {
+      "teacher": [
+        0.8,
+        0.2
+      ],
+      "studentLogits": [
+        0.1,
+        -0.2
+      ],
+      "learningRate": 0.2,
+      "loss": "KL(teacher || softmax(studentLogits))",
+      "boundary": "One fixed prefix, frozen teacher probabilities, two trainable logits. No hidden-state mixing or real rollout collection."
+    },
+    "gradient": [
+      -0.225557483188341,
+      0.22555748318834096
+    ],
+    "rows": [
+      {
+        "label": "更新前",
+        "logits": [
+          0.1,
+          -0.2
+        ],
+        "q": [
+          0.574442516811659,
+          0.42555748318834097
+        ],
+        "kl": 0.1139528209303392,
+        "acceptance": 0.7744425168116591,
+        "finalOutput": [
+          0.8,
+          0.2
+        ]
+      },
+      {
+        "label": "一次 logit 更新后",
+        "logits": [
+          0.1451114966376682,
+          -0.2451114966376682
+        ],
+        "q": [
+          0.5963363792353351,
+          0.40366362076466494
+        ],
+        "kl": 0.09459255155428803,
+        "acceptance": 0.7963363792353351,
+        "finalOutput": [
+          0.8,
+          0.2
+        ]
+      }
+    ],
+    "finiteDifferenceChecks": 2,
+    "teacherUnchanged": true,
+    "lossIsTeachingForwardKLNotNvidiaLK": true
+  },
+  "counterexamples": {
+    "klVersusAcceptance": [
+      {
+        "label": "A",
+        "q": [
+          0.79,
+          0.209,
+          0.001
+        ],
+        "kl": 0.3968636377666254,
+        "acceptance": 0.891
+      },
+      {
+        "label": "B",
+        "q": [
+          0.6,
+          0.2,
+          0.2
+        ],
+        "kl": 0.09151622184943577,
+        "acceptance": 0.7999999999999999
+      }
+    ],
+    "independentMarginals": {
+      "marginal0": [
+        0.5,
+        0.5
+      ],
+      "marginal1": [
+        0.5,
+        0.5
+      ],
+      "inconsistentMass": 0.5
+    },
+    "parameterAverageVersusEnsemble": {
+      "averageParameter": 0,
+      "outputOfMeanParameter": 0,
+      "meanOutput": 1
+    }
+  },
+  "wsd": {
+    "inputs": {
+      "initial": [
+        1,
+        -0.6
+      ],
+      "curvature": [
+        1,
+        4
+      ],
+      "alternatingPerturbations": [
+        [
+          0.6,
+          -0.8
+        ],
+        [
+          -0.6,
+          0.8
+        ]
+      ],
+      "warmupSteps": 2,
+      "stableSteps": 6,
+      "decaySteps": 4,
+      "peakLearningRate": 0.2,
+      "minimumLearningRate": 0.02,
+      "decay": "Linear teaching schedule, not NVIDIA minus-sqrt decay emulation.",
+      "readoutSteps": [
+        8,
+        12
+      ],
+      "mergeWindow": 4,
+      "mergeWeights": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "trainingGradient": "diag(curvature)*theta + alternatingPerturbations[(step-1)%2]",
+      "evaluation": "F(theta)=0.5*(theta[0]^2+4*theta[1]^2)",
+      "selection": "Both steps and both merge windows/coefficients fixed before computing results; no best-window selection."
+    },
+    "updates": [
+      {
+        "step": 1,
+        "learningRate": 0.1,
+        "before": [
+          1,
+          -0.6
+        ],
+        "perturbation": [
+          0.6,
+          -0.8
+        ],
+        "gradient": [
+          1.6,
+          -3.2
+        ],
+        "after": [
+          0.84,
+          -0.2799999999999999
+        ],
+        "diagnostic": 0.5095999999999998
+      },
+      {
+        "step": 2,
+        "learningRate": 0.2,
+        "before": [
+          0.84,
+          -0.2799999999999999
+        ],
+        "perturbation": [
+          -0.6,
+          0.8
+        ],
+        "gradient": [
+          0.24,
+          -0.3199999999999996
+        ],
+        "after": [
+          0.7919999999999999,
+          -0.21599999999999997
+        ],
+        "diagnostic": 0.406944
+      },
+      {
+        "step": 3,
+        "learningRate": 0.2,
+        "before": [
+          0.7919999999999999,
+          -0.21599999999999997
+        ],
+        "perturbation": [
+          0.6,
+          -0.8
+        ],
+        "gradient": [
+          1.392,
+          -1.664
+        ],
+        "after": [
+          0.5136,
+          0.11680000000000001
+        ],
+        "diagnostic": 0.15917695999999998
+      },
+      {
+        "step": 4,
+        "learningRate": 0.2,
+        "before": [
+          0.5136,
+          0.11680000000000001
+        ],
+        "perturbation": [
+          -0.6,
+          0.8
+        ],
+        "gradient": [
+          -0.08640000000000003,
+          1.2672
+        ],
+        "after": [
+          0.5308799999999999,
+          -0.13664000000000004
+        ],
+        "diagnostic": 0.17825776639999996
+      },
+      {
+        "step": 5,
+        "learningRate": 0.2,
+        "before": [
+          0.5308799999999999,
+          -0.13664000000000004
+        ],
+        "perturbation": [
+          0.6,
+          -0.8
+        ],
+        "gradient": [
+          1.1308799999999999,
+          -1.3465600000000002
+        ],
+        "after": [
+          0.3047039999999999,
+          0.132672
+        ],
+        "diagnostic": 0.08162598297599999
+      },
+      {
+        "step": 6,
+        "learningRate": 0.2,
+        "before": [
+          0.3047039999999999,
+          0.132672
+        ],
+        "perturbation": [
+          -0.6,
+          0.8
+        ],
+        "gradient": [
+          -0.29529600000000006,
+          1.330688
+        ],
+        "after": [
+          0.36376319999999995,
+          -0.13346560000000002
+        ],
+        "diagnostic": 0.10178796560384
+      },
+      {
+        "step": 7,
+        "learningRate": 0.2,
+        "before": [
+          0.36376319999999995,
+          -0.13346560000000002
+        ],
+        "perturbation": [
+          0.6,
+          -0.8
+        ],
+        "gradient": [
+          0.9637631999999999,
+          -1.3338624000000001
+        ],
+        "after": [
+          0.17101055999999995,
+          0.13330688000000002
+        ],
+        "diagnostic": 0.0501637543264256
+      },
+      {
+        "step": 8,
+        "learningRate": 0.2,
+        "before": [
+          0.17101055999999995,
+          0.13330688000000002
+        ],
+        "perturbation": [
+          -0.6,
+          0.8
+        ],
+        "gradient": [
+          -0.42898944000000006,
+          1.33322752
+        ],
+        "after": [
+          0.25680844799999997,
+          -0.13333862400000002
+        ],
+        "diagnostic": 0.0685336667825111
+      },
+      {
+        "step": 9,
+        "learningRate": 0.155,
+        "before": [
+          0.25680844799999997,
+          -0.13333862400000002
+        ],
+        "perturbation": [
+          0.6,
+          -0.8
+        ],
+        "gradient": [
+          0.856808448,
+          -1.3333544960000001
+        ],
+        "after": [
+          0.12400313855999998,
+          0.07333132288
+        ],
+        "diagnostic": 0.0184433550170269
+      },
+      {
+        "step": 10,
+        "learningRate": 0.11,
+        "before": [
+          0.12400313855999998,
+          0.07333132288
+        ],
+        "perturbation": [
+          -0.6,
+          0.8
+        ],
+        "gradient": [
+          -0.47599686144,
+          1.09332529152
+        ],
+        "after": [
+          0.17636279331839996,
+          -0.0469344591872
+        ],
+        "diagnostic": 0.019957604351924216
+      },
+      {
+        "step": 11,
+        "learningRate": 0.065,
+        "before": [
+          0.17636279331839996,
+          -0.0469344591872
+        ],
+        "perturbation": [
+          0.6,
+          -0.8
+        ],
+        "gradient": [
+          0.7763627933184,
+          -0.9877378367488001
+        ],
+        "after": [
+          0.12589921175270397,
+          0.017268500201472012
+        ],
+        "diagnostic": 0.008521707958392574
+      },
+      {
+        "step": 12,
+        "learningRate": 0.01999999999999999,
+        "before": [
+          0.12589921175270397,
+          0.017268500201472012
+        ],
+        "perturbation": [
+          -0.6,
+          0.8
+        ],
+        "gradient": [
+          -0.474100788247296,
+          0.8690740008058881
+        ],
+        "after": [
+          0.1353812275176499,
+          -0.00011297981464574239
+        ],
+        "diagnostic": 0.009164063910969876
+      }
+    ],
+    "trajectory": [
+      [
+        1,
+        -0.6
+      ],
+      [
+        0.84,
+        -0.2799999999999999
+      ],
+      [
+        0.7919999999999999,
+        -0.21599999999999997
+      ],
+      [
+        0.5136,
+        0.11680000000000001
+      ],
+      [
+        0.5308799999999999,
+        -0.13664000000000004
+      ],
+      [
+        0.3047039999999999,
+        0.132672
+      ],
+      [
+        0.36376319999999995,
+        -0.13346560000000002
+      ],
+      [
+        0.17101055999999995,
+        0.13330688000000002
+      ],
+      [
+        0.25680844799999997,
+        -0.13333862400000002
+      ],
+      [
+        0.12400313855999998,
+        0.07333132288
+      ],
+      [
+        0.17636279331839996,
+        -0.0469344591872
+      ],
+      [
+        0.12589921175270397,
+        0.017268500201472012
+      ],
+      [
+        0.1353812275176499,
+        -0.00011297981464574239
+      ]
+    ],
+    "readouts": [
+      {
+        "step": 8,
+        "stage": "稳定末",
+        "label": "末次参数",
+        "selectedSteps": [
+          8
+        ],
+        "weights": [
+          1
+        ],
+        "theta": [
+          0.25680844799999997,
+          -0.13333862400000002
+        ],
+        "diagnostic": 0.0685336667825111
+      },
+      {
+        "step": 8,
+        "stage": "稳定末",
+        "label": "窗口等权平均",
+        "selectedSteps": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "theta": [
+          0.27407155199999994,
+          -0.0002063360000000014
+        ],
+        "diagnostic": 0.037557692956934126
+      },
+      {
+        "step": 8,
+        "stage": "稳定末",
+        "label": "窗口 1:2:3:4",
+        "selectedSteps": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "weights": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "theta": [
+          0.2572495871999999,
+          -0.026769305600000005
+        ],
+        "diagnostic": 0.03452186650189756
+      },
+      {
+        "step": 12,
+        "stage": "衰减末",
+        "label": "末次参数",
+        "selectedSteps": [
+          12
+        ],
+        "weights": [
+          1
+        ],
+        "theta": [
+          0.1353812275176499,
+          -0.00011297981464574239
+        ],
+        "diagnostic": 0.009164063910969876
+      },
+      {
+        "step": 12,
+        "stage": "衰减末",
+        "label": "窗口等权平均",
+        "selectedSteps": [
+          9,
+          10,
+          11,
+          12
+        ],
+        "weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "theta": [
+          0.14041159278718846,
+          0.010888096019906566
+        ],
+        "diagnostic": 0.010094808964395028
+      },
+      {
+        "step": 12,
+        "stage": "衰减末",
+        "label": "窗口 1:2:3:4",
+        "selectedSteps": [
+          9,
+          10,
+          11,
+          12
+        ],
+        "weights": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "theta": [
+          0.13959512705255114,
+          0.0030815985851433054
+        ],
+        "diagnostic": 0.009762392248088862
+      }
+    ],
+    "finiteDifferenceChecks": 24,
+    "continuation": {
+      "initialMean": [
+        0.27407155199999994,
+        -0.0002063360000000014
+      ],
+      "resumedStep9": [
+        0.13859046143999995,
+        0.12392159232000001
+      ],
+      "restartedStep1": [
+        0.18666439679999994,
+        0.07987619840000001
+      ],
+      "originalStep8": [
+        0.25680844799999997,
+        -0.13333862400000002
+      ],
+      "boundary": "New initial weights; neither continuation is a proof of exact original-trajectory recovery."
+    }
+  },
+  "publishedIntervals": {
+    "globalBatchSequences": 3072,
+    "sequenceLength": 8192,
+    "reportIterations": 1000,
+    "recipeIterations": 2000,
+    "boundary": "Independent statements from the 2026-04-03 Super report and official recipe commit 99a7e45; their cause is not inferred.",
+    "positionsPerStep": 25165824,
+    "reportPositions": 25165824000,
+    "recipePositions": 50331648000
+  },
+  "authoredTablesMatched": 6,
+  "authoredScalarValuesMatched": 1
+}

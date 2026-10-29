@@ -141,3 +141,7 @@ __pycache__/
 # Fixed-input evidence for rollout correction, FP4 scaling and rubric rewards.
 !/artifacts/training-contracts-20261030T045605Z/
 !/artifacts/training-contracts-20261030T045605Z/**
+
+# Fixed-input MTP/WSD results and source-version audit.
+!/artifacts/mtp-wsd-20261030T061842Z/
+!/artifacts/mtp-wsd-20261030T061842Z/**

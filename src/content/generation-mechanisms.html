@@ -10,6 +10,28 @@ p_\theta(x_{1:T})&amp;=\prod_{t=1}^{T}p_\theta(x_t\mid x_{&lt;t}),\\
   <section class="section" aria-labelledby="generation-state"><div class="section-heading"><span class="section-number">02 / STATE TRANSITIONS</span><h2 id="generation-state">两种生成过程：追加一个位置，或修改一组位置</h2></div>
     <div class="experiment"><div class="experiment-head"><h3>生成状态对照</h3><div class="segmented" role="group" aria-label="生成机制"><button type="button" data-gen-mode="ar" aria-pressed="true">自回归</button><button type="button" data-gen-mode="diffusion" aria-pressed="false">离散去噪示意</button></div></div><div class="experiment-view"><div class="token-tape" data-gen-tape></div><div class="state-log" aria-live="polite"><strong data-gen-title></strong><span data-gen-copy></span></div><div class="step-actions"><button class="button button-primary" data-gen-next type="button">推进一步</button><button class="button" data-gen-reset type="button">重置</button></div></div><p class="experiment-caption">文本和状态顺序均为预设，用于展示两种生成过程的依赖关系。离散去噪算法的揭示/重遮策略不统一；不能由这里的步数推出速度比。</p></div>
   </section>
+  <section class="section" aria-labelledby="multi-token-training"><div class="section-heading"><span class="section-number">CASE / MULTI-TOKEN OBJECTIVE</span><h2 id="multi-token-training">MTP 训练：多个未来标签怎样共同更新骨干？</h2></div>
+    <p>一种 MTP（Multi-Token Prediction）设定让同一个可见前缀产生多个偏移的预测。Meta 的 2024 年论文使用共享 Transformer 骨干、独立预测头和共享词表投影；不同头的损失都能沿共享计算回传。下面将它缩成标量骨干与两个线性头，只检查标签、归约和梯度，不复现论文架构。</p>
+    <p>固定记录为 [0,1,1,0]。位置 t 的输入只读到 t；第 k 个头监督 t+k，越过记录尾部或跨到另一条记录的标签不计入该头。多轮对话还要逐偏移核对目标位置的 assistant mask，不能直接照搬偏移 1 的标签数组。</p>
+    <div class="compare-wrap"><table data-mtp-targets><thead><tr><th>读到的位置 t</th><th>可见前缀</th><th>偏移 1 的标签</th><th>偏移 2 的标签</th></tr></thead><tbody>
+      <tr><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+      <tr><td>1</td><td>0 / 1</td><td>1</td><td>0</td></tr>
+      <tr><td>2</td><td>0 / 1 / 1</td><td>0</td><td>不计</td></tr>
+      <tr><td>3</td><td>0 / 1 / 1 / 0</td><td>不计</td><td>不计</td></tr>
+    </tbody></table></div>
+    <figure class="math-block"><div class="math-display" data-math>\begin{aligned}h_t&amp;=\theta e(x_t),\qquad z_t^{(k)}=w_kh_t,\\\overline\ell_k&amp;=\frac1{n_k}\sum_{t\in\mathcal T_k}\mathrm{CE}(z_t^{(k)},x_{t+k}),\\\mathcal L&amp;=\sum_{k=1}^{K}\lambda_k\overline\ell_k,\qquad\partial_\theta\mathcal L=\sum_k\lambda_k\partial_\theta\overline\ell_k.\end{aligned}</div><figcaption>本例 Tₖ 是同一记录内有效的偏移位置，nₖ 为其数量；空头贡献约定为 0，避免除零。每个头先按自己的有效位置平均，再乘 λₖ；其他配方可采用不同归约，需要单独声明。</figcaption></figure>
+    <p>取 e(0)=−1、e(1)=1，θ=0.5；两个词表大小为 2 的线性头分别为 w₁=[0.8,−0.3]、w₂=[−0.4,0.7]，λ=[1,0.5]。这个骨干只读取当前位置的固定嵌入，没有 Attention 或 Transformer。</p>
+    <div class="compare-wrap"><table data-mtp-gradients><thead><tr><th>目标项</th><th>有效偏移—位置对</th><th>加权损失项</th><th>对 θ 的加权梯度</th></tr></thead><tbody>
+      <tr><td>偏移 1</td><td>3</td><td>0.638826</td><td>−0.035784</td></tr>
+      <tr><td>偏移 2</td><td>2</td><td>0.502746</td><td>0.348775</td></tr>
+      <tr><td>合计</td><td>5</td><td>1.141572</td><td>0.312990</td></tr>
+    </tbody></table></div>
+    <p class="experiment-note">这里的 5 是监督对的总数，不是 5 个不同 token。两个头对共享 θ 的贡献方向相反；改变辅助权重会改变合成梯度。对 θ 和两个头共 5 个参数同时做一次 η=0.05 的 SGD，损失变为 <span data-mtp-after-loss>1.134281</span>；脚本核对全部参数的有限差分及这次更新，不检验语言能力收益。</p>
+    <details><summary>多步预测为什么还需要序列验收？</summary><p>在固定前缀后，若真实的两 token 联合分布只含 00 和 11，各占 0.5，那么两个正确的 [0.5,0.5] 边缘分布若独立采样，仍会给 01 与 10 合计 0.5 的概率。多步标签监督不自动保证联合一致性；草稿的条件、提出方式和验收协议仍需明确。</p></details>
+    <p class="source-note">来源：<a href="https://arxiv.org/html/2404.19737v1">Meta：Better &amp; Faster Large Language Models via Multi-token Prediction，v1（2024-04-30），第 2 节</a>。论文还说明了逐头计算与骨干梯度累积；这里的线性头、权重及归约均为本站教学设定，不移用作者的质量或速度结论。</p>
+    <details><summary>离线重算 MTP、草稿蒸馏和 WSD 平均</summary><p>固定输入、原始梯度和更新轨迹随代码保存。在仓库根目录执行：</p><pre class="decision-code"><code>node artifacts/mtp-wsd-20261030T061842Z/check-mechanisms.mjs</code></pre></details>
+    <div class="reading-links"><a href="efficient-inference.html#mtp-boosting">冻结骨干后的 MTP boosting</a><a href="packing-correctness.html">记录边界与监督位置</a><a href="training-deep.html">交叉熵与共享参数梯度</a></div>
+  </section>
   <section class="section" aria-labelledby="diffusion-objective"><div class="section-heading"><span class="section-number">03 / DIFFUSION</span><h2 id="diffusion-objective">扩散：训练时制造噪声，生成时逐步恢复</h2></div>
     <div class="mechanism-flow"><div><span>01 / CLEAN DATA</span><h3>取干净样本 x₀</h3><p>可以是像素，也可以是图像编码器压缩出的 latent；先明确数据空间。</p></div><div><span>02 / CORRUPT</span><h3>抽时间 t 和噪声 ε</h3><p>按已知日程构造 xₜ，模型同时接收 t 与文本等条件 c。</p></div><div><span>03 / PREDICT</span><h3>学习去噪目标</h3><p>预测噪声、干净数据、score 或其他参数化；目标决定损失与采样公式。</p></div><div><span>04 / SAMPLE</span><h3>从噪声开始迭代</h3><p>用学到的预测和求解器逐步更新状态，最后解码成图像或其他输出。</p></div></div>
     <figure class="math-block"><div class="math-display" data-math>\begin{aligned}

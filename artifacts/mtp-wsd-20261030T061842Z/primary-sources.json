@@ -1,0 +1,77 @@
+{
+  "schema": "mtp-wsd-primary-sources-v1",
+  "checkedAt": "2026-10-30",
+  "method": "Manual source-to-claim review. Paper versions, publisher PDF headers and bytes, and an official recipe commit are recorded separately. Numeric checks establish only the stated local examples.",
+  "sources": [
+    {
+      "id": "meta-mtp",
+      "owner": "FAIR at Meta paper authors",
+      "url": "https://arxiv.org/html/2404.19737v1",
+      "version": "v1, 2024-04-30",
+      "locator": "Section 2: Method, memory-efficient implementation and inference",
+      "supports": ["Independent Transformer prediction heads use a shared trunk and unembedding", "Losses from different offsets accumulate trunk gradients", "Auxiliary heads may serve as speculative drafts"],
+      "localBoundary": "Scalar trunk, fixed embeddings, independent linear two-logit heads and per-head mean reduction are author-supplied teaching choices. No Meta architecture, quality or speed reproduction.",
+      "destination": "generation-mechanisms.html#multi-token-training"
+    },
+    {
+      "id": "nemotron35-release",
+      "owner": "NVIDIA",
+      "url": "https://research.nvidia.com/labs/nemotron/Nemotron-3.5-Super-and-Lightning/",
+      "version": "Product page dated 2026-10-14, checked 2026-10-30",
+      "locator": "Published date and native speculative decoding feature",
+      "supports": ["The product-page date is 2026-10-14"],
+      "localBoundary": "This is not the 2026-10-27 date shown on the currently linked technical-report PDF.",
+      "destination": "efficient-inference.html#mtp-boosting"
+    },
+    {
+      "id": "nemotron35-report",
+      "owner": "NVIDIA",
+      "url": "https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3.5-Super-and-Lightning-Technical-Report.pdf",
+      "version": "PDF header 2026-10-27; publisher-maintained URL",
+      "bytes": 4345265,
+      "sha256": "6ce6f95fb154935eed1a2f6149715cde6849b1459d32bab185085eb9bd4ea045",
+      "locator": "Sections 2.1 and 3.7, physical PDF pages 4 and 20-21",
+      "supports": ["MTP-only stages freeze the backbone and update the MTP head", "Super has both an SFT-stage warm start and a final boosting run; Lightning applies final boosting only", "Hidden-state mixing exposes recursive MTP to earlier-step states", "Section 3.7 explicitly names LK loss and distinguishes Ultra's temperature-scaled forward KL"],
+      "localBoundary": "No specific LK variant or complete hyperparameters are inferred from the word LK. The local forward-KL example is a separate teaching objective, not this recipe. No hidden-state mixing, vendor rollout or SPEED-Bench execution.",
+      "destination": "efficient-inference.html#mtp-boosting"
+    },
+    {
+      "id": "lk-losses",
+      "owner": "Nebius paper authors",
+      "url": "https://arxiv.org/html/2602.23881v1",
+      "version": "v1, 2026-02-27",
+      "locator": "Sections 3-4, acceptance-rate relation, motivating example and two LK approaches",
+      "supports": ["KL serves as a proxy whereas acceptance is determined by distribution overlap", "The paper introduces more than one LK variant"],
+      "localBoundary": "The displayed three-class counterexample is constructed independently from fixed probabilities. It is not an empirical dataset, training path, or attribution of a chosen LK variant to NVIDIA.",
+      "destination": "efficient-inference.html#mtp-boosting"
+    },
+    {
+      "id": "nemotron-super-report",
+      "owner": "NVIDIA",
+      "url": "https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Super-Technical-Report.pdf",
+      "version": "PDF header 2026-04-03; publisher-maintained URL",
+      "bytes": 4940502,
+      "sha256": "73ea5d737b9c7c62a39ed3edefbecb82e5a23681bc2c4167e202eeee7b3d254d",
+      "locator": "Sections 2.4-2.5, Figure 11, physical PDF pages 14-15",
+      "supports": ["WSD pretraining with a final minus-sqrt decay phase", "Sliding checkpoint merges use minus-sqrt decay-emulation coefficients", "Report states a 1000-iteration save interval at 3072 sequences of length 8192", "Longer actual decay horizons can match or surpass merge readouts in the stated experiments"],
+      "localBoundary": "The local 12-step quadratic SGD uses linear decay, fixed windows and simple coefficients. It is not the vendor merge schedule or evidence for universal quality or compute savings.",
+      "destination": "optimization-dynamics.html#wsd-checkpoint-average"
+    },
+    {
+      "id": "nemotron-super-recipe",
+      "owner": "NVIDIA-NeMo/Nemotron",
+      "url": "https://github.com/NVIDIA-NeMo/Nemotron/blob/99a7e45302f486c7e104647c128c2962ae7695d6/docs/nemotron/super3/pretrain.md",
+      "version": "commit 99a7e45302f486c7e104647c128c2962ae7695d6",
+      "blobSha": "cb44c3b179a6216c5c5b58821a0292c6e876d58d",
+      "locator": "Hyperparameters and Checkpoint Merging; inspected source lines 108-170",
+      "supports": ["Recipe says checkpoint interval every 2000 iterations, about 50B tokens", "Recipe lists the same nominal batch and sequence length"],
+      "localBoundary": "This is retained alongside the report's 1000-step statement. The cause of the discrepancy and the unique actual run interval are not established from these two texts.",
+      "destination": "optimization-dynamics.html#wsd-source-versions"
+    }
+  ],
+  "versionDifferences": [
+    {"topic": "Nemotron 3.5 dates", "values": ["Product page 2026-10-14", "Current PDF header 2026-10-27"], "resolution": "Identify each material separately; do not assign the product date to the current report."},
+    {"topic": "MTP distillation objective", "values": ["3.5 section 3.7 names LK", "Local teaching example uses forward KL"], "resolution": "The local example is explicitly not a recipe reproduction; the cited section does not specify a particular LK variant."},
+    {"topic": "Super checkpoint save interval", "values": ["Report: 1000 iterations", "Recipe 99a7e45: 2000 iterations"], "resolution": "Preserve both source statements and nominal token-slot conversions. Do not guess why they differ."}
+  ]
+}

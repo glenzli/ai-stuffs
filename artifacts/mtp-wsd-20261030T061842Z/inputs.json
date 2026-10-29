@@ -1,0 +1,59 @@
+{
+  "schema": "mtp-wsd-inputs-v1",
+  "boundary": "Author-supplied tiny models, probabilities, schedules and checkpoint windows. No vendor model, GPU training, throughput measurement or benchmark replication.",
+  "mtp": {
+    "tokens": [0, 1, 1, 0],
+    "embedding": [-1, 1],
+    "theta": 0.5,
+    "heads": [[0.8, -0.3], [-0.4, 0.7]],
+    "offsets": [1, 2],
+    "lossWeights": [1, 0.5],
+    "learningRate": 0.05,
+    "normalization": "Mean over valid positions separately for each head, then weighted sum. Empty heads contribute zero; targets never cross a record boundary.",
+    "architecture": "A scalar causal trunk h_t=theta*embedding[token_t] and two independent linear heads with two logits. No attention or Transformer.",
+    "emptyAndBoundaryRecords": [[], [0], [0, 1]]
+  },
+  "boosting": {
+    "teacher": [0.8, 0.2],
+    "studentLogits": [0.1, -0.2],
+    "learningRate": 0.2,
+    "loss": "KL(teacher || softmax(studentLogits))",
+    "boundary": "One fixed prefix, frozen teacher probabilities, two trainable logits. No hidden-state mixing or real rollout collection."
+  },
+  "wsd": {
+    "initial": [1, -0.6],
+    "curvature": [1, 4],
+    "alternatingPerturbations": [[0.6, -0.8], [-0.6, 0.8]],
+    "warmupSteps": 2,
+    "stableSteps": 6,
+    "decaySteps": 4,
+    "peakLearningRate": 0.2,
+    "minimumLearningRate": 0.02,
+    "decay": "Linear teaching schedule, not NVIDIA minus-sqrt decay emulation.",
+    "readoutSteps": [8, 12],
+    "mergeWindow": 4,
+    "mergeWeights": [1, 2, 3, 4],
+    "trainingGradient": "diag(curvature)*theta + alternatingPerturbations[(step-1)%2]",
+    "evaluation": "F(theta)=0.5*(theta[0]^2+4*theta[1]^2)",
+    "selection": "Both steps and both merge windows/coefficients fixed before computing results; no best-window selection."
+  },
+  "publishedIntervals": {
+    "globalBatchSequences": 3072,
+    "sequenceLength": 8192,
+    "reportIterations": 1000,
+    "recipeIterations": 2000,
+    "boundary": "Independent statements from the 2026-04-03 Super report and official recipe commit 99a7e45; their cause is not inferred."
+  },
+  "counterexamples": {
+    "jointPairs": [[0, 0], [1, 1]],
+    "jointPairProbabilities": [0.5, 0.5],
+    "parameterAverage": [-1, 1],
+    "function": "f_theta(x)=(theta*x)^2 at x=1",
+    "klVersusAcceptance": {
+      "teacher": [0.8, 0.1, 0.1],
+      "draftA": [0.79, 0.209, 0.001],
+      "draftB": [0.6, 0.2, 0.2],
+      "purpose": "Constructed probability counterexample, not a sampled dataset or a gradient-update trajectory."
+    }
+  }
+}
