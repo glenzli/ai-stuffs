@@ -1,0 +1,11 @@
+{
+  "command": "python3 artifacts/gated-attention-20261030T125431Z/check-mechanisms.py",
+  "status": "passed",
+  "finiteDerivatives": 17,
+  "maxFiniteDifferenceError": 3.6563391203614515e-11,
+  "authoredTables": 4,
+  "authoredScalars": 2,
+  "lossBefore": 0.1434746045192621,
+  "lossAfter": 0.14238271152637744,
+  "scope": "Given logits/values and local gate/output projections only"
+}

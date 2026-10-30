@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "frozenAt": "2026-10-30T12:54:31Z",
+  "scope": "Fixed one-head, one-query local SDPA-output gate; row vectors, no bias; no complete model or author benchmark",
+  "logits": [1.1, -0.4, 0.2],
+  "values": [[1.0, -0.5], [-0.4, 1.2], [0.6, 0.8]],
+  "input": [1.2, -0.7],
+  "gateWeight": [[0.5, -0.2], [-0.3, 0.4]],
+  "outputWeight": [[1.0, 0.4], [-0.6, 1.3]],
+  "target": [0.15, -0.2],
+  "sharedGateLogit": 0.4,
+  "gateLearningRate": 0.1,
+  "saturationLogits": [-20.0, -2.0, 0.0, 2.0, 20.0],
+  "cacheCounterexample": {
+    "currentGateLogit": -20.0,
+    "laterGateLogit": 4.0,
+    "laterLogits": [2.4, -0.3, 0.1],
+    "wronglyRemovedPosition": 0,
+    "scope": "Compare the same three causally available KV positions for a later query, without and with erroneous deletion; no new position is needed for this counterexample"
+  },
+  "finiteDifferenceStep": 0.000001,
+  "finiteDifferenceTolerance": 0.00000001,
+  "algebraTolerance": 0.000000000001
+}

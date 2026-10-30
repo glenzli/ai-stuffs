@@ -1,0 +1,484 @@
+{
+  "layouts": [
+    {
+      "bodyWidth": 1280,
+      "formulaErrors": 0,
+      "height": 720,
+      "math": [
+        {
+          "client": 949,
+          "scroll": 949
+        },
+        {
+          "client": 949,
+          "scroll": 949
+        },
+        {
+          "client": 949,
+          "scroll": 949
+        }
+      ],
+      "panels": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sectionWidth": 996,
+      "tables": [
+        {
+          "marker": "granularity",
+          "rows": 4,
+          "width": 996,
+          "wrapClient": 996,
+          "wrapScroll": 996
+        },
+        {
+          "marker": "data-output-gate-readouts",
+          "rows": 5,
+          "width": 996,
+          "wrapClient": 996,
+          "wrapScroll": 996
+        },
+        {
+          "marker": "data-output-gate-gradients",
+          "rows": 5,
+          "width": 996,
+          "wrapClient": 996,
+          "wrapScroll": 996
+        },
+        {
+          "marker": "data-output-gate-saturation",
+          "rows": 6,
+          "width": 996,
+          "wrapClient": 996,
+          "wrapScroll": 996
+        },
+        {
+          "marker": "data-output-gate-cache",
+          "rows": 3,
+          "width": 996,
+          "wrapClient": 996,
+          "wrapScroll": 996
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "bodyWidth": 768,
+      "formulaErrors": 0,
+      "height": 900,
+      "math": [
+        {
+          "client": 673,
+          "scroll": 673
+        },
+        {
+          "client": 673,
+          "scroll": 673
+        },
+        {
+          "client": 673,
+          "scroll": 673
+        }
+      ],
+      "panels": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sectionWidth": 720,
+      "tables": [
+        {
+          "marker": "granularity",
+          "rows": 4,
+          "width": 720,
+          "wrapClient": 720,
+          "wrapScroll": 720
+        },
+        {
+          "marker": "data-output-gate-readouts",
+          "rows": 5,
+          "width": 720,
+          "wrapClient": 720,
+          "wrapScroll": 720
+        },
+        {
+          "marker": "data-output-gate-gradients",
+          "rows": 5,
+          "width": 720,
+          "wrapClient": 720,
+          "wrapScroll": 720
+        },
+        {
+          "marker": "data-output-gate-saturation",
+          "rows": 6,
+          "width": 720,
+          "wrapClient": 720,
+          "wrapScroll": 720
+        },
+        {
+          "marker": "data-output-gate-cache",
+          "rows": 3,
+          "width": 720,
+          "wrapClient": 720,
+          "wrapScroll": 720
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "bodyWidth": 390,
+      "formulaErrors": 0,
+      "height": 844,
+      "math": [
+        {
+          "client": 331,
+          "scroll": 331
+        },
+        {
+          "client": 331,
+          "scroll": 531
+        },
+        {
+          "client": 331,
+          "scroll": 331
+        }
+      ],
+      "panels": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sectionWidth": 358,
+      "tables": [
+        {
+          "marker": "granularity",
+          "rows": 4,
+          "width": 358,
+          "wrapClient": 358,
+          "wrapScroll": 358
+        },
+        {
+          "marker": "data-output-gate-readouts",
+          "rows": 5,
+          "width": 358,
+          "wrapClient": 358,
+          "wrapScroll": 358
+        },
+        {
+          "marker": "data-output-gate-gradients",
+          "rows": 5,
+          "width": 358,
+          "wrapClient": 358,
+          "wrapScroll": 358
+        },
+        {
+          "marker": "data-output-gate-saturation",
+          "rows": 6,
+          "width": 358,
+          "wrapClient": 358,
+          "wrapScroll": 358
+        },
+        {
+          "marker": "data-output-gate-cache",
+          "rows": 3,
+          "width": 358,
+          "wrapClient": 358,
+          "wrapScroll": 358
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "bodyWidth": 1280,
+      "formulaErrors": 0,
+      "height": 720,
+      "math": [
+        {
+          "client": 949,
+          "scroll": 949
+        },
+        {
+          "client": 949,
+          "scroll": 949
+        },
+        {
+          "client": 949,
+          "scroll": 949
+        }
+      ],
+      "panels": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sectionWidth": 996,
+      "tables": [
+        {
+          "marker": "granularity",
+          "rows": 4,
+          "width": 996,
+          "wrapClient": 996,
+          "wrapScroll": 996
+        },
+        {
+          "marker": "data-output-gate-readouts",
+          "rows": 5,
+          "width": 996,
+          "wrapClient": 996,
+          "wrapScroll": 996
+        },
+        {
+          "marker": "data-output-gate-gradients",
+          "rows": 5,
+          "width": 996,
+          "wrapClient": 996,
+          "wrapScroll": 996
+        },
+        {
+          "marker": "data-output-gate-saturation",
+          "rows": 6,
+          "width": 996,
+          "wrapClient": 996,
+          "wrapScroll": 996
+        },
+        {
+          "marker": "data-output-gate-cache",
+          "rows": 3,
+          "width": 996,
+          "wrapClient": 996,
+          "wrapScroll": 996
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "bodyWidth": 768,
+      "formulaErrors": 0,
+      "height": 900,
+      "math": [
+        {
+          "client": 673,
+          "scroll": 673
+        },
+        {
+          "client": 673,
+          "scroll": 673
+        },
+        {
+          "client": 673,
+          "scroll": 673
+        }
+      ],
+      "panels": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sectionWidth": 720,
+      "tables": [
+        {
+          "marker": "granularity",
+          "rows": 4,
+          "width": 720,
+          "wrapClient": 720,
+          "wrapScroll": 720
+        },
+        {
+          "marker": "data-output-gate-readouts",
+          "rows": 5,
+          "width": 720,
+          "wrapClient": 720,
+          "wrapScroll": 720
+        },
+        {
+          "marker": "data-output-gate-gradients",
+          "rows": 5,
+          "width": 720,
+          "wrapClient": 720,
+          "wrapScroll": 720
+        },
+        {
+          "marker": "data-output-gate-saturation",
+          "rows": 6,
+          "width": 720,
+          "wrapClient": 720,
+          "wrapScroll": 720
+        },
+        {
+          "marker": "data-output-gate-cache",
+          "rows": 3,
+          "width": 720,
+          "wrapClient": 720,
+          "wrapScroll": 720
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "bodyWidth": 390,
+      "formulaErrors": 0,
+      "height": 844,
+      "math": [
+        {
+          "client": 331,
+          "scroll": 331
+        },
+        {
+          "client": 331,
+          "scroll": 531
+        },
+        {
+          "client": 331,
+          "scroll": 331
+        }
+      ],
+      "panels": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sectionWidth": 358,
+      "tables": [
+        {
+          "marker": "granularity",
+          "rows": 4,
+          "width": 358,
+          "wrapClient": 358,
+          "wrapScroll": 358
+        },
+        {
+          "marker": "data-output-gate-readouts",
+          "rows": 5,
+          "width": 358,
+          "wrapClient": 358,
+          "wrapScroll": 358
+        },
+        {
+          "marker": "data-output-gate-gradients",
+          "rows": 5,
+          "width": 358,
+          "wrapClient": 358,
+          "wrapScroll": 358
+        },
+        {
+          "marker": "data-output-gate-saturation",
+          "rows": 6,
+          "width": 358,
+          "wrapClient": 358,
+          "wrapScroll": 358
+        },
+        {
+          "marker": "data-output-gate-cache",
+          "rows": 3,
+          "width": 358,
+          "wrapClient": 358,
+          "wrapScroll": 358
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    }
+  ],
+  "panels": [
+    {
+      "open": true,
+      "text": "展开固定输入，对照四条输出路径"
+    },
+    {
+      "open": true,
+      "text": "查看局部梯度与一次门权重更新"
+    },
+    {
+      "open": true,
+      "text": "门接近零或一，梯度会怎样？"
+    },
+    {
+      "open": true,
+      "text": "离线重算四张表、两项 loss 与边界"
+    }
+  ],
+  "navigation": [
+    {
+      "from": "architecture-variants#delta-state-training",
+      "url": "http://127.0.0.1:4173/transformer-anatomy.html#attention-output-gating",
+      "heading": "输出门：读到了什么，还要送出多少？"
+    },
+    {
+      "from": "model-case-studies#patterns-title",
+      "url": "http://127.0.0.1:4173/transformer-anatomy.html#attention-output-gating",
+      "heading": "输出门：读到了什么，还要送出多少？"
+    },
+    {
+      "from": "page-toc",
+      "url": "http://127.0.0.1:4173/transformer-anatomy.html#attention-output-gating",
+      "headingTop": 252.953125,
+      "settledHeadingTop": 91.953125,
+      "note": "Immediate position was sampled during smooth scrolling; settled reading position is recorded separately."
+    }
+  ],
+  "search": [
+    {
+      "query": "Gated Attention",
+      "results": [
+        {
+          "href": "transformer-anatomy.html",
+          "text": "Transformer 权重解剖QKV、Gated Attention 输出门、参数量、MoE 负载与分派"
+        },
+        {
+          "href": "architecture-variants.html",
+          "text": "架构变体与结论注意力、GDN/KDA 循环状态、mHC 与 AttnRes 深度聚合"
+        }
+      ]
+    },
+    {
+      "query": "输出门",
+      "results": [
+        {
+          "href": "transformer-anatomy.html",
+          "text": "Transformer 权重解剖QKV、Gated Attention 输出门、参数量、MoE 负载与分派"
+        }
+      ]
+    },
+    {
+      "query": "headwise",
+      "results": [
+        {
+          "href": "transformer-anatomy.html",
+          "text": "Transformer 权重解剖QKV、Gated Attention 输出门、参数量、MoE 负载与分派"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    "output-gate-desktop-light.png",
+    "output-gate-mobile-dark.png"
+  ],
+  "matrixScroll": {
+    "body": 390,
+    "client": 331,
+    "scroll": 531,
+    "scrollLeft": 200.5
+  },
+  "finalState": {
+    "bodyWidth": 1280,
+    "formulaErrors": 0,
+    "headingTop": 91.96875,
+    "theme": "light",
+    "tocOpen": false,
+    "url": "http://127.0.0.1:4173/transformer-anatomy.html#attention-output-gating",
+    "width": 1280
+  },
+  "console": []
+}

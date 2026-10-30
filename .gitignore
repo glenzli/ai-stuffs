@@ -168,3 +168,8 @@ __pycache__/
 !/artifacts/attnres-20261030T095028Z/
 !/artifacts/attnres-20261030T095028Z/**
 /artifacts/attnres-20261030T095028Z/__pycache__/
+
+# Fixed output-gating gradients, placement and cache counterexamples.
+!/artifacts/gated-attention-20261030T125431Z/
+!/artifacts/gated-attention-20261030T125431Z/**
+/artifacts/gated-attention-20261030T125431Z/__pycache__/

@@ -66,6 +66,8 @@ Gated DeltaNet/KDA 的状态更新、分块输出与跨块梯度，以及固定�
 [循环状态核验记录](docs/delta-state-2026-10-30.md)。
 AttnRes 的深度来源、Full/Block 结构差异、精确两阶段合并及局部梯度见
 [深度注意力核验记录](docs/attnres-2026-10-30.md)。
+Gated Attention 的输出门位置、逐头/逐通道粒度、局部学习与 KV 反例见
+[输出门核验记录](docs/gated-attention-2026-10-30.md)。
 
 ## 快速开始
 

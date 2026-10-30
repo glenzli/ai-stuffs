@@ -61,8 +61,8 @@ export const searchMetadata = {
     "priority": 9
   },
   "transformer-anatomy.html": {
-    "summary": "QKV、Dense/MoE 参数、bias 负载控制、模态统计与专家分派",
-    "terms": "qkv residual rmsnorm swiglu dense moe parameter weights dispatch combine permutation alltoall 参数 权重 专家 分派 逆排列 容量 门控 梯度 Loss-Free Balancing auxiliary loss free bias router load balance 负载均衡 序列辅助项 分模态 correction 历史 因果",
+    "summary": "QKV、Gated Attention 输出门、参数量、MoE 负载与分派",
+    "terms": "qkv residual rmsnorm swiglu dense moe parameter weights dispatch combine permutation alltoall 参数 权重 专家 分派 逆排列 容量 门控 梯度 Loss-Free Balancing auxiliary loss free bias router load balance 负载均衡 序列辅助项 分模态 correction 历史 因果 Gated Attention Qwen3-Next output gating 输出门 head-specific headwise elementwise sigmoid SDPA G1 饱和 attention sink KV 裁剪",
     "priority": 9
   },
   "inference-engine.html": {

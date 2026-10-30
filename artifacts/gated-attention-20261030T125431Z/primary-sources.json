@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-30",
+  "sources": [
+    {
+      "title": "Gated Attention for Large Language Models: Non-linearity, Sparsity, and Attention-Sink-Free",
+      "url": "https://arxiv.org/html/2505.06708v1",
+      "version": "arXiv v1, 2025-05-10; this supplement binds this version, not all later model implementations",
+      "locations": ["2.1, equations 1-4", "2.2, equation 5 and footnote 1", "Table 1, position/granularity/head-sharing rows", "4.3"],
+      "supports": "G1 follows SDPA and precedes the output projection. Gate input is pre-normalized hidden state. Head specificity and scalar/vector granularity are separate choices. Attention-sink reduction is an empirical trained-model observation.",
+      "limits": "The fixed local calculation is not author training, a trained-model replication, or a speed measurement. No unpublished hyperparameters are inferred."
+    },
+    {
+      "title": "Qwen3-Next: Towards Ultimate Training & Inference Efficiency",
+      "url": "https://qwen.ai/blog?id=qwen3-next",
+      "version": "Publisher page dated 2025-09-10; retrieved 2026-10-30 from indexed official page text because direct HTML rendering was empty",
+      "locations": ["Key Features / Hybrid Architecture", "References, item 2"],
+      "supports": "The publisher explicitly links its standard-attention output gating to the above prior work, separately from Gated DeltaNet layers.",
+      "limits": "A mutable publisher page is not a fixed code revision; its architecture and speed claims are not locally reproduced. It does not establish every Qwen3.5 implementation detail."
+    },
+    {
+      "title": "Qwen3.5-9B official model card",
+      "url": "https://huggingface.co/Qwen/Qwen3.5-9B/blob/c202236235762e1c871ad0ccb60c8ee5ba337b9a/README.md",
+      "version": "c202236235762e1c871ad0ccb60c8ee5ba337b9a; previously archived and verified in the GDN/KDA round",
+      "locations": ["Model Architecture"],
+      "supports": "The specified 9B card names an 8-group 3-GDN-plus-1-Gated-Attention layout.",
+      "limits": "Only a crosslink to the existing model-card evidence; this card alone does not establish gate tensor granularity or complete training recipes."
+    }
+  ],
+  "localScope": "Three given logits and two-dimensional values; learned 2x2 gate and output projections; 17 local finite differences; one gate-only SGD step; algebraic placement and later-query cache counterexamples."
+}

@@ -9,7 +9,7 @@
       </div>
       <aside class="intro-aside">
         <p class="micro-label">本页的计数约定</p>
-        <p>忽略 bias、并行分片与 padding，按 BF16 权重和常见无偏置 decoder 计数。真实模型卡若含 bias、QK-Norm、共享专家等，需要加回对应张量。</p>
+        <p>忽略 bias、并行分片与 padding，按 BF16 权重和常见无偏置 decoder 计数。真实模型卡若含 bias、QK-Norm、输出门、共享专家等，需要加回对应张量；下方 Gated Attention 的新增投影不自动计入计算器。</p>
       </aside>
     </section>
 
@@ -68,6 +68,79 @@ X'&amp;=H+\operatorname{FFN}(\operatorname{Norm}_2(H)).
 \end{aligned}</div><figcaption>这里 Attn 包含多头与输出投影，两个 Norm 通常有各自参数。残差加法提供直接路径，但不保证任意深度、初始化与学习率都稳定。</figcaption></figure>
       </details>
     </section>
+
+    <div class="modern-page"><section class="section" aria-labelledby="attention-output-gating">
+      <div class="section-heading"><span class="section-number">CASE / GATED ATTENTION</span><h2 id="attention-output-gating">输出门：读到了什么，还要送出多少？</h2></div>
+      <p>普通 softmax attention 先在可见位置上分配权重，再汇总 value。Gated Attention 可以在这份汇总上乘一个由当前 token 计算的门，再送进输出投影。本节看 Qwen 论文的 <strong>G1：SDPA 之后、W_O 之前</strong>，先理解计算路径，再看它怎样学习。</p>
+      <p class="section-note">版本依据：<a href="https://arxiv.org/html/2505.06708v1">Gated Attention v1（2025-05-10）§2.2、式 5 与 Table 1</a>；<a href="https://qwen.ai/blog?id=qwen3-next">Qwen3-Next 官方说明（2025-09-10）</a>明确采用这项输出门技术。它与相邻 Gated DeltaNet 层是不同机制；不据此推断每个 Qwen3.5 版本的门形状或训练配方。</p>
+      <h3>门的位置、粒度与 head 是否共享，是三项选择</h3>
+      <p>沿用本页的行向量约定。单个 query 的预归一化后输入 x∈ℝᵈ；a 是 T 个允许位置上的 softmax 权重，V∈ℝᵀˣᵈʰ。一个 head 的 h=aV，门 g 与 h 同宽；Wg∈ℝᵈˣᵈʰ，Wo 将 head 输出投回残差宽度。多头时先分别门控再拼接。</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+a&amp;=\operatorname{softmax}(\ell),\quad h=aV,\\
+z&amp;=xW_g,\quad g=\sigma(z),\\
+r&amp;=h\odot g,\quad y=rW_o.
+\end{aligned}</div><figcaption>ℓ 是已经缩放并处理可见性后的 attention logits；门本身使用 sigmoid，不再套 softmax，也没有额外的 1/√dₕ 缩放。这里无 bias、dropout；论文的 x 来自 pre-normalization 后的隐藏状态。</figcaption></figure>
+      <div class="compare-wrap"><table style="min-width:0"><thead><tr><th>选择</th><th>含义与参数账本</th></tr></thead><tbody>
+        <tr><td>Head-specific</td><td>各 head 有独立门控分数；既可以每头一个标量，也可以每头逐通道。</td></tr>
+        <tr><td>Headwise / elementwise</td><td>前者每头一个标量，后者每个 head 通道一个数。各头独立时，设 H 个 query heads、宽度 dₕ，无偏置投影分别新增 dH 与 dHdₕ 个权重。</td></tr>
+        <tr><td>G1 / 其他位置</td><td>论文还比较 Q/K/V 投影后的门与 W_O 后的 G5。门的位置改变计算图，不能仅凭名称替换。</td></tr>
+      </tbody></table></div>
+      <details><summary>展开固定输入，对照四条输出路径</summary>
+        <p>本地教具只取一头、三个允许位置、二维输入与输出。x=[1.2,−0.7]，ℓ=[1.1,−0.4,0.2]，目标 y*=[0.15,−0.2]；下列矩阵都按行列显示：</p>
+        <figure class="math-block"><div class="math-display" data-math>V=\begin{bmatrix}1&amp;-0.5\\-0.4&amp;1.2\\0.6&amp;0.8\end{bmatrix},\quad
+W_g=\begin{bmatrix}0.5&amp;-0.2\\-0.3&amp;0.4\end{bmatrix},\quad
+W_o=\begin{bmatrix}1&amp;0.4\\-0.6&amp;1.3\end{bmatrix}.</div></figure>
+        <p>得到 z=[0.81,−0.52]，g≈[0.692110,0.372852]。整头标量对照用 σ(0.4)；“移到 W_O 后”只是把这两个门值挪到投影之后，不是重训论文的 G5 模型。各输出按六位小数展示：</p>
+        <div class="compare-wrap"><table data-output-gate-readouts style="min-width:0"><thead><tr><th>路径</th><th>y[0]</th><th>y[1]</th></tr></thead><tbody>
+          <tr><td>无输出门</td><td>0.674285</td><td>0.357607</td></tr>
+          <tr><td>G1：逐通道门</td><td>0.477612</td><td>0.223816</td></tr>
+          <tr><td>G1：整头标量门</td><td>0.403686</td><td>0.214095</td></tr>
+          <tr><td>移到 W_O 后（不同机制）</td><td>0.466679</td><td>0.133334</td></tr>
+        </tbody></table></div>
+        <p>逐通道门对应对角矩阵 Dg，一般 DgWo≠WoDg；本例同为二维，仍不能交换。若所有 head 通道共用同一标量 c，且投影无 bias，则 (ch)Wo=c(hWo)。固定不变的 Dg 可以折叠为 DgWo；输入变化会改变 g，本例另一个 x 的结果已不符合这一份固定折叠。</p>
+      </details>
+      <h3>门怎样学习？既有 value 路径，也有门参数路径</h3>
+      <p>局部目标 L=½‖y−y*‖²，把 x、ℓ 和 V 视作给定输入。设 e=y−y*、t=eWoᵀ，则：</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+\nabla_h\mathcal L&amp;=g\odot t,\\
+\nabla_z\mathcal L&amp;=h\odot g\odot(1-g)\odot t,\\
+\nabla_{W_g}\mathcal L&amp;=x^\top\nabla_z\mathcal L,\quad
+\nabla_{W_o}\mathcal L=r^\top e,\\
+\nabla_{V_i}\mathcal L&amp;=a_i\nabla_h\mathcal L,\\
+\frac{\partial\mathcal L}{\partial\ell_i}&amp;=a_i\langle\nabla_h\mathcal L,V_i-h\rangle.
+\end{aligned}</div><figcaption>行向量 Vᵢ、h 的内积是标量。这里核对 3 个 logits、6 个 value 坐标、4 个门权重与 4 个输出权重，共 17 项；不包含上游 Q/K 投影、Norm 或完整骨干的梯度。</figcaption></figure>
+      <details><summary>查看局部梯度与一次门权重更新</summary>
+        <div class="compare-wrap"><table data-output-gate-gradients style="min-width:0"><thead><tr><th>局部坐标</th><th>解析导数</th><th>中心有限差分</th></tr></thead><tbody>
+          <tr><td>logit₀</td><td>0.016369877</td><td>0.016369877</td></tr>
+          <tr><td>V₀[0]</td><td>0.211127222</td><td>0.211127222</td></tr>
+          <tr><td>Wg[0,0]</td><td>0.090071432</td><td>0.090071432</td></tr>
+          <tr><td>Wo[1,0]</td><td>0.006971517</td><td>0.006971517</td></tr>
+        </tbody></table></div>
+        <p>只更新 Wg、η=0.1，一次 SGD 后本地 loss 从 <strong data-output-gate-loss-before>0.143475</strong> 变为 <strong data-output-gate-loss-after>0.142383</strong>。这次给定目标下降不说明语言模型更好。保存文件含全部 17 项导数与更新前后张量；只更新门时，固定的 attention 权重 a 保持不变。</p>
+      </details>
+      <details><summary>门接近零或一，梯度会怎样？</summary>
+        <p>sigmoid 的局部斜率是 g(1−g)。数学上有限 z 得到 0&lt;g&lt;1；大幅饱和时斜率很小。下面按九位有效数字展示，避免把接近零误读为精确的零：</p>
+        <div class="compare-wrap"><table data-output-gate-saturation style="min-width:0"><thead><tr><th>z</th><th>σ(z)</th><th>g(1−g)</th></tr></thead><tbody>
+          <tr><td>-20</td><td>2.06115362e-09</td><td>2.06115361e-09</td></tr>
+          <tr><td>-2</td><td>0.119202922</td><td>0.104993585</td></tr>
+          <tr><td>0</td><td>0.5</td><td>0.25</td></tr>
+          <tr><td>2</td><td>0.880797078</td><td>0.104993585</td></tr>
+          <tr><td>20</td><td>0.999999998</td><td>2.06115369e-09</td></tr>
+        </tbody></table></div>
+        <p>实际有限精度可能舍入到端点；不能把实数性质直接当作任意精度实现的保证。小门会压低该 h 路径的梯度，门参数路径还乘 g(1−g)；但完整网络仍有其他路径，不能由此断言总梯度消失。</p>
+      </details>
+      <h3>输出变小，不等于可以删除旧 K/V</h3>
+      <p>固定 logits 与 V 时，输出门不会重分配 softmax 权重。论文 §4.3 的 attention-sink 减少来自训练后模型的实测，不能从一次乘法推出注意力图已变化。门值接近零也不是显式 top-k、结构化稀疏或自动跳过 SDPA 的执行指令。</p>
+      <p>再取两次 query 的反例：前一次整头门 σ(−20)≈2.06×10⁻⁹；后一次打开为 σ(4)。对后一次的同三个允许位置，固定 logits=[2.4,−0.3,0.1]，V 与 Wo 沿用上例。若因前一次门小而误删第 0 项，后一次输出就不同：</p>
+      <div class="compare-wrap"><table data-output-gate-cache style="min-width:0"><thead><tr><th>后一次 query 的缓存</th><th>y[0]</th><th>y[1]</th></tr></thead><tbody>
+        <tr><td>完整保留 K/V</td><td>1.040303</td><td>-0.023200</td></tr>
+        <tr><td>因前一小门值误删第 0 项</td><td>-0.370835</td><td>1.304269</td></tr>
+      </tbody></table></div>
+      <p>这个有限反例已足够否定“当前门小，所以未来都不需要旧 K/V”。它不模拟某个引擎的 cache 剪枝，也不估计模型的 KV 节省、吞吐或长上下文成绩。</p>
+      <div class="callout"><p><strong>读到 gate，先问作用于什么：</strong>本节门控 head 输出；<a href="architecture-variants.html#delta-state-training">GDN/KDA 的遗忘与写门</a>更新循环状态；SwiGLU 门控 FFN 分支；MoE router 选择专家；<a href="architecture-variants.html#attention-residuals">AttnRes</a>在深度来源上做 softmax。循环层也可能另有输出门，不能把所有门都归为状态遗忘。</p></div>
+      <details><summary>离线重算四张表、两项 loss 与边界</summary><p>固定输入与检查代码随结果保存。仓库根目录执行，只需 Python 3.10+ 标准库：</p><div class="compare-wrap"><pre class="decision-code"><code>python3 artifacts/gated-attention-20261030T125431Z/check-mechanisms.py</code></pre></div><p>默认重算并核对正文和 results.json；--write 仅首次创建，不能覆盖。代数采用 1e−12 尺度容差，有限差分步长 1e−6、导数及其缓存误差容差 1e−8。没有下载模型、复现作者训练或测量硬件速度。</p></details>
+      <div class="reading-links"><a href="architecture-variants.html#delta-state-training">GDN/KDA 状态与训练分块</a><a href="backpropagation.html#block-backward">完整 block 的梯度汇合</a><a href="position-cache.html#cache-equivalence">缓存续算的一致性</a></div>
+    </section></div>
 
     <section class="section" aria-labelledby="calculator-title">
       <div class="section-heading">

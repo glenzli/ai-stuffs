@@ -1,0 +1,39 @@
+✔ InfoNCE and SGNS raw-score gradients match finite differences (1.480084ms)
+✔ temperature can saturate correct predictions and amplify incorrect ones (0.106583ms)
+✔ DPO derivative is with respect to reference-corrected delta (0.17025ms)
+✔ sampled output is one position ahead of cached generated input (0.446167ms)
+✔ clean simulator negatives never include another valid same-class document (0.138041ms)
+✔ every page has explicit scope and valid primary-source metadata (0.701541ms)
+✔ candidate coverage does not equal final selection; single candidate ignores selector (0.135833ms)
+✔ vision budget scales with area, merge and frames (0.079292ms)
+✔ soft labels remain normalized and higher temperature softens fixed logits (0.175667ms)
+✔ symmetric quantization respects range, reconstructs extrema and handles zero (0.204125ms)
+✔ curation records independent score, duplicate and contamination decisions (0.122625ms)
+✔ knowledge library contains each page exactly once (0.136375ms)
+✔ optimizer ledger separates task update, historical state and decoupled decay (0.725208ms)
+✔ global token gradient matches finite differences for every UI count including empty ranks (0.981958ms)
+✔ GEMM roofline obeys work/traffic units and compute/bandwidth bounds (0.200916ms)
+✔ diagnostic cases provide distinct evidence and real follow-up topics (0.105375ms)
+✔ typesets fractions and subscripts while preserving unrelated source byte-for-byte (10.020209ms)
+✔ renders HTML entities, inline math and hidden variants without breaking attributes (4.109625ms)
+✔ invalid or ambiguous TeX fails with context instead of silently showing broken math (1.494042ms)
+✔ every authored formula has HTML and MathML in the generated page (423.2355ms)
+✔ marginal answer example sums paths; score-function gradient does not require reward derivatives (0.251458ms)
+✔ distillation derivative includes temperature and the KL direction (0.226333ms)
+✔ fixed-compute scaling stationary point satisfies the derivative and local minimum (0.08275ms)
+✔ topic ownership covers every page once and agrees with header navigation (88.62525ms)
+✔ built reading routes and all local authored links resolve to pages and anchors (429.503667ms)
+✔ guide starts with learning and problem lookup; advanced collections are optional (2.499833ms)
+✔ guide and detailed route share six steps with a real learning result in the first four (3.039959ms)
+✔ before/after examples come from the same saved question across every seed and split (3.889584ms)
+✔ partial or conflicting saved pairs never fabricate a before/after comparison (2.5105ms)
+✔ report question identifiers are escaped in the new example (2.036542ms)
+✔ report starts with evidence while failure outcomes and all existing controls remain available (5.772167ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 836.628916
