@@ -1,4 +1,26 @@
 /* Post-training */
+.section[aria-labelledby="recent-training"] .reading-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+  margin: 16px 0;
+  padding: 16px 0;
+  border-block: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.section[aria-labelledby="recent-training"] .reading-links a {
+  display: block;
+  min-width: 0;
+  color: var(--ink);
+  line-height: 1.7;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .section[aria-labelledby="recent-training"] .reading-links { grid-template-columns: 1fr; }
+}
+
 .post-stage-tabs {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "finiteDerivatives": 30,
+  "executionPartitions": 12,
+  "authoredTables": 4,
+  "maxFiniteDifferenceError": 4.318184698703931e-11,
+  "fullLossBefore": 0.06227046548036979,
+  "fullLossAfterQueryStep": 0.0604819316124374,
+  "mode": "verified"
+}

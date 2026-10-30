@@ -163,3 +163,8 @@ __pycache__/
 !/artifacts/delta-state-20261030T092245Z/
 !/artifacts/delta-state-20261030T092245Z/**
 /artifacts/delta-state-20261030T092245Z/__pycache__/
+
+# Fixed depth-attention source, gradient and exact-merge ledger.
+!/artifacts/attnres-20261030T095028Z/
+!/artifacts/attnres-20261030T095028Z/**
+/artifacts/attnres-20261030T095028Z/__pycache__/

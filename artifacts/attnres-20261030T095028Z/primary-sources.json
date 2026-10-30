@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-30",
+  "sources": [
+    {
+      "title": "Attention Residuals",
+      "url": "https://arxiv.org/pdf/2603.15031v1",
+      "version": "v1, 2026-03-16",
+      "locations": ["3.1, equations 2-4", "3.2, equations 5-6 and Figure 2", "4.1", "4.2, Algorithm 1"],
+      "supports": "Learned per-sublayer pseudo-query, RMS-normalized keys and raw source values; Full/Block candidate sets; completed-block plus current partial; first-sublayer exclusion of an absent partial; exact two-phase online-softmax merge.",
+      "limits": "Block AttnRes changes the candidates, while two-phase execution merges the same candidates exactly. The local fixed source vectors do not implement the coupled complete backbone. No author training, scaling-law, pipeline communication or GPU throughput result is reproduced."
+    },
+    {
+      "title": "MoonshotAI/Attention-Residuals official README",
+      "url": "https://github.com/MoonshotAI/Attention-Residuals",
+      "version": "Text checked 2026-10-30; read-only connector receipt in official-readme-source.json",
+      "locations": ["Overview", "Block AttnRes / PyTorch-style pseudocode"],
+      "supports": "The repository describes its snippet as pseudocode; normalization applies to K and softmax is over the source/depth axis; block_size counts attention and MLP sublayers.",
+      "limits": "The snippet is explanatory, not a complete runnable training release; its initial state conventions are not guessed. The paper's explicit first-layer candidate set is used for the boundary explanation."
+    }
+  ],
+  "localScope": "Four fixed 3D source vectors, 30 local finite differences, exact grouping checks, one learned-query SGD step, and explicit absent-partial/normalization counterexamples."
+}

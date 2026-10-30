@@ -1,0 +1,525 @@
+{
+  "layouts": [
+    {
+      "page": "architecture-variants.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [
+        {
+          "name": "weights",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "readouts",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "gradients",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "page": "architecture-variants.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [
+        {
+          "name": "weights",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "readouts",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        },
+        {
+          "name": "gradients",
+          "overflow": "auto",
+          "parentWidth": 996,
+          "width": 996
+        }
+      ],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "page": "model-case-studies.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "page": "model-case-studies.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "page": "posttraining.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [],
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "page": "posttraining.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 1280,
+      "tables": [],
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "page": "architecture-variants.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [
+        {
+          "name": "weights",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "readouts",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "gradients",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "architecture-variants.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [
+        {
+          "name": "weights",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "readouts",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        },
+        {
+          "name": "gradients",
+          "overflow": "auto",
+          "parentWidth": 720,
+          "width": 720
+        }
+      ],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "page": "model-case-studies.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "model-case-studies.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "page": "posttraining.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "page": "posttraining.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 768,
+      "tables": [],
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "page": "architecture-variants.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "name": "weights",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        },
+        {
+          "name": "readouts",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        },
+        {
+          "name": "gradients",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        }
+      ],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "architecture-variants.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [
+        {
+          "name": "weights",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 358
+        },
+        {
+          "name": "readouts",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        },
+        {
+          "name": "gradients",
+          "overflow": "auto",
+          "parentWidth": 358,
+          "width": 650
+        }
+      ],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "page": "model-case-studies.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "model-case-studies.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "page": "posttraining.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "page": "posttraining.html",
+      "headersLeft": true,
+      "mathErrors": 0,
+      "scrollWidth": 390,
+      "tables": [],
+      "theme": "dark",
+      "width": 390
+    }
+  ],
+  "panels": [
+    {
+      "label": "三个“分块”分别保持了什么？",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "light",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ]
+    },
+    {
+      "label": "学习查询的一次更新，与零查询的边界",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "light",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ]
+    },
+    {
+      "label": "新块首层：没有 partial，不等于 partial 是零向量",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "light",
+      "width": 390,
+      "wrappers": []
+    },
+    {
+      "label": "离线重算四张正文表与边界",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "light",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 560,
+          "width": 358
+        }
+      ]
+    },
+    {
+      "label": "三个“分块”分别保持了什么？",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "dark",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ]
+    },
+    {
+      "label": "学习查询的一次更新，与零查询的边界",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "dark",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 650,
+          "width": 358
+        }
+      ]
+    },
+    {
+      "label": "新块首层：没有 partial，不等于 partial 是零向量",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "dark",
+      "width": 390,
+      "wrappers": []
+    },
+    {
+      "label": "离线重算四张正文表与边界",
+      "mathErrors": 0,
+      "open": true,
+      "scrollWidth": 390,
+      "theme": "dark",
+      "width": 390,
+      "wrappers": [
+        {
+          "overflow": "auto",
+          "scrollWidth": 560,
+          "width": 358
+        }
+      ]
+    }
+  ],
+  "navigation": [
+    {
+      "from": "posttraining.html",
+      "activation": "click after page-scoped grid fix",
+      "top": 92.21875,
+      "url": "http://127.0.0.1:4173/architecture-variants.html#attention-residuals"
+    },
+    {
+      "from": "model-case-studies.html",
+      "activation": "click",
+      "top": 92.21875,
+      "url": "http://127.0.0.1:4173/architecture-variants.html#attention-residuals"
+    },
+    {
+      "from": "page contents",
+      "activation": "click",
+      "top": 92,
+      "url": "http://127.0.0.1:4173/architecture-variants.html#attention-residuals"
+    }
+  ],
+  "search": [
+    {
+      "query": "AttnRes",
+      "results": [
+        {
+          "href": "architecture-variants.html",
+          "text": "架构变体与结论注意力、GDN/KDA 循环状态、mHC 与 AttnRes 深度聚合"
+        }
+      ]
+    },
+    {
+      "query": "深度注意力",
+      "results": [
+        {
+          "href": "architecture-variants.html",
+          "text": "架构变体与结论注意力、GDN/KDA 循环状态、mHC 与 AttnRes 深度聚合"
+        }
+      ]
+    },
+    {
+      "query": "结构分块",
+      "results": [
+        {
+          "href": "architecture-variants.html",
+          "text": "架构变体与结论注意力、GDN/KDA 循环状态、mHC 与 AttnRes 深度聚合"
+        }
+      ]
+    },
+    {
+      "query": "两阶段合并",
+      "results": [
+        {
+          "href": "architecture-variants.html",
+          "text": "架构变体与结论注意力、GDN/KDA 循环状态、mHC 与 AttnRes 深度聚合"
+        }
+      ]
+    }
+  ],
+  "mobileScroll": {
+    "clientWidth": 358,
+    "pageWidth": 390,
+    "scrollLeft": 292,
+    "scrollWidth": 650,
+    "viewportWidth": 390
+  },
+  "finalPosttrainingLayouts": [
+    {
+      "allLinksBlock": true,
+      "columns": "486px 486px",
+      "display": "grid",
+      "linkCount": 6,
+      "scrollWidth": 1280,
+      "theme": "light",
+      "width": 1280
+    },
+    {
+      "allLinksBlock": true,
+      "columns": "486px 486px",
+      "display": "grid",
+      "linkCount": 6,
+      "scrollWidth": 1280,
+      "theme": "dark",
+      "width": 1280
+    },
+    {
+      "allLinksBlock": true,
+      "columns": "348px 348px",
+      "display": "grid",
+      "linkCount": 6,
+      "scrollWidth": 768,
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "allLinksBlock": true,
+      "columns": "348px 348px",
+      "display": "grid",
+      "linkCount": 6,
+      "scrollWidth": 768,
+      "theme": "dark",
+      "width": 768
+    },
+    {
+      "allLinksBlock": true,
+      "columns": "358px",
+      "display": "grid",
+      "linkCount": 6,
+      "scrollWidth": 390,
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "allLinksBlock": true,
+      "columns": "358px",
+      "display": "grid",
+      "linkCount": 6,
+      "scrollWidth": 390,
+      "theme": "dark",
+      "width": 390
+    }
+  ],
+  "console": [],
+  "notes": [
+    "The first 18 layouts cover whole-page overflow, math and table alignment; after the posttraining-only style fix its six layouts were rechecked with actual link rectangles.",
+    "Posttraining has no modern-page wrapper, so the new reading-links needed page-owned rules. The CSS is scoped to the section, not to the h2 carrying the same anchor id.",
+    "Final posttraining links have one block rectangle each and mouse navigation succeeds.",
+    "Full versus Block changes candidate vectors; 12 grouped-execution checks compare each candidate set only to its own direct evaluation."
+  ],
+  "restored": {
+    "headingTop": 92,
+    "height": 720,
+    "theme": "light",
+    "url": "http://127.0.0.1:4173/architecture-variants.html#attention-residuals",
+    "width": 1280
+  }
+}

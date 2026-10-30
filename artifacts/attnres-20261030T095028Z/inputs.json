@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "scope": "One token, four fixed depth-source vectors; not a complete Transformer",
+  "sources": [[1, 0, -0.5], [0.2, 0.8, -0.1], [0.6, -0.4, 0.5], [-0.3, 0.2, 0.9]],
+  "sourceNames": ["embedding", "f1", "f2", "f3 / partial"],
+  "query": [0.5, -0.25, 0.2],
+  "rmsEpsilon": 0.00001,
+  "rmsGain": "unit gain; fixed local teaching convention",
+  "target": [0.2, -0.1, 0.3],
+  "queryLearningRate": 0.05,
+  "blockSourceGroups": [[0], [1, 2], [3]],
+  "blockPhaseGroups": [[0, 1], [2]],
+  "futureSource": [9, 9, 9],
+  "eligibleSourceCount": 4,
+  "finiteDifferenceStep": 0.000001,
+  "finiteDifferenceTolerance": 0.00000001,
+  "boundaryScope": "At the first sublayer of a new block only embedding/completed blocks are candidates: omit the absent partial, rather than append a zero vector. Attention and FFN count as separate sublayers.",
+  "gradientScope": "For Full and Block separately, differentiate the same four original source vectors and the learned query (15 local coordinates each). Block-source gradients are returned through their fixed sums. No upstream sublayer weights or gate gains are trained."
+}

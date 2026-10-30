@@ -1,0 +1,10 @@
+{
+  "repository": "MoonshotAI/Attention-Residuals",
+  "path": "README.md",
+  "checkedAt": "2026-10-30",
+  "gitBlobSha": "a8cc8834a75d384891481d7d414853cafc1407e9",
+  "displayUrl": "https://github.com/MoonshotAI/Attention-Residuals/blob/master/README.md",
+  "retrievedLines": [1, 125],
+  "method": "Read-only GitHub connector fetch_file; the SHA is a file blob identity, not a commit id.",
+  "scope": "Overview, Block AttnRes pseudocode and source/depth softmax axis. No repository code was executed. The fixed arXiv v1 paper is the primary boundary contract."
+}

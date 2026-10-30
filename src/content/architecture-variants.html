@@ -262,6 +262,57 @@ M^{(t)}_{ij}=\frac{R^{(t)}_{ij}}{\sum_kR^{(t)}_{kj}}.
       <p class="source-note">一手版本：<a href="https://arxiv.org/html/2512.24880v1">mHC v1（2025-12-31）第 4.1–4.2 节、式 6–9</a>定义约束、参数化和有限次迭代；<a href="https://arxiv.org/html/2609.19969v1">DeepSeek-V4.1-Flash v1（2026-09-17）第 2.4.1 节、式 2–6</a>说明 Single-Pass 的系数移位与执行阶段。这里没有重跑作者训练、验证质量或复现吞吐。</p>
       <div class="reading-links"><a href="transformer-anatomy.html#moe-load-control">本轮固定输入与离线重算命令</a><a href="backpropagation.html#block-backward">残差分支的梯度汇合</a><a href="performance-analysis.html#execution-path">依赖、访存与关键路径</a></div>
     </section></div>
+    <div class="modern-page"><section class="section" aria-labelledby="attention-residuals"><div class="section-heading"><span class="section-number">CASE / ATTENTION OVER DEPTH</span><h2 id="attention-residuals">Attention Residuals：在网络深度上选择来源，分块又改变了什么？</h2></div>
+      <p>标准残差展开后，是 embedding 与此前各子层输出的固定加和。Moonshot 的 AttnRes 将这些来源保留为候选，用学习到的权重重新聚合。这里选择的是<strong>同一 token 的不同深度来源</strong>；GDN/KDA 处理序列状态，mHC 混合相邻层之间的多条残差流，三者的对象不同。</p>
+      <p class="source-note">本节绑定 <a href="https://arxiv.org/pdf/2603.15031v1">Attention Residuals v1（2026-03-16）§3–4</a>。<a href="https://github.com/MoonshotAI/Attention-Residuals">作者仓库</a>将示例标为 PyTorch-style pseudocode；本轮保存了 README 的文件 blob 身份，未把伪代码当完整训练实现。报告中的 Attention 和 FFN 各算一个子层。</p>
+      <h3>查询是学习参数，键和值承担不同作用</h3>
+      <p>对目标子层 ℓ，伪查询 wℓ 是独立的学习向量，不是当前 hidden state 的 Q 投影。候选 vᵢ 来自 embedding 或此前子层输出；权重随输入变化，是因为候选键随输入变化。RMSNorm 用于计算键，最终加权的值仍是原始 vᵢ。</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+k_i&amp;=\frac{v_i}{\sqrt{\epsilon+\lVert v_i\rVert_2^2/d}},\qquad s_i=w_\ell^\top k_i,\\
+\alpha_i&amp;=\frac{\exp(s_i)}{\sum_j\exp(s_j)},\qquad h_\ell=\sum_i\alpha_i v_i.
+\end{aligned}</div><figcaption>这里为本地教具固定单位 RMS gain、ε=10⁻⁵，无额外 1/√d 缩放；不据此指定作者模型的全部数值配置。softmax 沿来源/深度轴归一化，不沿 token 或特征轴。</figcaption></figure>
+      <p>固定一个 token、四个三维来源：v₀=[1,0,−0.5]，v₁=[0.2,0.8,−0.1]，v₂=[0.6,−0.4,0.5]，v₃=[−0.3,0.2,0.9]；w=[0.5,−0.25,0.2]。Full 聚合的分数和权重如下：</p>
+      <div class="compare-wrap"><table data-attnres-weights style="min-width:0"><thead><tr><th>来源</th><th>分数 sᵢ</th><th>权重 αᵢ</th></tr></thead><tbody>
+        <tr><td>embedding</td><td>0.619670</td><td>0.295685</td></tr>
+        <tr><td>f1</td><td>-0.250212</td><td>0.123892</td></tr>
+        <tr><td>f2</td><td>0.986908</td><td>0.426893</td></tr>
+        <tr><td>f3 / partial</td><td>-0.035729</td><td>0.153530</td></tr>
+      </tbody></table></div>
+      <h3>Block AttnRes 改候选；两阶段执行保持同一候选集合</h3>
+      <p>本例 Full 的候选是 [v₀,v₁,v₂,v₃]。另设前两个子层构成已完成块 b₁=v₁+v₂，当前块已产生 partial=v₃；Block 的候选变成 [v₀,b₁,v₃]。先求和再做 RMSNorm/softmax，与分别对 v₁、v₂ 打分并不等价。</p>
+      <p>两阶段执行则先计算 embedding/已完成块的结果，再计算当前 partial，并合并归一化统计量。若两组各自的归一化输出为 hA/hB，log-partition 为 LA/LB，合并必须按概率质量加权：</p>
+      <figure class="math-block"><div class="math-display" data-math>\begin{aligned}
+L&amp;=\log\bigl(\exp(L_A)+\exp(L_B)\bigr),\\
+h&amp;=\exp(L_A-L)h_A+\exp(L_B-L)h_B.
+\end{aligned}</div><figcaption>实现使用减最大值的稳定统计量；不能把局部归一化后的两个向量简单平均。原文 Algorithm 1 借助学习查询独立于本层前向这一点，并行处理已完成块，再顺序处理当前块的 partial。</figcaption></figure>
+      <div class="compare-wrap"><table data-attnres-readouts><thead><tr><th>聚合路径</th><th>h[0]</th><th>h[1]</th><th>h[2]</th></tr></thead><tbody>
+        <tr><td>Full：四个原始来源</td><td>0.530540</td><td>-0.040937</td><td>0.191392</td></tr>
+        <tr><td>Block：embedding / f1+f2 / f3</td><td>0.655731</td><td>0.204155</td><td>0.151084</td></tr>
+        <tr><td>Block：两阶段精确合并</td><td>0.655731</td><td>0.204155</td><td>0.151084</td></tr>
+        <tr><td>错误：两组结果各取一半</td><td>0.298699</td><td>0.202603</td><td>0.430857</td></tr>
+        <tr><td>错误：把归一化键当作值</td><td>0.933016</td><td>-0.075526</td><td>0.413283</td></tr>
+      </tbody></table></div>
+      <p>固定来源只比较本地聚合算子；真实 Full/Block 网络还会改变后续 fᵢ(hᵢ)，不能把这几列当作模型能力比较。原文 Block 还改变跨层来源的保留与传递：每 token 的这部分候选存储由 O(Ld) 降到 O(Nd)，不等于整个训练的总内存都按此缩减。</p>
+      <details><summary>三个“分块”分别保持了什么？</summary><div class="compare-wrap"><table><thead><tr><th>分块方式</th><th>保持的对象</th><th>需要单独核对</th></tr></thead><tbody>
+        <tr><td>GDN/KDA 的执行分块</td><td>相同递推与输入下的状态和输出。</td><td>跨块梯度；detach 会更改反传约定。</td></tr>
+        <tr><td>Block AttnRes 的结构分块</td><td>将子层输出求和为块级候选。</td><td>候选与模型计算图发生变化；不是 Full 的精确执行重排。</td></tr>
+        <tr><td>AttnRes 的两阶段执行</td><td>同一组已完成块/partial 候选的 softmax 聚合。</td><td>归一化分母、稳定合并和因果可用性。</td></tr>
+      </tbody></table></div><p>本地枚举 Full 四候选的 8 种连续分组和 Block 三候选的 4 种连续分组，合并后都与各自直接求值一致；不据此把 Full 与 Block 的输出等同。</p></details>
+      <h3>反传既经过原值，也经过打分路径</h3>
+      <p>固定监督 y=[0.2,−0.1,0.3]，L=½‖h−y‖²。来源 vᵢ 一方面直接作为 value，另一方面经过 RMSNorm、分数和 softmax 改变权重。只把本轮 α 当常量会漏掉第二条路径。下表核对同一个原始来源 v₁[0] 的局部导数：</p>
+      <div class="compare-wrap"><table data-attnres-gradients><thead><tr><th>候选结构</th><th>value 直通项</th><th>打分路径项</th><th>完整导数</th><th>中心有限差分</th></tr></thead><tbody>
+        <tr><td>Full</td><td>0.040951</td><td>-0.003860</td><td>0.037091</td><td>0.037091</td></tr>
+        <tr><td>Block</td><td>0.186611</td><td>0.011712</td><td>0.198322</td><td>0.198322</td></tr>
+      </tbody></table></div>
+      <p>两种结构分别对原始来源的 12 个坐标及查询的 3 个坐标做有限差分，共 30 项；Block 的导数继续通过 b₁=v₁+v₂ 返回原始来源。分项独立四舍五入，完整精度保存在结果文件中。</p>
+      <details><summary>学习查询的一次更新，与零查询的边界</summary><p>只更新 Full 的三个查询参数，来源保持不动，η=0.05，执行一次 SGD。下表只验证这次固定目标更新：</p><div class="compare-wrap"><table data-attnres-update><thead><tr><th>阶段</th><th>w[0]</th><th>w[1]</th><th>w[2]</th><th>本地 loss</th></tr></thead><tbody>
+        <tr><td>更新前</td><td>0.500000</td><td>-0.250000</td><td>0.200000</td><td>0.062270</td></tr>
+        <tr><td>一次 query SGD 后</td><td>0.494158</td><td>-0.249322</td><td>0.207460</td><td>0.060482</td></tr>
+      </tbody></table></div><p>若另取 w=0，四来源权重均为 1/4，输出是均值 [0.375,0.15,0.2]；它不是标准残差的原始求和。不能只凭“均匀权重”就宣称两种完整网络的初始化行为完全相同；还需核对后续归一化与具体实现。</p></details>
+      <details><summary>新块首层：没有 partial，不等于 partial 是零向量</summary><p>原文式 6 明确：新块首个子层只使用 embedding 与此前已完成块；后续子层才加入当前 partial。多加一个零向量虽然不直接贡献 value，却会以 exp(0) 增大 softmax 分母，改变已有来源的权重。未来子层输出也不能提前加入。</p><p>本地另核对省略 partial 与加入零候选的不同输出、单来源、空候选拒绝、排列不变性和大分数的稳定求值；不猜测官方伪代码未完整展示的初始状态约定。</p></details>
+      <details><summary>离线重算四张正文表与边界</summary><p>在仓库根目录执行，仅使用 Python 3.10+ 标准库。固定输入先于结果保存；30 项局部导数、12 种执行分组、查询更新及反例均可重算：</p><div class="compare-wrap"><pre class="decision-code"><code>python3 artifacts/attnres-20261030T095028Z/check-mechanisms.py</code></pre></div><p>没有实现完整骨干、流水线通信或作者 GPU kernel，也未复现作者训练、scaling law 或线上速度；本文的数值只核验指定聚合机制。</p></details>
+      <div class="reading-links"><a href="architecture-variants.html#mhc-residual">mHC 的多流混合与约束边界</a><a href="architecture-variants.html#delta-state-training">GDN/KDA 的执行分块与梯度</a><a href="attention-kernels.html">在线 softmax 与统计量合并</a><a href="activation-checkpointing.html">训练激活与重算的保留范围</a></div>
+    </section></div>
     <section class="section" aria-labelledby="analysis-title">
       <div class="section-heading">
         <div>
